@@ -1,0 +1,11 @@
+<resources>
+    <string name="app_name">Sample</string>
+    <string name="create_new_accout">Create New Account</string>
+    <string name="hint_password">Password</string>
+    <string name="hint_email">Email</string>
+    <string name="hint_nama">Nama</string>
+    <string name="button_sign_up">Sgn Up</string>
+    <string name="or_sign_white">or sign in with:</string>
+    <string name="term_login">By Signin your agree with our term and conditions</string>
+    <string name="login">Login</string>
+</resources>
