@@ -80,7 +80,7 @@
             android:inputType="textPassword|textNoSuggestions"
             android:maxLines="1" />
 
-        <Button
+        <com.ad.sample.ui.widget.RobotoRegularButton
             android:id="@+id/btn_register"
             style="@style/btn_blue"
             android:layout_width="match_parent"

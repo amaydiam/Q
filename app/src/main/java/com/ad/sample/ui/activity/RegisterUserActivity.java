@@ -11,7 +11,9 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.ad.sample.R;
+import com.ad.sample.ui.widget.RobotoRegularButton;
 import com.ad.sample.ui.widget.RobotoRegularEditText;
+import com.ad.sample.ui.widget.RobotoRegularTextView;
 import com.joanzapata.iconify.IconDrawable;
 import com.joanzapata.iconify.Iconify;
 import com.joanzapata.iconify.fonts.EntypoIcons;
@@ -26,7 +28,8 @@ import butterknife.OnClick;
 public class RegisterUserActivity extends AppCompatActivity {
 
     @BindView(R.id.btn_login)
-    TextView btnLogin;
+    RobotoRegularTextView btnLogin;
+
     @BindView(R.id.nama)
     RobotoRegularEditText nama;
     @BindView(R.id.email)
@@ -34,7 +37,7 @@ public class RegisterUserActivity extends AppCompatActivity {
     @BindView(R.id.password)
     RobotoRegularEditText password;
     @BindView(R.id.btn_register)
-    Button btnRegister;
+    RobotoRegularButton btnRegister;
     @BindView(R.id.btn_facebook)
     FloatingActionButton btnFacebook;
     @BindView(R.id.btn_google_plus)
