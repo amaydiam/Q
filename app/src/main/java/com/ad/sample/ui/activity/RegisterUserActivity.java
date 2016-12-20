@@ -1,4 +1,4 @@
-package com.ad.sample;
+package com.ad.sample.ui.activity;
 
 import android.content.Intent;
 import android.graphics.Paint;
@@ -10,6 +10,8 @@ import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.ad.sample.R;
+import com.ad.sample.ui.widget.RobotoRegularEditText;
 import com.joanzapata.iconify.IconDrawable;
 import com.joanzapata.iconify.Iconify;
 import com.joanzapata.iconify.fonts.EntypoIcons;
@@ -26,11 +28,11 @@ public class RegisterUserActivity extends AppCompatActivity {
     @BindView(R.id.btn_login)
     TextView btnLogin;
     @BindView(R.id.nama)
-    EditText nama;
+    RobotoRegularEditText nama;
     @BindView(R.id.email)
-    EditText email;
+    RobotoRegularEditText email;
     @BindView(R.id.password)
-    EditText password;
+    RobotoRegularEditText password;
     @BindView(R.id.btn_register)
     Button btnRegister;
     @BindView(R.id.btn_facebook)

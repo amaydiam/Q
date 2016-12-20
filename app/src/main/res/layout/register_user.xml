@@ -10,7 +10,7 @@
     android:paddingLeft="@dimen/activity_horizontal_margin"
     android:paddingRight="@dimen/activity_horizontal_margin"
     android:paddingTop="@dimen/activity_vertical_margin"
-    tools:context="com.ad.sample.RegisterUserActivity">
+    tools:context="com.ad.sample.ui.activity.RegisterUserActivity">
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
@@ -32,7 +32,7 @@
                 android:src="@mipmap/ic_launcher"
                 android:layout_centerVertical="true"/>
 
-            <TextView
+            <com.ad.sample.ui.widget.RobotoRegularTextView
                 android:id="@+id/btn_login"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
@@ -43,14 +43,14 @@
 
         </RelativeLayout>
 
-        <TextView
+        <com.ad.sample.ui.widget.RobotoBoldTextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="30dp"
             android:text="@string/create_new_accout"
             android:textColor="@color/black_333333" />
 
-        <EditText
+        <com.ad.sample.ui.widget.RobotoRegularEditText
             android:id="@+id/nama"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -60,7 +60,7 @@
             android:inputType="textEmailAddress|textNoSuggestions"
             android:maxLines="1" />
 
-        <EditText
+        <com.ad.sample.ui.widget.RobotoRegularEditText
             android:id="@+id/email"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -70,7 +70,7 @@
             android:inputType="textEmailAddress|textNoSuggestions"
             android:maxLines="1" />
 
-        <EditText
+        <com.ad.sample.ui.widget.RobotoRegularEditText
             android:id="@+id/password"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -94,7 +94,7 @@
             android:layout_marginTop="10dp"
             android:orientation="horizontal">
 
-            <TextView
+            <com.ad.sample.ui.widget.RobotoRegularTextView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_centerVertical="true"
@@ -132,7 +132,7 @@
             </LinearLayout>
         </RelativeLayout>
 
-        <TextView
+        <com.ad.sample.ui.widget.RobotoRegularTextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center"
