@@ -8,17 +8,12 @@
     <string name="or_sign_white">or sign in with:</string>
     <string name="term_login">By Signin your agree with our term and conditions</string>
     <string name="login">Login</string>
-<<<<<<< HEAD
-<<<<<<< HEAD
     <string name="title_activity_home">Map</string>
-=======
     <string name="sign_in">Sign in</string>
     <string name="email">Email</string>
     <string name="password">Password</string>
     <string name="label_sign_with">or sign in with:</string>
     <string name="dont_have_an_account">Don\'t Have An Account?</string>
     <string name="forgot_password">Forgot Password</string>
->>>>>>> 4f26305c407266497a0f37e9cd6ca4c37a3c22cb
-=======
->>>>>>> parent of 23ff926... Add Home Activity with Maps Service
+    <string name="title_activity_register">Register</string>
 </resources>

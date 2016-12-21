@@ -48,7 +48,8 @@ public class LoginUserActivity extends AppCompatActivity {
 
     @OnClick(R.id.btn_login)
     void LoginEmail() {
-        Toast.makeText(this, "Test", Toast.LENGTH_SHORT).show();
+       // Toast.makeText(this, "Test", Toast.LENGTH_SHORT).show();
+        startActivity(new Intent(this,HomeActivity.class));
     }
 
     @OnClick(R.id.btn_facebook)
