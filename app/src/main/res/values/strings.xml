@@ -16,4 +16,18 @@
     <string name="dont_have_an_account">Don\'t Have An Account?</string>
     <string name="forgot_password">Forgot Password</string>
     <string name="title_activity_register">Register</string>
+    <string name="btn_work">Work</string>
+    <string name="btn_home">Home</string>
+    <string name="btn_my_location">My Location</string>
+    <string name="hint_your_location">Your Location</string>
+
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="button_cancel">Cancel</string>
+    <string name="button_next">Next</string>
+    <string name="select_vehicle">Select Vehicle</string>
+    <string name="wash_and_go"><![CDATA[Wash & Go]]></string>
+    <string name="luxury_wash">Luxury Wash</string>
+    <string name="button_back">Back</string>
+    <string name="button_contact">Contact</string>
 </resources>

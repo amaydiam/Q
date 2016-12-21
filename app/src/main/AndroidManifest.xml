@@ -20,6 +20,7 @@
             android:label="@string/title_activity_register" />
         <activity
             android:name=".ui.activity.HomeActivity"
+            android:theme="@style/AppTheme.HomeActivity"
             android:label="@string/title_activity_home" />
         <meta-data
             android:name="com.google.android.geo.API_KEY"

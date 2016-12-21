@@ -85,4 +85,12 @@ public class RegisterUserActivity extends AppCompatActivity {
                         .colorRes(R.color.black_333333)
                         .actionBarSize());
     }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        Iconify
+                .with(new FontAwesomeModule())
+                .with(new EntypoModule());
+    }
 }
