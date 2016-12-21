@@ -8,4 +8,10 @@
     <string name="or_sign_white">or sign in with:</string>
     <string name="term_login">By Signin your agree with our term and conditions</string>
     <string name="login">Login</string>
+    <string name="sign_in">Sign in</string>
+    <string name="email">Email</string>
+    <string name="password">Password</string>
+    <string name="label_sign_with">or sign in with:</string>
+    <string name="dont_have_an_account">Don\'t Have An Account?</string>
+    <string name="forgot_password">Forgot Password</string>
 </resources>

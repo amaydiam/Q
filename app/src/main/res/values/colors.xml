@@ -7,4 +7,6 @@
     <color name="grey">#aaa</color>
     <color name="blue">#3F51B5</color>
     <color name="black_333333">#333333</color>
+    <color name="background">#fafafa</color>
+    <color name="biru">#0d63d2</color>
 </resources>
