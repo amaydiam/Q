@@ -51,8 +51,8 @@ public class RegisterUserActivity extends AppCompatActivity {
 
     @OnClick(R.id.btn_register)
     void SubmitRegister(){
-        //Submit
-          startActivity(new Intent(this,HomeActivity.class));
+        //Login
+        //  startActivity(new Intent(this,LoginActivity.class));
     }
 
     @OnClick(R.id.btn_facebook)

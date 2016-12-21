@@ -3,6 +3,7 @@
     package="com.ad.sample">
 
 <<<<<<< HEAD
+<<<<<<< HEAD
     <!--
          The ACCESS_COARSE/FINE_LOCATION permissions are not required to use
          Google Maps Android API v2, but you must specify either coarse or fine
@@ -12,6 +13,8 @@
 =======
 >>>>>>> 4f26305c407266497a0f37e9cd6ca4c37a3c22cb
 
+=======
+>>>>>>> parent of 23ff926... Add Home Activity with Maps Service
     <application
         android:allowBackup="true"
         android:icon="@mipmap/ic_launcher"
@@ -29,6 +32,7 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+<<<<<<< HEAD
 <<<<<<< HEAD
         <!--
              The API key for Google Maps-based APIs is defined as a string resource.
@@ -48,6 +52,8 @@
 =======
         <activity android:name=".RegisterUserActivity"/>
 >>>>>>> 4f26305c407266497a0f37e9cd6ca4c37a3c22cb
+=======
+>>>>>>> parent of 23ff926... Add Home Activity with Maps Service
     </application>
 
 </manifest>
