@@ -28,6 +28,12 @@
         <item name="android:textColor">@color/white</item>
     </style>
 
+
+    <style name="FullScreen" parent="android:Theme.Translucent.NoTitleBar">
+        <item name="android:windowNoTitle">true</item>
+        <item name="android:windowFullscreen">true</item>
+    </style>
+
     <style name="LocationTheme" parent="Theme.AppCompat.Light.NoActionBar">
         <!-- Custumize your theme here. -->
         <item name="colorPrimary">@color/colorPrimary</item>

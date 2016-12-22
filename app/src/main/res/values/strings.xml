@@ -46,4 +46,6 @@
     <string name="label_deskripsi_addtional_select">We will scent you car smell.</string>
     <string name="pickup_date">Pickup Date</string>
     <string name="pickup_time">Pickup Time</string>
+    <string name="motorcircle">MOTORCIRCLE</string>
+    <string name="car">CAR</string>
 </resources>

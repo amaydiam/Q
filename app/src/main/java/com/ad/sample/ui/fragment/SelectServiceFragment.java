@@ -85,25 +85,22 @@ public class SelectServiceFragment extends Fragment {
                              Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_select_service, container, false);
         ButterKnife.bind(this, view);
-        ServiceSelected(0);
         return view;
     }
 
     private void ServiceSelected(int poistion) {
+        //new activity
+        Intent intent = new Intent(getActivity(), ServiceDetailUserActivity.class);
         if (poistion == 0) {
             indicatorWashAndGo.setVisibility(View.VISIBLE);
             indicatorLuxuryWash.setVisibility(View.GONE);
 
-            //new activity
-            Intent intent = new Intent(getActivity(), ServiceDetailUserActivity.class);
             intent.putExtra("tes", "isi");
             startActivity(intent);
         } else if (poistion == 1) {
             indicatorWashAndGo.setVisibility(View.GONE);
             indicatorLuxuryWash.setVisibility(View.VISIBLE);
 
-            //new activity
-            Intent intent = new Intent(getActivity(), ServiceDetailUserActivity.class);
             intent.putExtra("tes", "isi");
             startActivity(intent);
         }

@@ -2,35 +2,25 @@ package com.ad.sample.ui.activity;
 
 import android.Manifest;
 import android.content.pm.PackageManager;
-import android.graphics.Typeface;
 import android.location.Location;
 import android.os.Build;
 import android.os.Bundle;
-import android.support.annotation.NonNull;
-import android.support.design.internal.NavigationMenuView;
 import android.support.design.widget.FloatingActionButton;
-import android.support.design.widget.NavigationView;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.app.Fragment;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
-import android.text.Spannable;
-import android.text.SpannableString;
-import android.text.style.TypefaceSpan;
 import android.util.TypedValue;
-import android.view.Menu;
-import android.view.MenuItem;
 import android.view.View;
-import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.Toast;
 
 import com.ad.sample.R;
+import com.ad.sample.ui.fragment.MenuHomeFragment;
 import com.ad.sample.ui.fragment.PrepareOrderFragment;
 import com.ad.sample.ui.fragment.WasherOrderFragment;
 import com.ad.sample.ui.widget.RobotoRegularEditText;
-import com.ad.sample.utils.CustomTypefaceSpan;
 import com.google.android.gms.common.ConnectionResult;
 import com.google.android.gms.common.api.GoogleApiClient;
 import com.google.android.gms.location.LocationListener;
@@ -49,7 +39,6 @@ import com.joanzapata.iconify.Iconify;
 import com.joanzapata.iconify.fonts.EntypoIcons;
 import com.joanzapata.iconify.fonts.EntypoModule;
 import com.joanzapata.iconify.fonts.FontAwesomeModule;
-import com.joanzapata.iconify.fonts.MaterialCommunityIcons;
 import com.joanzapata.iconify.fonts.MaterialCommunityModule;
 import com.joanzapata.iconify.fonts.MaterialIcons;
 import com.joanzapata.iconify.fonts.MaterialModule;
@@ -61,10 +50,14 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 
-public class HomeActivity extends AppCompatActivity implements OnMapReadyCallback, PrepareOrderFragment.OnOrderedListener, WasherOrderFragment.OnWasherOrderListener,
+public class HomeActivity extends AppCompatActivity implements
+        OnMapReadyCallback,
+        MenuHomeFragment.OnSelectedMenuListener,
+        PrepareOrderFragment.OnOrderedListener,
+        WasherOrderFragment.OnWasherOrderListener,
         GoogleApiClient.ConnectionCallbacks,
         GoogleApiClient.OnConnectionFailedListener,
-        LocationListener, NavigationView.OnNavigationItemSelectedListener {
+        LocationListener {
 
     @BindView(R.id.search)
     RobotoRegularEditText search;
@@ -83,37 +76,36 @@ public class HomeActivity extends AppCompatActivity implements OnMapReadyCallbac
     FloatingActionButton btnHome;
     @BindView(R.id.btn_my_location)
     FloatingActionButton btnMyLocation;
-    @BindView(R.id.fragment_bottom)
-    FrameLayout fragmentBottom;
 
     Fragment current_fragment = null;
-    @BindView(R.id.navigation_view)
-    NavigationView navigationView;
-    @BindView(R.id.btn_main_menu)
-    FloatingActionButton btnMainMenu;
-    @BindView(R.id.header_navigation_view)
-    View headerNavigationView;
+    @BindView(R.id.btn_menu_home)
+    FloatingActionButton btnMenuHome;
+    @BindView(R.id.header_menu_home)
+    View headerMenuHome;
 
     private double current_latitude, current_longitude;
     private View mapView;
-    private boolean isShowNavigation;
+    private boolean isShowMenuHome;
+    private MenuHomeFragment menu_home_fragment;
 
 
-    @OnClick(R.id.btn_main_menu)
-    void ActionMainMenu() {
-        if (isShowNavigation)
-            ShowMainMenu(false);
+    @OnClick(R.id.btn_menu_home)
+    void ActionMenuHome() {
+        if (isShowMenuHome)
+            ShowMenuHome(false);
         else
-            ShowMainMenu(true);
+            ShowMenuHome(true);
     }
 
     @OnClick(R.id.btn_work)
     void ActionWork() {
+        ShowMenuHome(false);
         Toast.makeText(this, "Work CLikced!!", Toast.LENGTH_SHORT).show();
     }
 
     @OnClick(R.id.btn_home)
     void ActionHome() {
+        ShowMenuHome(false);
         LoadPrepareOrderFragment();
         //  Toast.makeText(this, "Home CLikced!!", Toast.LENGTH_SHORT).show();
     }
@@ -132,7 +124,6 @@ public class HomeActivity extends AppCompatActivity implements OnMapReadyCallbac
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
-
         Iconify
                 .with(new FontAwesomeModule())
                 .with(new EntypoModule())
@@ -156,10 +147,8 @@ public class HomeActivity extends AppCompatActivity implements OnMapReadyCallbac
             }
         });
 
-        isShowNavigation = false;
-        SetCustomMenu();
-        navigationView.setNavigationItemSelectedListener(this);
-        ShowMainMenu(false);
+        isShowMenuHome = false;
+        ShowMenuHome(false);
 
         //set icon other menu
 
@@ -199,51 +188,30 @@ public class HomeActivity extends AppCompatActivity implements OnMapReadyCallbac
         mapFragment.getMapAsync(this);
     }
 
+    private void LoadMenuHomeFragment() {
+        menu_home_fragment = new MenuHomeFragment();
+        getSupportFragmentManager().beginTransaction().replace(R.id.fragment_menu_home, menu_home_fragment).commit();
+    }
+
+    private void RemoveMenuHomeFragment() {
+        if (menu_home_fragment != null)
+            getSupportFragmentManager().beginTransaction().remove(menu_home_fragment).commit();
+        menu_home_fragment = null;
+    }
 
     private void LoadPrepareOrderFragment() {
-        fragmentBottom.setVisibility(View.VISIBLE);
         current_fragment = new PrepareOrderFragment();
         getSupportFragmentManager().beginTransaction().replace(R.id.fragment_bottom, current_fragment).commit();
     }
 
     private void LoadWasherOrderFragment() {
         current_fragment = new WasherOrderFragment();
-        fragmentBottom.setVisibility(View.VISIBLE);
         getSupportFragmentManager().beginTransaction().replace(R.id.fragment_bottom, current_fragment).commit();
     }
 
     private void RemoveBottomFragment() {
         getSupportFragmentManager().beginTransaction().remove(current_fragment).commit();
-        fragmentBottom.setVisibility(View.GONE);
         current_fragment = null;
-    }
-
-    private void SetCustomMenu() {
-
-        Menu menu = navigationView.getMenu();
-        MenuItem menu_home = menu.findItem(R.id.menu_home);
-        menu_home.setIcon(new IconDrawable(this, SimpleLineIconsIcons.icon_home).colorRes(R.color.white).actionBarSize());
-        setTypeface(menu_home);
-        MenuItem menu_notification = menu.findItem(R.id.menu_notification);
-        menu_notification.setIcon(new IconDrawable(this, MaterialIcons.md_notifications_none).colorRes(R.color.white).actionBarSize());
-        setTypeface(menu_notification);
-        MenuItem menu_history = menu.findItem(R.id.menu_history);
-        menu_history.setIcon(new IconDrawable(this, MaterialCommunityIcons.mdi_history).colorRes(R.color.white).actionBarSize());
-        setTypeface(menu_history);
-        MenuItem menu_help = menu.findItem(R.id.menu_help);
-        menu_help.setIcon(new IconDrawable(this, MaterialIcons.md_help_outline).colorRes(R.color.white).actionBarSize());
-        setTypeface(menu_help);
-        MenuItem menu_my_account = menu.findItem(R.id.menu_my_account);
-        menu_my_account.setIcon(new IconDrawable(this, EntypoIcons.entypo_user).colorRes(R.color.white).actionBarSize());
-        setTypeface(menu_my_account);
-
-    }
-
-    private void setTypeface(MenuItem menuItem){
-        Typeface font = Typeface.createFromAsset(getAssets(), "fonts/Roboto-Regular.ttf");
-        SpannableString mNewTitle = new SpannableString(menuItem.getTitle());
-        mNewTitle.setSpan(new CustomTypefaceSpan("" , font), 0 , mNewTitle.length(),  Spannable.SPAN_INCLUSIVE_INCLUSIVE);
-        menuItem.setTitle(mNewTitle);
     }
 
 
@@ -293,6 +261,7 @@ public class HomeActivity extends AppCompatActivity implements OnMapReadyCallbac
         btnMyLocation.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                ShowMenuHome(false);
                 if (ContextCompat.checkSelfPermission(HomeActivity.this,
                         Manifest.permission.ACCESS_FINE_LOCATION)
                         == PackageManager.PERMISSION_GRANTED) {
@@ -448,41 +417,41 @@ public class HomeActivity extends AppCompatActivity implements OnMapReadyCallbac
 
 
     @Override
-    public boolean onNavigationItemSelected(@NonNull MenuItem item) {
-        ShowMainMenu(false);
-        int id = item.getItemId();
+    public void OnSelectedMenu(View view) {
+        ShowMenuHome(false);
+        int id = view.getId();
         switch (id) {
             case R.id.menu_home:
-                return true;
+                break;
             case R.id.menu_notification:
-                return true;
+                break;
             case R.id.menu_history:
-                return true;
+                break;
             case R.id.menu_help:
-                return true;
+                break;
             case R.id.menu_my_account:
-                return true;
+                break;
             default:
-                return false;
+                break;
         }
     }
 
-    private void ShowMainMenu(boolean show) {
+    private void ShowMenuHome(boolean show) {
         if (show) {
-            headerNavigationView.setVisibility(View.VISIBLE);
-            navigationView.setVisibility(View.VISIBLE);
-            isShowNavigation = true;
+            headerMenuHome.setVisibility(View.VISIBLE);
+            LoadMenuHomeFragment();
+            isShowMenuHome = true;
             //set icon main menu
-            btnMainMenu.setImageDrawable(
+            btnMenuHome.setImageDrawable(
                     new IconDrawable(this, MaterialIcons.md_close)
                             .colorRes(R.color.black_333333)
                             .actionBarSize());
         } else {
-            headerNavigationView.setVisibility(View.GONE);
-            navigationView.setVisibility(View.GONE);
-            isShowNavigation = false;
+            headerMenuHome.setVisibility(View.GONE);
+            RemoveMenuHomeFragment();
+            isShowMenuHome = false;
             //set icon main menu
-            btnMainMenu.setImageDrawable(
+            btnMenuHome.setImageDrawable(
                     new IconDrawable(this, MaterialIcons.md_menu)
                             .colorRes(R.color.black_333333)
                             .actionBarSize());

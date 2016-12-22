@@ -54,7 +54,8 @@
                 android:text="{mdi-checkbox-marked-circle-outline}"
                 android:textSize="@dimen/indicator_service_text_size"
                 android:textColor="@color/biru"
-                android:textStyle="bold" />
+                android:textStyle="bold"
+                android:visibility="gone"/>
         </FrameLayout>
     </LinearLayout>
 
@@ -108,7 +109,8 @@
                 android:text="{mdi-checkbox-marked-circle-outline}"
                 android:textSize="@dimen/indicator_service_text_size"
                 android:textColor="@color/biru"
-                android:textStyle="bold" />
+                android:textStyle="bold"
+                android:visibility="gone" />
         </FrameLayout>
     </LinearLayout>
 </LinearLayout>
