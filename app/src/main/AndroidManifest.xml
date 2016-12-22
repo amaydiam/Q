@@ -9,7 +9,7 @@
         android:label="@string/app_name"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".ui.activity.LoginUserActivity">
+        <activity android:name=".ui.activity.SelectLocationActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
                 <category android:name="android.intent.category.LAUNCHER" />
@@ -22,7 +22,7 @@
             android:name=".ui.activity.HomeActivity"
             android:theme="@style/AppTheme.HomeActivity"
             android:label="@string/title_activity_home" />
-        <activity android:name=".ui.activity.SelectLocationActivity"/>
+        <!-- <activity android:name=".ui.activity.SelectLocationActivity"/> -->
         <activity android:name=".ui.activity.SelectVehicleActivity"/>
         <activity android:name=".ui.activity.ServiceDetailUserActivity"/>
         <meta-data
