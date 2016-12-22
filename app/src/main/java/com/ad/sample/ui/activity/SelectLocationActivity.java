@@ -12,8 +12,6 @@ import android.view.MenuItem;
 import android.view.View;
 
 import com.ad.sample.R;
-import com.joanzapata.iconify.Iconify;
-import com.joanzapata.iconify.fonts.FontAwesomeModule;
 
 import org.json.JSONArray;
 import org.json.JSONException;

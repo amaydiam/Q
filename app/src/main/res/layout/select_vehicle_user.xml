@@ -37,8 +37,7 @@
                         android:id="@+id/select_vehicle_mobil"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="Selected"
-                        android:checked="true" />
+                        android:text="Selected" />
 
                     <LinearLayout
                         android:id="@+id/space_mobile"
@@ -67,6 +66,7 @@
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:gravity="center"
+                            android:lines="1"
                             android:textColor="@android:color/black"
                             android:text="Honda"/>
 
@@ -75,6 +75,7 @@
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:gravity="center"
+                            android:lines="1"
                             android:textColor="@android:color/black"
                             android:text="Jazz 1.5 AT 2016"
                             />
@@ -132,6 +133,7 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:gravity="center"
+                        android:lines="1"
                         android:textColor="@android:color/black"
                         android:text="Kawasaki"/>
 
@@ -140,6 +142,7 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:gravity="center"
+                        android:lines="1"
                         android:textColor="@android:color/black"
                         android:text="Ninja RR 250 2013"
                         />
@@ -152,7 +155,7 @@
         </LinearLayout>
 
         <Button
-            android:id="@+id/btn_login"
+            android:id="@+id/btn_add_vehicle"
             android:layout_width="match_parent"
             android:layout_height="50dp"
             android:layout_below="@id/select_vehicle"

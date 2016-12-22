@@ -4,9 +4,6 @@ import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
-import android.view.View;
-import android.widget.Button;
-import android.widget.TimePicker;
 
 import com.ad.sample.R;
 import com.wdullaer.materialdatetimepicker.date.DatePickerDialog;
@@ -14,7 +11,6 @@ import com.wdullaer.materialdatetimepicker.time.TimePickerDialog;
 
 import java.util.Calendar;
 
-import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 
@@ -24,22 +20,16 @@ import butterknife.OnClick;
 
 public class ServiceDetailUserActivity extends AppCompatActivity implements TimePickerDialog.OnTimeSetListener, DatePickerDialog.OnDateSetListener {
 
-    @BindView(R.id.btn_pickup_date)
-    Button btnPickupDate;
-    @BindView(R.id.btn_pickup_time)
-    Button btnPickupTime;
-
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.service_detail_user);
         ButterKnife.bind(this);
 
-
     }
 
     @OnClick({R.id.btn_pickup_date})
-    public void onClickPickupDate(View view) {
+    void onClickPickupDate() {
 
         Calendar now = Calendar.getInstance();
         DatePickerDialog dpd = DatePickerDialog.newInstance(
@@ -53,7 +43,7 @@ public class ServiceDetailUserActivity extends AppCompatActivity implements Time
     }
 
     @OnClick({R.id.btn_pickup_time})
-    void onClickPickupTime(View view){
+    void onClickPickupTime(){
 
         TimePickerDialog mTimePicker;
         mTimePicker = new TimePickerDialog();
