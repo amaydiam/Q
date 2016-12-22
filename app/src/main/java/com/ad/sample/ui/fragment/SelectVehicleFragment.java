@@ -9,11 +9,9 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
-import android.widget.LinearLayout;
-import android.widget.Toast;
 
 import com.ad.sample.R;
-import com.ad.sample.ui.activity.SelectLocationActivity;
+import com.ad.sample.ui.activity.SelectVehicleActivity;
 import com.ad.sample.ui.widget.RobotoBoldTextView;
 import com.joanzapata.iconify.Iconify;
 import com.joanzapata.iconify.fonts.EntypoModule;
@@ -40,7 +38,7 @@ public class SelectVehicleFragment extends Fragment {
 
     @OnClick(R.id.layout_select_vehicle)
     void SelectVehicle(){
-        startActivity(new Intent(getActivity(), SelectLocationActivity.class));
+        startActivity(new Intent(getActivity(), SelectVehicleActivity.class));
         //Toast.makeText(getActivity(), "Pick Vehicle", Toast.LENGTH_SHORT).show();
     }
 
