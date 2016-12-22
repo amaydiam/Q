@@ -1,6 +1,7 @@
 package com.ad.sample.ui.fragment;
 
 import android.content.Context;
+import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
@@ -10,6 +11,7 @@ import android.view.ViewGroup;
 import android.widget.LinearLayout;
 
 import com.ad.sample.R;
+import com.ad.sample.ui.activity.ServiceDetailUserActivity;
 import com.joanzapata.iconify.Iconify;
 import com.joanzapata.iconify.fonts.EntypoModule;
 import com.joanzapata.iconify.fonts.FontAwesomeModule;
@@ -91,9 +93,19 @@ public class SelectServiceFragment extends Fragment {
         if (poistion == 0) {
             indicatorWashAndGo.setVisibility(View.VISIBLE);
             indicatorLuxuryWash.setVisibility(View.GONE);
+
+            //new activity
+            Intent intent = new Intent(getActivity(), ServiceDetailUserActivity.class);
+            intent.putExtra("tes", "isi");
+            startActivity(intent);
         } else if (poistion == 1) {
             indicatorWashAndGo.setVisibility(View.GONE);
             indicatorLuxuryWash.setVisibility(View.VISIBLE);
+
+            //new activity
+            Intent intent = new Intent(getActivity(), ServiceDetailUserActivity.class);
+            intent.putExtra("tes", "isi");
+            startActivity(intent);
         }
     }
 
