@@ -7,6 +7,7 @@ import android.location.Location;
 import android.os.Build;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
+import android.support.design.internal.NavigationMenuView;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.NavigationView;
 import android.support.v4.app.ActivityCompat;
@@ -197,6 +198,7 @@ public class HomeActivity extends AppCompatActivity implements OnMapReadyCallbac
         mapView = mapFragment.getView();
         mapFragment.getMapAsync(this);
     }
+
 
     private void LoadPrepareOrderFragment() {
         fragmentBottom.setVisibility(View.VISIBLE);
