@@ -33,22 +33,27 @@ public class ServiceDetailUserActivity extends AppCompatActivity implements Time
 
         Calendar now = Calendar.getInstance();
         DatePickerDialog dpd = DatePickerDialog.newInstance(
-                (DatePickerDialog.OnDateSetListener) ServiceDetailUserActivity.this,
+                ServiceDetailUserActivity.this,
                 now.get(Calendar.YEAR),
                 now.get(Calendar.MONTH),
                 now.get(Calendar.DAY_OF_MONTH)
         );
-        dpd.getShowsDialog();
+        dpd.show(getFragmentManager(), "Datepickerdialog");
+
 
     }
 
     @OnClick({R.id.btn_pickup_time})
     void onClickPickupTime(){
 
-        TimePickerDialog mTimePicker;
-        mTimePicker = new TimePickerDialog();
-        mTimePicker.setTitle("Select Time");
-        mTimePicker.getShowsDialog();
+        Calendar now = Calendar.getInstance();
+        TimePickerDialog dpd = TimePickerDialog.newInstance(
+                ServiceDetailUserActivity.this,
+                now.get(Calendar.HOUR_OF_DAY),
+                now.get(Calendar.MINUTE),
+                true
+        );
+        dpd.show(getFragmentManager(), "TimepickerDialog");
 
     }
 
@@ -64,5 +69,16 @@ public class ServiceDetailUserActivity extends AppCompatActivity implements Time
         String time = "You picked the following time: "+hourOfDay+"h"+minute+"m"+second;
         //timeTextView.setText(time);
         Log.d("TAG", time);
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+
+        DatePickerDialog dpd = (DatePickerDialog) getFragmentManager().findFragmentByTag("Datepickerdialog");
+        TimePickerDialog tpd = (TimePickerDialog) getFragmentManager().findFragmentByTag("TimepickerDialog");
+
+        if (tpd != null) tpd.setOnTimeSetListener(this);
+        if (dpd != null) dpd.setOnDateSetListener(this);
     }
 }
