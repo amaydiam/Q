@@ -2,6 +2,7 @@ package com.ad.sample.ui.activity;
 
 import android.Manifest;
 import android.content.pm.PackageManager;
+import android.graphics.Typeface;
 import android.location.Location;
 import android.os.Build;
 import android.os.Bundle;
@@ -13,6 +14,9 @@ import android.support.v4.app.Fragment;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
+import android.text.Spannable;
+import android.text.SpannableString;
+import android.text.style.TypefaceSpan;
 import android.util.TypedValue;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -25,6 +29,7 @@ import com.ad.sample.R;
 import com.ad.sample.ui.fragment.PrepareOrderFragment;
 import com.ad.sample.ui.fragment.WasherOrderFragment;
 import com.ad.sample.ui.widget.RobotoRegularEditText;
+import com.ad.sample.utils.CustomTypefaceSpan;
 import com.google.android.gms.common.ConnectionResult;
 import com.google.android.gms.common.api.GoogleApiClient;
 import com.google.android.gms.location.LocationListener;
@@ -151,14 +156,9 @@ public class HomeActivity extends AppCompatActivity implements OnMapReadyCallbac
         });
 
         isShowNavigation = false;
+        SetCustomMenu();
         navigationView.setNavigationItemSelectedListener(this);
         ShowMainMenu(false);
-
-        //set icon main menu
-        btnMainMenu.setImageDrawable(
-                new IconDrawable(this, MaterialIcons.md_menu)
-                        .colorRes(R.color.black_333333)
-                        .actionBarSize());
 
         //set icon other menu
 
@@ -220,16 +220,28 @@ public class HomeActivity extends AppCompatActivity implements OnMapReadyCallbac
 
         Menu menu = navigationView.getMenu();
         MenuItem menu_home = menu.findItem(R.id.menu_home);
-        menu_home.setIcon(new IconDrawable(this, MaterialCommunityIcons.mdi_comment_question_outline).colorRes(R.color.white).actionBarSize());
+        menu_home.setIcon(new IconDrawable(this, SimpleLineIconsIcons.icon_home).colorRes(R.color.white).actionBarSize());
+        setTypeface(menu_home);
         MenuItem menu_notification = menu.findItem(R.id.menu_notification);
-        menu_notification.setIcon(new IconDrawable(this, MaterialCommunityIcons.mdi_map_marker).colorRes(R.color.white).actionBarSize());
+        menu_notification.setIcon(new IconDrawable(this, MaterialIcons.md_notifications_none).colorRes(R.color.white).actionBarSize());
+        setTypeface(menu_notification);
         MenuItem menu_history = menu.findItem(R.id.menu_history);
-        menu_history.setIcon(new IconDrawable(this, MaterialCommunityIcons.mdi_map_marker).colorRes(R.color.white).actionBarSize());
+        menu_history.setIcon(new IconDrawable(this, MaterialCommunityIcons.mdi_history).colorRes(R.color.white).actionBarSize());
+        setTypeface(menu_history);
         MenuItem menu_help = menu.findItem(R.id.menu_help);
-        menu_help.setIcon(new IconDrawable(this, MaterialCommunityIcons.mdi_map_marker).colorRes(R.color.white).actionBarSize());
+        menu_help.setIcon(new IconDrawable(this, MaterialIcons.md_help_outline).colorRes(R.color.white).actionBarSize());
+        setTypeface(menu_help);
         MenuItem menu_my_account = menu.findItem(R.id.menu_my_account);
-        menu_my_account.setIcon(new IconDrawable(this, MaterialCommunityIcons.mdi_map_marker).colorRes(R.color.white).actionBarSize());
+        menu_my_account.setIcon(new IconDrawable(this, EntypoIcons.entypo_user).colorRes(R.color.white).actionBarSize());
+        setTypeface(menu_my_account);
 
+    }
+
+    private void setTypeface(MenuItem menuItem){
+        Typeface font = Typeface.createFromAsset(getAssets(), "fonts/Roboto-Regular.ttf");
+        SpannableString mNewTitle = new SpannableString(menuItem.getTitle());
+        mNewTitle.setSpan(new CustomTypefaceSpan("" , font), 0 , mNewTitle.length(),  Spannable.SPAN_INCLUSIVE_INCLUSIVE);
+        menuItem.setTitle(mNewTitle);
     }
 
 
@@ -458,10 +470,20 @@ public class HomeActivity extends AppCompatActivity implements OnMapReadyCallbac
             headerNavigationView.setVisibility(View.VISIBLE);
             navigationView.setVisibility(View.VISIBLE);
             isShowNavigation = true;
+            //set icon main menu
+            btnMainMenu.setImageDrawable(
+                    new IconDrawable(this, MaterialIcons.md_close)
+                            .colorRes(R.color.black_333333)
+                            .actionBarSize());
         } else {
             headerNavigationView.setVisibility(View.GONE);
             navigationView.setVisibility(View.GONE);
             isShowNavigation = false;
+            //set icon main menu
+            btnMainMenu.setImageDrawable(
+                    new IconDrawable(this, MaterialIcons.md_menu)
+                            .colorRes(R.color.black_333333)
+                            .actionBarSize());
         }
     }
 }

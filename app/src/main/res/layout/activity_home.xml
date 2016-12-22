@@ -93,6 +93,7 @@
             android:layout_height="wrap_content"
             android:layout_gravity="start"
             android:background="@color/biru"
+            app:itemTextColor="@color/white"
             app:menu="@menu/main_menu" />
         <!-- Button Main-->
         <android.support.design.widget.FloatingActionButton
