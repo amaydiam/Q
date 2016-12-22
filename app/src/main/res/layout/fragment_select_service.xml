@@ -3,14 +3,15 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    tools:context="com.ad.sample.ui.fragment.SelectServiceFragment"
-    android:orientation="vertical">
+    android:gravity="center"
+    android:orientation="vertical"
+    tools:context="com.ad.sample.ui.fragment.SelectServiceFragment">
 
     <LinearLayout
         android:id="@+id/btn_wash_and_go"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_margin="6dp"
+        android:layout_margin="20dp"
         android:background="@drawable/border_service_item">
 
         <FrameLayout
@@ -28,24 +29,32 @@
                     android:layout_height="wrap_content"
                     android:text="@string/wash_and_go"
                     android:textAppearance="?android:attr/textAppearanceLarge"
-                    android:textColor="@color/biru"/>
+                    android:textColor="@color/biru" />
+
+                <View
+                    android:layout_width="80dp"
+                    android:layout_height="3dp"
+                    android:layout_marginBottom="10dp"
+                    android:layout_marginTop="10dp"
+                    android:background="@android:color/holo_orange_light" />
 
                 <com.ad.sample.ui.widget.RobotoRegularTextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:textAppearance="?android:attr/textAppearanceMedium"
-                    android:text="IDR 22.000" />
+                    android:text="IDR 22.000"
+                    android:textAppearance="?android:attr/textAppearanceMedium" />
             </LinearLayout>
 
             <com.joanzapata.iconify.widget.IconTextView
+                android:id="@+id/indicator_wash_and_go"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center|right"
                 android:layout_margin="10dp"
                 android:text="{mdi-checkbox-marked-circle-outline}"
+                android:textSize="@dimen/indicator_service_text_size"
                 android:textColor="@color/biru"
-                android:textStyle="bold"
-                android:visibility="gone"/>
+                android:textStyle="bold" />
         </FrameLayout>
     </LinearLayout>
 
@@ -53,9 +62,9 @@
         android:id="@+id/btn_luxury_wash"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginBottom="6dp"
-        android:layout_marginLeft="6dp"
-        android:layout_marginRight="6dp"
+        android:layout_marginBottom="20dp"
+        android:layout_marginLeft="20dp"
+        android:layout_marginRight="20dp"
         android:layout_marginTop="0dp"
         android:background="@drawable/border_service_item">>
 
@@ -74,24 +83,32 @@
                     android:layout_height="wrap_content"
                     android:text="@string/luxury_wash"
                     android:textAppearance="?android:attr/textAppearanceLarge"
-                    android:textColor="@color/biru"/>
+                    android:textColor="@color/biru" />
+
+                <View
+                    android:layout_width="80dp"
+                    android:layout_height="3dp"
+                    android:layout_marginBottom="10dp"
+                    android:layout_marginTop="10dp"
+                    android:background="@android:color/holo_orange_light" />
 
                 <com.ad.sample.ui.widget.RobotoRegularTextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:textAppearance="?android:attr/textAppearanceMedium"
-                    android:text="IDR 25.000" />
+                    android:text="IDR 25.000"
+                    android:textAppearance="?android:attr/textAppearanceMedium" />
             </LinearLayout>
 
             <com.joanzapata.iconify.widget.IconTextView
+                android:id="@+id/indicator_luxury_wash"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center|right"
                 android:layout_margin="10dp"
                 android:text="{mdi-checkbox-marked-circle-outline}"
+                android:textSize="@dimen/indicator_service_text_size"
                 android:textColor="@color/biru"
-                android:textStyle="bold"
-                android:textAppearance="?android:attr/textAppearanceLarge"/>
+                android:textStyle="bold" />
         </FrameLayout>
     </LinearLayout>
 </LinearLayout>

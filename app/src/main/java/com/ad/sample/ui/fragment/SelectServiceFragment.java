@@ -7,6 +7,7 @@ import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.LinearLayout;
 
 import com.ad.sample.R;
 import com.joanzapata.iconify.Iconify;
@@ -15,22 +16,35 @@ import com.joanzapata.iconify.fonts.FontAwesomeModule;
 import com.joanzapata.iconify.fonts.MaterialCommunityModule;
 import com.joanzapata.iconify.fonts.MaterialModule;
 import com.joanzapata.iconify.fonts.SimpleLineIconsModule;
+import com.joanzapata.iconify.widget.IconTextView;
 
-/**
- * A simple {@link Fragment} subclass.
- * Activities that contain this fragment must implement the
- * {@link SelectServiceFragment.OnServiceSelectedListener} interface
- * to handle interaction events.
- * Use the {@link SelectServiceFragment#newInstance} factory method to
- * create an instance of this fragment.
- */
+import butterknife.BindView;
+import butterknife.ButterKnife;
+import butterknife.OnClick;
+
 public class SelectServiceFragment extends Fragment {
-    // TODO: Rename parameter arguments, choose names that match
-    // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
     private static final String ARG_PARAM1 = "param1";
     private static final String ARG_PARAM2 = "param2";
 
-    // TODO: Rename and change types of parameters
+    @BindView(R.id.btn_wash_and_go)
+    LinearLayout btnWashAndGo;
+    @BindView(R.id.btn_luxury_wash)
+    LinearLayout btnLuxuryWash;
+    @BindView(R.id.indicator_wash_and_go)
+    IconTextView indicatorWashAndGo;
+    @BindView(R.id.indicator_luxury_wash)
+    IconTextView indicatorLuxuryWash;
+
+    @OnClick({R.id.btn_wash_and_go, R.id.btn_luxury_wash})
+    void Select(View v) {
+        int id = v.getId();
+        if (id == R.id.btn_wash_and_go) {
+            ServiceSelected(0);
+        } else if (id == R.id.btn_luxury_wash) {
+            ServiceSelected(1);
+        }
+    }
+
     private String mParam1;
     private String mParam2;
 
@@ -67,11 +81,22 @@ public class SelectServiceFragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_select_service, container, false);
+        View view = inflater.inflate(R.layout.fragment_select_service, container, false);
+        ButterKnife.bind(this, view);
+        ServiceSelected(0);
+        return view;
     }
 
-    // TODO: Rename method, update argument and hook method into UI event
+    private void ServiceSelected(int poistion) {
+        if (poistion == 0) {
+            indicatorWashAndGo.setVisibility(View.VISIBLE);
+            indicatorLuxuryWash.setVisibility(View.GONE);
+        } else if (poistion == 1) {
+            indicatorWashAndGo.setVisibility(View.GONE);
+            indicatorLuxuryWash.setVisibility(View.VISIBLE);
+        }
+    }
+
     public void onButtonPressed(Uri uri) {
         if (mListener != null) {
             mListener.onServiceSelected(uri);
@@ -95,18 +120,7 @@ public class SelectServiceFragment extends Fragment {
         mListener = null;
     }
 
-    /**
-     * This interface must be implemented by activities that contain this
-     * fragment to allow an interaction in this fragment to be communicated
-     * to the activity and potentially other fragments contained in that
-     * activity.
-     * <p>
-     * See the Android Training lesson <a href=
-     * "http://developer.android.com/training/basics/fragments/communicating.html"
-     * >Communicating with Other Fragments</a> for more information.
-     */
     public interface OnServiceSelectedListener {
-        // TODO: Update argument type and name
         void onServiceSelected(Uri uri);
     }
 }
