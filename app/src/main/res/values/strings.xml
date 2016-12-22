@@ -30,4 +30,13 @@
     <string name="luxury_wash">Luxury Wash</string>
     <string name="button_back">Back</string>
     <string name="button_contact">Contact</string>
+    <string name="label_what_youll_get">What you\'ll get:</string>
+    <string name="label_exterior_wash">Exterior Wash</string>
+    <string name="label_interior_cleaning">Interior Cleaning</string>
+    <string name="label_tires_shine">Tires Shine</string>
+    <string name="label_deskripsi_service_detail"><![CDATA[Our washer is equiped with tool & technique to wash your car use the taps provided by customer:]]></string>
+    <string name="label_perfumed">Perfumed</string>
+    <string name="label_deskripsi_addtional_select">We will scent you car smell.</string>
+    <string name="pickup_date">Pickup Date</string>
+    <string name="pickup_time">Pickup Time</string>
 </resources>
