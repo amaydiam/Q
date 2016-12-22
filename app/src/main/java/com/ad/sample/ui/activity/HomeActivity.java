@@ -5,17 +5,20 @@ import android.content.pm.PackageManager;
 import android.location.Location;
 import android.os.Build;
 import android.os.Bundle;
+import android.support.annotation.NonNull;
 import android.support.design.widget.FloatingActionButton;
+import android.support.design.widget.NavigationView;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.app.Fragment;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.util.TypedValue;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.FrameLayout;
 import android.widget.ImageView;
-import android.widget.RelativeLayout;
 import android.widget.Toast;
 
 import com.ad.sample.R;
@@ -40,6 +43,7 @@ import com.joanzapata.iconify.Iconify;
 import com.joanzapata.iconify.fonts.EntypoIcons;
 import com.joanzapata.iconify.fonts.EntypoModule;
 import com.joanzapata.iconify.fonts.FontAwesomeModule;
+import com.joanzapata.iconify.fonts.MaterialCommunityIcons;
 import com.joanzapata.iconify.fonts.MaterialCommunityModule;
 import com.joanzapata.iconify.fonts.MaterialIcons;
 import com.joanzapata.iconify.fonts.MaterialModule;
@@ -54,7 +58,7 @@ import butterknife.OnClick;
 public class HomeActivity extends AppCompatActivity implements OnMapReadyCallback, PrepareOrderFragment.OnOrderedListener, WasherOrderFragment.OnWasherOrderListener,
         GoogleApiClient.ConnectionCallbacks,
         GoogleApiClient.OnConnectionFailedListener,
-        LocationListener {
+        LocationListener, NavigationView.OnNavigationItemSelectedListener {
 
     @BindView(R.id.search)
     RobotoRegularEditText search;
@@ -77,9 +81,25 @@ public class HomeActivity extends AppCompatActivity implements OnMapReadyCallbac
     FrameLayout fragmentBottom;
 
     Fragment current_fragment = null;
+    @BindView(R.id.navigation_view)
+    NavigationView navigationView;
+    @BindView(R.id.btn_main_menu)
+    FloatingActionButton btnMainMenu;
+    @BindView(R.id.header_navigation_view)
+    View headerNavigationView;
+
     private double current_latitude, current_longitude;
     private View mapView;
+    private boolean isShowNavigation;
 
+
+    @OnClick(R.id.btn_main_menu)
+    void ActionMainMenu() {
+        if (isShowNavigation)
+            ShowMainMenu(false);
+        else
+            ShowMainMenu(true);
+    }
 
     @OnClick(R.id.btn_work)
     void ActionWork() {
@@ -120,7 +140,7 @@ public class HomeActivity extends AppCompatActivity implements OnMapReadyCallbac
         //set Toolbar 
         setSupportActionBar(toolbar);
         toolbar.setNavigationIcon(
-                new IconDrawable(this, MaterialIcons.md_menu)
+                new IconDrawable(this, MaterialIcons.md_search)
                         .colorRes(R.color.black_333333)
                         .actionBarSize());
         toolbar.setNavigationOnClickListener(new View.OnClickListener() {
@@ -130,17 +150,27 @@ public class HomeActivity extends AppCompatActivity implements OnMapReadyCallbac
             }
         });
 
+        isShowNavigation = false;
+        navigationView.setNavigationItemSelectedListener(this);
+        ShowMainMenu(false);
 
-        //set icon menu
+        //set icon main menu
+        btnMainMenu.setImageDrawable(
+                new IconDrawable(this, MaterialIcons.md_menu)
+                        .colorRes(R.color.black_333333)
+                        .actionBarSize());
+
+        //set icon other menu
+
         pickLocation.setImageDrawable(
                 new IconDrawable(this, EntypoIcons.entypo_location_pin)
                         .colorRes(R.color.colorAccent)
                         .sizeDp(48));
 
         int paddingBottomInDp = (int) TypedValue.applyDimension(
-                TypedValue.COMPLEX_UNIT_DIP, (48/4)*3, getResources()
+                TypedValue.COMPLEX_UNIT_DIP, (48 / 4) * 3, getResources()
                         .getDisplayMetrics());
-        pickLocation.setPadding(0,0,0,paddingBottomInDp);
+        pickLocation.setPadding(0, 0, 0, paddingBottomInDp);
 
         btnWork.setImageDrawable(
                 new IconDrawable(this, SimpleLineIconsIcons.icon_bag)
@@ -184,6 +214,22 @@ public class HomeActivity extends AppCompatActivity implements OnMapReadyCallbac
         getSupportFragmentManager().beginTransaction().remove(current_fragment).commit();
         fragmentBottom.setVisibility(View.GONE);
         current_fragment = null;
+    }
+
+    private void SetCustomMenu() {
+
+        Menu menu = navigationView.getMenu();
+        MenuItem menu_home = menu.findItem(R.id.menu_home);
+        menu_home.setIcon(new IconDrawable(this, MaterialCommunityIcons.mdi_comment_question_outline).colorRes(R.color.white).actionBarSize());
+        MenuItem menu_notification = menu.findItem(R.id.menu_notification);
+        menu_notification.setIcon(new IconDrawable(this, MaterialCommunityIcons.mdi_map_marker).colorRes(R.color.white).actionBarSize());
+        MenuItem menu_history = menu.findItem(R.id.menu_history);
+        menu_history.setIcon(new IconDrawable(this, MaterialCommunityIcons.mdi_map_marker).colorRes(R.color.white).actionBarSize());
+        MenuItem menu_help = menu.findItem(R.id.menu_help);
+        menu_help.setIcon(new IconDrawable(this, MaterialCommunityIcons.mdi_map_marker).colorRes(R.color.white).actionBarSize());
+        MenuItem menu_my_account = menu.findItem(R.id.menu_my_account);
+        menu_my_account.setIcon(new IconDrawable(this, MaterialCommunityIcons.mdi_map_marker).colorRes(R.color.white).actionBarSize());
+
     }
 
 
@@ -387,4 +433,35 @@ public class HomeActivity extends AppCompatActivity implements OnMapReadyCallbac
     }
 
 
+    @Override
+    public boolean onNavigationItemSelected(@NonNull MenuItem item) {
+        ShowMainMenu(false);
+        int id = item.getItemId();
+        switch (id) {
+            case R.id.menu_home:
+                return true;
+            case R.id.menu_notification:
+                return true;
+            case R.id.menu_history:
+                return true;
+            case R.id.menu_help:
+                return true;
+            case R.id.menu_my_account:
+                return true;
+            default:
+                return false;
+        }
+    }
+
+    private void ShowMainMenu(boolean show) {
+        if (show) {
+            headerNavigationView.setVisibility(View.VISIBLE);
+            navigationView.setVisibility(View.VISIBLE);
+            isShowNavigation = true;
+        } else {
+            headerNavigationView.setVisibility(View.GONE);
+            navigationView.setVisibility(View.GONE);
+            isShowNavigation = false;
+        }
+    }
 }

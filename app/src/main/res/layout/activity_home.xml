@@ -1,17 +1,16 @@
 <?xml version="1.0" encoding="utf-8"?>
 <FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:map="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context="com.ad.sample.ui.activity.HomeActivity">
     <!-- Dummy item to prevent AutoCompleteTextView from receiving focus -->
     <LinearLayout
-        android:focusable="true"
-        android:focusableInTouchMode="true"
         android:layout_width="0px"
-        android:layout_height="0px"/>
+        android:layout_height="0px"
+        android:focusable="true"
+        android:focusableInTouchMode="true" />
     <!--TextView layout Main Map TextView-->
     <fragment
         android:id="@+id/map"
@@ -19,70 +18,102 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:fitsSystemWindows="true">
+
         <ImageView
             android:id="@+id/pick_location"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center"
-            android:contentDescription="@null"
             android:adjustViewBounds="true"
-            />
+            android:contentDescription="@null" />
     </fragment>
-    <!--TextView layout Toolbar And SearView TextView-->
-    <android.support.v7.widget.Toolbar
-        android:id="@+id/toolbar"
-        android:minHeight="?attr/actionBarSize"
+
+    <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        app:titleTextColor="@android:color/white"
-        android:background="@color/white"
-        android:layout_marginTop="@dimen/marginTopToolbar"
-        android:layout_marginBottom="10dp"
-        android:layout_marginLeft="10dp"
-        android:layout_marginRight="10dp">
-
-        <RelativeLayout
+        android:orientation="vertical">
+        <!--TextView layout Toolbar And SearView TextView-->
+        <android.support.v7.widget.Toolbar
+            android:id="@+id/toolbar"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:orientation="horizontal">
+            android:layout_below="@+id/btn_main_menu"
+            android:layout_margin="10dp"
+            android:background="@color/white"
+            android:minHeight="?attr/actionBarSize"
+            app:titleTextColor="@android:color/white">
 
-            <com.ad.sample.ui.widget.RobotoRegularEditText
-                android:id="@+id/search"
+            <RelativeLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_alignBottom="@+id/btn_clear_search"
-                android:layout_alignTop="@+id/btn_clear_search"
-                android:layout_centerVertical="true"
-                android:layout_marginRight="14dp"
-                android:layout_toLeftOf="@+id/btn_clear_search"
-                android:layout_toStartOf="@+id/btn_clear_search"
-                android:background="@null"
-                android:focusableInTouchMode="true"
-                android:hint="@string/hint_your_location"
-                android:imeOptions="actionSearch"
-                android:inputType="textEmailAddress"
-                android:maxLines="1" />
+                android:orientation="horizontal">
 
-            <com.joanzapata.iconify.widget.IconButton
-                android:id="@+id/btn_clear_search"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_alignParentRight="true"
-                android:layout_centerVertical="true"
-                android:background="@null"
-                android:text="{md-clear}"
-                android:textColor="@color/colorAccent" />
-        </RelativeLayout>
-</android.support.v7.widget.Toolbar>
+                <com.ad.sample.ui.widget.RobotoRegularEditText
+                    android:id="@+id/search"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_alignBottom="@+id/btn_clear_search"
+                    android:layout_alignTop="@+id/btn_clear_search"
+                    android:layout_centerVertical="true"
+                    android:layout_marginRight="14dp"
+                    android:layout_toLeftOf="@+id/btn_clear_search"
+                    android:layout_toStartOf="@+id/btn_clear_search"
+                    android:background="@null"
+                    android:focusableInTouchMode="true"
+                    android:hint="@string/hint_your_location"
+                    android:imeOptions="actionSearch"
+                    android:inputType="textEmailAddress"
+                    android:maxLines="1" />
 
+                <com.joanzapata.iconify.widget.IconButton
+                    android:id="@+id/btn_clear_search"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentRight="true"
+                    android:layout_centerVertical="true"
+                    android:background="@null"
+                    android:text="{md-clear}"
+                    android:textColor="@color/colorAccent" />
+            </RelativeLayout>
+        </android.support.v7.widget.Toolbar>
+        <!-- Menu Item-->
+        <View
+            android:id="@+id/header_navigation_view"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignTop="@+id/btn_main_menu"
+            android:layout_alignBottom="@+id/navigation_view"
+            android:background="@color/biru"
+            android:layout_alignParentTop="true" />
+
+        <android.support.design.widget.NavigationView
+            android:id="@+id/navigation_view"
+            android:layout_below="@+id/btn_main_menu"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_gravity="start"
+            android:background="@color/biru"
+            app:menu="@menu/main_menu" />
+        <!-- Button Main-->
+        <android.support.design.widget.FloatingActionButton
+            android:id="@+id/btn_main_menu"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="10dp"
+            android:layout_marginLeft="10dp"
+            android:layout_marginRight="10dp"
+            android:layout_marginTop="@dimen/marginTopToolbar"
+            app:backgroundTint="@color/white"
+            app:elevation="1dp" />
+    </RelativeLayout>
     <!--TextView layout Main Menu TextView-->
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_gravity="center|bottom"
         android:layout_margin="10dp"
-        android:orientation="horizontal"
-        android:fitsSystemWindows="true">
+        android:fitsSystemWindows="true"
+        android:orientation="horizontal">
 
         <LinearLayout
             android:layout_width="0dp"
@@ -164,13 +195,13 @@
     <!--fragment bottom to order and whasher-->
 
     <FrameLayout
-        android:fitsSystemWindows="true"
-        android:background="@color/white"
-        android:layout_gravity="bottom"
         android:id="@+id/fragment_bottom"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:visibility="gone"
+        android:layout_gravity="bottom"
+        android:background="@color/white"
         android:clickable="true"
-        android:soundEffectsEnabled="false"/>
+        android:fitsSystemWindows="true"
+        android:soundEffectsEnabled="false"
+        android:visibility="gone" />
 </FrameLayout>
