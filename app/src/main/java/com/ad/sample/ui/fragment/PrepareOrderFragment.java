@@ -12,7 +12,6 @@ import android.support.v4.view.ViewPager;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.view.inputmethod.InputMethodManager;
 import android.widget.Toast;
 
 import com.ad.sample.R;
@@ -148,18 +147,18 @@ public class PrepareOrderFragment extends Fragment implements SelectVehicleFragm
     private void ChangeIndicator(int position) {
         if (position == 0) {
             btnCancel.setText(getActivity().getResources().getString(R.string.button_cancel));
-            indicator1.setTextColor(ContextCompat.getColor(getActivity(), R.color.biru));
-            indicator2.setTextColor(ContextCompat.getColor(getActivity(), R.color.blue_ccccff));
-            indicator3.setTextColor(ContextCompat.getColor(getActivity(), R.color.blue_ccccff));
+            indicator1.setTextColor(ContextCompat.getColor(getActivity(), R.color.blue_2196F3));
+            indicator2.setTextColor(ContextCompat.getColor(getActivity(), R.color.blue_BBDEFB));
+            indicator3.setTextColor(ContextCompat.getColor(getActivity(), R.color.blue_BBDEFB));
         } else if (position == 1) {
             btnCancel.setText(getActivity().getResources().getString(R.string.button_back));
-            indicator1.setTextColor(ContextCompat.getColor(getActivity(), R.color.blue_ccccff));
-            indicator2.setTextColor(ContextCompat.getColor(getActivity(), R.color.biru));
-            indicator3.setTextColor(ContextCompat.getColor(getActivity(), R.color.blue_ccccff));
-        } else if (position == 1) {
-            indicator1.setTextColor(ContextCompat.getColor(getActivity(), R.color.blue_ccccff));
-            indicator2.setTextColor(ContextCompat.getColor(getActivity(), R.color.blue_ccccff));
-            indicator3.setTextColor(ContextCompat.getColor(getActivity(), R.color.biru));
+            indicator1.setTextColor(ContextCompat.getColor(getActivity(), R.color.blue_BBDEFB));
+            indicator2.setTextColor(ContextCompat.getColor(getActivity(), R.color.blue_2196F3));
+            indicator3.setTextColor(ContextCompat.getColor(getActivity(), R.color.blue_BBDEFB));
+        } else if (position == 2) {
+            indicator1.setTextColor(ContextCompat.getColor(getActivity(), R.color.blue_BBDEFB));
+            indicator2.setTextColor(ContextCompat.getColor(getActivity(), R.color.blue_BBDEFB));
+            indicator3.setTextColor(ContextCompat.getColor(getActivity(), R.color.blue_2196F3));
         }
     }
 

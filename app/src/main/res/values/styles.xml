@@ -24,7 +24,7 @@
     </style>
 
     <style name="btn_blue" parent="Base.Widget.AppCompat.Button">
-        <item name="android:background">@color/blue</item>
+        <item name="android:background">@color/blue_2196F3</item>
         <item name="android:textColor">@color/white</item>
     </style>
 
@@ -40,5 +40,12 @@
         <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
         <item name="colorAccent">@color/colorAccent</item>
     </style>
+
+
+    <!-- Toolbar Styles -->
+    <style name="AppTheme.AppBarOverlay" parent="ThemeOverlay.AppCompat.Dark.ActionBar" />
+
+    <style name="AppTheme.PopupOverlay" parent="ThemeOverlay.AppCompat.Light" />
+
 
 </resources>

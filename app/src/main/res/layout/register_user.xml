@@ -2,7 +2,6 @@
 <android.support.v4.widget.NestedScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    android:id="@+id/register_user"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:fillViewport="true"
@@ -82,16 +81,16 @@
 
         <com.ad.sample.ui.widget.RobotoRegularButton
             android:id="@+id/btn_register"
-            style="@style/btn_blue"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="10dp"
-            android:text="@string/button_sign_up" />
+            android:text="@string/button_sign_up"
+            style="@style/btn_blue" />
 
         <RelativeLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="10dp"
+            android:layout_marginTop="25dp"
             android:orientation="horizontal">
 
             <com.ad.sample.ui.widget.RobotoRegularTextView

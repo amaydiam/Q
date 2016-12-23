@@ -1,13 +1,9 @@
 package com.ad.sample.ui.activity;
 
-import android.content.Intent;
 import android.graphics.Paint;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v7.app.AppCompatActivity;
-import android.widget.Button;
-import android.widget.EditText;
-import android.widget.TextView;
 import android.widget.Toast;
 
 import com.ad.sample.R;
@@ -20,6 +16,9 @@ import com.joanzapata.iconify.fonts.EntypoIcons;
 import com.joanzapata.iconify.fonts.EntypoModule;
 import com.joanzapata.iconify.fonts.FontAwesomeIcons;
 import com.joanzapata.iconify.fonts.FontAwesomeModule;
+import com.joanzapata.iconify.fonts.MaterialCommunityModule;
+import com.joanzapata.iconify.fonts.MaterialModule;
+import com.joanzapata.iconify.fonts.SimpleLineIconsModule;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -67,10 +66,13 @@ public class RegisterUserActivity extends AppCompatActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
         Iconify
                 .with(new FontAwesomeModule())
-                .with(new EntypoModule());
+                .with(new EntypoModule())
+                .with(new MaterialModule())
+                .with(new MaterialCommunityModule())
+                .with(new SimpleLineIconsModule());
+        super.onCreate(savedInstanceState);
         setContentView(R.layout.register_user);
         ButterKnife.bind(this);
         //set underline
@@ -78,11 +80,11 @@ public class RegisterUserActivity extends AppCompatActivity {
         //set icon
         btnFacebook.setImageDrawable(
                 new IconDrawable(this, FontAwesomeIcons.fa_facebook)
-                        .colorRes(R.color.black_333333)
+                        .colorRes(R.color.blue_2196F3)
                         .actionBarSize());
         btnGooglePlus.setImageDrawable(
                 new IconDrawable(this, EntypoIcons.entypo_google)
-                        .colorRes(R.color.black_333333)
+                        .colorRes(R.color.blue_2196F3)
                         .actionBarSize());
     }
 

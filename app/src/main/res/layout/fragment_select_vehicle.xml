@@ -37,7 +37,7 @@
         android:layout_height="wrap_content"
         android:text="{entypo-chevron-with-circle-right}"
         android:layout_margin="10dp"
-        android:textColor="@color/biru"
+        android:textColor="@color/blue_2196F3"
         android:textStyle="bold"
         android:layout_gravity="center|right"
         android:textAppearance="?android:attr/textAppearanceLarge"/>

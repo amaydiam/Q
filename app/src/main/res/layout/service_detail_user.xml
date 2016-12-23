@@ -141,7 +141,7 @@
                         android:layout_height="wrap_content"
                         android:layout_below="@id/label_deskripsi_service_detail"
                         android:text="IDR 25.000"
-                        android:textColor="@color/biru" />
+                        android:textColor="@color/blue_2196F3" />
 
                 </RelativeLayout>
 
@@ -189,7 +189,6 @@
                     android:layout_marginTop="20dp">
 
                     <RelativeLayout
-                        android:id="@+id/space_addtional_select"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content">
 
@@ -226,7 +225,7 @@
                             android:layout_height="wrap_content"
                             android:layout_below="@id/deskripsi_addtional_select"
                             android:text="IDR 3.000"
-                            android:textColor="@color/biru" />
+                            android:textColor="@color/blue_2196F3" />
 
                         <CheckBox
                             android:layout_width="wrap_content"
@@ -302,7 +301,6 @@
 
 
             <RelativeLayout
-                android:id="@+id/space_4"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_below="@id/space_3"
@@ -353,7 +351,7 @@
                         android:layout_height="wrap_content"
                         android:layout_below="@id/label_total_price"
                         android:text="IDR 25.000"
-                        android:textColor="@color/biru"
+                        android:textColor="@color/blue_2196F3"
                         android:textSize="20sp" />
                 </RelativeLayout>
             </RelativeLayout>
@@ -365,7 +363,6 @@
 
 </android.support.v4.widget.NestedScrollView>
     <Button
-        android:id="@+id/btn_order"
         android:layout_width="match_parent"
         android:layout_height="50dp"
         android:layout_alignParentBottom="true"

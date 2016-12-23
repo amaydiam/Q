@@ -36,7 +36,7 @@
         android:layout_margin="10dp"
         android:fitsSystemWindows="true"
         android:orientation="horizontal"
-        android:id="@+id/main_menu">
+        android:baselineAligned="false">
 
         <LinearLayout
             android:layout_width="0dp"
@@ -129,8 +129,7 @@
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:orientation="vertical"
-        android:id="@+id/toolbar_menu_home">
+        android:orientation="vertical">
         <!--TextView layout Toolbar And SearView TextView-->
         <android.support.v7.widget.Toolbar
             android:id="@+id/toolbar"
@@ -182,7 +181,7 @@
             android:layout_height="1dp"
             android:layout_alignTop="@+id/btn_menu_home"
             android:layout_alignBottom="@+id/fragment_menu_home"
-            android:background="@color/biru"
+            android:background="@color/blue_2196F3"
             android:layout_alignParentTop="true"
             android:clickable="true"
             android:soundEffectsEnabled="false" />

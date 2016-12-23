@@ -7,13 +7,11 @@ import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.LinearLayout;
 import android.widget.Toast;
 
 import com.ad.sample.R;
 import com.ad.sample.ui.widget.RobotoBoldTextView;
 import com.ad.sample.ui.widget.RobotoRegularButton;
-import com.ad.sample.ui.widget.RobotoRegularTextView;
 import com.joanzapata.iconify.Iconify;
 import com.joanzapata.iconify.fonts.EntypoModule;
 import com.joanzapata.iconify.fonts.FontAwesomeModule;

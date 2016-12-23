@@ -4,7 +4,7 @@
     <string name="hint_password">Password</string>
     <string name="hint_email">Email</string>
     <string name="hint_nama">Nama</string>
-    <string name="button_sign_up">Sgn Up</string>
+    <string name="button_sign_up">Sign Up</string>
     <string name="or_sign_white">or sign in with:</string>
     <string name="term_login">By Signin your agree with our term and conditions</string>
     <string name="login">Login</string>
@@ -46,6 +46,12 @@
     <string name="label_deskripsi_addtional_select">We will scent you car smell.</string>
     <string name="pickup_date">Pickup Date</string>
     <string name="pickup_time">Pickup Time</string>
-    <string name="motorcircle">MOTORCIRCLE</string>
+    <string name="motorcycle">MOTORCYCLE</string>
     <string name="car">CAR</string>
+    <string name="select_brand">Select Brand</string>
+    <string name="select_model">Select Model</string>
+    <string name="select_transmission">Select Transmission</string>
+    <string name="select_year">Select Year</string>
+    <string name="title_activity_add_vehicle_type">Add Vehicle Type</string>
+    <string name="button_login">Login</string>
 </resources>

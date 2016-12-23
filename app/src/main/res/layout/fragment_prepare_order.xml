@@ -46,31 +46,30 @@
 
             <com.joanzapata.iconify.widget.IconTextView
                 android:id="@+id/indicator_1"
-                android:layout_width="0dp"
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_weight="1"
                 android:gravity="center"
                 android:text="{mdi-checkbox-blank-circle}"
-                android:textColor="@color/biru"/>
+                android:textColor="@color/blue_2196F3"/>
 
 
             <com.joanzapata.iconify.widget.IconTextView
                 android:id="@+id/indicator_2"
-                android:layout_width="0dp"
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_weight="1"
                 android:gravity="center"
                 android:text="{mdi-checkbox-blank-circle}"
-                android:textColor="@color/biru" />
+                android:textColor="@color/blue_2196F3"
+                android:layout_marginLeft="10dp"
+                android:layout_marginRight="10dp"/>
 
             <com.joanzapata.iconify.widget.IconTextView
                 android:id="@+id/indicator_3"
-                android:layout_width="0dp"
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_weight="1"
                 android:gravity="center"
                 android:text="{mdi-checkbox-blank-circle}"
-                android:textColor="@color/biru"/>
+                android:textColor="@color/blue_2196F3"/>
 
 
         </LinearLayout>

@@ -5,11 +5,9 @@ import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
 import android.widget.ImageView;
-import android.widget.RadioButton;
 import android.widget.TextView;
 
 import com.ad.sample.R;
-import com.ad.sample.ui.fragment.SelectVehicleFragment;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -21,8 +19,6 @@ import butterknife.OnClick;
 
 public class SelectVehicleActivity extends AppCompatActivity {
 
-    @BindView(R.id.select_vehicle_mobil)
-    RadioButton selectVehicleMobil;
     @BindView(R.id.img_mobil)
     ImageView imgMobil;
     @BindView(R.id.merk_mobil)
@@ -40,7 +36,7 @@ public class SelectVehicleActivity extends AppCompatActivity {
     @OnClick(R.id.btn_add_vehicle)
     public void onClickAddVehicle() {
         //new activity
-        Intent intent = new Intent(SelectVehicleActivity.this, SelectVehicleFragment.class);
+        Intent intent = new Intent(SelectVehicleActivity.this, AddVehicleActivity.class);
         intent.putExtra("select", "isi");
         intent.putExtra("imagevehicle", "isi");
         intent.putExtra("merkmobil", "isi");

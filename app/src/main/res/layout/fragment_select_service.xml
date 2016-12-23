@@ -29,7 +29,7 @@
                     android:layout_height="wrap_content"
                     android:text="@string/wash_and_go"
                     android:textAppearance="?android:attr/textAppearanceLarge"
-                    android:textColor="@color/biru" />
+                    android:textColor="@color/blue_2196F3" />
 
                 <View
                     android:layout_width="80dp"
@@ -52,8 +52,8 @@
                 android:layout_gravity="center|right"
                 android:layout_margin="10dp"
                 android:text="{mdi-checkbox-marked-circle-outline}"
-                android:textSize="@dimen/indicator_service_text_size"
-                android:textColor="@color/biru"
+                android:textSize="@dimen/indicator_text_size"
+                android:textColor="@color/blue_2196F3"
                 android:textStyle="bold"
                 android:visibility="gone"/>
         </FrameLayout>
@@ -84,7 +84,7 @@
                     android:layout_height="wrap_content"
                     android:text="@string/luxury_wash"
                     android:textAppearance="?android:attr/textAppearanceLarge"
-                    android:textColor="@color/biru" />
+                    android:textColor="@color/blue_2196F3" />
 
                 <View
                     android:layout_width="80dp"
@@ -107,8 +107,8 @@
                 android:layout_gravity="center|right"
                 android:layout_margin="10dp"
                 android:text="{mdi-checkbox-marked-circle-outline}"
-                android:textSize="@dimen/indicator_service_text_size"
-                android:textColor="@color/biru"
+                android:textSize="@dimen/indicator_text_size"
+                android:textColor="@color/blue_2196F3"
                 android:textStyle="bold"
                 android:visibility="gone" />
         </FrameLayout>
