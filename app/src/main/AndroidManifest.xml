@@ -5,6 +5,7 @@
     <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
 
     <application
+        android:name="android.support.multidex.MultiDexApplication"
         android:allowBackup="true"
         android:icon="@mipmap/ic_launcher"
         android:label="@string/app_name"
@@ -27,6 +28,10 @@
         <activity android:name=".ui.activity.SelectLocationActivity" />
         <activity android:name=".ui.activity.SelectVehicleActivity" />
         <activity android:name=".ui.activity.ServiceDetailUserActivity" />
+        <activity android:name=".ui.activity.SelectYearActivity"/>
+        <activity android:name=".ui.activity.SelectBrandActivity"/>
+        <activity android:name=".ui.activity.SelectModelActivity"/>
+        <activity android:name=".ui.activity.SelectTransmissionActivity"/>
 
         <activity android:name=".ui.activity.AddVehicleActivity"
             android:theme="@style/AppTheme.NoActionBar"

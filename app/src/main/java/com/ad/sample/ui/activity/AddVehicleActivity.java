@@ -1,5 +1,6 @@
 package com.ad.sample.ui.activity;
 
+import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.os.Bundle;
@@ -78,22 +79,26 @@ public class AddVehicleActivity extends AppCompatActivity {
 
     @OnClick(R.id.select_brand)
     void select_brand() {
-        Toast.makeText(this, "Select Brand", Toast.LENGTH_SHORT).show();
+        startActivity(new Intent(this, SelectBrandActivity.class));
+        //Toast.makeText(this, "Select Brand", Toast.LENGTH_SHORT).show();
     }
 
     @OnClick(R.id.select_model)
     void select_model() {
-        Toast.makeText(this, "Select Model", Toast.LENGTH_SHORT).show();
+        startActivity(new Intent(this, SelectModelActivity.class));
+        //Toast.makeText(this, "Select Model", Toast.LENGTH_SHORT).show();
     }
 
     @OnClick(R.id.select_transmission)
     void select_transmission() {
-        Toast.makeText(this, "Select Transmission", Toast.LENGTH_SHORT).show();
+        startActivity(new Intent(this, SelectTransmissionActivity.class));
+        //Toast.makeText(this, "Select Transmission", Toast.LENGTH_SHORT).show();
     }
 
     @OnClick(R.id.select_year)
     void select_year() {
-        Toast.makeText(this, "Select Year", Toast.LENGTH_SHORT).show();
+        startActivity(new Intent(this, SelectYearActivity.class));
+        //Toast.makeText(this, "Select Year", Toast.LENGTH_SHORT).show();
     }
 
 

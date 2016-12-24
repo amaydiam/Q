@@ -39,10 +39,7 @@ public class LoginUserActivity extends AppCompatActivity {
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         Iconify
                 .with(new FontAwesomeModule())
-                .with(new EntypoModule())
-                .with(new MaterialModule())
-                .with(new MaterialCommunityModule())
-                .with(new SimpleLineIconsModule());
+                .with(new EntypoModule());
         super.onCreate(savedInstanceState);
         setContentView(R.layout.login_user);
         ButterKnife.bind(this);
