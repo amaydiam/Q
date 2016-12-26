@@ -5,6 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
+    android:layout_margin="@dimen/activity_vertical_margin"
     tools:context="com.ad.sample.ui.fragment.WasherOrderFragment">
 
     <LinearLayout
@@ -13,7 +14,6 @@
         android:layout_above="@+id/layout_btn_washer_order"
         android:orientation="horizontal"
         android:gravity="center"
-        android:layout_margin="10dp"
         android:baselineAligned="false">
         <LinearLayout
             android:layout_width="0dp"
@@ -75,7 +75,7 @@
         android:id="@+id/layout_btn_washer_order"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_margin="10dp"
+        android:layout_marginTop="@dimen/activity_vertical_margin"
         android:orientation="horizontal">
 
         <com.ad.sample.ui.widget.RobotoRegularButton
@@ -83,7 +83,7 @@
             style="@style/btn_blue"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:layout_marginRight="5dp"
+            android:layout_marginRight="@dimen/activity_half_vertical_margin"
             android:layout_weight="1"
             android:gravity="center"
             android:text="@string/button_contact" />
@@ -93,7 +93,7 @@
             style="@style/btn_blue"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:layout_marginLeft="5dp"
+            android:layout_marginLeft="@dimen/activity_half_vertical_margin"
             android:layout_weight="1"
             android:gravity="center"
             android:text="@string/button_cancel" />

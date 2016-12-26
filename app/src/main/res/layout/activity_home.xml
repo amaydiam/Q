@@ -33,7 +33,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_gravity="center|bottom"
-        android:layout_margin="10dp"
+        android:layout_margin="@dimen/activity_vertical_margin"
         android:fitsSystemWindows="true"
         android:orientation="horizontal"
         android:baselineAligned="false">
@@ -136,7 +136,9 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_below="@+id/btn_menu_home"
-            android:layout_margin="10dp"
+            android:layout_marginTop="@dimen/activity_vertical_margin"
+            android:layout_marginLeft="@dimen/activity_vertical_margin"
+            android:layout_marginRight="@dimen/activity_vertical_margin"
             android:background="@color/white"
             android:minHeight="?attr/actionBarSize"
             app:titleTextColor="@android:color/white">
@@ -184,7 +186,8 @@
             android:background="@color/blue_2196F3"
             android:layout_alignParentTop="true"
             android:clickable="true"
-            android:soundEffectsEnabled="false" />
+            android:soundEffectsEnabled="false"
+            android:visibility="gone"/>
 
         <FrameLayout
             android:id="@+id/fragment_menu_home"
@@ -197,9 +200,8 @@
             android:id="@+id/btn_menu_home"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginBottom="10dp"
-            android:layout_marginLeft="10dp"
-            android:layout_marginRight="10dp"
+            android:layout_marginLeft="@dimen/activity_vertical_margin"
+            android:layout_marginRight="@dimen/activity_vertical_margin"
             android:layout_marginTop="@dimen/marginTopToolbar"
             app:backgroundTint="@color/white"
             app:elevation="1dp" />
