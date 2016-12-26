@@ -30,11 +30,16 @@
         <activity android:name=".ui.activity.SelectLocationActivity" />
         <activity android:name=".ui.activity.SelectVehicleActivity"
             android:theme="@style/AppTheme.NoActionBar" />
-        <activity android:name=".ui.activity.ServiceDetailUserActivity" />
-        <activity android:name=".ui.activity.SelectYearActivity"/>
-        <activity android:name=".ui.activity.SelectBrandActivity"/>
-        <activity android:name=".ui.activity.SelectModelActivity"/>
-        <activity android:name=".ui.activity.SelectTransmissionActivity"/>
+        <activity android:name=".ui.activity.ServiceDetailUserActivity"
+            android:theme="@style/AppTheme.NoActionBar" />
+        <activity android:name=".ui.activity.SelectYearActivity"
+            android:theme="@style/AppTheme.NoActionBar" />
+        <activity android:name=".ui.activity.SelectBrandActivity"
+            android:theme="@style/AppTheme.NoActionBar" />
+        <activity android:name=".ui.activity.SelectModelActivity"
+            android:theme="@style/AppTheme.NoActionBar" />
+        <activity android:name=".ui.activity.SelectTransmissionActivity"
+            android:theme="@style/AppTheme.NoActionBar" />
 
         <activity android:name=".ui.activity.AddVehicleActivity"
             android:theme="@style/AppTheme.NoActionBar"

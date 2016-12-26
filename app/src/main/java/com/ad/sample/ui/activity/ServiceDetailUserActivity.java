@@ -3,14 +3,20 @@ package com.ad.sample.ui.activity;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.Toolbar;
 import android.util.Log;
+import android.view.View;
+import android.widget.TextView;
 
 import com.ad.sample.R;
+import com.joanzapata.iconify.IconDrawable;
+import com.joanzapata.iconify.fonts.MaterialIcons;
 import com.wdullaer.materialdatetimepicker.date.DatePickerDialog;
 import com.wdullaer.materialdatetimepicker.time.TimePickerDialog;
 
 import java.util.Calendar;
 
+import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 
@@ -20,13 +26,10 @@ import butterknife.OnClick;
 
 public class ServiceDetailUserActivity extends AppCompatActivity implements TimePickerDialog.OnTimeSetListener, DatePickerDialog.OnDateSetListener {
 
-    @Override
-    protected void onCreate(@Nullable Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        setContentView(R.layout.service_detail_user);
-        ButterKnife.bind(this);
-
-    }
+    @BindView(R.id.toolbar_title)
+    TextView toolbarTitle;
+    @BindView(R.id.toolbar)
+    Toolbar toolbar;
 
     @OnClick({R.id.btn_pickup_date})
     void onClickPickupDate() {
@@ -44,7 +47,7 @@ public class ServiceDetailUserActivity extends AppCompatActivity implements Time
     }
 
     @OnClick({R.id.btn_pickup_time})
-    void onClickPickupTime(){
+    void onClickPickupTime() {
 
         Calendar now = Calendar.getInstance();
         TimePickerDialog dpd = TimePickerDialog.newInstance(
@@ -57,16 +60,41 @@ public class ServiceDetailUserActivity extends AppCompatActivity implements Time
 
     }
 
+
+
+    @Override
+    protected void onCreate(@Nullable Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        setContentView(R.layout.service_detail_user);
+        ButterKnife.bind(this);
+        setSupportActionBar(toolbar);
+        toolbar.setNavigationIcon(
+                new IconDrawable(this, MaterialIcons.md_arrow_back)
+                        .colorRes(R.color.black_424242)
+                        .actionBarSize());
+        toolbar.setNavigationOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                finish();
+            }
+        });
+        getSupportActionBar().setTitle("");
+        toolbarTitle.setText(getResources().getString(R.string.our_service));
+
+    }
+
+
+
     @Override
     public void onDateSet(DatePickerDialog view, int year, int monthOfYear, int dayOfMonth) {
-        String date = "You picked the following date: "+dayOfMonth+"/"+(monthOfYear+1)+"/"+year;
+        String date = "You picked the following date: " + dayOfMonth + "/" + (monthOfYear + 1) + "/" + year;
         //dateTextView.setText(date);
         Log.d("TAG", date);
     }
 
     @Override
     public void onTimeSet(TimePickerDialog view, int hourOfDay, int minute, int second) {
-        String time = "You picked the following time: "+hourOfDay+"h"+minute+"m"+second;
+        String time = "You picked the following time: " + hourOfDay + "h" + minute + "m" + second;
         //timeTextView.setText(time);
         Log.d("TAG", time);
     }
