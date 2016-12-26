@@ -138,7 +138,7 @@ public class HomeActivity extends AppCompatActivity implements
         setSupportActionBar(toolbar);
         toolbar.setNavigationIcon(
                 new IconDrawable(this, MaterialIcons.md_search)
-                        .colorRes(R.color.black_333333)
+                        .colorRes(R.color.black_424242)
                         .actionBarSize());
         toolbar.setNavigationOnClickListener(new View.OnClickListener() {
             @Override
@@ -164,15 +164,15 @@ public class HomeActivity extends AppCompatActivity implements
 
         btnWork.setImageDrawable(
                 new IconDrawable(this, SimpleLineIconsIcons.icon_bag)
-                        .colorRes(R.color.black_333333)
+                        .colorRes(R.color.black_424242)
                         .actionBarSize());
         btnHome.setImageDrawable(
                 new IconDrawable(this, SimpleLineIconsIcons.icon_home)
-                        .colorRes(R.color.black_333333)
+                        .colorRes(R.color.black_424242)
                         .actionBarSize());
         btnMyLocation.setImageDrawable(
                 new IconDrawable(this, MaterialIcons.md_my_location)
-                        .colorRes(R.color.black_333333)
+                        .colorRes(R.color.black_424242)
                         .actionBarSize());
 
         pickLocationShow(false);
@@ -444,7 +444,7 @@ public class HomeActivity extends AppCompatActivity implements
             //set icon main menu
             btnMenuHome.setImageDrawable(
                     new IconDrawable(this, MaterialIcons.md_close)
-                            .colorRes(R.color.black_333333)
+                            .colorRes(R.color.black_424242)
                             .actionBarSize());
         } else {
             headerMenuHome.setVisibility(View.GONE);
@@ -453,7 +453,7 @@ public class HomeActivity extends AppCompatActivity implements
             //set icon main menu
             btnMenuHome.setImageDrawable(
                     new IconDrawable(this, MaterialIcons.md_menu)
-                            .colorRes(R.color.black_333333)
+                            .colorRes(R.color.black_424242)
                             .actionBarSize());
         }
     }

@@ -59,7 +59,7 @@
                             android:gravity="center"
                             android:lines="1"
                             android:text="@string/car"
-                            android:textColor="@color/black_333333"
+                            android:textColor="@color/black_424242"
                             android:textAppearance="?android:attr/textAppearanceMedium"
                             android:id="@+id/tx_car" />
 
@@ -96,7 +96,7 @@
                             android:gravity="center"
                             android:lines="1"
                             android:text="@string/motorcycle"
-                            android:textColor="@color/black_333333"
+                            android:textColor="@color/black_424242"
                             android:textAppearance="?android:attr/textAppearanceMedium"
                             android:id="@+id/tx_motorcycle" />
 
@@ -141,7 +141,7 @@
                             android:layout_marginLeft="10dp"
                             android:lines="1"
                             android:text="@string/select_brand"
-                            android:textColor="@color/black_333333"
+                            android:textColor="@color/black_424242"
                             android:textAppearance="?android:attr/textAppearanceMedium" />
 
                     </LinearLayout>
@@ -195,7 +195,7 @@
                             android:layout_marginLeft="10dp"
                             android:lines="1"
                             android:text="@string/select_model"
-                            android:textColor="@color/black_333333"
+                            android:textColor="@color/black_424242"
                             android:textAppearance="?android:attr/textAppearanceMedium" />
 
                     </LinearLayout>
@@ -250,7 +250,7 @@
                             android:layout_marginLeft="10dp"
                             android:lines="1"
                             android:text="@string/select_transmission"
-                            android:textColor="@color/black_333333"
+                            android:textColor="@color/black_424242"
                             android:textAppearance="?android:attr/textAppearanceMedium" />
 
                     </LinearLayout>
@@ -305,7 +305,7 @@
                         android:layout_marginLeft="10dp"
                         android:lines="1"
                         android:text="@string/select_year"
-                        android:textColor="@color/black_333333"
+                        android:textColor="@color/black_424242"
                         android:textAppearance="?android:attr/textAppearanceMedium" />
 
                 </LinearLayout>

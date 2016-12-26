@@ -141,12 +141,12 @@ public class AddVehicleActivity extends AppCompatActivity {
 
             vehicleMotor.setCardBackgroundColor(ContextCompat.getColor(this, R.color.white));
             imgMotorcycle.setImageResource(R.drawable.motor_blue);
-            txMotorcycle.setTextColor(ContextCompat.getColor(this, R.color.black_333333));
+            txMotorcycle.setTextColor(ContextCompat.getColor(this, R.color.black_424242));
 
         } else if (i == 2) {
             vehicleMobil.setCardBackgroundColor(ContextCompat.getColor(this, R.color.white));
             imgCar.setImageResource(R.drawable.car_blue);
-            txCar.setTextColor(ContextCompat.getColor(this, R.color.black_333333));
+            txCar.setTextColor(ContextCompat.getColor(this, R.color.black_424242));
 
             vehicleMotor.setCardBackgroundColor(ContextCompat.getColor(this, R.color.blue_2196F3));
             imgMotorcycle.setImageResource(R.drawable.motor_white);

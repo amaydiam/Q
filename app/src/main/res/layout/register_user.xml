@@ -36,7 +36,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="@string/login"
-                android:textColor="@color/black_333333"
+                android:textColor="@color/black_424242"
                 android:layout_alignParentRight="true"
                 android:layout_centerVertical="true"/>
 
@@ -47,7 +47,7 @@
             android:layout_height="wrap_content"
             android:layout_marginTop="30dp"
             android:text="@string/create_new_accout"
-            android:textColor="@color/black_333333" />
+            android:textColor="@color/black_424242" />
 
         <com.ad.sample.ui.widget.RobotoRegularEditText
             android:id="@+id/nama"
@@ -99,7 +99,7 @@
                 android:layout_centerVertical="true"
                 android:layout_toLeftOf="@+id/layout_btn_register_alternatif"
                 android:text="@string/or_sign_white"
-                android:textColor="@color/black_333333" />
+                android:textColor="@color/black_424242" />
 
             <LinearLayout
                 android:id="@+id/layout_btn_register_alternatif"
