@@ -78,4 +78,5 @@
     <string name="brand_ferrari">Ferrari</string>
     <string name="brand_ford">Ford</string>
     <string name="brand_holden">Holden</string>
+    <string name="action_clear">Clear</string>
 </resources>

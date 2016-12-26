@@ -11,7 +11,11 @@ import android.support.v4.app.Fragment;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
+import android.text.Editable;
 import android.util.TypedValue;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.Toast;
@@ -39,6 +43,7 @@ import com.joanzapata.iconify.Iconify;
 import com.joanzapata.iconify.fonts.EntypoIcons;
 import com.joanzapata.iconify.fonts.EntypoModule;
 import com.joanzapata.iconify.fonts.FontAwesomeModule;
+import com.joanzapata.iconify.fonts.MaterialCommunityIcons;
 import com.joanzapata.iconify.fonts.MaterialCommunityModule;
 import com.joanzapata.iconify.fonts.MaterialIcons;
 import com.joanzapata.iconify.fonts.MaterialModule;
@@ -49,6 +54,7 @@ import com.joanzapata.iconify.widget.IconButton;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
+import butterknife.OnTextChanged;
 
 public class HomeActivity extends AppCompatActivity implements
         OnMapReadyCallback,
@@ -61,11 +67,24 @@ public class HomeActivity extends AppCompatActivity implements
 
     @BindView(R.id.search)
     RobotoRegularEditText search;
-    @BindView(R.id.btn_clear_search)
-    IconButton btnClearSearch;
     @BindView(R.id.toolbar)
     Toolbar toolbar;
 
+    @OnTextChanged(value = R.id.search,
+            callback = OnTextChanged.Callback.TEXT_CHANGED)
+    void onChanged(Editable editable) {
+        ShowHideAcClear();
+    }
+
+    private void ShowHideAcClear() {
+        String val_search = search.getText().toString().trim();
+        if (val_search.length() == 0) {
+            ac_clear.setVisible(false);
+        } else {
+            ac_clear.setVisible(true);
+        }
+        supportInvalidateOptionsMenu();
+    }
 
     @BindView(R.id.pick_location)
     ImageView pickLocation;
@@ -87,6 +106,7 @@ public class HomeActivity extends AppCompatActivity implements
     private View mapView;
     private boolean isShowMenuHome;
     private MenuHomeFragment menu_home_fragment;
+    private MenuItem ac_clear;
 
 
     @OnClick(R.id.btn_menu_home)
@@ -149,7 +169,6 @@ public class HomeActivity extends AppCompatActivity implements
 
         isShowMenuHome = false;
         ShowMenuHome(false);
-
         //set icon other menu
 
         pickLocation.setImageDrawable(
@@ -457,4 +476,33 @@ public class HomeActivity extends AppCompatActivity implements
                             .actionBarSize());
         }
     }
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        MenuInflater inflater = getMenuInflater();
+        inflater.inflate(R.menu.home_menu, menu);
+        ac_clear = menu.findItem(R.id.action_clear);
+        ac_clear.setIcon(
+                new IconDrawable(this, MaterialIcons.md_clear)
+                        .colorRes(R.color.black_424242)
+                        .actionBarSize());
+        ShowHideAcClear();
+        return true;
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch (item.getItemId()) {
+            // action with ID action_refresh was selected
+            case R.id.action_clear:
+                search.setText(null);
+                break;
+
+            default:
+                break;
+        }
+
+        return true;
+    }
+
 }

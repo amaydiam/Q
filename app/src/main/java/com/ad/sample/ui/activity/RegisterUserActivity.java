@@ -44,8 +44,7 @@ public class RegisterUserActivity extends AppCompatActivity {
 
     @OnClick(R.id.btn_login)
     void ActionLogin(){
-        //Login
-        //  startActivity(new Intent(this,LoginActivity.class));
+        finish();
     }
 
     @OnClick(R.id.btn_register)

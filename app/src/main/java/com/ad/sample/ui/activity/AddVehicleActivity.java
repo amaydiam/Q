@@ -1,6 +1,8 @@
 package com.ad.sample.ui.activity;
 
+import android.content.Context;
 import android.content.Intent;
+import android.content.res.Resources;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.os.Bundle;
@@ -8,9 +10,12 @@ import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.CardView;
 import android.support.v7.widget.Toolbar;
+import android.util.DisplayMetrics;
+import android.util.Log;
+import android.view.ViewGroup;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
-import android.widget.Toast;
 
 import com.ad.sample.R;
 import com.ad.sample.ui.widget.RobotoRegularTextView;
@@ -23,6 +28,7 @@ import com.joanzapata.iconify.fonts.MaterialCommunityModule;
 import com.joanzapata.iconify.fonts.MaterialModule;
 import com.joanzapata.iconify.fonts.SimpleLineIconsModule;
 
+import butterknife.BindDimen;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
@@ -32,11 +38,25 @@ public class AddVehicleActivity extends AppCompatActivity {
     @BindView(R.id.toolbar)
     Toolbar toolbar;
 
+    @BindDimen(R.dimen.activity_vertical_margin)
+    int  activity_vertical_margin;
+
+
 
     @BindView(R.id.vehicle_mobil)
     CardView vehicleMobil;
     @BindView(R.id.vehicle_motor)
     CardView vehicleMotor;
+    @BindView(R.id.select_vehicle)
+    LinearLayout selectVehicle;
+    @BindView(R.id.indicator_select_brand)
+    LinearLayout indicatorSelectBrand;
+    @BindView(R.id.indicator_select_model)
+    LinearLayout indicatorSelectModel;
+    @BindView(R.id.indicator_select_transmission)
+    LinearLayout indicatorSelectTransmission;
+    @BindView(R.id.indicator_select_year)
+    LinearLayout indicatorSelectYear;
 
     @OnClick(R.id.vehicle_mobil)
     void VehicleMobil() {
@@ -123,7 +143,31 @@ public class AddVehicleActivity extends AppCompatActivity {
         imgTransmission.setImageBitmap(Bitmap.createScaledBitmap(transmission_blue, convertToPx(IconDrawable.ANDROID_ACTIONBAR_ICON_SIZE_DP), convertToPx(IconDrawable.ANDROID_ACTIONBAR_ICON_SIZE_DP), false));
 
         SelectVehicle(1);
+        setWidthSelectView();
+
     }
+
+    private void setWidthSelectView() {
+        vehicleMotor.measure(RelativeLayout.LayoutParams.WRAP_CONTENT, RelativeLayout.LayoutParams.WRAP_CONTENT);
+        int half_width = vehicleMotor.getMeasuredWidth() / 2;
+
+        ViewGroup.LayoutParams paramsindicatorSelectBrand = indicatorSelectBrand.getLayoutParams();
+        paramsindicatorSelectBrand.width = half_width +activity_vertical_margin;
+        indicatorSelectBrand.setLayoutParams(paramsindicatorSelectBrand);
+
+        ViewGroup.LayoutParams paramsindicatorSelectModel = indicatorSelectModel.getLayoutParams();
+        paramsindicatorSelectModel.width = half_width +activity_vertical_margin;
+        indicatorSelectModel.setLayoutParams(paramsindicatorSelectModel);
+
+        ViewGroup.LayoutParams paramsindicatorSelectTransmission = indicatorSelectTransmission.getLayoutParams();
+        paramsindicatorSelectTransmission.width = half_width +activity_vertical_margin;
+        indicatorSelectTransmission.setLayoutParams(paramsindicatorSelectTransmission);
+
+        ViewGroup.LayoutParams paramsindicatorSelectYear = indicatorSelectYear.getLayoutParams();
+        paramsindicatorSelectYear.width = half_width +activity_vertical_margin;
+        indicatorSelectYear.setLayoutParams(paramsindicatorSelectYear);
+    }
+
 
     public int convertToPx(int dp) {
         // Get the screen's density scale
