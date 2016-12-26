@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
 
-<RelativeLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:orientation="vertical"
-    android:background="#ccc">
+    android:background="@color/background">
 
 <android.support.v4.widget.NestedScrollView
     android:layout_width="match_parent"
@@ -22,12 +22,19 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent">
 
-            <RelativeLayout
+            <android.support.v7.widget.CardView
                 android:id="@+id/space_1"
+                android:layout_marginTop="@dimen/activity_vertical_margin"
+                android:layout_marginRight="@dimen/activity_vertical_margin"
+                android:layout_marginLeft="@dimen/activity_vertical_margin"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginBottom="10dp"
-                android:background="@color/background">
+                app:cardElevation="2dp"
+                android:layout_marginBottom="10dp">
+
+                <RelativeLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent">
 
                 <RelativeLayout
                     android:id="@+id/service_detail"
@@ -46,7 +53,7 @@
 
                     <View
                         android:layout_width="match_parent"
-                        android:layout_height="1dp"
+                        android:layout_height="0.2dp"
                         android:layout_below="@id/label_service_detail"
                         android:background="#ccc" />
 
@@ -144,17 +151,24 @@
                         android:textColor="@color/blue_2196F3" />
 
                 </RelativeLayout>
-
             </RelativeLayout>
+            </android.support.v7.widget.CardView>
 
 
-            <RelativeLayout
+            <android.support.v7.widget.CardView
                 android:id="@+id/space_2"
+                android:layout_marginTop="5dp"
+                android:layout_marginRight="@dimen/activity_vertical_margin"
+                android:layout_marginLeft="@dimen/activity_vertical_margin"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_below="@id/space_1"
-                android:layout_marginBottom="10dp"
-                android:background="@color/background">
+                app:cardElevation="2dp"
+                android:layout_marginBottom="10dp">
+
+                <RelativeLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent">
 
                 <RelativeLayout
                     android:id="@+id/additional_select"
@@ -173,7 +187,7 @@
 
                     <View
                         android:layout_width="match_parent"
-                        android:layout_height="1dp"
+                        android:layout_height="0.2dp"
                         android:layout_below="@id/label_additional_select"
                         android:background="#ccc" />
 
@@ -236,17 +250,25 @@
                     </RelativeLayout>
 
                 </RelativeLayout>
+                </RelativeLayout>
 
-            </RelativeLayout>
+            </android.support.v7.widget.CardView>
 
 
-            <RelativeLayout
+            <android.support.v7.widget.CardView
                 android:id="@+id/space_3"
+                android:layout_marginTop="5dp"
+                android:layout_marginRight="@dimen/activity_vertical_margin"
+                android:layout_marginLeft="@dimen/activity_vertical_margin"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
+                android:layout_height="120dp"
                 android:layout_below="@id/space_2"
-                android:layout_marginBottom="10dp"
-                android:background="@color/background">
+                app:cardElevation="2dp"
+                android:layout_marginBottom="10dp">
+
+                <RelativeLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent">
 
                 <RelativeLayout
                     android:id="@+id/time"
@@ -265,7 +287,7 @@
 
                     <View
                         android:layout_width="match_parent"
-                        android:layout_height="1dp"
+                        android:layout_height="0.2dp"
                         android:layout_below="@id/label_time"
                         android:background="#ccc" />
 
@@ -286,7 +308,11 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_weight="1"
-                        android:text="@string/pickup_date" />
+                        android:drawableLeft="@drawable/ic_calendar"
+                        android:paddingLeft="10dp"
+                        android:background="@drawable/border_service_item"
+                        android:text="@string/pickup_date"
+                        android:layout_marginRight="10dp"/>
 
                     <Button
                         android:id="@+id/btn_pickup_time"
@@ -294,18 +320,29 @@
                         android:layout_height="wrap_content"
                         android:layout_toRightOf="@id/btn_pickup_date"
                         android:layout_weight="1"
+                        android:paddingLeft="10dp"
+                        android:drawableLeft="@drawable/ic_time"
+                        android:background="@drawable/border_service_item"
                         android:text="@string/pickup_time" />
 
                 </LinearLayout>
-            </RelativeLayout>
+                </RelativeLayout>
+            </android.support.v7.widget.CardView>
 
 
-            <RelativeLayout
+            <android.support.v7.widget.CardView
+                android:layout_marginTop="5dp"
+                android:layout_marginRight="@dimen/activity_vertical_margin"
+                android:layout_marginLeft="@dimen/activity_vertical_margin"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_below="@id/space_3"
-                android:layout_marginBottom="10dp"
-                android:background="@color/background">
+                app:cardElevation="2dp"
+                android:layout_marginBottom="65dp">
+
+                <RelativeLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent">
 
                 <RelativeLayout
                     android:id="@+id/estimated"
@@ -324,7 +361,7 @@
 
                     <View
                         android:layout_width="match_parent"
-                        android:layout_height="1dp"
+                        android:layout_height="0.2dp"
                         android:layout_below="@id/label_estimated_price"
                         android:background="#ccc" />
 
@@ -334,7 +371,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_below="@id/estimated"
-                    android:layout_marginBottom="70dp"
+                    android:layout_marginBottom="20dp"
                     android:layout_marginLeft="20dp"
                     android:layout_marginRight="20dp"
                     android:layout_marginTop="20dp">
@@ -344,7 +381,7 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_marginBottom="10dp"
-                        android:text="IDR 25.000" />
+                        android:text="@string/total_price" />
 
                     <TextView
                         android:layout_width="wrap_content"
@@ -354,7 +391,8 @@
                         android:textColor="@color/blue_2196F3"
                         android:textSize="20sp" />
                 </RelativeLayout>
-            </RelativeLayout>
+                </RelativeLayout>
+            </android.support.v7.widget.CardView>
 
         </RelativeLayout>
 
@@ -366,9 +404,8 @@
         android:layout_width="match_parent"
         android:layout_height="50dp"
         android:layout_alignParentBottom="true"
-        android:background="#2f7edf"
+        android:background="@color/blue_2196F3"
         android:text="ORDER"
-        android:textColor="@android:color/white"
-        android:textSize="17sp" />
+        android:textColor="@android:color/white" />
 
 </RelativeLayout>
