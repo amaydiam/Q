@@ -14,39 +14,42 @@ import com.ad.sample.R;
  * Created by binderbyte on 24/12/16.
  */
 
-public class RecyclerAdapterSelectYear extends RecyclerView.Adapter<RecyclerViewHolderSelectYear> {
+public class RecyclerAdapter1 extends RecyclerView.Adapter<RecyclerViewHolder> {
 
-    String [] name={"2016","2015","2014","2013",
-            "2012","2011","2010","2009","2008","2007"};
+
+    String [] brand = {"Audi", "Bentley", "BMW"};
+
     Context context;
     LayoutInflater inflater;
-    public RecyclerAdapterSelectYear(Context context) {
+    View view;
+    public RecyclerAdapter1(Context context) {
         this.context=context;
         inflater=LayoutInflater.from(context);
     }
     @Override
-    public RecyclerViewHolderSelectYear onCreateViewHolder(ViewGroup parent, int viewType) {
-        View v=inflater.inflate(R.layout.select_model_year, parent, false);
+    public RecyclerViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
 
-        RecyclerViewHolderSelectYear viewHolder=new RecyclerViewHolderSelectYear(v);
+        view = inflater.inflate(R.layout.select_brand, parent, false);
+
+        RecyclerViewHolder viewHolder = new RecyclerViewHolder(view);
         return viewHolder;
     }
 
     @Override
-    public void onBindViewHolder(RecyclerViewHolderSelectYear holder, final int position) {
+    public void onBindViewHolder(RecyclerViewHolder holder, final int position) {
 
         int j = 1;
-        for(int i = 0; i < name.length; i++){
+        for(int i = 0; i < brand.length; i++){
 
             i = i + j;
             if (position == i){
-                holder.cardView.setCardBackgroundColor(Color.CYAN);
+                holder.cardView1.setCardBackgroundColor(Color.parseColor("#E3F2FD"));
             }
 
         }
 
-        holder.title.setText(name[position]);
-        holder.cardView.setOnClickListener(new View.OnClickListener() {
+        holder.title1.setText(brand[position]);
+        holder.cardView1.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 Toast.makeText(context, "Click "+position, Toast.LENGTH_SHORT).show();
@@ -56,6 +59,6 @@ public class RecyclerAdapterSelectYear extends RecyclerView.Adapter<RecyclerView
 
     @Override
     public int getItemCount() {
-        return name.length;
+        return brand.length;
     }
 }

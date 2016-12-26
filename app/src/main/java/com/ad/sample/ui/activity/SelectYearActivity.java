@@ -7,7 +7,9 @@ import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 
 import com.ad.sample.R;
-import com.ad.sample.adapter.RecyclerAdapterSelectYear;
+import com.ad.sample.adapter.RecyclerAdapter1;
+import com.ad.sample.adapter.RecyclerAdapter2;
+import com.ad.sample.adapter.RecyclerAdapter4;
 
 /**
  * Created by binderbyte on 24/12/16.
@@ -24,7 +26,7 @@ public class SelectYearActivity extends AppCompatActivity {
 
         recyclerView= (RecyclerView) findViewById(R.id.recycler_view_select_year);
 
-        RecyclerAdapterSelectYear adapter = new RecyclerAdapterSelectYear(this);
+        RecyclerAdapter4 adapter = new RecyclerAdapter4(this);
         recyclerView.setAdapter(adapter);
         recyclerView.setHasFixedSize(true);
 
