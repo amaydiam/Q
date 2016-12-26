@@ -1,6 +1,7 @@
 package com.ad.sample.ui.activity;
 
 import android.Manifest;
+import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.location.Location;
 import android.os.Build;
@@ -126,7 +127,8 @@ public class HomeActivity extends AppCompatActivity implements
     @OnClick(R.id.btn_work)
     void ActionWork() {
         ShowMenuHome(false);
-        Toast.makeText(this, "Work CLikced!!", Toast.LENGTH_SHORT).show();
+        startActivity(new Intent(this, SelectLocationActivity.class));
+        //Toast.makeText(this, "Work CLikced!!", Toast.LENGTH_SHORT).show();
     }
 
     @OnClick(R.id.btn_home)

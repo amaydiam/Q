@@ -29,7 +29,7 @@ public class RecyclerAdapter4 extends RecyclerView.Adapter<RecyclerViewHolder> {
     @Override
     public RecyclerViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
 
-        view = inflater.inflate(R.layout.select_year, parent, false);
+        view = inflater.inflate(R.layout.item_select_year, parent, false);
 
         RecyclerViewHolder viewHolder = new RecyclerViewHolder(view);
         return viewHolder;
