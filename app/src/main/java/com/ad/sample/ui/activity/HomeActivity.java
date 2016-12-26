@@ -10,6 +10,7 @@ import android.support.v4.app.ActivityCompat;
 import android.support.v4.app.Fragment;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.CardView;
 import android.support.v7.widget.Toolbar;
 import android.text.Editable;
 import android.util.TypedValue;
@@ -17,6 +18,7 @@ import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.ImageView;
 import android.widget.Toast;
 
@@ -43,13 +45,11 @@ import com.joanzapata.iconify.Iconify;
 import com.joanzapata.iconify.fonts.EntypoIcons;
 import com.joanzapata.iconify.fonts.EntypoModule;
 import com.joanzapata.iconify.fonts.FontAwesomeModule;
-import com.joanzapata.iconify.fonts.MaterialCommunityIcons;
 import com.joanzapata.iconify.fonts.MaterialCommunityModule;
 import com.joanzapata.iconify.fonts.MaterialIcons;
 import com.joanzapata.iconify.fonts.MaterialModule;
 import com.joanzapata.iconify.fonts.SimpleLineIconsIcons;
 import com.joanzapata.iconify.fonts.SimpleLineIconsModule;
-import com.joanzapata.iconify.widget.IconButton;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -69,6 +69,8 @@ public class HomeActivity extends AppCompatActivity implements
     RobotoRegularEditText search;
     @BindView(R.id.toolbar)
     Toolbar toolbar;
+    @BindView(R.id.card_view_toolbar)
+    CardView cardViewToolbar;
 
     @OnTextChanged(value = R.id.search,
             callback = OnTextChanged.Callback.TEXT_CHANGED)
@@ -77,13 +79,17 @@ public class HomeActivity extends AppCompatActivity implements
     }
 
     private void ShowHideAcClear() {
-        String val_search = search.getText().toString().trim();
-        if (val_search.length() == 0) {
-            ac_clear.setVisible(false);
-        } else {
-            ac_clear.setVisible(true);
+        try {
+            String val_search = search.getText().toString().trim();
+            if (val_search.length() == 0) {
+                ac_clear.setVisible(false);
+            } else {
+                ac_clear.setVisible(true);
+            }
+            supportInvalidateOptionsMenu();
+        } catch (Exception e) {
+
         }
-        supportInvalidateOptionsMenu();
     }
 
     @BindView(R.id.pick_location)
@@ -457,7 +463,12 @@ public class HomeActivity extends AppCompatActivity implements
 
     private void ShowMenuHome(boolean show) {
         if (show) {
+            if (getCurrentFocus() != null) {
+                InputMethodManager inputMethodManager = (InputMethodManager) getSystemService(INPUT_METHOD_SERVICE);
+                inputMethodManager.hideSoftInputFromWindow(getCurrentFocus().getWindowToken(), 0);
+            }
             headerMenuHome.setVisibility(View.VISIBLE);
+            cardViewToolbar.setVisibility(View.GONE);
             LoadMenuHomeFragment();
             isShowMenuHome = true;
             //set icon main menu
@@ -467,6 +478,7 @@ public class HomeActivity extends AppCompatActivity implements
                             .actionBarSize());
         } else {
             headerMenuHome.setVisibility(View.GONE);
+            cardViewToolbar.setVisibility(View.VISIBLE);
             RemoveMenuHomeFragment();
             isShowMenuHome = false;
             //set icon main menu
@@ -486,6 +498,7 @@ public class HomeActivity extends AppCompatActivity implements
                 new IconDrawable(this, MaterialIcons.md_clear)
                         .colorRes(R.color.black_424242)
                         .actionBarSize());
+        ac_clear.setVisible(false);
         ShowHideAcClear();
         return true;
     }

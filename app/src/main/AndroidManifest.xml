@@ -28,7 +28,8 @@
             android:label="@string/title_activity_home"
             android:theme="@style/AppTheme.HomeActivity" />
         <activity android:name=".ui.activity.SelectLocationActivity" />
-        <activity android:name=".ui.activity.SelectVehicleActivity" />
+        <activity android:name=".ui.activity.SelectVehicleActivity"
+            android:theme="@style/AppTheme.NoActionBar" />
         <activity android:name=".ui.activity.ServiceDetailUserActivity" />
         <activity android:name=".ui.activity.SelectYearActivity"/>
         <activity android:name=".ui.activity.SelectBrandActivity"/>

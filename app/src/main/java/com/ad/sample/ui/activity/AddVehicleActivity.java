@@ -1,8 +1,6 @@
 package com.ad.sample.ui.activity;
 
-import android.content.Context;
 import android.content.Intent;
-import android.content.res.Resources;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.os.Bundle;
@@ -10,12 +8,13 @@ import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.CardView;
 import android.support.v7.widget.Toolbar;
-import android.util.DisplayMetrics;
-import android.util.Log;
+import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
+import android.widget.TextView;
+import android.widget.Toast;
 
 import com.ad.sample.R;
 import com.ad.sample.ui.widget.RobotoRegularTextView;
@@ -25,6 +24,7 @@ import com.joanzapata.iconify.fonts.EntypoModule;
 import com.joanzapata.iconify.fonts.FontAwesomeModule;
 import com.joanzapata.iconify.fonts.MaterialCommunityIcons;
 import com.joanzapata.iconify.fonts.MaterialCommunityModule;
+import com.joanzapata.iconify.fonts.MaterialIcons;
 import com.joanzapata.iconify.fonts.MaterialModule;
 import com.joanzapata.iconify.fonts.SimpleLineIconsModule;
 
@@ -39,8 +39,7 @@ public class AddVehicleActivity extends AppCompatActivity {
     Toolbar toolbar;
 
     @BindDimen(R.dimen.activity_vertical_margin)
-    int  activity_vertical_margin;
-
+    int activity_vertical_margin;
 
 
     @BindView(R.id.vehicle_mobil)
@@ -57,6 +56,8 @@ public class AddVehicleActivity extends AppCompatActivity {
     LinearLayout indicatorSelectTransmission;
     @BindView(R.id.indicator_select_year)
     LinearLayout indicatorSelectYear;
+    @BindView(R.id.toolbar_title)
+    TextView toolbarTitle;
 
     @OnClick(R.id.vehicle_mobil)
     void VehicleMobil() {
@@ -134,6 +135,18 @@ public class AddVehicleActivity extends AppCompatActivity {
         setContentView(R.layout.activity_add_vehicle);
         ButterKnife.bind(this);
         setSupportActionBar(toolbar);
+        toolbar.setNavigationIcon(
+                new IconDrawable(this, MaterialIcons.md_arrow_back)
+                        .colorRes(R.color.black_424242)
+                        .actionBarSize());
+        toolbar.setNavigationOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                finish();
+            }
+        });
+        getSupportActionBar().setTitle("");
+        toolbarTitle.setText(getResources().getString(R.string.title_activity_add_vehicle_type));
 
         imgBrand.setImageDrawable(new IconDrawable(this, MaterialCommunityIcons.mdi_speedometer).colorRes(R.color.blue_2196F3).actionBarSize());
         imgModel.setImageDrawable(new IconDrawable(this, MaterialCommunityIcons.mdi_steering).colorRes(R.color.blue_2196F3).actionBarSize());
@@ -152,19 +165,19 @@ public class AddVehicleActivity extends AppCompatActivity {
         int half_width = vehicleMotor.getMeasuredWidth() / 2;
 
         ViewGroup.LayoutParams paramsindicatorSelectBrand = indicatorSelectBrand.getLayoutParams();
-        paramsindicatorSelectBrand.width = half_width +activity_vertical_margin;
+        paramsindicatorSelectBrand.width = half_width + activity_vertical_margin;
         indicatorSelectBrand.setLayoutParams(paramsindicatorSelectBrand);
 
         ViewGroup.LayoutParams paramsindicatorSelectModel = indicatorSelectModel.getLayoutParams();
-        paramsindicatorSelectModel.width = half_width +activity_vertical_margin;
+        paramsindicatorSelectModel.width = half_width + activity_vertical_margin;
         indicatorSelectModel.setLayoutParams(paramsindicatorSelectModel);
 
         ViewGroup.LayoutParams paramsindicatorSelectTransmission = indicatorSelectTransmission.getLayoutParams();
-        paramsindicatorSelectTransmission.width = half_width +activity_vertical_margin;
+        paramsindicatorSelectTransmission.width = half_width + activity_vertical_margin;
         indicatorSelectTransmission.setLayoutParams(paramsindicatorSelectTransmission);
 
         ViewGroup.LayoutParams paramsindicatorSelectYear = indicatorSelectYear.getLayoutParams();
-        paramsindicatorSelectYear.width = half_width +activity_vertical_margin;
+        paramsindicatorSelectYear.width = half_width + activity_vertical_margin;
         indicatorSelectYear.setLayoutParams(paramsindicatorSelectYear);
     }
 
