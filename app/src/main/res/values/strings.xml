@@ -81,4 +81,14 @@
     <string name="action_search">Search</string>
     <string name="our_service">Our Service</string>
     <string name="notification">Notification</string>
+    <string name="help_guide">A guide to Q\'Lap</string>
+    <string name="help_call">Call Support</string>
+    <string name="title_help">How can we help you?</string>
+    <string name="profile">PROFILE</string>
+    <string name="change_password">CHANGE PASSWORD</string>
+    <string name="logout">LOGOUT</string>
+    <string name="term_of_service">Term of Service</string>
+    <string name="privacy_policy">Privacy Policy</string>
+    <string name="rate_qlap">Rate Q\'LAP App</string>
+    <string name="title_my_account">My Account</string>
 </resources>

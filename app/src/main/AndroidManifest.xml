@@ -43,6 +43,10 @@
             android:theme="@style/AppTheme.NoActionBar" />
         <activity android:name=".ui.activity.NotificationActivity"
             android:theme="@style/AppTheme.NoActionBar" />
+        <activity android:name=".ui.activity.HelpActivity"
+            android:theme="@style/AppTheme.NoActionBar" />
+        <activity android:name=".ui.activity.MyAccountActivity"
+            android:theme="@style/AppTheme.NoActionBar" />
 
         <activity android:name=".ui.activity.AddVehicleActivity"
             android:theme="@style/AppTheme.NoActionBar"

@@ -60,7 +60,7 @@
 
                                 <View
                                     android:layout_width="match_parent"
-                                    android:layout_height="0.2dp"
+                                    android:layout_height="0.5dp"
                                     android:layout_below="@id/label_service_detail"
                                     android:background="#ccc" />
 
@@ -194,7 +194,7 @@
 
                                 <View
                                     android:layout_width="match_parent"
-                                    android:layout_height="0.2dp"
+                                    android:layout_height="0.5dp"
                                     android:layout_below="@id/label_additional_select"
                                     android:background="#ccc" />
 
@@ -294,7 +294,7 @@
 
                                 <View
                                     android:layout_width="match_parent"
-                                    android:layout_height="0.2dp"
+                                    android:layout_height="0.5dp"
                                     android:layout_below="@id/label_time"
                                     android:background="#ccc" />
 
@@ -368,7 +368,7 @@
 
                                 <View
                                     android:layout_width="match_parent"
-                                    android:layout_height="0.2dp"
+                                    android:layout_height="0.5dp"
                                     android:layout_below="@id/label_estimated_price"
                                     android:background="#ccc" />
 

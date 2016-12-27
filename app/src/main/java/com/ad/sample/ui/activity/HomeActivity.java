@@ -456,8 +456,10 @@ public class HomeActivity extends AppCompatActivity implements
             case R.id.menu_history:
                 break;
             case R.id.menu_help:
+                startActivity(new Intent(this, HelpActivity.class));
                 break;
             case R.id.menu_my_account:
+                startActivity(new Intent(this, MyAccountActivity.class));
                 break;
             default:
                 break;
