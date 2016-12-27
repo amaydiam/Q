@@ -9,28 +9,37 @@ import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.TextView;
 
 import com.ad.sample.R;
+import com.joanzapata.iconify.IconDrawable;
+import com.joanzapata.iconify.fonts.MaterialIcons;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
 
 public class SelectLocationActivity extends AppCompatActivity {
 
-    @BindView(R.id.toolBar)
-    Toolbar toolBar;
-
-    private String URL = "https://maps.googleapis.com/maps/api/place/autocomplete/json?input=jl%20lingkar%20selatan&types=geocode&language=id&key=AIzaSyAFDCJAsZ-vkOJeu11Kw4G2o8zu6NOk_qQ";
+    @BindView(R.id.toolbar)
+    Toolbar toolbar;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.select_location_activity);
         ButterKnife.bind(this);
-
-        //setSupportActionBar(toolBar);
-        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-        getSupportActionBar().setDisplayShowHomeEnabled(true);
+        setSupportActionBar(toolbar);
+        toolbar.setNavigationIcon(
+                new IconDrawable(this, MaterialIcons.md_arrow_back)
+                        .colorRes(R.color.black_424242)
+                        .actionBarSize());
+        toolbar.setNavigationOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                finish();
+            }
+        });
+        getSupportActionBar().setTitle("");
 
     }
 

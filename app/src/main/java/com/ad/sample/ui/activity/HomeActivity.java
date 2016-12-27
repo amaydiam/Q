@@ -451,6 +451,7 @@ public class HomeActivity extends AppCompatActivity implements
             case R.id.menu_home:
                 break;
             case R.id.menu_notification:
+                startActivity(new Intent(this, NotificationActivity.class));
                 break;
             case R.id.menu_history:
                 break;

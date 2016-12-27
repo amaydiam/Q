@@ -10,7 +10,7 @@ import android.view.View;
 import android.widget.TextView;
 
 import com.ad.sample.R;
-import com.ad.sample.adapter.RecyclerAdapter1;
+import com.ad.sample.adapter.RecyclerAdapter5;
 import com.joanzapata.iconify.IconDrawable;
 import com.joanzapata.iconify.fonts.MaterialIcons;
 
@@ -18,23 +18,24 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 
 /**
- * Created by binderbyte on 24/12/16.
+ * Created by binderbyte on 27/12/16.
  */
 
-public class SelectBrandActivity extends AppCompatActivity {
+public class NotificationActivity extends AppCompatActivity {
 
     @BindView(R.id.toolbar_title)
     TextView toolbarTitle;
     @BindView(R.id.toolbar)
     Toolbar toolbar;
-    @BindView(R.id.recycler_view_select_brand)
-    RecyclerView recyclerViewSelectBrand;
+    @BindView(R.id.recycler_view_notification)
+    RecyclerView recyclerViewNotification;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.select_brand_user);
+        setContentView(R.layout.notification_activity);
         ButterKnife.bind(this);
+
         setSupportActionBar(toolbar);
         toolbar.setNavigationIcon(
                 new IconDrawable(this, MaterialIcons.md_arrow_back)
@@ -47,14 +48,14 @@ public class SelectBrandActivity extends AppCompatActivity {
             }
         });
         getSupportActionBar().setTitle("");
-        toolbarTitle.setText(getResources().getString(R.string.select_brand));
+        toolbarTitle.setText(getResources().getString(R.string.notification));
 
-        RecyclerAdapter1 adapter = new RecyclerAdapter1(this);
-        recyclerViewSelectBrand.setAdapter(adapter);
-        recyclerViewSelectBrand.setHasFixedSize(true);
+        RecyclerAdapter5 adapter = new RecyclerAdapter5(this);
+        recyclerViewNotification.setAdapter(adapter);
+        recyclerViewNotification.setHasFixedSize(true);
 
         //Layout manager for Recycler view
-        recyclerViewSelectBrand.setLayoutManager(new LinearLayoutManager(this));
+        recyclerViewNotification.setLayoutManager(new LinearLayoutManager(this));
 
     }
 }

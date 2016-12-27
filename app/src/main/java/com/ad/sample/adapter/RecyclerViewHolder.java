@@ -3,6 +3,7 @@ package com.ad.sample.adapter;
 import android.support.v7.widget.CardView;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.ad.sample.R;
@@ -12,8 +13,9 @@ import com.ad.sample.R;
  */
 public class RecyclerViewHolder extends RecyclerView.ViewHolder {
 
-    TextView title1, title2, title3, title4;
-    CardView cardView1, cardView2, cardView3, cardView4;
+    TextView title1, title2, title3, title4, title5, deskripsi1;
+    CardView cardView1, cardView2, cardView3, cardView4, cardView5;
+    ImageView image1;
 
     public RecyclerViewHolder(View itemView) {
         super(itemView);
@@ -29,6 +31,11 @@ public class RecyclerViewHolder extends RecyclerView.ViewHolder {
 
         title4 = (TextView) itemView.findViewById(R.id.list_year);
         cardView4 =(CardView) itemView.findViewById(R.id.card_view_year);
+
+        title5 = (TextView) itemView.findViewById(R.id.title_notification);
+        deskripsi1 = (TextView) itemView.findViewById(R.id.deskripsi_notification);
+        cardView5 = (CardView) itemView.findViewById(R.id.card_view_notification);
+        image1 = (ImageView) itemView.findViewById(R.id.image_notification);
 
     }
 }

@@ -6,6 +6,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.View;
+import android.widget.Button;
 import android.widget.TextView;
 
 import com.ad.sample.R;
@@ -30,6 +31,10 @@ public class ServiceDetailUserActivity extends AppCompatActivity implements Time
     TextView toolbarTitle;
     @BindView(R.id.toolbar)
     Toolbar toolbar;
+    @BindView(R.id.btn_pickup_date)
+    Button btnPickupDate;
+    @BindView(R.id.btn_pickup_time)
+    Button btnPickupTime;
 
     @OnClick({R.id.btn_pickup_date})
     void onClickPickupDate() {
@@ -61,7 +66,6 @@ public class ServiceDetailUserActivity extends AppCompatActivity implements Time
     }
 
 
-
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -84,12 +88,12 @@ public class ServiceDetailUserActivity extends AppCompatActivity implements Time
     }
 
 
-
     @Override
     public void onDateSet(DatePickerDialog view, int year, int monthOfYear, int dayOfMonth) {
         String date = "You picked the following date: " + dayOfMonth + "/" + (monthOfYear + 1) + "/" + year;
         //dateTextView.setText(date);
         Log.d("TAG", date);
+        btnPickupDate.setText(date);
     }
 
     @Override
@@ -97,6 +101,7 @@ public class ServiceDetailUserActivity extends AppCompatActivity implements Time
         String time = "You picked the following time: " + hourOfDay + "h" + minute + "m" + second;
         //timeTextView.setText(time);
         Log.d("TAG", time);
+        btnPickupTime.setText(time);
     }
 
     @Override
