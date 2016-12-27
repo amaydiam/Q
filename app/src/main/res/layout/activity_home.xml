@@ -173,7 +173,7 @@
                 android:layout_marginLeft="@dimen/activity_vertical_margin"
                 android:id="@+id/card_view_toolbar"
                 android:layout_width="match_parent"
-                android:layout_height="match_parent"
+                android:layout_height="wrap_content"
                 android:layout_gravity="center"
                 app:elevation="3dp"
                 app:cardCornerRadius="6dp">
@@ -181,9 +181,8 @@
             <android.support.v7.widget.Toolbar
                 android:id="@+id/toolbar"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
+                android:layout_height="46dp"
                 android:background="@color/white"
-                android:minHeight="?attr/actionBarSize"
                 app:titleTextColor="@android:color/white">
 
 

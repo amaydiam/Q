@@ -76,16 +76,16 @@ public class HomeActivity extends AppCompatActivity implements
     @OnTextChanged(value = R.id.search,
             callback = OnTextChanged.Callback.TEXT_CHANGED)
     void onChanged(Editable editable) {
-        ShowHideAcClear();
+        ShowHideAcSearch();
     }
 
-    private void ShowHideAcClear() {
+    private void ShowHideAcSearch() {
         try {
             String val_search = search.getText().toString().trim();
             if (val_search.length() == 0) {
-                ac_clear.setVisible(false);
+                acSearch.setVisible(false);
             } else {
-                ac_clear.setVisible(true);
+                acSearch.setVisible(true);
             }
             supportInvalidateOptionsMenu();
         } catch (Exception e) {
@@ -113,7 +113,7 @@ public class HomeActivity extends AppCompatActivity implements
     private View mapView;
     private boolean isShowMenuHome;
     private MenuHomeFragment menu_home_fragment;
-    private MenuItem ac_clear;
+    private MenuItem acSearch;
 
 
     @OnClick(R.id.btn_menu_home)
@@ -163,7 +163,7 @@ public class HomeActivity extends AppCompatActivity implements
         ButterKnife.bind(this);
 
         //set Toolbar 
-        setSupportActionBar(toolbar);
+        setSupportActionBar(toolbar);/*
         toolbar.setNavigationIcon(
                 new IconDrawable(this, MaterialIcons.md_search)
                         .colorRes(R.color.black_424242)
@@ -174,7 +174,7 @@ public class HomeActivity extends AppCompatActivity implements
                 Toast.makeText(HomeActivity.this, "Menu Clicked!!", Toast.LENGTH_SHORT).show();
             }
         });
-
+*/
         isShowMenuHome = false;
         ShowMenuHome(false);
         //set icon other menu
@@ -465,10 +465,7 @@ public class HomeActivity extends AppCompatActivity implements
 
     private void ShowMenuHome(boolean show) {
         if (show) {
-            if (getCurrentFocus() != null) {
-                InputMethodManager inputMethodManager = (InputMethodManager) getSystemService(INPUT_METHOD_SERVICE);
-                inputMethodManager.hideSoftInputFromWindow(getCurrentFocus().getWindowToken(), 0);
-            }
+            HideKeboard();
             headerMenuHome.setVisibility(View.VISIBLE);
             cardViewToolbar.setVisibility(View.GONE);
             LoadMenuHomeFragment();
@@ -491,17 +488,25 @@ public class HomeActivity extends AppCompatActivity implements
         }
     }
 
+    private void HideKeboard() {
+
+        if (getCurrentFocus() != null) {
+            InputMethodManager inputMethodManager = (InputMethodManager) getSystemService(INPUT_METHOD_SERVICE);
+            inputMethodManager.hideSoftInputFromWindow(getCurrentFocus().getWindowToken(), 0);
+        }
+    }
+
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         MenuInflater inflater = getMenuInflater();
         inflater.inflate(R.menu.home_menu, menu);
-        ac_clear = menu.findItem(R.id.action_clear);
-        ac_clear.setIcon(
-                new IconDrawable(this, MaterialIcons.md_clear)
+        acSearch = menu.findItem(R.id.action_search);
+        acSearch.setIcon(
+                new IconDrawable(this, MaterialIcons.md_search)
                         .colorRes(R.color.black_424242)
                         .actionBarSize());
-        ac_clear.setVisible(false);
-        ShowHideAcClear();
+        acSearch.setVisible(false);
+        ShowHideAcSearch();
         return true;
     }
 
@@ -509,8 +514,10 @@ public class HomeActivity extends AppCompatActivity implements
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
             // action with ID action_refresh was selected
-            case R.id.action_clear:
+            case R.id.action_search:
+                HideKeboard();
                 search.setText(null);
+                startActivity(new Intent(this, SelectLocationActivity.class));
                 break;
 
             default:
