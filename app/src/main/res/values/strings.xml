@@ -26,9 +26,6 @@
     <string name="button_cancel">Cancel</string>
     <string name="button_next">Next</string>
     <string name="select_vehicle">Select Vehicle</string>
-    <string name="wash_and_go"><![CDATA[Wash & Go]]></string>
-    <string name="luxury_wash">Luxury Wash</string>
-    <string name="button_back">Back</string>
     <string name="button_contact">Contact</string>
 
     <string name="menu_home">Menu</string>
@@ -56,28 +53,6 @@
     <string name="title_activity_add_vehicle_type">Add Vehicle Type</string>
     <string name="button_login">Login</string>
 
-    <string name="model_alya">Ayla</string>
-    <string name="model_ceria">Ceria</string>
-    <string name="model_espass">Espass</string>
-    <string name="model_grand_max">Grand Max</string>
-    <string name="model_luxio">Luxio</string>
-    <string name="model_mira">Mira</string>
-    <string name="model_sirion">Sirion</string>
-    <string name="model_taruna">Taruna</string>
-    <string name="model_terios">Terios</string>
-    <string name="model_xenia">Xenia</string>
-    <string name="transmission_at">X 1.5 AT</string>
-    <string name="transmission_mt">X 1.5 MT</string>
-    <string name="brand_audi">Audi</string>
-    <string name="brand_bentley">Bentley</string>
-    <string name="brand_bmw">BMW</string>
-    <string name="brand_chevrolet">Chevrolet</string>
-    <string name="brand_chysler">Chysler</string>
-    <string name="brand_daihatsu">Daihatsu</string>
-    <string name="brand_datsun">Datsun</string>
-    <string name="brand_ferrari">Ferrari</string>
-    <string name="brand_ford">Ford</string>
-    <string name="brand_holden">Holden</string>
     <string name="action_search">Search</string>
     <string name="our_service">Our Service</string>
     <string name="notification">Notification</string>

@@ -3,6 +3,7 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:background="@color/blue_2196F3"
+    android:paddingLeft="8dp"
     android:orientation="vertical"
     tools:context="com.ad.sample.ui.fragment.MenuHomeFragment">
 
@@ -10,7 +11,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="vertical"
-        android:layout_marginTop="@dimen/activity_half_vertical_margin"
+        android:layout_marginTop="120dp"
         android:layout_marginBottom="@dimen/activity_half_vertical_margin">
 
         <LinearLayout

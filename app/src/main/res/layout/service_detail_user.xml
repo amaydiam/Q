@@ -408,13 +408,13 @@
 
         </android.support.v4.widget.NestedScrollView>
 
-        <Button
+        <com.joanzapata.iconify.widget.IconButton
+            android:id="@+id/btn_order"
             android:layout_width="match_parent"
-            android:layout_height="50dp"
+            android:layout_height="wrap_content"
             android:layout_alignParentBottom="true"
-            android:background="@color/blue_2196F3"
-            android:text="ORDER"
-            android:textColor="@android:color/white" />
+            style="@style/btn_blue"
+            android:text="ORDER"/>
 
     </RelativeLayout>
 </android.support.design.widget.CoordinatorLayout>

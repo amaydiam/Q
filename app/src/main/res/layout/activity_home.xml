@@ -134,26 +134,10 @@
         android:layout_height="wrap_content"
         android:orientation="vertical">
         <!-- Menu Item-->
-        <View
-            android:id="@+id/header_menu_home"
-            android:layout_width="wrap_content"
-            android:layout_height="1dp"
-            android:layout_alignTop="@+id/layout_menu_home"
-            android:layout_alignBottom="@+id/fragment_menu_home"
-            android:background="@color/blue_2196F3"
-            android:layout_alignParentTop="true"
-            android:clickable="true"
-            android:soundEffectsEnabled="false"
-            android:visibility="gone"/>
-
-        <FrameLayout
-            android:id="@+id/fragment_menu_home"
-            android:paddingLeft="8dp"
-            android:layout_below="@+id/layout_menu_home"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"/>
-        <LinearLayout
+        <include
             android:id="@+id/layout_menu_home"
+            layout="@layout/layout_menu_home"/>
+        <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="horizontal"

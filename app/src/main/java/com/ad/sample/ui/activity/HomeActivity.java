@@ -1,15 +1,19 @@
 package com.ad.sample.ui.activity;
 
 import android.Manifest;
+import android.app.Activity;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.location.Location;
 import android.os.Build;
 import android.os.Bundle;
+import android.provider.Settings;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.app.Fragment;
 import android.support.v4.content.ContextCompat;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.CardView;
 import android.support.v7.widget.Toolbar;
@@ -24,7 +28,6 @@ import android.widget.ImageView;
 import android.widget.Toast;
 
 import com.ad.sample.R;
-import com.ad.sample.ui.fragment.MenuHomeFragment;
 import com.ad.sample.ui.fragment.PrepareOrderFragment;
 import com.ad.sample.ui.fragment.WasherOrderFragment;
 import com.ad.sample.ui.widget.RobotoRegularEditText;
@@ -46,6 +49,7 @@ import com.joanzapata.iconify.Iconify;
 import com.joanzapata.iconify.fonts.EntypoIcons;
 import com.joanzapata.iconify.fonts.EntypoModule;
 import com.joanzapata.iconify.fonts.FontAwesomeModule;
+import com.joanzapata.iconify.fonts.MaterialCommunityIcons;
 import com.joanzapata.iconify.fonts.MaterialCommunityModule;
 import com.joanzapata.iconify.fonts.MaterialIcons;
 import com.joanzapata.iconify.fonts.MaterialModule;
@@ -59,7 +63,6 @@ import butterknife.OnTextChanged;
 
 public class HomeActivity extends AppCompatActivity implements
         OnMapReadyCallback,
-        MenuHomeFragment.OnSelectedMenuListener,
         PrepareOrderFragment.OnOrderedListener,
         WasherOrderFragment.OnWasherOrderListener,
         GoogleApiClient.ConnectionCallbacks,
@@ -103,18 +106,46 @@ public class HomeActivity extends AppCompatActivity implements
     @BindView(R.id.btn_my_location)
     FloatingActionButton btnMyLocation;
 
-    Fragment current_fragment = null;
     @BindView(R.id.btn_menu_home)
     FloatingActionButton btnMenuHome;
-    @BindView(R.id.header_menu_home)
-    View headerMenuHome;
 
-    private double current_latitude, current_longitude;
-    private View mapView;
-    private boolean isShowMenuHome;
-    private MenuHomeFragment menu_home_fragment;
-    private MenuItem acSearch;
+    @BindView(R.id.layout_menu_home)
+    View layoutMenuHome;
 
+    @BindView(R.id.img_menu_home)
+    ImageView imgMenuHome;
+    @BindView(R.id.img_menu_notification)
+    ImageView imgMenuNotification;
+    @BindView(R.id.img_menu_history)
+    ImageView imgMenuHistory;
+    @BindView(R.id.img_menu_help)
+    ImageView imgMenuHelp;
+    @BindView(R.id.img_menu_my_account)
+    ImageView imgMenuMyAccount;
+
+    @OnClick({R.id.menu_my_account,
+            R.id.menu_help,
+            R.id.menu_history,
+            R.id.menu_notification,
+            R.id.menu_home})
+    void ClickMenu(View v) {
+        ShowMenuHome(false);
+        int id = v.getId();
+        switch (id) {
+            case R.id.menu_home:
+                break;
+            case R.id.menu_notification:
+                break;
+            case R.id.menu_history:
+                break;
+            case R.id.menu_help:
+                break;
+            case R.id.menu_my_account:
+                break;
+            default:
+                break;
+        }
+    }
 
     @OnClick(R.id.btn_menu_home)
     void ActionMenuHome() {
@@ -143,7 +174,11 @@ public class HomeActivity extends AppCompatActivity implements
         Toast.makeText(this, "My Location CLikced!!", Toast.LENGTH_SHORT).show();
     }*/
 
-
+    Fragment current_fragment = null;
+    private double current_latitude, current_longitude;
+    private View mapView;
+    private boolean isShowMenuHome;
+    private MenuItem acSearch;
     private GoogleMap mMap;
     GoogleApiClient mGoogleApiClient;
     Location mLastLocation;
@@ -176,6 +211,14 @@ public class HomeActivity extends AppCompatActivity implements
         });
 */
         isShowMenuHome = false;
+
+        imgMenuHome.setImageDrawable(new IconDrawable(this, SimpleLineIconsIcons.icon_home).colorRes(R.color.white).actionBarSize());
+        imgMenuNotification.setImageDrawable(new IconDrawable(this, MaterialIcons.md_notifications_none).colorRes(R.color.white).actionBarSize());
+        imgMenuHistory.setImageDrawable(new IconDrawable(this, MaterialCommunityIcons.mdi_history).colorRes(R.color.white).actionBarSize());
+        imgMenuHelp.setImageDrawable(new IconDrawable(this, MaterialIcons.md_help_outline).colorRes(R.color.white).actionBarSize());
+        imgMenuMyAccount.setImageDrawable(new IconDrawable(this, EntypoIcons.entypo_user).colorRes(R.color.white).actionBarSize());
+
+
         ShowMenuHome(false);
         //set icon other menu
 
@@ -215,16 +258,6 @@ public class HomeActivity extends AppCompatActivity implements
         mapFragment.getMapAsync(this);
     }
 
-    private void LoadMenuHomeFragment() {
-        menu_home_fragment = new MenuHomeFragment();
-        getSupportFragmentManager().beginTransaction().replace(R.id.fragment_menu_home, menu_home_fragment).commit();
-    }
-
-    private void RemoveMenuHomeFragment() {
-        if (menu_home_fragment != null)
-            getSupportFragmentManager().beginTransaction().remove(menu_home_fragment).commit();
-        menu_home_fragment = null;
-    }
 
     private void LoadPrepareOrderFragment() {
         current_fragment = new PrepareOrderFragment();
@@ -233,7 +266,7 @@ public class HomeActivity extends AppCompatActivity implements
 
     private void LoadWasherOrderFragment() {
         current_fragment = new WasherOrderFragment();
-        getSupportFragmentManager().beginTransaction().replace(R.id.fragment_bottom, current_fragment).commit();
+        getSupportFragmentManager().beginTransaction().replace(R.id.fragment_bottom, current_fragment).commitAllowingStateLoss();
     }
 
     private void RemoveBottomFragment() {
@@ -294,8 +327,25 @@ public class HomeActivity extends AppCompatActivity implements
                         == PackageManager.PERMISSION_GRANTED) {
                     float zoomLevel = mMap.getCameraPosition().zoom;
                     Location location = LocationServices.FusedLocationApi.getLastLocation(mGoogleApiClient);
-                    CameraUpdate cameraUpdate = CameraUpdateFactory.newLatLngZoom(new LatLng(location.getLatitude(), location.getLongitude()), zoomLevel);
-                    mMap.animateCamera(cameraUpdate);
+                    if (location == null) {
+                        new AlertDialog.Builder(HomeActivity.this)
+                                .setTitle("Please activate location")
+                                .setMessage("Click ok to goto settings.")
+                                .setPositiveButton(android.R.string.yes, new DialogInterface.OnClickListener() {
+                                    public void onClick(DialogInterface dialog, int which) {
+                                        Intent intent = new Intent(Settings.ACTION_LOCATION_SOURCE_SETTINGS);
+                                        startActivity(intent);
+                                    }
+                                })
+                                .setNegativeButton(android.R.string.no, new DialogInterface.OnClickListener() {
+                                    public void onClick(DialogInterface dialog, int which) {
+                                        dialog.dismiss();
+                                    }
+                                });
+                    } else {
+                        CameraUpdate cameraUpdate = CameraUpdateFactory.newLatLngZoom(new LatLng(location.getLatitude(), location.getLongitude()), zoomLevel);
+                        mMap.animateCamera(cameraUpdate);
+                    }
                 }
             }
         });
@@ -433,16 +483,13 @@ public class HomeActivity extends AppCompatActivity implements
 
 
     @Override
-    public void onOrdered() {
-        LoadWasherOrderFragment();
-    }
-
-    @Override
     public void onCancelOrder() {
         RemoveBottomFragment();
     }
 
 
+<<<<<<< Updated upstream
+<<<<<<< Updated upstream
     @Override
     public void OnSelectedMenu(View view) {
         ShowMenuHome(false);
@@ -466,12 +513,15 @@ public class HomeActivity extends AppCompatActivity implements
         }
     }
 
+=======
+>>>>>>> Stashed changes
+=======
+>>>>>>> Stashed changes
     private void ShowMenuHome(boolean show) {
         if (show) {
             HideKeboard();
-            headerMenuHome.setVisibility(View.VISIBLE);
             cardViewToolbar.setVisibility(View.GONE);
-            LoadMenuHomeFragment();
+            layoutMenuHome.setVisibility(View.VISIBLE);
             isShowMenuHome = true;
             //set icon main menu
             btnMenuHome.setImageDrawable(
@@ -479,9 +529,8 @@ public class HomeActivity extends AppCompatActivity implements
                             .colorRes(R.color.black_424242)
                             .actionBarSize());
         } else {
-            headerMenuHome.setVisibility(View.GONE);
             cardViewToolbar.setVisibility(View.VISIBLE);
-            RemoveMenuHomeFragment();
+            layoutMenuHome.setVisibility(View.GONE);
             isShowMenuHome = false;
             //set icon main menu
             btnMenuHome.setImageDrawable(
@@ -498,6 +547,26 @@ public class HomeActivity extends AppCompatActivity implements
             inputMethodManager.hideSoftInputFromWindow(getCurrentFocus().getWindowToken(), 0);
         }
     }
+
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+
+        if (requestCode == 1) {
+            if (resultCode == Activity.RESULT_OK) {
+               /* LaporanDonasi laporanDonasi = (LaporanDonasi) data.getParcelableExtra(Zakat.LAPORAN_DONASI_OBJECT);
+                if (laporanDonasi != null) {
+
+                }
+*/
+                LoadWasherOrderFragment();
+
+            }
+            if (resultCode == Activity.RESULT_CANCELED) {
+                //Write your code if there's no result
+            }
+        }
+    }//onActivityResult
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
@@ -528,6 +597,14 @@ public class HomeActivity extends AppCompatActivity implements
         }
 
         return true;
+    }
+
+    @Override
+    protected void onStart() {
+        super.onStart();
+        if (mGoogleApiClient != null) {
+            mGoogleApiClient.connect();
+        }
     }
 
 }

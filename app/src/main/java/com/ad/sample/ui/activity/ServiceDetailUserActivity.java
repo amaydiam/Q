@@ -1,5 +1,7 @@
 package com.ad.sample.ui.activity;
 
+import android.app.Activity;
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
@@ -10,6 +12,8 @@ import android.widget.Button;
 import android.widget.TextView;
 
 import com.ad.sample.R;
+import com.ad.sample.Sample;
+import com.ad.sample.model.PrepareOrder;
 import com.joanzapata.iconify.IconDrawable;
 import com.joanzapata.iconify.fonts.MaterialIcons;
 import com.wdullaer.materialdatetimepicker.date.DatePickerDialog;
@@ -66,6 +70,49 @@ public class ServiceDetailUserActivity extends AppCompatActivity implements Time
     }
 
 
+<<<<<<< Updated upstream
+<<<<<<< Updated upstream
+=======
+    @OnClick({R.id.btn_order})
+    void onClickedOrder() {
+=======
+    @OnClick({R.id.btn_order})
+    void onClickedOrder() {
+
+        PrepareOrder prepareOrder = new PrepareOrder(
+                "",
+                "",
+                "",
+                "",
+                "",
+                "");
+
+        Intent intent = new Intent();
+        intent.putExtra(Sample.PREPARE_ORDER_OBJECT, prepareOrder);
+        setResult(Activity.RESULT_OK, intent);
+        finish();
+
+    }
+
+>>>>>>> Stashed changes
+
+        PrepareOrder prepareOrder = new PrepareOrder(
+                "",
+                "",
+                "",
+                "",
+                "",
+                "");
+
+        Intent intent = new Intent();
+        intent.putExtra(Sample.PREPARE_ORDER_OBJECT, prepareOrder);
+        setResult(Activity.RESULT_OK, intent);
+        finish();
+
+    }
+
+
+>>>>>>> Stashed changes
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -79,6 +126,8 @@ public class ServiceDetailUserActivity extends AppCompatActivity implements Time
         toolbar.setNavigationOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                Intent returnIntent = new Intent();
+                setResult(Activity.RESULT_CANCELED, returnIntent);
                 finish();
             }
         });
