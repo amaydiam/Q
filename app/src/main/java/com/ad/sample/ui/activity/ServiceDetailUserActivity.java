@@ -69,13 +69,6 @@ public class ServiceDetailUserActivity extends AppCompatActivity implements Time
 
     }
 
-
-<<<<<<< Updated upstream
-<<<<<<< Updated upstream
-=======
-    @OnClick({R.id.btn_order})
-    void onClickedOrder() {
-=======
     @OnClick({R.id.btn_order})
     void onClickedOrder() {
 
@@ -93,26 +86,6 @@ public class ServiceDetailUserActivity extends AppCompatActivity implements Time
         finish();
 
     }
-
->>>>>>> Stashed changes
-
-        PrepareOrder prepareOrder = new PrepareOrder(
-                "",
-                "",
-                "",
-                "",
-                "",
-                "");
-
-        Intent intent = new Intent();
-        intent.putExtra(Sample.PREPARE_ORDER_OBJECT, prepareOrder);
-        setResult(Activity.RESULT_OK, intent);
-        finish();
-
-    }
-
-
->>>>>>> Stashed changes
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);

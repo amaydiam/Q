@@ -17,16 +17,8 @@ import android.widget.ImageView;
 import android.widget.Toast;
 
 import com.ad.sample.R;
-<<<<<<< Updated upstream
-<<<<<<< Updated upstream
-=======
 import com.ad.sample.ui.activity.SelectVehicleActivity;
->>>>>>> Stashed changes
-=======
-import com.ad.sample.ui.activity.SelectVehicleActivity;
->>>>>>> Stashed changes
 import com.ad.sample.ui.activity.ServiceDetailUserActivity;
-import com.ad.sample.ui.widget.CustomViewPager;
 import com.ad.sample.ui.widget.RobotoBoldTextView;
 import com.ad.sample.ui.widget.RobotoRegularButton;
 import com.joanzapata.iconify.Iconify;
@@ -37,8 +29,6 @@ import com.joanzapata.iconify.fonts.MaterialModule;
 import com.joanzapata.iconify.fonts.SimpleLineIconsModule;
 import com.joanzapata.iconify.widget.IconTextView;
 
-import java.util.HashMap;
-import java.util.Map;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;

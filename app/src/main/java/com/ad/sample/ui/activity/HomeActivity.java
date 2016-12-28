@@ -135,12 +135,15 @@ public class HomeActivity extends AppCompatActivity implements
             case R.id.menu_home:
                 break;
             case R.id.menu_notification:
+                startActivity(new Intent(this, NotificationActivity.class));
                 break;
             case R.id.menu_history:
                 break;
             case R.id.menu_help:
+                startActivity(new Intent(this, HelpActivity.class));
                 break;
             case R.id.menu_my_account:
+                startActivity(new Intent(this, MyAccountActivity.class));
                 break;
             default:
                 break;
@@ -488,35 +491,6 @@ public class HomeActivity extends AppCompatActivity implements
     }
 
 
-<<<<<<< Updated upstream
-<<<<<<< Updated upstream
-    @Override
-    public void OnSelectedMenu(View view) {
-        ShowMenuHome(false);
-        int id = view.getId();
-        switch (id) {
-            case R.id.menu_home:
-                break;
-            case R.id.menu_notification:
-                startActivity(new Intent(this, NotificationActivity.class));
-                break;
-            case R.id.menu_history:
-                break;
-            case R.id.menu_help:
-                startActivity(new Intent(this, HelpActivity.class));
-                break;
-            case R.id.menu_my_account:
-                startActivity(new Intent(this, MyAccountActivity.class));
-                break;
-            default:
-                break;
-        }
-    }
-
-=======
->>>>>>> Stashed changes
-=======
->>>>>>> Stashed changes
     private void ShowMenuHome(boolean show) {
         if (show) {
             HideKeboard();
