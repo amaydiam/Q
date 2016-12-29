@@ -10,14 +10,14 @@ import android.os.Build;
 import android.os.Bundle;
 import android.provider.Settings;
 import android.support.design.widget.FloatingActionButton;
-import android.support.v4.app.ActivityCompat;
 import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentTransaction;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
-import android.support.v7.widget.CardView;
 import android.support.v7.widget.Toolbar;
 import android.text.Editable;
+import android.util.Log;
 import android.util.TypedValue;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -25,9 +25,17 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.Toast;
 
 import com.ad.sample.R;
+import com.ad.sample.Sample;
+import com.ad.sample.api.ApiUtils;
+import com.ad.sample.api.client.SOService;
+import com.ad.sample.api.model.Address;
+import com.ad.sample.api.model.AddressFromMaps;
+import com.ad.sample.model.PrepareOrder;
+import com.ad.sample.model.Vehicle;
 import com.ad.sample.ui.fragment.PrepareOrderFragment;
 import com.ad.sample.ui.fragment.WasherOrderFragment;
 import com.ad.sample.ui.widget.RobotoRegularEditText;
@@ -44,6 +52,8 @@ import com.google.android.gms.maps.SupportMapFragment;
 import com.google.android.gms.maps.model.CameraPosition;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.Marker;
+import com.gun0912.tedpermission.PermissionListener;
+import com.gun0912.tedpermission.TedPermission;
 import com.joanzapata.iconify.IconDrawable;
 import com.joanzapata.iconify.Iconify;
 import com.joanzapata.iconify.fonts.EntypoIcons;
@@ -56,10 +66,18 @@ import com.joanzapata.iconify.fonts.MaterialModule;
 import com.joanzapata.iconify.fonts.SimpleLineIconsIcons;
 import com.joanzapata.iconify.fonts.SimpleLineIconsModule;
 
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Locale;
+
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 import butterknife.OnTextChanged;
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
+import top.wefor.circularanim.CircularAnim;
 
 public class HomeActivity extends AppCompatActivity implements
         OnMapReadyCallback,
@@ -73,8 +91,9 @@ public class HomeActivity extends AppCompatActivity implements
     RobotoRegularEditText search;
     @BindView(R.id.toolbar)
     Toolbar toolbar;
-    @BindView(R.id.card_view_toolbar)
-    CardView cardViewToolbar;
+    @BindView(R.id.view_toolbar)
+    LinearLayout viewToolbar;
+    private SOService mService;
 
     @OnTextChanged(value = R.id.search,
             callback = OnTextChanged.Callback.TEXT_CHANGED)
@@ -129,7 +148,7 @@ public class HomeActivity extends AppCompatActivity implements
             R.id.menu_notification,
             R.id.menu_home})
     void ClickMenu(View v) {
-        ShowMenuHome(false);
+        ShowMenuHome();
         int id = v.getId();
         switch (id) {
             case R.id.menu_home:
@@ -152,22 +171,21 @@ public class HomeActivity extends AppCompatActivity implements
 
     @OnClick(R.id.btn_menu_home)
     void ActionMenuHome() {
-        if (isShowMenuHome)
-            ShowMenuHome(false);
-        else
-            ShowMenuHome(true);
+        ShowMenuHome();
     }
 
     @OnClick(R.id.btn_work)
     void ActionWork() {
-        ShowMenuHome(false);
+        if (!isHidden)
+            ShowMenuHome();
         startActivity(new Intent(this, SelectLocationActivity.class));
         //Toast.makeText(this, "Work CLikced!!", Toast.LENGTH_SHORT).show();
     }
 
     @OnClick(R.id.btn_home)
     void ActionHome() {
-        ShowMenuHome(false);
+        if (!isHidden)
+            ShowMenuHome();
         LoadPrepareOrderFragment();
         //  Toast.makeText(this, "Home CLikced!!", Toast.LENGTH_SHORT).show();
     }
@@ -180,7 +198,7 @@ public class HomeActivity extends AppCompatActivity implements
     Fragment current_fragment = null;
     private double current_latitude, current_longitude;
     private View mapView;
-    private boolean isShowMenuHome;
+    private boolean isHidden = true;
     private MenuItem acSearch;
     private GoogleMap mMap;
     GoogleApiClient mGoogleApiClient;
@@ -200,6 +218,7 @@ public class HomeActivity extends AppCompatActivity implements
         setContentView(R.layout.activity_home);
         ButterKnife.bind(this);
 
+        mService = ApiUtils.getSOService();
         //set Toolbar 
         setSupportActionBar(toolbar);/*
         toolbar.setNavigationIcon(
@@ -213,17 +232,20 @@ public class HomeActivity extends AppCompatActivity implements
             }
         });
 */
-        isShowMenuHome = false;
-
         imgMenuHome.setImageDrawable(new IconDrawable(this, SimpleLineIconsIcons.icon_home).colorRes(R.color.white).actionBarSize());
         imgMenuNotification.setImageDrawable(new IconDrawable(this, MaterialIcons.md_notifications_none).colorRes(R.color.white).actionBarSize());
         imgMenuHistory.setImageDrawable(new IconDrawable(this, MaterialCommunityIcons.mdi_history).colorRes(R.color.white).actionBarSize());
         imgMenuHelp.setImageDrawable(new IconDrawable(this, MaterialIcons.md_help_outline).colorRes(R.color.white).actionBarSize());
         imgMenuMyAccount.setImageDrawable(new IconDrawable(this, EntypoIcons.entypo_user).colorRes(R.color.white).actionBarSize());
 
-
-        ShowMenuHome(false);
-        //set icon other menu
+        if (isHidden) {
+            layoutMenuHome.setVisibility(View.INVISIBLE);
+            btnMenuHome.setImageDrawable(
+                    new IconDrawable(this, MaterialIcons.md_menu)
+                            .colorRes(R.color.black_424242)
+                            .actionBarSize());
+            //    viewToolbar.setVisibility(View.VISIBLE);
+        }
 
         pickLocation.setImageDrawable(
                 new IconDrawable(this, EntypoIcons.entypo_location_pin)
@@ -233,6 +255,7 @@ public class HomeActivity extends AppCompatActivity implements
         int paddingBottomInDp = (int) TypedValue.applyDimension(
                 TypedValue.COMPLEX_UNIT_DIP, (48 / 4) * 3, getResources()
                         .getDisplayMetrics());
+
         pickLocation.setPadding(0, 0, 0, paddingBottomInDp);
 
         btnWork.setImageDrawable(
@@ -250,15 +273,13 @@ public class HomeActivity extends AppCompatActivity implements
 
         pickLocationShow(false);
 
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
-            checkLocationPermission();
-        }
 
-        // Obtain the SupportMapFragment and get notified when the map is ready to be used.
-        SupportMapFragment mapFragment = (SupportMapFragment) getSupportFragmentManager()
-                .findFragmentById(R.id.map);
-        mapView = mapFragment.getView();
-        mapFragment.getMapAsync(this);
+        new TedPermission(this)
+                .setPermissionListener(permissionMapsListener)
+                .setDeniedMessage("Jika kamu menolak permission, Anda tidak dapat mendeteksi lokasi Anda \nHarap hidupkan permission ACCESS_FINE_LOCATION pada [Setting] > [Permission]")
+                .setPermissions(Manifest.permission.ACCESS_FINE_LOCATION)
+                .check();
+
     }
 
 
@@ -324,7 +345,8 @@ public class HomeActivity extends AppCompatActivity implements
         btnMyLocation.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                ShowMenuHome(false);
+                if (!isHidden)
+                    ShowMenuHome();
                 if (ContextCompat.checkSelfPermission(HomeActivity.this,
                         Manifest.permission.ACCESS_FINE_LOCATION)
                         == PackageManager.PERMISSION_GRANTED) {
@@ -346,7 +368,10 @@ public class HomeActivity extends AppCompatActivity implements
                                     }
                                 });
                     } else {
-                        CameraUpdate cameraUpdate = CameraUpdateFactory.newLatLngZoom(new LatLng(location.getLatitude(), location.getLongitude()), zoomLevel);
+                        double Lat = location.getLatitude();
+                        double Long = location.getLongitude();
+                        LoadAddress(Lat + "," + Long);
+                        CameraUpdate cameraUpdate = CameraUpdateFactory.newLatLngZoom(new LatLng(Lat, Long), zoomLevel);
                         mMap.animateCamera(cameraUpdate);
                     }
                 }
@@ -380,6 +405,7 @@ public class HomeActivity extends AppCompatActivity implements
         // current location
         current_latitude = location.getLatitude();
         current_longitude = location.getLongitude();
+        LoadAddress(current_latitude + "," + current_longitude);
 
         pickLocationShow(true);
 
@@ -408,36 +434,6 @@ public class HomeActivity extends AppCompatActivity implements
 
     public static final int MY_PERMISSIONS_REQUEST_LOCATION = 99;
 
-    public boolean checkLocationPermission() {
-        if (ContextCompat.checkSelfPermission(this,
-                Manifest.permission.ACCESS_FINE_LOCATION)
-                != PackageManager.PERMISSION_GRANTED) {
-
-            // Asking user if explanation is needed
-            if (ActivityCompat.shouldShowRequestPermissionRationale(this,
-                    Manifest.permission.ACCESS_FINE_LOCATION)) {
-
-                // Show an explanation to the user *asynchronously* -- don't block
-                // this thread waiting for the user's response! After the user
-                // sees the explanation, try again to request the permission.
-
-                //Prompt the user once explanation has been shown
-                ActivityCompat.requestPermissions(this,
-                        new String[]{Manifest.permission.ACCESS_FINE_LOCATION},
-                        MY_PERMISSIONS_REQUEST_LOCATION);
-
-
-            } else {
-                // No explanation needed, we can request the permission.
-                ActivityCompat.requestPermissions(this,
-                        new String[]{Manifest.permission.ACCESS_FINE_LOCATION},
-                        MY_PERMISSIONS_REQUEST_LOCATION);
-            }
-            return false;
-        } else {
-            return true;
-        }
-    }
 
     @Override
     public void onRequestPermissionsResult(int requestCode,
@@ -491,26 +487,30 @@ public class HomeActivity extends AppCompatActivity implements
     }
 
 
-    private void ShowMenuHome(boolean show) {
-        if (show) {
-            HideKeboard();
-            cardViewToolbar.setVisibility(View.GONE);
-            layoutMenuHome.setVisibility(View.VISIBLE);
-            isShowMenuHome = true;
-            //set icon main menu
+    private void ShowMenuHome() {
+
+        if (isHidden) {
             btnMenuHome.setImageDrawable(
                     new IconDrawable(this, MaterialIcons.md_close)
                             .colorRes(R.color.black_424242)
                             .actionBarSize());
+            viewToolbar.setVisibility(View.GONE);
+            CircularAnim.show(layoutMenuHome).duration(300).triggerView(btnMenuHome).go();
+            isHidden = false;
+
         } else {
-            cardViewToolbar.setVisibility(View.VISIBLE);
-            layoutMenuHome.setVisibility(View.GONE);
-            isShowMenuHome = false;
-            //set icon main menu
             btnMenuHome.setImageDrawable(
                     new IconDrawable(this, MaterialIcons.md_menu)
                             .colorRes(R.color.black_424242)
                             .actionBarSize());
+            CircularAnim.hide(layoutMenuHome).duration(300).triggerView(btnMenuHome).go(new CircularAnim.OnAnimationEndListener() {
+                @Override
+                public void onAnimationEnd() {
+                    viewToolbar.setVisibility(View.VISIBLE);
+                }
+            });
+            isHidden = true;
+
         }
     }
 
@@ -528,19 +528,27 @@ public class HomeActivity extends AppCompatActivity implements
 
         if (requestCode == 1) {
             if (resultCode == Activity.RESULT_OK) {
-               /* LaporanDonasi laporanDonasi = (LaporanDonasi) data.getParcelableExtra(Zakat.LAPORAN_DONASI_OBJECT);
-                if (laporanDonasi != null) {
+                PrepareOrder prepareOrder = (PrepareOrder) data.getParcelableExtra(Sample.PREPARE_ORDER_OBJECT);
+                if (prepareOrder != null) {
 
+                    LoadWasherOrderFragment();
                 }
-*/
-                LoadWasherOrderFragment();
 
+                Vehicle vehicle = (Vehicle) data.getParcelableExtra(Sample.VEHICLE_OBJECT);
+                if (vehicle != null) {
+                    PrepareOrderFragment fragment = (PrepareOrderFragment) getSupportFragmentManager().findFragmentById(R.id.fragment_bottom);
+                    if (fragment != null) {
+                        fragment.setSelectedVehicle(vehicle);
+                    }
+                }
             }
+
             if (resultCode == Activity.RESULT_CANCELED) {
                 //Write your code if there's no result
             }
         }
-    }//onActivityResult
+    }
+
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
@@ -579,6 +587,62 @@ public class HomeActivity extends AppCompatActivity implements
         if (mGoogleApiClient != null) {
             mGoogleApiClient.connect();
         }
+    }
+
+    PermissionListener permissionMapsListener = new PermissionListener() {
+        @Override
+        public void onPermissionGranted() {
+
+            // Obtain the SupportMapFragment and get notified when the map is ready to be used.
+            SupportMapFragment mapFragment = (SupportMapFragment) getSupportFragmentManager()
+                    .findFragmentById(R.id.map);
+            mapView = mapFragment.getView();
+            mapFragment.getMapAsync(HomeActivity.this);
+        }
+
+        @Override
+        public void onPermissionDenied(ArrayList<String> deniedPermissions) {
+
+            String message = String.format(Locale.getDefault(), getString(R.string.message_denied), "ACCESS_FINE_LOCATION");
+            Toast.makeText(HomeActivity.this, message, Toast.LENGTH_SHORT).show();
+        }
+
+
+    };
+
+    public void LoadAddress(String LatLong) {
+        mService.getAddress(LatLong).enqueue(new Callback<AddressFromMaps>() {
+            @Override
+            public void onResponse(Call<AddressFromMaps> call, Response<AddressFromMaps> response) {
+
+                if (response.isSuccessful()) {
+                    if (response.body().getStatus().equalsIgnoreCase("OK")) {
+                        List<Address> address = response.body().getResults();
+                        search.setText(address.get(0).getFormattedAddress());
+                    }
+
+                    Log.d("MainActivity", "posts loaded from API");
+
+                } else {
+                    int statusCode = response.code();
+                    // handle request errors depending on status code
+                    Log.d("MainActivity", "error loading from API, status: " + statusCode);
+                }
+            }
+
+            @Override
+            public void onFailure(Call<AddressFromMaps> call, Throwable t) {
+                showErrorMessage();
+                Log.d("MainActivity", "error loading from API");
+
+            }
+
+
+        });
+    }
+
+    private void showErrorMessage() {
+
     }
 
 }

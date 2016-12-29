@@ -5,4 +5,5 @@ package com.ad.sample;
  */
 public class Sample {
     public static final String PREPARE_ORDER_OBJECT = "prepare_order_object";
+    public static final String VEHICLE_OBJECT = "vehicle_object";
 }

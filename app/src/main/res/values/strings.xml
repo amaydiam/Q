@@ -66,4 +66,6 @@
     <string name="privacy_policy">Privacy Policy</string>
     <string name="rate_qlap">Rate Q\'LAP App</string>
     <string name="title_my_account">My Account</string>
+    <string name="message_denied">Permission \"%1$s\" has been denied.</string>
+    <string name="action_ok">Ok</string>
 </resources>

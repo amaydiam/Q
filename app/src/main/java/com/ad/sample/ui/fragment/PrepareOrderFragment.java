@@ -17,10 +17,13 @@ import android.widget.ImageView;
 import android.widget.Toast;
 
 import com.ad.sample.R;
+import com.ad.sample.Sample;
+import com.ad.sample.model.Vehicle;
 import com.ad.sample.ui.activity.SelectVehicleActivity;
 import com.ad.sample.ui.activity.ServiceDetailUserActivity;
 import com.ad.sample.ui.widget.RobotoBoldTextView;
 import com.ad.sample.ui.widget.RobotoRegularButton;
+import com.bumptech.glide.Glide;
 import com.joanzapata.iconify.Iconify;
 import com.joanzapata.iconify.fonts.EntypoModule;
 import com.joanzapata.iconify.fonts.FontAwesomeModule;
@@ -73,9 +76,12 @@ public class PrepareOrderFragment extends Fragment {
 
     @OnClick(R.id.layout_select_vehicle)
     void SelectVehicle() {
-        getActivity().startActivityForResult(new Intent(getActivity(), SelectVehicleActivity.class), 1);
+        Intent intent = new Intent(getActivity(), SelectVehicleActivity.class);
+        intent.putExtra(Sample.VEHICLE_OBJECT, vehicle);
+        getActivity().startActivityForResult(intent, 1);
     }
 
+    public Vehicle vehicle=null;
 
     // TODO: Rename and change types of parameters
     private String mParam1;
@@ -150,6 +156,19 @@ public class PrepareOrderFragment extends Fragment {
     public void onDetach() {
         super.onDetach();
         mListener = null;
+    }
+
+    public void setSelectedVehicle(Vehicle vehicle) {
+        this.vehicle = vehicle;
+        Glide
+                .with(this)
+                .load("")
+                .centerCrop()
+                .placeholder(vehicle.type == 1 ? R.drawable.mobil : R.drawable.motor)
+                .crossFade()
+                .into(vehicleImage);
+
+        vehicleDescription.setText(vehicle.brand + "\n" + vehicle.model + " " + vehicle.transmission + " " + vehicle.year);
     }
 
 

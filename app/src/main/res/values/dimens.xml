@@ -6,4 +6,5 @@
     <dimen name="marginTopToolbar">16dp</dimen>
     <dimen name="indicator_text_size">34sp</dimen>
     <dimen name="activity_half_vertical_margin">8dp</dimen>
+    <dimen name="list_card_width">400dp</dimen>
 </resources>
