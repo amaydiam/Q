@@ -52,6 +52,15 @@
         <activity android:name=".ui.activity.AddVehicleActivity"
             android:theme="@style/AppTheme.NoActionBar"
             android:label="@string/title_activity_add_vehicle_type"/>
+        <activity android:name=".ui.activity.MyBalanceActivity"
+            android:theme="@style/AppTheme.NoActionBar"
+            android:label="@string/title_activity_my_balance"/>
+        <activity android:name=".ui.activity.HistoryActivity"
+            android:theme="@style/AppTheme.NoActionBar"
+            android:label="@string/title_activity_history"/>
+        <activity android:name=".ui.activity.HistoryDetailActivity"
+            android:theme="@style/AppTheme.NoActionBar"
+            android:label="@string/title_activity_detail_history"/>
 
         <meta-data
             android:name="com.google.android.geo.API_KEY"

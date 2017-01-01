@@ -30,6 +30,7 @@ dependencies {
     })
     compile 'com.android.support:appcompat-v7:25.1.0'
     compile 'com.android.support:design:25.1.0'
+    compile 'com.android.support:percent:25.1.0'
     compile 'com.joanzapata.iconify:android-iconify-fontawesome:2.2.2'
     compile 'com.joanzapata.iconify:android-iconify-entypo:2.2.2'
     compile 'com.joanzapata.iconify:android-iconify-material:2.2.2'
@@ -48,8 +49,14 @@ dependencies {
     compile 'com.github.XunMengWinter:CircularAnim:0.3.4'
     compile 'com.android.support:multidex:1.0.1'
     compile 'gun0912.ted:tedpermission:1.0.2'
+
+    compile 'com.vinaysshenoy:mugen:1.0.2'
+    compile 'com.lsjwzh:materialloadingprogressbar:0.5.6-RELEASE'
+
     // Retrofit
     compile 'com.squareup.retrofit2:retrofit:2.1.0'
+    compile 'com.squareup.okhttp3:logging-interceptor:3.5.0'
+    compile 'com.squareup.okhttp3:okhttp:3.5.0'
 
 // JSON Parsing
     compile 'com.google.code.gson:gson:2.6.1'

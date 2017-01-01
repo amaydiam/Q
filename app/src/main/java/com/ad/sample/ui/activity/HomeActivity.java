@@ -11,7 +11,6 @@ import android.os.Bundle;
 import android.provider.Settings;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v4.app.Fragment;
-import android.support.v4.app.FragmentTransaction;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
@@ -31,9 +30,10 @@ import android.widget.Toast;
 import com.ad.sample.R;
 import com.ad.sample.Sample;
 import com.ad.sample.api.ApiUtils;
-import com.ad.sample.api.client.SOService;
+import com.ad.sample.api.client.AddressMapsFromGoogleApi;
 import com.ad.sample.api.model.Address;
-import com.ad.sample.api.model.AddressFromMaps;
+import com.ad.sample.api.model.AddressFromMapsResponse;
+import com.ad.sample.model.History;
 import com.ad.sample.model.PrepareOrder;
 import com.ad.sample.model.Vehicle;
 import com.ad.sample.ui.fragment.PrepareOrderFragment;
@@ -93,7 +93,7 @@ public class HomeActivity extends AppCompatActivity implements
     Toolbar toolbar;
     @BindView(R.id.view_toolbar)
     LinearLayout viewToolbar;
-    private SOService mService;
+    private AddressMapsFromGoogleApi mService;
 
     @OnTextChanged(value = R.id.search,
             callback = OnTextChanged.Callback.TEXT_CHANGED)
@@ -135,6 +135,8 @@ public class HomeActivity extends AppCompatActivity implements
     ImageView imgMenuHome;
     @BindView(R.id.img_menu_notification)
     ImageView imgMenuNotification;
+    @BindView(R.id.img_menu_my_balance)
+    ImageView imgMenuMyBalance;
     @BindView(R.id.img_menu_history)
     ImageView imgMenuHistory;
     @BindView(R.id.img_menu_help)
@@ -145,6 +147,7 @@ public class HomeActivity extends AppCompatActivity implements
     @OnClick({R.id.menu_my_account,
             R.id.menu_help,
             R.id.menu_history,
+            R.id.menu_my_balance,
             R.id.menu_notification,
             R.id.menu_home})
     void ClickMenu(View v) {
@@ -156,7 +159,11 @@ public class HomeActivity extends AppCompatActivity implements
             case R.id.menu_notification:
                 startActivity(new Intent(this, NotificationActivity.class));
                 break;
+            case R.id.menu_my_balance:
+             startActivity(new Intent(this, MyBalanceActivity.class));
+                break;
             case R.id.menu_history:
+                startActivity(new Intent(this, HistoryActivity.class));
                 break;
             case R.id.menu_help:
                 startActivity(new Intent(this, HelpActivity.class));
@@ -218,7 +225,7 @@ public class HomeActivity extends AppCompatActivity implements
         setContentView(R.layout.activity_home);
         ButterKnife.bind(this);
 
-        mService = ApiUtils.getSOService();
+        mService = ApiUtils.getAddressMapsFromGoogleApi();
         //set Toolbar 
         setSupportActionBar(toolbar);/*
         toolbar.setNavigationIcon(
@@ -234,6 +241,7 @@ public class HomeActivity extends AppCompatActivity implements
 */
         imgMenuHome.setImageDrawable(new IconDrawable(this, SimpleLineIconsIcons.icon_home).colorRes(R.color.white).actionBarSize());
         imgMenuNotification.setImageDrawable(new IconDrawable(this, MaterialIcons.md_notifications_none).colorRes(R.color.white).actionBarSize());
+        imgMenuMyBalance.setImageDrawable(new IconDrawable(this, EntypoIcons.entypo_wallet).colorRes(R.color.white).actionBarSize());
         imgMenuHistory.setImageDrawable(new IconDrawable(this, MaterialCommunityIcons.mdi_history).colorRes(R.color.white).actionBarSize());
         imgMenuHelp.setImageDrawable(new IconDrawable(this, MaterialIcons.md_help_outline).colorRes(R.color.white).actionBarSize());
         imgMenuMyAccount.setImageDrawable(new IconDrawable(this, EntypoIcons.entypo_user).colorRes(R.color.white).actionBarSize());
@@ -611,9 +619,9 @@ public class HomeActivity extends AppCompatActivity implements
     };
 
     public void LoadAddress(String LatLong) {
-        mService.getAddress(LatLong).enqueue(new Callback<AddressFromMaps>() {
+        mService.getAddress(LatLong).enqueue(new Callback<AddressFromMapsResponse>() {
             @Override
-            public void onResponse(Call<AddressFromMaps> call, Response<AddressFromMaps> response) {
+            public void onResponse(Call<AddressFromMapsResponse> call, Response<AddressFromMapsResponse> response) {
 
                 if (response.isSuccessful()) {
                     if (response.body().getStatus().equalsIgnoreCase("OK")) {
@@ -631,7 +639,7 @@ public class HomeActivity extends AppCompatActivity implements
             }
 
             @Override
-            public void onFailure(Call<AddressFromMaps> call, Throwable t) {
+            public void onFailure(Call<AddressFromMapsResponse> call, Throwable t) {
                 showErrorMessage();
                 Log.d("MainActivity", "error loading from API");
 

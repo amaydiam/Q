@@ -7,11 +7,14 @@ import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.LinearLayout;
+import android.widget.RelativeLayout;
 import android.widget.Toast;
 
 import com.ad.sample.R;
 import com.ad.sample.ui.widget.RobotoBoldTextView;
 import com.ad.sample.ui.widget.RobotoRegularButton;
+import com.ad.sample.utils.Utils;
 import com.joanzapata.iconify.Iconify;
 import com.joanzapata.iconify.fonts.EntypoModule;
 import com.joanzapata.iconify.fonts.FontAwesomeModule;
@@ -30,21 +33,30 @@ public class WasherOrderFragment extends Fragment {
 
     private static final String ARG_PARAM1 = "param1";
     private static final String ARG_PARAM2 = "param2";
-
-    @BindView(R.id.service_type)
-    RobotoBoldTextView serviceType;
-    @BindView(R.id.book_time)
-    IconTextView bookTime;
+    @BindView(R.id.image_washer)
+    AvatarView imageWasher;
     @BindView(R.id.whaser_name)
     RobotoBoldTextView whaserName;
     @BindView(R.id.rating_whaser)
     IconTextView ratingWhaser;
+    @BindView(R.id.kiri)
+    LinearLayout kiri;
+    @BindView(R.id.book_date)
+    IconTextView bookDate;
+    @BindView(R.id.book_time)
+    IconTextView bookTime;
+    @BindView(R.id.bill_total)
+    RobotoBoldTextView billTotal;
+    @BindView(R.id.content)
+    LinearLayout content;
+    @BindView(R.id.kanan)
+    RelativeLayout kanan;
     @BindView(R.id.btn_contact)
     RobotoRegularButton btnContact;
     @BindView(R.id.btn_cancel)
     RobotoRegularButton btnCancel;
-    @BindView(R.id.image_washer)
-    AvatarView imageWasher;
+    @BindView(R.id.layout_btn_washer_order)
+    LinearLayout layoutBtnWasherOrder;
     private PicassoLoader imageLoader;
 
 
@@ -104,6 +116,7 @@ public class WasherOrderFragment extends Fragment {
         // Inflate the layout for this fragment
         View view = inflater.inflate(R.layout.fragment_washer_order, container, false);
         ButterKnife.bind(this, view);
+        billTotal.setText(Utils.Rupiah("50000"));
         imageLoader.loadImage(imageWasher, "URL", "Fahri");
         return view;
     }

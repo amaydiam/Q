@@ -68,4 +68,17 @@
     <string name="title_my_account">My Account</string>
     <string name="message_denied">Permission \"%1$s\" has been denied.</string>
     <string name="action_ok">Ok</string>
+    <string name="harga_total">Harga Total</string>
+    <string name="menu_my_balance">My Balance</string>
+    <string name="my_balance">My Balance</string>
+    <string name="title_activity_my_balance">My Balnce</string>
+    <string name="button_top_up_balance">Top Up Balance</string>
+    <string name="type_search">search ...</string>
+    <string name="server_unreachable">Oops! Something went wrong.\nPlease check your internet connection.</string>
+    <string name="try_again">Try Again</string>
+    <string name="title_activity_history">history</string>
+    <string name="title_activity_detail_history">Detail History</string>
+    <string name="loading">Loading ...</string>
+    <string name="additional_select">ADDITIONAL SELECT</string>
+    <string name="button_report_an_issue">Report An Issue</string>
 </resources>

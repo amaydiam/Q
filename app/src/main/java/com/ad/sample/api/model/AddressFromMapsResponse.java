@@ -9,7 +9,7 @@ package com.ad.sample.api.model;
         import com.google.gson.annotations.Expose;
         import com.google.gson.annotations.SerializedName;
 
-public class AddressFromMaps {
+public class AddressFromMapsResponse {
 
     @SerializedName("results")
     @Expose
