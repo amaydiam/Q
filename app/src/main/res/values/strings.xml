@@ -86,4 +86,5 @@
     <string name="search_hint">Search here...</string>
     <string name="label_vacuum">Interior Vacuum</string>
     <string name="label_deskripsi_vacuum">We will vacuum your car interior.</string>
+    <string name="submit_add_vehicle">SUBMIT</string>
 </resources>

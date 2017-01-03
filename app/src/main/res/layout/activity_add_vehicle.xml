@@ -12,6 +12,7 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:fillViewport="true"
+        android:layout_marginBottom="50dp"
         app:layout_behavior="@string/appbar_scrolling_view_behavior">
 
         <LinearLayout
@@ -342,4 +343,20 @@
         </LinearLayout>
 
     </android.support.v4.widget.NestedScrollView>
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <Button
+            android:id="@+id/klik_submit"
+            android:layout_width="match_parent"
+            android:layout_height="50dp"
+            android:text="@string/submit_add_vehicle"
+            android:textColor="@color/white"
+            android:textSize="17sp"
+            android:background="@color/blue_2196F3"
+            android:layout_alignParentBottom="true" />
+    </RelativeLayout>
+
 </android.support.design.widget.CoordinatorLayout>

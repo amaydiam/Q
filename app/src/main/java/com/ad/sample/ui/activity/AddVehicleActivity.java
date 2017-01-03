@@ -12,11 +12,11 @@ import android.support.v7.widget.CardView;
 import android.support.v7.widget.Toolbar;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.ad.sample.R;
 import com.ad.sample.ui.widget.RobotoRegularTextView;
@@ -43,15 +43,6 @@ public class AddVehicleActivity extends AppCompatActivity {
     @BindDimen(R.dimen.activity_vertical_margin)
     int activity_vertical_margin;
 
-    public static final String MyPREFERENCES = "MyPrefs";
-    public static final String Brand = "brand";
-    public static final String Model = "model";
-    public static final String Transmission = "transmission";
-    public static final String Year = "year";
-
-    SharedPreferences sharedpreferences;
-    SharedPreferences.Editor editor;
-
     @BindView(R.id.vehicle_mobil)
     CardView vehicleMobil;
     @BindView(R.id.vehicle_motor)
@@ -76,6 +67,8 @@ public class AddVehicleActivity extends AppCompatActivity {
     RobotoRegularTextView textTransmission;
     @BindView(R.id.text_year)
     RobotoRegularTextView textYear;
+    @BindView(R.id.klik_submit)
+    Button klikSubmit;
 
     @OnClick(R.id.vehicle_mobil)
     void VehicleMobil() {
@@ -139,6 +132,17 @@ public class AddVehicleActivity extends AppCompatActivity {
         //Toast.makeText(this, "Select Year", Toast.LENGTH_SHORT).show();
     }
 
+    @OnClick(R.id.klik_submit)
+    public void klikSubmit() {
+        SharedPreferences settings = this.getSharedPreferences("my_prefs", Context.MODE_PRIVATE);
+        settings.edit().remove("brand").commit();
+        settings.edit().remove("model").commit();
+        settings.edit().remove("transmission").commit();
+        settings.edit().remove("year").commit();
+
+        finish();
+    }
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -173,85 +177,28 @@ public class AddVehicleActivity extends AppCompatActivity {
         imgTransmission.setImageBitmap(Bitmap.createScaledBitmap(transmission_blue, convertToPx(IconDrawable.ANDROID_ACTIONBAR_ICON_SIZE_DP), convertToPx(IconDrawable.ANDROID_ACTIONBAR_ICON_SIZE_DP), false));
 
         SelectVehicle(1);
-
-        //Save SharedPreferences
-        sharedpreferences = getSharedPreferences(MyPREFERENCES, Context.MODE_PRIVATE);
-
-        editor = sharedpreferences.edit();
-        showBrand();
-        showModel();
-        showTransmission();
-        showYear();
-        editor.commit();
-
         setWidthSelectView();
-
-    }
-
-    private void showYear() {
-        try {
-            Intent intent = getIntent();
-            String year = intent.getStringExtra("year");
-            if (year != null) {
-                editor.putString(Year, year);
-            }
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-    }
-
-    private void showTransmission() {
-        try {
-            Intent intent = getIntent();
-            String transmission = intent.getStringExtra("transmission");
-            if (transmission != null) {
-                editor.putString(Transmission, transmission);
-            }
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-    }
-
-    private void showModel() {
-
-        try {
-            Intent intent = getIntent();
-            String model = intent.getStringExtra("model");
-            if (model != null) {
-                editor.putString(Model, model);
-            }
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-    }
-
-    private void showBrand() {
-        try {
-            Intent intent = getIntent();
-            String brand = intent.getStringExtra("brand");
-            if (brand != null) {
-                editor.putString(Brand, brand);
-            }
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
     }
 
     @Override
     protected void onResume() {
         super.onResume();
+        showVehicle();
+    }
 
-        String out_brand = sharedpreferences.getString(Brand, String.valueOf(R.string.select_brand));
-        textBrand.setText(out_brand);
+    private void showVehicle() {
+        SharedPreferences bb = getSharedPreferences("my_prefs", 0);
+        SharedPreferences.Editor editor = bb.edit();
 
-        String out_model = sharedpreferences.getString(Model, String.valueOf(R.string.select_model));
-        textModel.setText(out_model);
+        String brand = bb.getString("brand", String.valueOf(getString(R.string.select_brand)));
+        String model = bb.getString("model", String.valueOf(getString(R.string.select_model)));
+        String transmission = bb.getString("transmission", String.valueOf(getString(R.string.select_transmission)));
+        String year = bb.getString("year", String.valueOf(getString(R.string.select_year)));
 
-        String out_trans = sharedpreferences.getString(Transmission, String.valueOf(R.string.select_transmission));
-        textTransmission.setText(out_trans);
-
-        String out_year = sharedpreferences.getString(Year, String.valueOf(R.string.select_year));
-        textYear.setText(out_year);
+        textBrand.setText(brand);
+        textModel.setText(model);
+        textTransmission.setText(transmission);
+        textYear.setText(year);
         editor.apply();
     }
 
@@ -306,5 +253,4 @@ public class AddVehicleActivity extends AppCompatActivity {
 
         }
     }
-
 }

@@ -84,7 +84,7 @@
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:textStyle="bold"
-                            android:textSize="18sp"
+                            android:textSize="15sp"
                             android:text="Aan Aliudin" />
 
                             <TextView
@@ -92,7 +92,7 @@
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 android:text="EDIT"
-                                android:textSize="18sp"
+                                android:textSize="15sp"
                                 android:textColor="@color/blue_1E87DA"
                                 android:layout_alignParentRight="true"
                                 android:textStyle="bold" />

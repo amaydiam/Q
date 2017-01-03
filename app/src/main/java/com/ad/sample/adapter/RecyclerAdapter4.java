@@ -3,7 +3,9 @@ package com.ad.sample.adapter;
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.graphics.Color;
+import android.os.Bundle;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -55,9 +57,10 @@ public class RecyclerAdapter4 extends RecyclerView.Adapter<RecyclerViewHolder> {
         holder.cardView4.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(context, AddVehicleActivity.class);
-                intent.putExtra("year", year[position]);
-                context.startActivity(intent);
+                SharedPreferences prefs = context.getSharedPreferences("my_prefs", Context.MODE_PRIVATE);
+                SharedPreferences.Editor edit = prefs.edit();
+                edit.putString("year", year[position]);
+                edit.commit();
                 ((Activity) context).finish();
             }
         });

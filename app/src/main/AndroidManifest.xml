@@ -50,7 +50,7 @@
 
         <activity android:name=".ui.activity.AddVehicleActivity"
             android:theme="@style/AppTheme.NoActionBar"
-            android:label="@string/title_activity_add_vehicle_type"/>
+            android:label="@string/title_activity_add_vehicle_type" />
         <activity
             android:name=".ui.activity.MybalanceActivity"
             android:theme="@style/AppTheme.NoActionBar"
