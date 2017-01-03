@@ -1,27 +1,71 @@
 package com.ad.sample.ui.activity;
 
+import android.content.Context;
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
-import android.support.v4.view.MenuItemCompat;
 import android.support.v7.app.AppCompatActivity;
-import android.support.v7.widget.SearchView;
+import android.support.v7.widget.DefaultItemAnimator;
+import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
-import android.view.Menu;
-import android.view.MenuItem;
+import android.text.Editable;
+import android.text.TextWatcher;
+import android.util.Log;
 import android.view.View;
-import android.widget.TextView;
+import android.widget.EditText;
+import android.widget.ImageView;
+import android.widget.ProgressBar;
+import android.widget.Toast;
 
 import com.ad.sample.R;
+import com.ad.sample.adapter.RecyclerAdapterLocation;
+import com.ad.sample.api.SearchLocationInterface;
+import com.ad.sample.model.ListLocation;
+import com.google.gson.Gson;
 import com.joanzapata.iconify.IconDrawable;
 import com.joanzapata.iconify.fonts.MaterialIcons;
 
+import java.io.IOException;
+import java.util.ArrayList;
+import java.util.List;
+
 import butterknife.BindView;
 import butterknife.ButterKnife;
+import butterknife.OnClick;
+import okhttp3.Interceptor;
+import okhttp3.OkHttpClient;
+import okhttp3.Request;
+import okhttp3.Response;
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Retrofit;
+import retrofit2.converter.gson.GsonConverterFactory;
 
 public class SelectLocationActivity extends AppCompatActivity {
 
     @BindView(R.id.toolbar)
     Toolbar toolbar;
+    @BindView(R.id.progressBar)
+    ProgressBar progressBar;
+    @BindView(R.id.recycler_view)
+    RecyclerView recyclerView;
+    @BindView(R.id.search)
+    EditText searchView;
+
+    public static final String BASE_URL = "https://maps.googleapis.com";
+    @BindView(R.id.clear)
+    ImageView clear;
+
+    @OnClick(R.id.clear)
+    void clearSearch() {
+        searchView.setText("");
+    }
+
+    private RecyclerAdapterLocation mAdapter;
+    List<com.ad.sample.model.ListLocation.Prediction> ListLocation;
+    private RecyclerView.LayoutManager mLayoutManager;
+    String input;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -41,61 +85,101 @@ public class SelectLocationActivity extends AppCompatActivity {
         });
         getSupportActionBar().setTitle("");
 
-    }
+        Intent intent = getIntent();
+        input = intent.getStringExtra("input");
 
-    @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
-        getMenuInflater().inflate(R.menu.search_location, menu);
-        MenuItem searchItem = menu.findItem(R.id.action_search);
-
-        SearchView searchView = (SearchView) MenuItemCompat.getActionView(searchItem);
-
-        searchView.setOnQueryTextFocusChangeListener(new View.OnFocusChangeListener() {
-
-            @Override
-            public void onFocusChange(View v, boolean hasFocus) {
-
-            }
-        });
-
-        searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
-
-            @Override
-            public boolean onQueryTextSubmit(String query) {
-                return false;
-            }
-
-            @Override
-            public boolean onQueryTextChange(String searchQuery) {
-               // myAppAdapter.filter(searchQuery.toString().trim());
-               // listView.invalidate();
-                return true;
-            }
-        });
-
-        MenuItemCompat.setOnActionExpandListener(searchItem, new MenuItemCompat.OnActionExpandListener() {
-            @Override
-            public boolean onMenuItemActionCollapse(MenuItem item) {
-                return true;
-            }
-
-            @Override
-            public boolean onMenuItemActionExpand(MenuItem item) {
-                return true;
-            }
-        });
-        return true;
-    }
-
-    @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-        int id = item.getItemId();
-
-        if (id == R.id.action_search) {
-            return true;
+        if (!input.equals("")) {
+            searchView.setText(input + "");
+            searchView.setSelection(input.length());
+            showData("" + input);
         }
-        return super.onOptionsItemSelected(item);
+
+        autoCompleteSearch();
     }
 
+    public void autoCompleteSearch() {
+        searchView.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+
+            }
+
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+
+                if (!s.equals("")) {
+                    showData("" + s);
+                }
+
+            }
+
+            @Override
+            public void afterTextChanged(Editable s) {
+
+            }
+        });
+
+    }
+
+
+    private void showData(String input) {
+        OkHttpClient okClient = new OkHttpClient.Builder()
+                .addInterceptor(
+                        new Interceptor() {
+                            @Override
+                            public Response intercept(Chain chain) throws IOException {
+                                Request request = chain.request().newBuilder()
+                                        .addHeader("Accept", "Application/JSON").build();
+                                return chain.proceed(request);
+                            }
+                        }).build();
+
+
+        Retrofit retrofit = new Retrofit.Builder()
+                .baseUrl(BASE_URL)
+                .client(okClient)
+                .addConverterFactory(GsonConverterFactory.create())
+                .build();
+
+        SearchLocationInterface service = retrofit.create(SearchLocationInterface.class);
+
+        Call<ListLocation> call = service.getInput(input, "geocode", "id", "AIzaSyAFDCJAsZ-vkOJeu11Kw4G2o8zu6NOk_qQ");
+
+        progressBar.setVisibility(View.VISIBLE);
+
+        call.enqueue(new Callback<ListLocation>() {
+
+            @Override
+            public void onResponse(Call<ListLocation> call, retrofit2.Response<ListLocation> response) {
+                Log.d("MainActivity", "Status Code = " + response.code());
+
+                if (response.isSuccessful()) {
+                    // request successful (status code 200, 201)
+                    progressBar.setVisibility(View.GONE);
+                    ListLocation = new ArrayList<>();
+                    ListLocation result = response.body();
+                    Log.d("MainActivity", "response = " + new Gson().toJson(result));
+                    ListLocation = result.getPredictions();
+                    Log.d("MainActivity", "Items = " + ListLocation.size());
+
+                    // This is where data loads
+                    mAdapter = new RecyclerAdapterLocation(ListLocation);
+
+                    //attach to recyclerview
+                    mLayoutManager = new LinearLayoutManager(getApplicationContext());
+                    recyclerView.setLayoutManager(mLayoutManager);
+                    recyclerView.setItemAnimator(new DefaultItemAnimator());
+                    mAdapter.notifyDataSetChanged();
+                    recyclerView.setAdapter(mAdapter);
+                }
+            }
+
+            @Override
+            public void onFailure(Call<ListLocation> call, Throwable t) {
+                Toast.makeText(SelectLocationActivity.this, "Aktifkan koneksi anda !", Toast.LENGTH_SHORT).show();
+                progressBar.setVisibility(View.GONE);
+            }
+        });
+    }
 
 }

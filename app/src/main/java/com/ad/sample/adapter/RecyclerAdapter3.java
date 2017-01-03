@@ -1,6 +1,8 @@
 package com.ad.sample.adapter;
 
+import android.app.Activity;
 import android.content.Context;
+import android.content.Intent;
 import android.graphics.Color;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
@@ -9,6 +11,7 @@ import android.view.ViewGroup;
 import android.widget.Toast;
 
 import com.ad.sample.R;
+import com.ad.sample.ui.activity.AddVehicleActivity;
 
 /**
  * Created by binderbyte on 24/12/16.
@@ -52,7 +55,10 @@ public class RecyclerAdapter3 extends RecyclerView.Adapter<RecyclerViewHolder> {
         holder.cardView3.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Toast.makeText(context, "Click "+position, Toast.LENGTH_SHORT).show();
+                Intent intent = new Intent(context, AddVehicleActivity.class);
+                intent.putExtra("transmission", transmission[position]);
+                context.startActivity(intent);
+                ((Activity) context).finish();
             }
         });
 

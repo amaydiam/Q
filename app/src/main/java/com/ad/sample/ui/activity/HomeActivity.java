@@ -33,7 +33,6 @@ import com.ad.sample.api.ApiUtils;
 import com.ad.sample.api.client.AddressMapsFromGoogleApi;
 import com.ad.sample.api.model.Address;
 import com.ad.sample.api.model.AddressFromMapsResponse;
-import com.ad.sample.model.History;
 import com.ad.sample.model.PrepareOrder;
 import com.ad.sample.model.Vehicle;
 import com.ad.sample.ui.fragment.PrepareOrderFragment;
@@ -160,7 +159,7 @@ public class HomeActivity extends AppCompatActivity implements
                 startActivity(new Intent(this, NotificationActivity.class));
                 break;
             case R.id.menu_my_balance:
-             startActivity(new Intent(this, MyBalanceActivity.class));
+                startActivity(new Intent(this, MybalanceActivity.class));
                 break;
             case R.id.menu_history:
                 startActivity(new Intent(this, HistoryActivity.class));
@@ -185,7 +184,7 @@ public class HomeActivity extends AppCompatActivity implements
     void ActionWork() {
         if (!isHidden)
             ShowMenuHome();
-        startActivity(new Intent(this, SelectLocationActivity.class));
+        //startActivity(new Intent(this, SelectLocationActivity.class));
         //Toast.makeText(this, "Work CLikced!!", Toast.LENGTH_SHORT).show();
     }
 
@@ -225,8 +224,17 @@ public class HomeActivity extends AppCompatActivity implements
         setContentView(R.layout.activity_home);
         ButterKnife.bind(this);
 
+        Intent intent = getIntent();
+        String location = intent.getStringExtra("location");
+        //Toast.makeText(this, ""+location, Toast.LENGTH_SHORT).show();
+
+        if (location != null) {
+            search.setText("" + location);
+        }
+
+
         mService = ApiUtils.getAddressMapsFromGoogleApi();
-        //set Toolbar 
+        //set Toolbar
         setSupportActionBar(toolbar);/*
         toolbar.setNavigationIcon(
                 new IconDrawable(this, MaterialIcons.md_search)
@@ -568,6 +576,7 @@ public class HomeActivity extends AppCompatActivity implements
                         .colorRes(R.color.black_424242)
                         .actionBarSize());
         acSearch.setVisible(false);
+
         ShowHideAcSearch();
         return true;
     }
@@ -578,8 +587,11 @@ public class HomeActivity extends AppCompatActivity implements
             // action with ID action_refresh was selected
             case R.id.action_search:
                 HideKeboard();
-                search.setText(null);
-                startActivity(new Intent(this, SelectLocationActivity.class));
+                //search.setText(null);
+
+                Intent intent = new Intent(this, SelectLocationActivity.class);
+                intent.putExtra("input", search.getText().toString());
+                startActivity(intent);
                 break;
 
             default:

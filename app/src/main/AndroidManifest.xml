@@ -3,7 +3,6 @@
     package="com.ad.sample">
 
     <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
-    <uses-permission android:name="android.permission.INTERNET" />
 
     <application
         android:name="android.support.multidex.MultiDexApplication"
@@ -52,7 +51,8 @@
         <activity android:name=".ui.activity.AddVehicleActivity"
             android:theme="@style/AppTheme.NoActionBar"
             android:label="@string/title_activity_add_vehicle_type"/>
-        <activity android:name=".ui.activity.MyBalanceActivity"
+        <activity
+            android:name=".ui.activity.MybalanceActivity"
             android:theme="@style/AppTheme.NoActionBar"
             android:label="@string/title_activity_my_balance"/>
         <activity android:name=".ui.activity.HistoryActivity"
@@ -61,6 +61,7 @@
         <activity android:name=".ui.activity.HistoryDetailActivity"
             android:theme="@style/AppTheme.NoActionBar"
             android:label="@string/title_activity_detail_history"/>
+
 
         <meta-data
             android:name="com.google.android.geo.API_KEY"

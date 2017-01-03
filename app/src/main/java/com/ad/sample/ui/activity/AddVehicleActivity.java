@@ -1,6 +1,8 @@
 package com.ad.sample.ui.activity;
 
+import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.os.Bundle;
@@ -41,6 +43,14 @@ public class AddVehicleActivity extends AppCompatActivity {
     @BindDimen(R.dimen.activity_vertical_margin)
     int activity_vertical_margin;
 
+    public static final String MyPREFERENCES = "MyPrefs";
+    public static final String Brand = "brand";
+    public static final String Model = "model";
+    public static final String Transmission = "transmission";
+    public static final String Year = "year";
+
+    SharedPreferences sharedpreferences;
+    SharedPreferences.Editor editor;
 
     @BindView(R.id.vehicle_mobil)
     CardView vehicleMobil;
@@ -58,6 +68,14 @@ public class AddVehicleActivity extends AppCompatActivity {
     LinearLayout indicatorSelectYear;
     @BindView(R.id.toolbar_title)
     TextView toolbarTitle;
+    @BindView(R.id.text_brand)
+    RobotoRegularTextView textBrand;
+    @BindView(R.id.text_model)
+    RobotoRegularTextView textModel;
+    @BindView(R.id.text_transmission)
+    RobotoRegularTextView textTransmission;
+    @BindView(R.id.text_year)
+    RobotoRegularTextView textYear;
 
     @OnClick(R.id.vehicle_mobil)
     void VehicleMobil() {
@@ -87,7 +105,6 @@ public class AddVehicleActivity extends AppCompatActivity {
     RelativeLayout selectTransmission;
     @BindView(R.id.select_year)
     RelativeLayout selectYear;
-
 
     @BindView(R.id.img_brand)
     ImageView imgBrand;
@@ -156,8 +173,86 @@ public class AddVehicleActivity extends AppCompatActivity {
         imgTransmission.setImageBitmap(Bitmap.createScaledBitmap(transmission_blue, convertToPx(IconDrawable.ANDROID_ACTIONBAR_ICON_SIZE_DP), convertToPx(IconDrawable.ANDROID_ACTIONBAR_ICON_SIZE_DP), false));
 
         SelectVehicle(1);
+
+        //Save SharedPreferences
+        sharedpreferences = getSharedPreferences(MyPREFERENCES, Context.MODE_PRIVATE);
+
+        editor = sharedpreferences.edit();
+        showBrand();
+        showModel();
+        showTransmission();
+        showYear();
+        editor.commit();
+
         setWidthSelectView();
 
+    }
+
+    private void showYear() {
+        try {
+            Intent intent = getIntent();
+            String year = intent.getStringExtra("year");
+            if (year != null) {
+                editor.putString(Year, year);
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
+    private void showTransmission() {
+        try {
+            Intent intent = getIntent();
+            String transmission = intent.getStringExtra("transmission");
+            if (transmission != null) {
+                editor.putString(Transmission, transmission);
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
+    private void showModel() {
+
+        try {
+            Intent intent = getIntent();
+            String model = intent.getStringExtra("model");
+            if (model != null) {
+                editor.putString(Model, model);
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
+    private void showBrand() {
+        try {
+            Intent intent = getIntent();
+            String brand = intent.getStringExtra("brand");
+            if (brand != null) {
+                editor.putString(Brand, brand);
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+
+        String out_brand = sharedpreferences.getString(Brand, String.valueOf(R.string.select_brand));
+        textBrand.setText(out_brand);
+
+        String out_model = sharedpreferences.getString(Model, String.valueOf(R.string.select_model));
+        textModel.setText(out_model);
+
+        String out_trans = sharedpreferences.getString(Transmission, String.valueOf(R.string.select_transmission));
+        textTransmission.setText(out_trans);
+
+        String out_year = sharedpreferences.getString(Year, String.valueOf(R.string.select_year));
+        textYear.setText(out_year);
+        editor.apply();
     }
 
     private void setWidthSelectView() {

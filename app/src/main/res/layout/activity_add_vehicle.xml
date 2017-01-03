@@ -135,11 +135,11 @@
                             android:src="@mipmap/ic_launcher" />
 
                         <com.ad.sample.ui.widget.RobotoRegularTextView
+                            android:id="@+id/text_brand"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:layout_marginLeft="10dp"
                             android:lines="1"
-                            android:text="@string/select_brand"
                             android:textAppearance="?android:attr/textAppearanceMedium"
                             android:textColor="@color/black_424242" />
 
@@ -193,11 +193,11 @@
                             android:src="@mipmap/ic_launcher" />
 
                         <com.ad.sample.ui.widget.RobotoRegularTextView
+                            android:id="@+id/text_model"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:layout_marginLeft="10dp"
                             android:lines="1"
-                            android:text="@string/select_model"
                             android:textAppearance="?android:attr/textAppearanceMedium"
                             android:textColor="@color/black_424242" />
 
@@ -252,11 +252,11 @@
                             android:src="@mipmap/ic_launcher" />
 
                         <com.ad.sample.ui.widget.RobotoRegularTextView
+                            android:id="@+id/text_transmission"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:layout_marginLeft="10dp"
                             android:lines="1"
-                            android:text="@string/select_transmission"
                             android:textAppearance="?android:attr/textAppearanceMedium"
                             android:textColor="@color/black_424242" />
 
@@ -311,11 +311,11 @@
                             android:src="@mipmap/ic_launcher" />
 
                         <com.ad.sample.ui.widget.RobotoRegularTextView
+                            android:id="@+id/text_year"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:layout_marginLeft="10dp"
                             android:lines="1"
-                            android:text="@string/select_year"
                             android:textAppearance="?android:attr/textAppearanceMedium"
                             android:textColor="@color/black_424242" />
 

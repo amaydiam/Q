@@ -13,9 +13,6 @@
         android:id="@+id/recycler_view_notification"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:clipToPadding="false"
-        android:scrollbars="vertical"
-        android:padding="10dp"
         />
 
 </android.support.design.widget.CoordinatorLayout>
