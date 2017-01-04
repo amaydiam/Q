@@ -8,12 +8,18 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.View;
+<<<<<<< Updated upstream
 import android.widget.Button;
 import android.widget.TextView;
 
 import com.ad.sample.R;
 import com.ad.sample.Sample;
 import com.ad.sample.model.PrepareOrder;
+=======
+import android.widget.TextView;
+
+import com.ad.sample.R;
+>>>>>>> Stashed changes
 import com.joanzapata.iconify.IconDrawable;
 import com.joanzapata.iconify.fonts.MaterialIcons;
 import com.wdullaer.materialdatetimepicker.date.DatePickerDialog;
@@ -35,10 +41,13 @@ public class ServiceDetailUserActivity extends AppCompatActivity implements Time
     TextView toolbarTitle;
     @BindView(R.id.toolbar)
     Toolbar toolbar;
+<<<<<<< Updated upstream
     @BindView(R.id.btn_pickup_date)
     Button btnPickupDate;
     @BindView(R.id.btn_pickup_time)
     Button btnPickupTime;
+=======
+>>>>>>> Stashed changes
 
     @OnClick({R.id.btn_pickup_date})
     void onClickPickupDate() {
@@ -69,6 +78,7 @@ public class ServiceDetailUserActivity extends AppCompatActivity implements Time
 
     }
 
+<<<<<<< Updated upstream
     @OnClick({R.id.btn_order})
     void onClickedOrder() {
 
@@ -86,6 +96,10 @@ public class ServiceDetailUserActivity extends AppCompatActivity implements Time
         finish();
 
     }
+=======
+
+
+>>>>>>> Stashed changes
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -99,8 +113,11 @@ public class ServiceDetailUserActivity extends AppCompatActivity implements Time
         toolbar.setNavigationOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+<<<<<<< Updated upstream
                 Intent returnIntent = new Intent();
                 setResult(Activity.RESULT_CANCELED, returnIntent);
+=======
+>>>>>>> Stashed changes
                 finish();
             }
         });
@@ -110,9 +127,16 @@ public class ServiceDetailUserActivity extends AppCompatActivity implements Time
     }
 
 
+<<<<<<< Updated upstream
     @Override
     public void onDateSet(DatePickerDialog view, int year, int monthOfYear, int dayOfMonth) {
         String date = dayOfMonth + "/" + (monthOfYear + 1) + "/" + year;
+=======
+
+    @Override
+    public void onDateSet(DatePickerDialog view, int year, int monthOfYear, int dayOfMonth) {
+        String date = "You picked the following date: " + dayOfMonth + "/" + (monthOfYear + 1) + "/" + year;
+>>>>>>> Stashed changes
         //dateTextView.setText(date);
         Log.d("TAG", date);
         btnPickupDate.setText(date);
@@ -120,7 +144,11 @@ public class ServiceDetailUserActivity extends AppCompatActivity implements Time
 
     @Override
     public void onTimeSet(TimePickerDialog view, int hourOfDay, int minute, int second) {
+<<<<<<< Updated upstream
         String time = hourOfDay +":"+ minute +":"+ second;
+=======
+        String time = "You picked the following time: " + hourOfDay + "h" + minute + "m" + second;
+>>>>>>> Stashed changes
         //timeTextView.setText(time);
         Log.d("TAG", time);
         btnPickupTime.setText(time);

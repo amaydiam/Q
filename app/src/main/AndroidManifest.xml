@@ -42,12 +42,15 @@
             android:theme="@style/AppTheme.NoActionBar" />
         <activity android:name=".ui.activity.SelectTransmissionActivity"
             android:theme="@style/AppTheme.NoActionBar" />
+<<<<<<< Updated upstream
         <activity android:name=".ui.activity.NotificationActivity"
             android:theme="@style/AppTheme.NoActionBar" />
         <activity android:name=".ui.activity.HelpActivity"
             android:theme="@style/AppTheme.NoActionBar" />
         <activity android:name=".ui.activity.MyAccountActivity"
             android:theme="@style/AppTheme.NoActionBar" />
+=======
+>>>>>>> Stashed changes
 
         <activity android:name=".ui.activity.AddVehicleActivity"
             android:theme="@style/AppTheme.NoActionBar"

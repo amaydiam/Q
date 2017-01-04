@@ -48,6 +48,10 @@ public class SelectBrandActivity extends AppCompatActivity {
         });
         getSupportActionBar().setTitle("");
         toolbarTitle.setText(getResources().getString(R.string.select_brand));
+<<<<<<< Updated upstream
+=======
+
+>>>>>>> Stashed changes
 
         RecyclerAdapter1 adapter = new RecyclerAdapter1(this);
         recyclerViewSelectBrand.setAdapter(adapter);
