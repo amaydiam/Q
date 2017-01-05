@@ -60,11 +60,7 @@
 
                                 <View
                                     android:layout_width="match_parent"
-<<<<<<< Updated upstream
                                     android:layout_height="0.5dp"
-=======
-                                    android:layout_height="0.2dp"
->>>>>>> Stashed changes
                                     android:layout_below="@id/label_service_detail"
                                     android:background="#ccc" />
 
@@ -198,11 +194,7 @@
 
                                 <View
                                     android:layout_width="match_parent"
-<<<<<<< Updated upstream
                                     android:layout_height="0.5dp"
-=======
-                                    android:layout_height="0.2dp"
->>>>>>> Stashed changes
                                     android:layout_below="@id/label_additional_select"
                                     android:background="#ccc" />
 
@@ -302,11 +294,7 @@
 
                                 <View
                                     android:layout_width="match_parent"
-<<<<<<< Updated upstream
                                     android:layout_height="0.5dp"
-=======
-                                    android:layout_height="0.2dp"
->>>>>>> Stashed changes
                                     android:layout_below="@id/label_time"
                                     android:background="#ccc" />
 
@@ -380,11 +368,7 @@
 
                                 <View
                                     android:layout_width="match_parent"
-<<<<<<< Updated upstream
                                     android:layout_height="0.5dp"
-=======
-                                    android:layout_height="0.2dp"
->>>>>>> Stashed changes
                                     android:layout_below="@id/label_estimated_price"
                                     android:background="#ccc" />
 
@@ -424,7 +408,6 @@
 
         </android.support.v4.widget.NestedScrollView>
 
-<<<<<<< Updated upstream
         <com.joanzapata.iconify.widget.IconButton
             android:id="@+id/btn_order"
             android:layout_width="match_parent"
@@ -432,7 +415,6 @@
             android:layout_alignParentBottom="true"
             style="@style/btn_blue"
             android:text="ORDER"/>
-=======
         <Button
             android:layout_width="match_parent"
             android:layout_height="50dp"
