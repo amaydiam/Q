@@ -14,7 +14,6 @@ import android.text.TextWatcher;
 import android.util.Log;
 import android.view.KeyEvent;
 import android.view.View;
-import android.view.WindowManager;
 import android.view.inputmethod.EditorInfo;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.EditText;
@@ -24,7 +23,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.ad.sample.R;
-import com.ad.sample.adapter.RecyclerAdapterLocation;
+import com.ad.sample.adapter.LocationAdapter;
 import com.ad.sample.api.SearchLocationInterface;
 import com.ad.sample.model.ListLocation;
 import com.google.gson.Gson;
@@ -67,7 +66,7 @@ public class SelectLocationActivity extends AppCompatActivity {
         searchView.setText("");
     }
 
-    private RecyclerAdapterLocation mAdapter;
+    private LocationAdapter mAdapter;
     List<com.ad.sample.model.ListLocation.Prediction> ListLocation;
     private RecyclerView.LayoutManager mLayoutManager;
     String input;
@@ -182,7 +181,7 @@ public class SelectLocationActivity extends AppCompatActivity {
                     Log.d("MainActivity", "Items = " + ListLocation.size());
 
                     // This is where data loads
-                    mAdapter = new RecyclerAdapterLocation(ListLocation);
+                    mAdapter = new LocationAdapter(ListLocation);
 
                     //attach to recyclerview
                     mLayoutManager = new LinearLayoutManager(getApplicationContext());

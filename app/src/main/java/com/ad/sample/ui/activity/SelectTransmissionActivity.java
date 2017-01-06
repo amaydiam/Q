@@ -10,7 +10,7 @@ import android.view.View;
 import android.widget.TextView;
 
 import com.ad.sample.R;
-import com.ad.sample.adapter.RecyclerAdapter3;
+import com.ad.sample.adapter.TransmissionAdapter;
 import com.joanzapata.iconify.IconDrawable;
 import com.joanzapata.iconify.fonts.MaterialIcons;
 
@@ -48,7 +48,7 @@ public class SelectTransmissionActivity extends AppCompatActivity {
         getSupportActionBar().setTitle("");
         toolbarTitle.setText(getResources().getString(R.string.select_transmission));
 
-        RecyclerAdapter3 adapter = new RecyclerAdapter3(this);
+        TransmissionAdapter adapter = new TransmissionAdapter(this);
         recyclerViewSelectTransmission.setAdapter(adapter);
         recyclerViewSelectTransmission.setHasFixedSize(true);
 

@@ -10,7 +10,7 @@ import android.view.View;
 import android.widget.TextView;
 
 import com.ad.sample.R;
-import com.ad.sample.adapter.RecyclerAdapter5;
+import com.ad.sample.adapter.NotificationAdapter;
 import com.joanzapata.iconify.IconDrawable;
 import com.joanzapata.iconify.fonts.MaterialIcons;
 
@@ -50,7 +50,7 @@ public class NotificationActivity extends AppCompatActivity {
         getSupportActionBar().setTitle("");
         toolbarTitle.setText(getResources().getString(R.string.notification));
 
-        RecyclerAdapter5 adapter = new RecyclerAdapter5(this);
+        NotificationAdapter adapter = new NotificationAdapter(this);
         recyclerViewNotification.setAdapter(adapter);
         recyclerViewNotification.setHasFixedSize(true);
 

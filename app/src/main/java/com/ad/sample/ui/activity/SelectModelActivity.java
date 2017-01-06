@@ -10,7 +10,7 @@ import android.view.View;
 import android.widget.TextView;
 
 import com.ad.sample.R;
-import com.ad.sample.adapter.RecyclerAdapter2;
+import com.ad.sample.adapter.ModelAdapter;
 import com.joanzapata.iconify.IconDrawable;
 import com.joanzapata.iconify.fonts.MaterialIcons;
 
@@ -49,7 +49,7 @@ public class SelectModelActivity extends AppCompatActivity {
         getSupportActionBar().setTitle("");
         toolbarTitle.setText(getResources().getString(R.string.select_model));
 
-        RecyclerAdapter2 adapter = new RecyclerAdapter2(this);
+        ModelAdapter adapter = new ModelAdapter(this);
         recyclerViewSelectModel.setAdapter(adapter);
         recyclerViewSelectModel.setHasFixedSize(true);
 

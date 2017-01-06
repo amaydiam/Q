@@ -10,7 +10,7 @@ import android.view.View;
 import android.widget.TextView;
 
 import com.ad.sample.R;
-import com.ad.sample.adapter.RecyclerAdapter4;
+import com.ad.sample.adapter.YearAdapter;
 import com.joanzapata.iconify.IconDrawable;
 import com.joanzapata.iconify.fonts.MaterialIcons;
 
@@ -51,7 +51,7 @@ public class SelectYearActivity extends AppCompatActivity {
         toolbarTitle.setText(getResources().getString(R.string.select_year));
 
 
-        RecyclerAdapter4 adapter = new RecyclerAdapter4(this);
+        YearAdapter adapter = new YearAdapter(this);
         recyclerViewSelectYear.setAdapter(adapter);
         recyclerViewSelectYear.setHasFixedSize(true);
 
