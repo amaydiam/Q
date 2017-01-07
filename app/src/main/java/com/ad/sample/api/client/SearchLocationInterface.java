@@ -1,6 +1,6 @@
-package com.ad.sample.api;
+package com.ad.sample.api.client;
 
-import com.ad.sample.model.ListLocation;
+import com.ad.sample.api.model.ListLocation;
 
 import retrofit2.Call;
 import retrofit2.http.GET;

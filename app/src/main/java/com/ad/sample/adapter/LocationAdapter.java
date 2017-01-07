@@ -9,7 +9,7 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 
 import com.ad.sample.R;
-import com.ad.sample.model.ListLocation;
+import com.ad.sample.api.model.ListLocation;
 import com.ad.sample.ui.activity.HomeActivity;
 
 

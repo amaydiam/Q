@@ -1,4 +1,4 @@
-package com.ad.sample.model;
+package com.ad.sample.api.model;
 
 import java.util.List;
 

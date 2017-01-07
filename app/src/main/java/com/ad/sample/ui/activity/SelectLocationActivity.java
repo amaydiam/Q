@@ -24,8 +24,8 @@ import android.widget.Toast;
 
 import com.ad.sample.R;
 import com.ad.sample.adapter.LocationAdapter;
-import com.ad.sample.api.SearchLocationInterface;
-import com.ad.sample.model.ListLocation;
+import com.ad.sample.api.client.SearchLocationInterface;
+import com.ad.sample.api.model.ListLocation;
 import com.google.gson.Gson;
 import com.joanzapata.iconify.IconDrawable;
 import com.joanzapata.iconify.fonts.MaterialIcons;
@@ -67,7 +67,7 @@ public class SelectLocationActivity extends AppCompatActivity {
     }
 
     private LocationAdapter mAdapter;
-    List<com.ad.sample.model.ListLocation.Prediction> ListLocation;
+    List<com.ad.sample.api.model.ListLocation.Prediction> ListLocation;
     private RecyclerView.LayoutManager mLayoutManager;
     String input;
 
