@@ -474,6 +474,14 @@
             android:layout_alignParentBottom="true"
             style="@style/btn_blue"
             android:text="ORDER"/>
+        <Button
+            android:layout_width="match_parent"
+            android:layout_height="50dp"
+            android:layout_alignParentBottom="true"
+            android:background="@color/blue_2196F3"
+            android:text="ORDER"
+            android:textColor="@android:color/white" />
+>>>>>>> Stashed changes
 
     </RelativeLayout>
 </android.support.design.widget.CoordinatorLayout>

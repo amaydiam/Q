@@ -110,9 +110,10 @@ public class ServiceDetailUserActivity extends AppCompatActivity implements Time
     }
 
 
+
     @Override
     public void onDateSet(DatePickerDialog view, int year, int monthOfYear, int dayOfMonth) {
-        String date = dayOfMonth + "/" + (monthOfYear + 1) + "/" + year;
+        String date = "You picked the following date: " + dayOfMonth + "/" + (monthOfYear + 1) + "/" + year;
         //dateTextView.setText(date);
         Log.d("TAG", date);
         btnPickupDate.setText(date);
