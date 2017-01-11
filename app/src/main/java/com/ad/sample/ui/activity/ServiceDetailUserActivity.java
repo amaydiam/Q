@@ -113,8 +113,7 @@ public class ServiceDetailUserActivity extends AppCompatActivity implements Time
 
     @Override
     public void onDateSet(DatePickerDialog view, int year, int monthOfYear, int dayOfMonth) {
-        String date = "You picked the following date: " + dayOfMonth + "/" + (monthOfYear + 1) + "/" + year;
-        //dateTextView.setText(date);
+        String date =  dayOfMonth + "/" + (monthOfYear + 1) + "/" + year;
         Log.d("TAG", date);
         btnPickupDate.setText(date);
     }
@@ -122,7 +121,6 @@ public class ServiceDetailUserActivity extends AppCompatActivity implements Time
     @Override
     public void onTimeSet(TimePickerDialog view, int hourOfDay, int minute, int second) {
         String time = hourOfDay +":"+ minute +":"+ second;
-        //timeTextView.setText(time);
         Log.d("TAG", time);
         btnPickupTime.setText(time);
     }

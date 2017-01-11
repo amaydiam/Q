@@ -27,7 +27,7 @@ import butterknife.OnClick;
  * Created by binderbyte on 27/12/16.
  */
 
-public class MybalanceActivity extends AppCompatActivity {
+public class MyBalanceActivity extends AppCompatActivity {
 
     @BindView(R.id.toolbar_title)
     TextView toolbarTitle;

@@ -113,4 +113,7 @@
     <string name="action_clear">Clear</string>
     <string name="val_email_length">Email must be at least 5 chars and 100 chars length</string>
     <string name="val_password_length">Password must be at least 4 chars and 10 chars length</string>
+    <string name="btn_pick_location">Om Nyuci di sini om ... </string>
+    <string name="pick_location">Om nyuci di sini om ...</string>
+    <string name="retry">Retry ...</string>
 </resources>
