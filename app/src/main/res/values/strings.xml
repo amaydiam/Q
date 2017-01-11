@@ -111,4 +111,6 @@
     <string name="brand_ford">Ford</string>
     <string name="brand_holden">Holden</string>
     <string name="action_clear">Clear</string>
+    <string name="val_email_length">Email must be at least 5 chars and 100 chars length</string>
+    <string name="val_password_length">Password must be at least 4 chars and 10 chars length</string>
 </resources>
