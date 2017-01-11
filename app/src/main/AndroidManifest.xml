@@ -64,10 +64,6 @@
             android:label="@string/title_activity_add_vehicle_type"
             android:theme="@style/AppTheme.NoActionBar" />
         <activity
-            android:name=".ui.activity.MyBalanceActivity"
-            android:label="@string/title_activity_my_balance"
-            android:theme="@style/AppTheme.NoActionBar" />
-        <activity
             android:name=".ui.activity.HistoryActivity"
             android:label="@string/title_activity_history"
             android:theme="@style/AppTheme.NoActionBar" />

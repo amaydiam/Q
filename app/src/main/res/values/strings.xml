@@ -116,4 +116,5 @@
     <string name="btn_pick_location">Om Nyuci di sini om ... </string>
     <string name="pick_location">Om nyuci di sini om ...</string>
     <string name="retry">Retry ...</string>
+    <string name="val_name_length">Masukkan nama anda</string>
 </resources>
