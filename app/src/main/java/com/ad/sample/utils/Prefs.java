@@ -4,8 +4,6 @@ import android.content.Context;
 import android.content.SharedPreferences;
 
 import com.ad.sample.Sample;
-import com.ad.sample.api.model.login.DataLogin;
-import com.ad.sample.ui.activity.LoginUserActivity;
 
 
 public final class Prefs {
@@ -35,6 +33,14 @@ public final class Prefs {
 
 
     //Data User
+    public static void putFirebaseId(final Context context, String token) {
+        Prefs.putPref(context, Sample.FIREBASE_ID, token);
+    }
+
+    public static String getFirebaseId(final Context context) {
+        return Prefs.getPref(context, Sample.FIREBASE_ID, "");
+    }
+
     public static void putToken(final Context context, String token) {
         Prefs.putPref(context, Sample.TOKEN, token);
     }

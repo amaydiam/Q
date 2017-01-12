@@ -153,7 +153,7 @@ public class LoginUserActivity extends AppCompatActivity {
         Map<String, String> params = new HashMap<>();
         params.put(Sample.EMAIL, email.getText().toString());
         params.put(Sample.PASSWORD, password.getText().toString());
-        params.put(Sample.ID_FIREBASE, firebase_id);
+        params.put(Sample.FIREBASE_ID, firebase_id);
 
         LoginService mService = ApiUtils.LoginService(this);
         mService.getLoginLink(params).enqueue(new Callback<Login>() {
@@ -167,6 +167,7 @@ public class LoginUserActivity extends AppCompatActivity {
                         DataLogin dataLogin = response.body().getDataLogin();
 
                         Prefs.putToken(LoginUserActivity.this, response.body().getToken());
+                        Prefs.putFirebaseId(LoginUserActivity.this, firebase_id);
 
                         Prefs.putUserId(LoginUserActivity.this, dataLogin.getUserId());
                         Prefs.putUsername(LoginUserActivity.this, dataLogin.getUsername());
