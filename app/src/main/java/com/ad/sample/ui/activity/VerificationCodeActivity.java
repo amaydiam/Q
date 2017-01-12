@@ -62,6 +62,7 @@ public class VerificationCodeActivity extends AppCompatActivity {
     TextView timeDisplay;
 
     private Handler handler;
+    private Thread myThread;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -133,35 +134,11 @@ public class VerificationCodeActivity extends AppCompatActivity {
     }
 
     private void setTimer() {
-        handler = new Handler() {
-
-            @Override
-            public void handleMessage(Message msg) {
-                // TODO Auto-generated method stub
-                super.handleMessage(msg);
-                String string = timeDisplay.getText().toString();
-                int num = Integer.parseInt(string);
-                num = num - 1;
-                string = Integer.toString(num);
-                timeDisplay.setText(string);
-                if (timeDisplay.equals("0")) {
-                    Toast.makeText(VerificationCodeActivity.this, "Pindah activity", Toast.LENGTH_SHORT).show();
-                }
-            }
-
-        };
-    }
-
-    @Override
-    protected void onStart() {
-        // TODO Auto-generated method stub
-        super.onStart();
-        Thread myThread = new Thread(new Runnable() {
-
+        myThread = new Thread(new Runnable() {
             @Override
             public void run() {
                 // TODO Auto-generated method stub
-                for (int i = 20; i > 0; i--) {
+                for (int i = 120; i > 0; i--) {
                     try {
                         Thread.sleep(1000);
                         //handler.sendMessage(handler.obtainMessage());
@@ -175,8 +152,27 @@ public class VerificationCodeActivity extends AppCompatActivity {
                 }
             }
         });
-        myThread.start();
 
+
+        handler = new Handler() {
+            @Override
+            public void handleMessage(Message msg) {
+                // TODO Auto-generated method stub
+                super.handleMessage(msg);
+                String string = timeDisplay.getText().toString();
+                int num = Integer.parseInt(string);
+                num = num - 1;
+                if (num == 0) {
+                    myThread.start();
+                    Toast.makeText(VerificationCodeActivity.this, "Pindah ke activity", Toast.LENGTH_SHORT).show();
+                } else {
+                    myThread.start();
+                }
+                string = Integer.toString(num);
+                timeDisplay.setText(string);
+            }
+
+        };
     }
 
     private void setValid(String huruf) {
