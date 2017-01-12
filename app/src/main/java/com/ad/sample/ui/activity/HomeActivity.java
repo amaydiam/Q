@@ -15,7 +15,6 @@ import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
-import android.text.Editable;
 import android.text.Html;
 import android.util.Log;
 import android.util.TypedValue;
@@ -23,16 +22,14 @@ import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
-import android.view.inputmethod.InputMethodManager;
 import android.widget.ImageView;
-import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.Toast;
 
 import com.ad.sample.R;
 import com.ad.sample.Sample;
 import com.ad.sample.api.ApiUtils;
-import com.ad.sample.api.client.AddressMapsFromGoogleApi;
+import com.ad.sample.api.client.addressfromgoogleapi.AddressMapsFromGoogleApi;
 import com.ad.sample.api.model.Address;
 import com.ad.sample.api.model.AddressFromMapsResponse;
 import com.ad.sample.model.PrepareOrder;
@@ -40,7 +37,6 @@ import com.ad.sample.model.Vehicle;
 import com.ad.sample.ui.fragment.PrepareOrderFragment;
 import com.ad.sample.ui.fragment.WasherOrderFragment;
 import com.ad.sample.ui.widget.RobotoLightTextView;
-import com.ad.sample.ui.widget.RobotoRegularEditText;
 import com.google.android.gms.common.ConnectionResult;
 import com.google.android.gms.common.api.GoogleApiClient;
 import com.google.android.gms.location.LocationListener;
@@ -52,7 +48,6 @@ import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.OnMapReadyCallback;
 import com.google.android.gms.maps.SupportMapFragment;
 import com.google.android.gms.maps.model.BitmapDescriptorFactory;
-import com.google.android.gms.maps.model.CameraPosition;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
@@ -78,7 +73,6 @@ import java.util.Locale;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
-import butterknife.OnTextChanged;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
@@ -232,7 +226,7 @@ public class HomeActivity extends AppCompatActivity implements
         }
 
 
-        mService = ApiUtils.getAddressMapsFromGoogleApi();
+        mService = ApiUtils.getAddressMapsFromGoogleApi(this);
         //set Toolbar
         setSupportActionBar(toolbar);
 

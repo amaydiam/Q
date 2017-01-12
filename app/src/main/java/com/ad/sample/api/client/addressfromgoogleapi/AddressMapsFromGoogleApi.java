@@ -1,4 +1,4 @@
-package com.ad.sample.api.client;
+package com.ad.sample.api.client.addressfromgoogleapi;
 
 /**
  * Created by Amay on 12/29/2016.

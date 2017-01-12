@@ -24,7 +24,7 @@ import android.widget.Toast;
 
 import com.ad.sample.R;
 import com.ad.sample.adapter.LocationAdapter;
-import com.ad.sample.api.client.SearchLocationInterface;
+import com.ad.sample.api.client.searchlocation.SearchLocationInterface;
 import com.ad.sample.api.model.ListLocation;
 import com.google.gson.Gson;
 import com.joanzapata.iconify.IconDrawable;

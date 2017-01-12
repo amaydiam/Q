@@ -30,7 +30,7 @@ import com.ad.sample.R;
 import com.ad.sample.Sample;
 import com.ad.sample.adapter.HistoryAdapter;
 import com.ad.sample.api.ApiUtils;
-import com.ad.sample.api.client.HistoryService;
+import com.ad.sample.api.client.history.HistoryService;
 import com.ad.sample.api.model.HistoryListResponse;
 import com.ad.sample.model.History;
 import com.ad.sample.ui.activity.HistoryActivity;
@@ -165,7 +165,7 @@ public class HistoryListFragment extends Fragment implements HistoryAdapter.OnHi
         View rootView = inflater.inflate(R.layout.fragment_list, container, false);
         butterknife = ButterKnife.bind(this, rootView);
 
-        mService = ApiUtils.getHistory();
+        mService = ApiUtils.getHistory(getActivity());
 
         try {
             keyword = getArguments().getString(Sample.KEYWORD);

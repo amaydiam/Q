@@ -1,4 +1,4 @@
-package com.ad.sample.api.client;
+package com.ad.sample.api.client.searchlocation;
 
 import com.ad.sample.api.model.ListLocation;
 

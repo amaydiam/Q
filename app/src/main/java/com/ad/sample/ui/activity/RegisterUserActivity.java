@@ -70,19 +70,19 @@ public class RegisterUserActivity extends AppCompatActivity {
 
     @OnClick(R.id.btn_register)
     void SubmitRegister(){
-        //Login
+        //LoginService
         validator.validate();
         //startActivity(new Intent(this,LoginActivity.class));
     }
 
     @OnClick(R.id.btn_facebook)
     void LoginViaFacebook(){
-        Toast.makeText(this, "Login Via Facebook", Toast.LENGTH_SHORT).show();
+        Toast.makeText(this, "LoginService Via Facebook", Toast.LENGTH_SHORT).show();
     }
 
     @OnClick(R.id.btn_google_plus)
     void LoginViaGooglePlus(){
-        Toast.makeText(this, "Login Via Google plus", Toast.LENGTH_SHORT).show();
+        Toast.makeText(this, "LoginService Via Google plus", Toast.LENGTH_SHORT).show();
     }
 
     private Validator validator;

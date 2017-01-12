@@ -1,17 +1,13 @@
 package com.ad.sample.ui.fragment;
 
-import android.content.Intent;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v4.app.Fragment;
-import android.support.v4.content.ContextCompat;
 import android.support.v4.widget.NestedScrollView;
 import android.support.v7.widget.DefaultItemAnimator;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
-import android.text.Html;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -21,9 +17,8 @@ import android.widget.TextView;
 import com.ad.sample.R;
 import com.ad.sample.Sample;
 import com.ad.sample.adapter.AdditionalOrderAdapter;
-import com.ad.sample.adapter.HistoryAdapter;
 import com.ad.sample.api.ApiUtils;
-import com.ad.sample.api.client.HistoryService;
+import com.ad.sample.api.client.history.HistoryService;
 import com.ad.sample.api.model.HistoryDetailResponse;
 import com.ad.sample.model.AdditionalOrder;
 import com.ad.sample.model.History;
@@ -37,8 +32,6 @@ import com.joanzapata.iconify.fonts.EntypoIcons;
 import com.joanzapata.iconify.fonts.MaterialCommunityIcons;
 import com.joanzapata.iconify.fonts.MaterialIcons;
 import com.joanzapata.iconify.widget.IconTextView;
-
-import org.json.JSONObject;
 
 import java.util.ArrayList;
 
@@ -124,7 +117,7 @@ public class HistoryDetailFragment extends Fragment implements AdditionalOrderAd
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View v = inflater.inflate(R.layout.fragment_history_detail, container, false);
         unbinder = ButterKnife.bind(this, v);
-        mService = ApiUtils.getHistory();
+        mService = ApiUtils.getHistory(getActivity());
         imageLoader = new PicassoLoader();
 
 
