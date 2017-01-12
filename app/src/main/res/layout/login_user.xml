@@ -123,6 +123,15 @@
                     android:layout_marginTop="2dp"
                     app:backgroundTint="@android:color/white"
                     app:elevation="1dp" />
+
+                <com.facebook.login.widget.LoginButton
+                    android:id="@+id/button_facebook_login"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerInParent="true"
+                    android:visibility="gone"
+                    android:layout_gravity="center_horizontal"
+                    android:text="  connect_with_facebook" />
             </LinearLayout>
 
             <LinearLayout

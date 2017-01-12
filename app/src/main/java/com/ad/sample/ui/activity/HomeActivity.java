@@ -51,6 +51,7 @@ import com.google.android.gms.maps.model.BitmapDescriptorFactory;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
+import com.google.firebase.iid.FirebaseInstanceId;
 import com.gun0912.tedpermission.PermissionListener;
 import com.gun0912.tedpermission.TedPermission;
 import com.joanzapata.iconify.IconDrawable;
@@ -183,6 +184,8 @@ public class HomeActivity extends AppCompatActivity implements
             case R.id.btn_work:
                 if (!isHidden)
                     ShowMenuHome();
+                String firebase_id = FirebaseInstanceId.getInstance().getToken();
+                Toast.makeText(this, "" + firebase_id, Toast.LENGTH_SHORT).show();
                 break;
             case R.id.btn_home:
                 if (!isHidden)
