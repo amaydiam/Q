@@ -11,15 +11,20 @@
         android:orientation="vertical">
 
         <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_marginLeft="40dp"
+            android:layout_marginRight="40dp">
+        <RelativeLayout
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content">
+            android:layout_height="wrap_content"
+            android:layout_centerInParent="true">
 
             <TextView
                 android:id="@+id/ff"
-                android:layout_width="match_parent"
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="50sp"
-                android:gravity="center"
                 android:text="Verification Code"
                 android:textColor="@color/white"
                 android:textSize="25sp"
@@ -28,21 +33,20 @@
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:gravity="center"
                 android:layout_below="@id/ff"
-                android:layout_marginTop="20dp"
+                android:layout_marginTop="10dp"
                 android:maxLines="2"
                 android:text="Please type the verification code send to 08777-8899-430"
                 android:textColor="@color/white"
                 android:textSize="18sp" />
         </RelativeLayout>
-
+        </RelativeLayout>
 
         <LinearLayout
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center"
-            android:layout_marginTop="20dp"
+            android:layout_marginTop="10dp"
             android:orientation="horizontal">
 
             <EditText
@@ -131,6 +135,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="Don't receive code?"
+                android:textSize="18sp"
                 android:textColor="@color/white" />
 
             <RelativeLayout
@@ -144,16 +149,25 @@
                     android:text="Please wait"
                     android:textAlignment="center"
                     android:textColor="@color/white"
-                    android:textSize="15sp" />
+                    android:textSize="18sp" />
 
                 <TextView
+                    android:id="@+id/minutes"
                     android:layout_toRightOf="@id/title_timer"
-                    android:id="@+id/time_display"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginLeft="10dp"
+                    android:text="00:"
+                    android:textSize="18sp"
+                    android:textColor="#fcbd34" />
+                <TextView
+                    android:layout_toRightOf="@id/minutes"
+                    android:id="@+id/time_display"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
                     android:textColor="#fcbd34"
-                    android:text="120" />
+                    android:textSize="18sp"
+                    android:text="60" />
             </RelativeLayout>
         </LinearLayout>
 
@@ -176,7 +190,7 @@
                     android:padding="10dp"
                     android:text="1"
                     android:textColor="@color/white"
-                    android:textSize="45sp" />
+                    android:textSize="35sp" />
 
                 <TextView
                     android:id="@+id/get2"
@@ -187,7 +201,7 @@
                     android:padding="10dp"
                     android:text="2"
                     android:textColor="@color/white"
-                    android:textSize="45sp" />
+                    android:textSize="35sp" />
 
                 <TextView
                     android:id="@+id/get3"
@@ -197,7 +211,7 @@
                     android:padding="10dp"
                     android:text="3"
                     android:textColor="@color/white"
-                    android:textSize="45sp" />
+                    android:textSize="35sp" />
 
             </LinearLayout>
         </RelativeLayout>
@@ -221,7 +235,7 @@
                     android:padding="10dp"
                     android:text="4"
                     android:textColor="@color/white"
-                    android:textSize="45sp" />
+                    android:textSize="35sp" />
 
                 <TextView
                     android:id="@+id/get5"
@@ -232,7 +246,7 @@
                     android:padding="10dp"
                     android:text="5"
                     android:textColor="@color/white"
-                    android:textSize="45sp" />
+                    android:textSize="35sp" />
 
                 <TextView
                     android:id="@+id/get6"
@@ -242,7 +256,7 @@
                     android:padding="10dp"
                     android:text="6"
                     android:textColor="@color/white"
-                    android:textSize="45sp" />
+                    android:textSize="35sp" />
 
             </LinearLayout>
         </RelativeLayout>
@@ -266,7 +280,7 @@
                     android:padding="10dp"
                     android:text="7"
                     android:textColor="@color/white"
-                    android:textSize="45sp" />
+                    android:textSize="35sp" />
 
                 <TextView
                     android:id="@+id/get8"
@@ -277,7 +291,7 @@
                     android:padding="10dp"
                     android:text="8"
                     android:textColor="@color/white"
-                    android:textSize="45sp" />
+                    android:textSize="35sp" />
 
                 <TextView
                     android:id="@+id/get9"
@@ -287,7 +301,7 @@
                     android:padding="10dp"
                     android:text="9"
                     android:textColor="@color/white"
-                    android:textSize="45sp" />
+                    android:textSize="35sp" />
 
             </LinearLayout>
         </RelativeLayout>
@@ -305,11 +319,11 @@
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginRight="85dp"
+                    android:layout_marginRight="75dp"
                     android:layout_weight="1"
                     android:padding="10dp"
                     android:text="@null"
-                    android:textSize="45sp" />
+                    android:textSize="35sp" />
 
                 <TextView
                     android:id="@+id/get0"
@@ -320,12 +334,12 @@
                     android:padding="10dp"
                     android:text="0"
                     android:textColor="@color/white"
-                    android:textSize="45sp" />
+                    android:textSize="35sp" />
 
                 <ImageView
                     android:id="@+id/delete"
-                    android:layout_width="40dp"
-                    android:layout_height="40dp"
+                    android:layout_width="35dp"
+                    android:layout_height="35dp"
                     android:layout_gravity="center"
                     android:src="@drawable/ic_backspace_black_24dp" />
 
