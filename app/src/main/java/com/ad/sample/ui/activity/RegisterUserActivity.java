@@ -72,7 +72,7 @@ public class RegisterUserActivity extends AppCompatActivity {
     void SubmitRegister(){
         //Login
         validator.validate();
-        //startActivity(new Intent(this,LoginActivity.class));
+        startActivity(new Intent(this, VerificationCodeActivity.class));
     }
 
     @OnClick(R.id.btn_facebook)

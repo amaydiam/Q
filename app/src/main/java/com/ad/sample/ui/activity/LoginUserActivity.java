@@ -5,6 +5,7 @@ import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v7.app.AppCompatActivity;
+import android.util.Log;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.TextView;
@@ -13,6 +14,7 @@ import android.widget.Toast;
 import com.ad.sample.R;
 import com.ad.sample.ui.widget.RobotoRegularButton;
 import com.ad.sample.ui.widget.RobotoRegularEditText;
+import com.google.firebase.iid.FirebaseInstanceId;
 import com.joanzapata.iconify.IconDrawable;
 import com.joanzapata.iconify.Iconify;
 import com.joanzapata.iconify.fonts.EntypoIcons;
@@ -56,6 +58,15 @@ public class LoginUserActivity extends AppCompatActivity {
     @OnClick(R.id.btn_login)
     void LoginEmail() {
         validator.validate();
+
+        // Get token
+        String token = FirebaseInstanceId.getInstance().getToken();
+
+        // Log and toast
+        String msg = "Output " + token;
+        Log.d("Token", msg);
+        Toast.makeText(this, "" + msg, Toast.LENGTH_SHORT).show();
+
     }
 
     @OnClick(R.id.btn_facebook)
