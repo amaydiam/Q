@@ -60,6 +60,9 @@
             android:name=".ui.activity.MyAccountActivity"
             android:theme="@style/AppTheme.NoActionBar" />
         <activity
+            android:name=".ui.activity.MyBalanceActivity"
+            android:theme="@style/AppTheme.NoActionBar" />
+        <activity
             android:name=".ui.activity.AddVehicleActivity"
             android:label="@string/title_activity_add_vehicle_type"
             android:theme="@style/AppTheme.NoActionBar" />

@@ -14,6 +14,8 @@ import android.widget.Toast;
 
 import com.ad.sample.R;
 
+import java.util.concurrent.TimeUnit;
+
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
@@ -138,7 +140,7 @@ public class VerificationCodeActivity extends AppCompatActivity {
             @Override
             public void run() {
                 // TODO Auto-generated method stub
-                for (int i = 120; i > 0; i--) {
+                for (int i = 60; i > 0; i--) {
                     try {
                         Thread.sleep(1000);
                         //handler.sendMessage(handler.obtainMessage());
@@ -152,7 +154,7 @@ public class VerificationCodeActivity extends AppCompatActivity {
                 }
             }
         });
-
+        myThread.start();
 
         handler = new Handler() {
             @Override
@@ -163,10 +165,7 @@ public class VerificationCodeActivity extends AppCompatActivity {
                 int num = Integer.parseInt(string);
                 num = num - 1;
                 if (num == 0) {
-                    myThread.start();
                     Toast.makeText(VerificationCodeActivity.this, "Pindah ke activity", Toast.LENGTH_SHORT).show();
-                } else {
-                    myThread.start();
                 }
                 string = Integer.toString(num);
                 timeDisplay.setText(string);
