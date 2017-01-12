@@ -15,6 +15,7 @@ public class Sample {
     public static final String KEYWORD = "keyword";
     public static final String EMAIL = "email";
     public static final String PASSWORD = "password";
+    public static final String ID_FIREBASE = "firebase_id";
     public static String PAGE = "page";
     public static String DATA = "data";
 
