@@ -1,12 +1,16 @@
 package com.ad.sample.ui.activity;
 
+import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
+import android.view.KeyEvent;
 import android.view.View;
+import android.view.inputmethod.EditorInfo;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -31,9 +35,9 @@ import com.joanzapata.iconify.fonts.FontAwesomeIcons;
 import com.joanzapata.iconify.fonts.FontAwesomeModule;
 import com.mobsandgeeks.saripaar.ValidationError;
 import com.mobsandgeeks.saripaar.Validator;
-import com.mobsandgeeks.saripaar.annotation.Email;
 import com.mobsandgeeks.saripaar.annotation.Length;
 import com.mobsandgeeks.saripaar.annotation.NotEmpty;
+import com.scottyab.showhidepasswordedittext.ShowHidePasswordEditText;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -64,20 +68,20 @@ public class LoginUserActivity extends AppCompatActivity {
     TextView register;
 
     @NotEmpty
-    @Length(min = 5, max = 100, trim = true, messageResId = R.string.val_email_length)
-    @Email
-    @BindView(R.id.email)
-    RobotoRegularEditText email;
+    @Length(min = 5, max = 100, trim = true, messageResId = R.string.val_email_or_number_length)
+    @BindView(R.id.email_or_number_phone)
+    RobotoRegularEditText emailOrNumberPhone;
 
     @NotEmpty
     @Length(min = 4, max = 10, trim = true, messageResId = R.string.val_password_length)
     @BindView(R.id.password)
-    RobotoRegularEditText password;
+    ShowHidePasswordEditText password;
     private ProgressDialogBuilder dialogProgress;
     private String firebase_id;
 
     @OnClick(R.id.btn_login)
     void LoginEmail() {
+        hideKeyboard();
         validator.validate();
     }
 
@@ -131,6 +135,18 @@ public class LoginUserActivity extends AppCompatActivity {
                 }
             }
         });
+
+        password.setOnEditorActionListener(new EditText.OnEditorActionListener() {
+            @Override
+            public boolean onEditorAction(TextView v, int actionId, KeyEvent event) {
+                if (actionId == EditorInfo.IME_ACTION_GO) {
+                    hideKeyboard();
+                    validator.validate();
+                    return true;
+                }
+                return false;
+            }
+        });
         setIcon();
 
     }
@@ -150,10 +166,15 @@ public class LoginUserActivity extends AppCompatActivity {
         Log.d(TAG, "remote login...");
         dialogProgress.show("LoginService ...", "Please wait...");
 
+        firebase_id = FirebaseInstanceId.getInstance().getToken();
         Map<String, String> params = new HashMap<>();
-        params.put(Sample.EMAIL, email.getText().toString());
+        params.put(Sample.EMAIL, emailOrNumberPhone.getText().toString());
         params.put(Sample.PASSWORD, password.getText().toString());
         params.put(Sample.FIREBASE_ID, firebase_id);
+
+        for (Map.Entry entry : params.entrySet()) {
+            System.out.println(entry.getKey() + ", " + entry.getValue());
+        }
 
         LoginService mService = ApiUtils.LoginService(this);
         mService.getLoginLink(params).enqueue(new Callback<Login>() {
@@ -187,6 +208,7 @@ public class LoginUserActivity extends AppCompatActivity {
                         JSONObject jsonObject = new JSONObject(response.errorBody().string());
                         String message = jsonObject.getString(Sample.MESSAGE);
                         Toast.makeText(getApplicationContext(), message, Toast.LENGTH_SHORT).show();
+                        password.setText("");
                     } catch (JSONException | IOException e) {
                         Toast.makeText(getApplicationContext(), "Error", Toast.LENGTH_SHORT).show();
                         e.printStackTrace();
@@ -219,6 +241,14 @@ public class LoginUserActivity extends AppCompatActivity {
         firebase_id = FirebaseInstanceId.getInstance().getToken();
         if (Prefs.isLogedIn(this)) {
             toHomeActivity();
+        }
+    }
+
+    void hideKeyboard() {
+        View view = this.getCurrentFocus();
+        if (view != null) {
+            InputMethodManager imm = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
+            imm.hideSoftInputFromWindow(view.getWindowToken(), 0);
         }
     }
 

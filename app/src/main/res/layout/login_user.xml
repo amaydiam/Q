@@ -53,16 +53,16 @@
                 android:layout_marginRight="@dimen/activity_vertical_margin">
 
                 <com.ad.sample.ui.widget.RobotoRegularEditText
-                    android:id="@+id/email"
+                    android:id="@+id/email_or_number_phone"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_below="@id/label_signin"
                     android:layout_marginTop="@dimen/activity_vertical_margin"
-                    android:hint="@string/email"
+                    android:hint="@string/email_or_number"
                     android:inputType="textEmailAddress"
                     android:maxLines="1" />
 
-                <com.ad.sample.ui.widget.RobotoRegularEditText
+                <com.scottyab.showhidepasswordedittext.ShowHidePasswordEditText
                     android:id="@+id/password"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
@@ -70,6 +70,7 @@
                     android:layout_marginTop="@dimen/activity_vertical_margin"
                     android:hint="@string/password"
                     android:inputType="textPassword"
+                    android:imeOptions="actionGo"
                     android:maxLines="1"
                     android:maxLength="10"/>
             </LinearLayout>

@@ -16,6 +16,7 @@ public class Sample {
     public static final String EMAIL = "email";
     public static final String PASSWORD = "password";
     public static final String FIREBASE_ID = "firebase_id";
+    public static final String CITY = "city";
     public static String PAGE = "page";
     public static String DATA = "data";
 
@@ -32,7 +33,7 @@ public class Sample {
     public static final String USERNAME = "username";
     public static final String TOKEN = "token";
     public static final String NAME = "name";
-    public static final String AUTH_LEVEL = "auth_type";
+    public static final String AUTH_LEVEL = "auth_level";
     public static final String MESSAGE = "message";
     public static final String LATITUDE = "Latitude";
     public static final String LONGITUDE = "Longitude";

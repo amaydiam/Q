@@ -6,6 +6,7 @@ import com.ad.sample.api.client.auth.LoginService;
 import com.ad.sample.api.client.history.HistoryService;
 import com.ad.sample.api.client.RetrofitClient;
 import com.ad.sample.api.client.addressfromgoogleapi.AddressMapsFromGoogleApi;
+import com.ad.sample.api.client.register.RegisterService;
 
 /**
  * Created by Amay on 12/29/2016.
@@ -30,5 +31,8 @@ public class ApiUtils {
 
     }
 
+    public static RegisterService RegisterService(Context context) {
+        return RetrofitClient.getClient(context, BASE_URL_QWASH).create(RegisterService.class);
 
+    }
 }
