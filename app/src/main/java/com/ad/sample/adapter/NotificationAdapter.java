@@ -1,6 +1,10 @@
 package com.ad.sample.adapter;
 
 import android.content.Context;
+import android.os.Bundle;
+import android.support.v4.app.FragmentManager;
+import android.support.v4.app.FragmentTransaction;
+import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.CardView;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
@@ -8,9 +12,9 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.ad.sample.R;
+import com.ad.sample.ui.fragment.DetailNotificationFragment;
 
 /**
  * Created by binderbyte on 24/12/16.
@@ -19,13 +23,16 @@ import com.ad.sample.R;
 public class NotificationAdapter extends RecyclerView.Adapter<NotificationAdapter.RecyclerViewHolder> {
 
     String [] title = {"Promo 2015","Promo 2017","Promo 2018"};
+    int[] image = {R.mipmap.ic_launcher, R.mipmap.ic_launcher, R.mipmap.ic_launcher};
     String[] deskripsi = {"Berlaku pada tgl 12 januari 2015, Berlaku pada tgl 12 januari 2015, Berlaku pada tgl 12 januari 2015, Berlaku pada tgl 12 januari 2015", "Berlaku pada tgl 12 januari 2017", "Berlaku pada tgl 12 januari 2018"};
 
     Context context;
     LayoutInflater inflater;
     View view;
+    FragmentManager fragmentManager;
 
-    public NotificationAdapter(Context context) {
+    public NotificationAdapter(FragmentManager fm, Context context) {
+        this.fragmentManager = fm;
         this.context=context;
         inflater=LayoutInflater.from(context);
     }
@@ -39,14 +46,27 @@ public class NotificationAdapter extends RecyclerView.Adapter<NotificationAdapte
     }
 
     @Override
-    public void onBindViewHolder(RecyclerViewHolder holder, final int position) {
+    public void onBindViewHolder(final RecyclerViewHolder holder, final int position) {
 
         holder.title5.setText(title[position]);
         holder.deskripsi1.setText(deskripsi[position]);
+        holder.image1.setImageResource(image[position]);
         holder.cardView5.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Toast.makeText(context, "Click "+position, Toast.LENGTH_SHORT).show();
+
+                Bundle i = new Bundle();
+                i.putString("title", title[position]);
+                i.putString("deskripsi", deskripsi[position]);
+                i.putInt("image", image[position]);
+
+                DetailNotificationFragment newFragment = new DetailNotificationFragment();
+                newFragment.setArguments(i);
+                FragmentManager fragmentManager = ((AppCompatActivity) context).getSupportFragmentManager();
+                FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
+                fragmentTransaction.replace(R.id.fragment_container, newFragment);
+                fragmentTransaction.addToBackStack(null);
+                fragmentTransaction.commit();
             }
         });
     }

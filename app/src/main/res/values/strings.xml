@@ -120,4 +120,6 @@
     <string name="val_name_length">Masukkan nama anda</string>
     <string name="email_or_number">Email or Number Phone</string>
     <string name="facebook_app_id">202935096795565</string>
+    <string name="detail_notification">Detail Notification</string>
+    <string name="hint_number">0877-7889-9430</string>
 </resources>

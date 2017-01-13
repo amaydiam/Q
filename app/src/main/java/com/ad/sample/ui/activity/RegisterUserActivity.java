@@ -10,21 +10,18 @@ import android.util.Log;
 import android.view.View;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.EditText;
+import android.widget.LinearLayout;
 import android.widget.Toast;
 
 import com.ad.sample.R;
 import com.ad.sample.Sample;
 import com.ad.sample.api.ApiUtils;
-import com.ad.sample.api.client.auth.LoginService;
 import com.ad.sample.api.client.register.RegisterService;
-import com.ad.sample.api.model.login.DataLogin;
-import com.ad.sample.api.model.login.Login;
 import com.ad.sample.api.model.register.DataRegister;
 import com.ad.sample.api.model.register.Register;
 import com.ad.sample.ui.widget.RobotoRegularButton;
 import com.ad.sample.ui.widget.RobotoRegularEditText;
 import com.ad.sample.ui.widget.RobotoRegularTextView;
-import com.ad.sample.utils.Prefs;
 import com.ad.sample.utils.ProgressDialogBuilder;
 import com.google.firebase.iid.FirebaseInstanceId;
 import com.google.gson.Gson;
@@ -87,6 +84,10 @@ public class RegisterUserActivity extends AppCompatActivity {
     @Password
     @BindView(R.id.password)
     RobotoRegularEditText password;
+    @BindView(R.id.phonenumber)
+    RobotoRegularEditText phonenumber;
+    @BindView(R.id.layout_btn_register_alternatif)
+    LinearLayout layoutBtnRegisterAlternatif;
     private String firebase_id;
     private ProgressDialogBuilder dialogProgress;
 
@@ -124,7 +125,8 @@ public class RegisterUserActivity extends AppCompatActivity {
         setContentView(R.layout.register_user);
         ButterKnife.bind(this);
 
-        dialogProgress = new ProgressDialogBuilder(this); validator = new Validator(this);
+        dialogProgress = new ProgressDialogBuilder(this);
+        validator = new Validator(this);
         validator.setValidationListener(new Validator.ValidationListener() {
             @Override
             public void onValidationSucceeded() {
@@ -170,7 +172,7 @@ public class RegisterUserActivity extends AppCompatActivity {
         params.put(Sample.NAME, nama.getText().toString());
         params.put(Sample.PASSWORD, password.getText().toString());
         params.put(Sample.AUTH_LEVEL, String.valueOf(10));
-        params.put(Sample.PHONE, "083897547006");
+        params.put(Sample.PHONE, phonenumber.getText().toString());
         params.put(Sample.CITY, "Tangerang Selatan");
 
         params.put(Sample.FIREBASE_ID, firebase_id);

@@ -1,5 +1,6 @@
 package com.ad.sample.ui.activity;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
@@ -217,6 +218,7 @@ public class VerificationCodeActivity extends AppCompatActivity {
         String cekout = "123456";
 
         if (valid.equals(cekout)) {
+            startActivity(new Intent(this, HomeActivity.class));
             Toast.makeText(this, "Verifikasi berhasil !!!", Toast.LENGTH_SHORT).show();
         } else {
             Toast.makeText(this, "Verifikasi gagal !!!", Toast.LENGTH_SHORT).show();
