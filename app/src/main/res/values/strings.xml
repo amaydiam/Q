@@ -87,7 +87,6 @@
     <string name="label_vacuum">Interior Vacuum</string>
     <string name="label_deskripsi_vacuum">We will vacuum your car interior.</string>
     <string name="submit_add_vehicle">SUBMIT</string>
-    =======
     <string name="model_alya">Ayla</string>
     <string name="model_ceria">Ceria</string>
     <string name="model_espass">Espass</string>
@@ -114,12 +113,13 @@
     <string name="val_email_length">Email must be at least 5 chars and 100 chars length</string>
     <string name="val_email_or_number_length">Email Or Number Phone must be at least 5 chars and 100 chars length</string>
     <string name="val_password_length">Password must be at least 4 chars and 10 chars length</string>
-    <string name="btn_pick_location">Om Nyuci di sini om ... </string>
-    <string name="pick_location">Om nyuci di sini om ...</string>
+    <string name="btn_pick_location">Pick your place here ...</string>
     <string name="retry">Retry ...</string>
     <string name="val_name_length">Masukkan nama anda</string>
     <string name="email_or_number">Email or Number Phone</string>
     <string name="facebook_app_id">202935096795565</string>
     <string name="detail_notification">Detail Notification</string>
     <string name="hint_number">0877-7889-9430</string>
+    <string name="requesting">REQUESTING</string>
+    <string name="alert_find_washer"><![CDATA[Don\'t give your key car to the washer\nCheck all the equipment in the car\nCheck equipment workers]]></string>
 </resources>

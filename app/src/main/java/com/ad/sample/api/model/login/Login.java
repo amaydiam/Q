@@ -3,11 +3,13 @@ package com.ad.sample.api.model.login; /**
  */
 
 
-import com.ad.sample.api.model.login.DataLogin;
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
 
+import java.util.List;
+
 public class Login {
+
 
     @SerializedName("status")
     @Expose
@@ -18,6 +20,9 @@ public class Login {
     @SerializedName("data")
     @Expose
     private DataLogin data;
+    @SerializedName("vehicles")
+    @Expose
+    private List<VehicleLogin> vehicles = null;
 
     public Boolean getStatus() {
         return status;
@@ -42,5 +47,14 @@ public class Login {
     public void setDataLogin(DataLogin data) {
         this.data = data;
     }
+
+    public List<VehicleLogin> getVehicleLogins() {
+        return vehicles;
+    }
+
+    public void setVehicleLogins(List<VehicleLogin> vehicles) {
+        this.vehicles = vehicles;
+    }
+
 }
 

@@ -58,7 +58,7 @@ public class TransmissionAdapter extends RecyclerView.Adapter<TransmissionAdapte
             public void onClick(View v) {
                 SharedPreferences prefs = context.getSharedPreferences("my_prefs", Context.MODE_PRIVATE);
                 SharedPreferences.Editor edit = prefs.edit();
-                edit.putString("transmission", transmission[position]);
+                edit.putString("vehicle_transmission", transmission[position]);
                 edit.commit();
                 ((Activity) context).finish();
             }

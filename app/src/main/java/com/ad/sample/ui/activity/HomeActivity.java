@@ -14,13 +14,9 @@ import android.support.v4.app.Fragment;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
-import android.support.v7.widget.Toolbar;
 import android.text.Html;
 import android.util.Log;
 import android.util.TypedValue;
-import android.view.Menu;
-import android.view.MenuInflater;
-import android.view.MenuItem;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.RelativeLayout;
@@ -89,8 +85,11 @@ public class HomeActivity extends AppCompatActivity implements
 
     @BindView(R.id.search)
     RobotoLightTextView search;
-    @BindView(R.id.toolbar)
-    Toolbar toolbar;
+    @BindView(R.id.img_menu)
+    ImageView imgMenu;
+    @BindView(R.id.img_search)
+    ImageView imgSearch;
+
     private AddressMapsFromGoogleApi mService;
 
     @BindView(R.id.layout_pick_location)
@@ -111,6 +110,8 @@ public class HomeActivity extends AppCompatActivity implements
     @BindView(R.id.layout_menu_home)
     View layoutMenuHome;
 
+    @BindView(R.id.img_close_menu)
+    ImageView imgCloseMenu;
     @BindView(R.id.img_menu_home)
     ImageView imgMenuHome;
     @BindView(R.id.img_menu_notification)
@@ -123,12 +124,18 @@ public class HomeActivity extends AppCompatActivity implements
     ImageView imgMenuHelp;
     @BindView(R.id.img_menu_my_account)
     ImageView imgMenuMyAccount;
-    private boolean hasIdetify = false;
+
+    @BindView(R.id.layout_find_washer)
+    View layoutFindWasher;
+
 
     @OnClick({
+            R.id.img_menu,
+            R.id.img_search,
             R.id.search,
             R.id.btn_pick_location,
             // Sub Menu
+            R.id.btn_close_menu,
             R.id.menu_home,
             R.id.menu_notification,
             R.id.menu_my_balance,
@@ -137,13 +144,20 @@ public class HomeActivity extends AppCompatActivity implements
             R.id.menu_my_account,
             // quick Menu
             R.id.btn_work,
-            R.id.btn_home
+            R.id.btn_home,
+            R.id.btn_close
 
 
     })
     void ClickMenu(View v) {
         int id = v.getId();
         switch (id) {
+            case R.id.img_menu:
+                ShowMenuHome(imgMenu);
+                break;
+            case R.id.img_search:
+                ToSearchActivity();
+                break;
 
             case R.id.search:
                 ToSearchActivity();
@@ -156,52 +170,62 @@ public class HomeActivity extends AppCompatActivity implements
                 break;
 
             // sub Menu
+            case R.id.btn_close_menu:
+                ShowMenuHome(imgCloseMenu);
+                break;
             case R.id.menu_home:
-                ShowMenuHome();
+                ShowMenuHome(imgMenuHome);
                 break;
             case R.id.menu_notification:
-                ShowMenuHome();
+                ShowMenuHome(imgMenuNotification);
                 startActivity(new Intent(this, NotificationActivity.class));
                 break;
             case R.id.menu_my_balance:
-                ShowMenuHome();
+                ShowMenuHome(imgMenuMyBalance);
                 startActivity(new Intent(this, MyBalanceActivity.class));
                 break;
             case R.id.menu_history:
-                ShowMenuHome();
+                ShowMenuHome(imgMenuHistory);
                 startActivity(new Intent(this, HistoryActivity.class));
                 break;
             case R.id.menu_help:
-                ShowMenuHome();
+                ShowMenuHome(imgMenuHelp);
                 startActivity(new Intent(this, HelpActivity.class));
                 break;
             case R.id.menu_my_account:
-                ShowMenuHome();
+                ShowMenuHome(imgMenuMyAccount);
                 startActivity(new Intent(this, MyAccountActivity.class));
                 break;
 
             //quick menu
             case R.id.btn_work:
                 if (!isHidden)
-                    ShowMenuHome();
+                    ShowMenuHome(imgMenu);
                 String firebase_id = FirebaseInstanceId.getInstance().getToken();
                 Toast.makeText(this, "" + firebase_id, Toast.LENGTH_SHORT).show();
                 break;
             case R.id.btn_home:
                 if (!isHidden)
-                    ShowMenuHome();
+                    ShowMenuHome(imgMenu);
                 break;
+            case R.id.btn_close:
+                isFind = false;
+                FindingWasher();
+                break;
+
             default:
                 break;
         }
     }
 
 
+    private boolean hasIdetify = false;
+    private boolean isFind = false;
+
     Fragment current_fragment = null;
     private double current_latitude, current_longitude;
     private View mapView;
     private boolean isHidden = true;
-    private MenuItem acSearch;
     private GoogleMap mMap;
     GoogleApiClient mGoogleApiClient;
     Location mLastLocation;
@@ -231,18 +255,19 @@ public class HomeActivity extends AppCompatActivity implements
 
         mService = ApiUtils.getAddressMapsFromGoogleApi(this);
         //set Toolbar
-        setSupportActionBar(toolbar);
 
-        toolbar.setNavigationIcon(
+        imgMenu.setImageDrawable(
                 new IconDrawable(this, MaterialIcons.md_menu)
-                        .colorRes(R.color.black_424242)
+                        .colorRes(R.color.blue_2196F3)
                         .actionBarSize());
-        toolbar.setNavigationOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                ShowMenuHome();
-            }
-        });
+
+        imgSearch.setImageDrawable(
+                new IconDrawable(this, MaterialIcons.md_search)
+                        .colorRes(R.color.blue_2196F3)
+                        .actionBarSize());
+
+        layoutMenuHome.bringToFront();
+        imgCloseMenu.setImageDrawable(new IconDrawable(this, MaterialIcons.md_close).colorRes(R.color.white).actionBarSize());
         imgMenuHome.setImageDrawable(new IconDrawable(this, SimpleLineIconsIcons.icon_home).colorRes(R.color.white).actionBarSize());
         imgMenuNotification.setImageDrawable(new IconDrawable(this, MaterialIcons.md_notifications_none).colorRes(R.color.white).actionBarSize());
         imgMenuMyBalance.setImageDrawable(new IconDrawable(this, EntypoIcons.entypo_wallet).colorRes(R.color.white).actionBarSize());
@@ -267,15 +292,15 @@ public class HomeActivity extends AppCompatActivity implements
 
         btnWork.setImageDrawable(
                 new IconDrawable(this, SimpleLineIconsIcons.icon_bag)
-                        .colorRes(R.color.black_424242)
+                        .colorRes(R.color.blue_2196F3)
                         .actionBarSize());
         btnHome.setImageDrawable(
                 new IconDrawable(this, SimpleLineIconsIcons.icon_home)
-                        .colorRes(R.color.black_424242)
+                        .colorRes(R.color.blue_2196F3)
                         .actionBarSize());
         btnMyLocation.setImageDrawable(
                 new IconDrawable(this, MaterialIcons.md_my_location)
-                        .colorRes(R.color.black_424242)
+                        .colorRes(R.color.blue_2196F3)
                         .actionBarSize());
 
         pickLayoutLocationShow(false);
@@ -287,13 +312,18 @@ public class HomeActivity extends AppCompatActivity implements
                 .setPermissions(Manifest.permission.ACCESS_FINE_LOCATION)
                 .check();
 
+        FindingWasher();
+
     }
 
 
     private void LoadPrepareOrderFragment() {
+        PrepareOrder prepareOrder = new PrepareOrder();
+        prepareOrder.latitude=current_latitude;
+        prepareOrder.longitude=current_longitude;
         mMap.getUiSettings().setScrollGesturesEnabled(false);
         btnPickLocation.setVisibility(View.INVISIBLE);
-        current_fragment = new PrepareOrderFragment();
+        current_fragment = new PrepareOrderFragment().newInstance(prepareOrder);
         getSupportFragmentManager().beginTransaction().replace(R.id.fragment_bottom, current_fragment).commit();
     }
 
@@ -307,7 +337,7 @@ public class HomeActivity extends AppCompatActivity implements
     private void RemoveBottomFragment() {
         mMap.getUiSettings().setScrollGesturesEnabled(true);
         btnPickLocation.setVisibility(View.VISIBLE);
-        getSupportFragmentManager().beginTransaction().remove(current_fragment).commit();
+        getSupportFragmentManager().beginTransaction().remove(current_fragment).commitAllowingStateLoss();
         current_fragment = null;
     }
 
@@ -361,7 +391,7 @@ public class HomeActivity extends AppCompatActivity implements
             @Override
             public void onClick(View v) {
                 if (!isHidden)
-                    ShowMenuHome();
+                    ShowMenuHome(imgMenu);
                 if (ContextCompat.checkSelfPermission(HomeActivity.this,
                         Manifest.permission.ACCESS_FINE_LOCATION)
                         == PackageManager.PERMISSION_GRANTED) {
@@ -494,22 +524,14 @@ public class HomeActivity extends AppCompatActivity implements
     }
 
 
-    private void ShowMenuHome() {
+    private void ShowMenuHome(View v) {
 
         if (isHidden) {
-            toolbar.setNavigationIcon(
-                    new IconDrawable(this, MaterialIcons.md_close)
-                            .colorRes(R.color.black_424242)
-                            .actionBarSize());
-            CircularAnim.show(layoutMenuHome).duration(300).triggerView(toolbar.getChildAt(2)).go();
+            CircularAnim.show(layoutMenuHome).duration(300).triggerView(v != null ? v : imgMenu).go();
             isHidden = false;
 
         } else {
-            toolbar.setNavigationIcon(
-                    new IconDrawable(this, MaterialIcons.md_menu)
-                            .colorRes(R.color.black_424242)
-                            .actionBarSize());
-            CircularAnim.hide(layoutMenuHome).duration(300).triggerView(toolbar.getChildAt(2)).go();
+            CircularAnim.hide(layoutMenuHome).duration(300).triggerView(v != null ? v : imgMenu).go();
             isHidden = true;
 
         }
@@ -521,10 +543,11 @@ public class HomeActivity extends AppCompatActivity implements
 
         if (requestCode == 1) {
             if (resultCode == Activity.RESULT_OK) {
-                PrepareOrder prepareOrder = (PrepareOrder) data.getParcelableExtra(Sample.PREPARE_ORDER_OBJECT);
+                PrepareOrder prepareOrder = (PrepareOrder) data.getSerializableExtra(Sample.PREPARE_ORDER_OBJECT);
                 if (prepareOrder != null) {
-
-                    LoadWasherOrderFragment();
+                    RemoveBottomFragment();
+                    isFind = true;
+                    FindingWasher();
                 }
 
                 Vehicle vehicle = (Vehicle) data.getParcelableExtra(Sample.VEHICLE_OBJECT);
@@ -542,32 +565,18 @@ public class HomeActivity extends AppCompatActivity implements
         }
     }
 
-
-    @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
-        MenuInflater inflater = getMenuInflater();
-        inflater.inflate(R.menu.home_menu, menu);
-        acSearch = menu.findItem(R.id.action_search);
-        acSearch.setIcon(
-                new IconDrawable(this, MaterialIcons.md_search)
-                        .colorRes(R.color.black_424242)
-                        .actionBarSize());
-        return true;
-    }
-
-    @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-        switch (item.getItemId()) {
-            // action with ID action_refresh was selected
-            case R.id.action_search:
-                ToSearchActivity();
-                break;
-
-            default:
-                break;
+    private void FindingWasher() {
+        if (isFind) {
+            mMap.getUiSettings().setScrollGesturesEnabled(false);
+            btnPickLocation.setVisibility(View.INVISIBLE);
+            layoutFindWasher.setVisibility(View.VISIBLE);
+        } else {
+            layoutFindWasher.setVisibility(View.GONE);
+            if (mMap != null)
+                mMap.getUiSettings().setScrollGesturesEnabled(true);
+            btnPickLocation.setVisibility(View.VISIBLE);
         }
 
-        return true;
     }
 
     private void ToSearchActivity() {
@@ -617,7 +626,7 @@ public class HomeActivity extends AppCompatActivity implements
                     if (response.body().getStatus().equalsIgnoreCase("OK")) {
                         List<Address> address = response.body().getResults();
                         search.setText(address.get(0).getFormattedAddress());
-                        btnPickLocation.setText(getResources().getString(R.string.pick_location));
+                        btnPickLocation.setText(getResources().getString(R.string.btn_pick_location));
                     } else {
                         search.setText("");
                         btnPickLocation.setText(Html.fromHtml("<i>Not Identified...</i>"));
@@ -667,5 +676,15 @@ public class HomeActivity extends AppCompatActivity implements
         mMap.addMarker(marker);
 
 
+    }
+
+
+    @Override
+    public void onBackPressed() {
+        super.onBackPressed();
+        if (!isHidden)
+            ShowMenuHome(imgCloseMenu);
+        else
+            finish();
     }
 }

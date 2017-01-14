@@ -19,9 +19,7 @@ import android.widget.TextView;
 import com.ad.sample.R;
 import com.ad.sample.Sample;
 import com.ad.sample.adapter.VehicleAdapter;
-import com.ad.sample.model.PrepareOrder;
 import com.ad.sample.model.Vehicle;
-import com.ad.sample.ui.fragment.PrepareOrderFragment;
 import com.joanzapata.iconify.IconDrawable;
 import com.joanzapata.iconify.fonts.MaterialCommunityIcons;
 import com.joanzapata.iconify.fonts.MaterialIcons;
@@ -112,7 +110,7 @@ public class SelectVehicleActivity extends AppCompatActivity implements VehicleA
         data.add(0, v2);
         adapter.notifyDataSetChanged();
         if (vehicle != null)
-            adapter.setSelectionByIdVehicle(vehicle.id_vehicle);
+            adapter.setSelectionByIdVehicle(vehicle.vehicle_id);
         else
             adapter.setSelection(0);
 

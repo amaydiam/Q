@@ -58,7 +58,7 @@ public class BrandAdapter extends RecyclerView.Adapter<BrandAdapter.RecyclerView
             public void onClick(View v) {
                 SharedPreferences prefs = context.getSharedPreferences("my_prefs", Context.MODE_PRIVATE);
                 SharedPreferences.Editor edit = prefs.edit();
-                edit.putString("brand", brand[position]);
+                edit.putString("vehicle_brand", brand[position]);
                 edit.commit();
                 ((Activity) context).finish();
             }

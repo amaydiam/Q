@@ -1,0 +1,76 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/transparent_black"
+    android:clickable="true"
+    android:gravity="center"
+    android:orientation="vertical"
+    android:soundEffectsEnabled="false">
+
+    <com.ad.sample.ui.widget.RobotoRegularTextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_margin="@dimen/activity_vertical_margin"
+        android:text="@string/requesting"
+        android:textColor="@color/white"
+        android:textSize="20sp" />
+
+    <FrameLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content">
+
+        <com.wang.avi.AVLoadingIndicatorView
+            android:id="@+id/avi"
+            style="@style/AVLoadingIndicatorView"
+            android:layout_width="100dp"
+            android:layout_height="100dp"
+            android:layout_gravity="center"
+            android:layout_margin="@dimen/activity_vertical_margin"
+            android:visibility="visible"
+            app:indicatorColor="@color/white"
+            app:indicatorName="BallSpinFadeLoaderIndicator" />
+
+        <com.joanzapata.iconify.widget.IconTextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:text="{fa-map-marker}"
+            android:textColor="@color/white"
+            android:textSize="40sp" />
+    </FrameLayout>
+
+    <com.joanzapata.iconify.widget.IconTextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:layout_margin="@dimen/activity_vertical_margin"
+        android:text="{mdi-alert-circle}"
+        android:textColor="@color/white"
+        android:textSize="40sp" />
+
+    <com.ad.sample.ui.widget.RobotoLightTextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:layout_marginRight="@dimen/activity_vertical_margin"
+        android:layout_marginLeft="@dimen/activity_vertical_margin"
+        android:layout_marginBottom="@dimen/activity_vertical_margin"
+        android:text="@string/alert_find_washer"
+        android:textColor="@color/white"
+        android:textSize="20sp"
+        android:gravity="center"
+        android:lines="3"/>
+
+    <com.joanzapata.iconify.widget.IconButton
+        android:layout_margin="@dimen/activity_vertical_margin"
+        android:id="@+id/btn_close"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:background="@null"
+        android:text="{mdi-close-circle}"
+        android:textColor="@color/white"
+        android:textSize="60sp" />
+</LinearLayout>

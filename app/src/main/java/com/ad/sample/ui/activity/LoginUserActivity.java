@@ -441,8 +441,10 @@ public class LoginUserActivity extends AppCompatActivity implements GoogleApiCli
                         Prefs.putUsername(LoginUserActivity.this, dataLogin.getUsername());
                         Prefs.putEmail(LoginUserActivity.this, dataLogin.getEmail());
                         Prefs.putName(LoginUserActivity.this, dataLogin.getName());
-                        Prefs.putPhone(LoginUserActivity.this, dataLogin.getName());
+                        Prefs.putPhone(LoginUserActivity.this, dataLogin.getPhone());
                         Prefs.putAuthLevel(LoginUserActivity.this, String.valueOf(dataLogin.getAuthLevel()));
+
+
 
                         toHomeActivity();
 

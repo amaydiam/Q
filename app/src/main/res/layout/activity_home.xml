@@ -17,7 +17,7 @@
         android:name="com.google.android.gms.maps.SupportMapFragment"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:fitsSystemWindows="true"/>
+        android:fitsSystemWindows="true" />
 
     <RelativeLayout
         android:id="@+id/layout_pick_location"
@@ -26,26 +26,28 @@
         android:fitsSystemWindows="true">
 
         <LinearLayout
-            android:layout_centerHorizontal="true"
-            android:layout_above="@+id/center"
             android:id="@+id/child_layout_pick_location"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:gravity="center"
+            android:layout_above="@+id/center"
+            android:layout_centerHorizontal="true"
             android:layout_gravity="center"
+            android:gravity="center"
             android:orientation="vertical">
+
             <com.joanzapata.iconify.widget.IconTextView
                 android:id="@+id/btn_pick_location"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginBottom="2dp"
-                android:gravity="center"
-                android:text="@string/btn_pick_location"
-                android:textSize="18sp"
-                android:textColor="@color/white"
                 android:background="@drawable/border_white_blue"
+                android:clickable="true"
+                android:gravity="center"
                 android:padding="10dp"
-                android:clickable="true"/>
+                android:text="@string/btn_pick_location"
+                android:textColor="@color/white"
+                android:textSize="18sp" />
+
             <ImageView
                 android:id="@+id/marker_pick_location"
                 android:layout_width="wrap_content"
@@ -53,13 +55,14 @@
                 android:adjustViewBounds="true"
                 android:contentDescription="@null" />
         </LinearLayout>
+
         <View
 
             android:id="@+id/center"
             android:layout_width="0dp"
             android:layout_height="0dp"
-            android:layout_centerVertical="true"
-            android:layout_centerHorizontal="true"/>
+            android:layout_centerHorizontal="true"
+            android:layout_centerVertical="true" />
 
     </RelativeLayout>
 
@@ -165,49 +168,55 @@
         android:clickable="true"
         android:soundEffectsEnabled="false" />
 
-
-        <android.support.v7.widget.CardView
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
+        <RelativeLayout
             android:layout_marginLeft="@dimen/activity_vertical_margin"
             android:layout_marginRight="@dimen/activity_vertical_margin"
             android:layout_marginTop="@dimen/marginTopToolbar"
-            app:cardCornerRadius="6dp"
-            app:elevation="3dp">
-            <!--TextView layout Toolbar And SearView TextView-->
-            <android.support.v7.widget.Toolbar
-                android:id="@+id/toolbar"
+            android:background="@drawable/border_toolbar_home"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content" >
+
+            <ImageView
+                android:layout_margin="@dimen/activity_vertical_margin"
+                android:id="@+id/img_menu"
+                android:layout_alignParentTop="true"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentLeft="true"
+                android:src="@mipmap/ic_launcher" />
+
+            <com.ad.sample.ui.widget.RobotoLightTextView
+                android:id="@+id/search"
                 android:layout_width="match_parent"
-                android:layout_height="?attr/actionBarSize"
-                android:background="@color/white"
-                app:titleTextColor="@android:color/white"
-                android:contentInsetStart="0dp"
-                android:contentInsetLeft="0dp"
-                android:contentInsetRight="0dp"
-                android:contentInsetEnd="0dp"
-                app:contentInsetLeft="0dp"
-                app:contentInsetStart="0dp"
-                app:contentInsetRight="0dp"
-                app:contentInsetEnd="0dp"
-                android:layout_gravity="center">
+                android:layout_height="wrap_content"
+                android:background="@null"
+                android:layout_alignParentTop="true"
+                android:hint="@string/hint_your_location"
+                android:maxLines="5"
+                android:paddingTop="@dimen/activity_vertical_margin"
+                android:paddingBottom="@dimen/activity_vertical_margin"
+                android:layout_toRightOf="@+id/img_menu"
+                android:layout_toLeftOf="@+id/img_search"/>
 
-
-                <com.ad.sample.ui.widget.RobotoLightTextView
-                    android:id="@+id/search"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_centerVertical="true"
-                    android:background="@null"
-                    android:hint="@string/hint_your_location"
-                    android:maxLines="5" />
-
-            </android.support.v7.widget.Toolbar>
-        </android.support.v7.widget.CardView>
-
+            <ImageView
+                android:layout_alignParentTop="true"
+                android:layout_margin="@dimen/activity_vertical_margin"
+                android:id="@+id/img_search"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:src="@mipmap/ic_launcher"
+                android:layout_alignParentRight="true"/>
+        </RelativeLayout>
 
     <include
         android:id="@+id/layout_menu_home"
         layout="@layout/layout_menu_home"
         android:visibility="invisible" />
+
+
+    <include
+        android:id="@+id/layout_find_washer"
+        layout="@layout/layout_find_washer"
+        android:visibility="visible" />
 
 </RelativeLayout>

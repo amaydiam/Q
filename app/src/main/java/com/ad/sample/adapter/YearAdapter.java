@@ -58,7 +58,7 @@ public class YearAdapter extends RecyclerView.Adapter<YearAdapter.RecyclerViewHo
             public void onClick(View v) {
                 SharedPreferences prefs = context.getSharedPreferences("my_prefs", Context.MODE_PRIVATE);
                 SharedPreferences.Editor edit = prefs.edit();
-                edit.putString("year", year[position]);
+                edit.putString("vehicle_year", year[position]);
                 edit.commit();
                 ((Activity) context).finish();
             }

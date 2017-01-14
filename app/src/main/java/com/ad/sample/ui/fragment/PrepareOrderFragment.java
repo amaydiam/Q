@@ -1,15 +1,11 @@
 package com.ad.sample.ui.fragment;
 
-import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
-import android.support.v4.app.FragmentManager;
-import android.support.v4.app.FragmentPagerAdapter;
 import android.support.v4.content.ContextCompat;
-import android.support.v4.view.ViewPager;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -18,6 +14,7 @@ import android.widget.Toast;
 
 import com.ad.sample.R;
 import com.ad.sample.Sample;
+import com.ad.sample.model.PrepareOrder;
 import com.ad.sample.model.Vehicle;
 import com.ad.sample.ui.activity.SelectVehicleActivity;
 import com.ad.sample.ui.activity.ServiceDetailUserActivity;
@@ -39,8 +36,6 @@ import butterknife.OnClick;
 
 public class PrepareOrderFragment extends Fragment {
 
-    private static final String ARG_PARAM1 = "param1";
-    private static final String ARG_PARAM2 = "param2";
 
     @BindView(R.id.btn_cancel)
     RobotoRegularButton btnCancel;
@@ -52,6 +47,7 @@ public class PrepareOrderFragment extends Fragment {
 
     @BindView(R.id.btn_next)
     RobotoRegularButton btnNext;
+    private PrepareOrder prepareOrder;
 
     @OnClick(R.id.btn_cancel)
     void ActionCancel() {
@@ -61,8 +57,19 @@ public class PrepareOrderFragment extends Fragment {
 
     @OnClick(R.id.btn_next)
     void ActionNext() {
-        getActivity().startActivityForResult(new Intent(getActivity(), ServiceDetailUserActivity.class), 1);
-
+        if (vehicle != null) {
+            prepareOrder.vehicle_type = vehicle.vehicle_type;
+            prepareOrder.vehicle_id = vehicle.vehicle_id;
+            prepareOrder.vehicle_brand = vehicle.vehicle_brand;
+            prepareOrder.vehicle_model = vehicle.vehicle_model;
+            prepareOrder.vehicle_transmission = vehicle.vehicle_transmission;
+            prepareOrder.vehicle_year = vehicle.vehicle_year;
+            Intent intent = new Intent(getActivity(), ServiceDetailUserActivity.class);
+            intent.putExtra(Sample.PREPARE_ORDER_OBJECT, prepareOrder);
+            getActivity().startActivityForResult(intent, 1);
+        } else {
+            Toast.makeText(getActivity(), "Please add first your vehicle to will be wash", Toast.LENGTH_SHORT).show();
+        }
     }
 
 
@@ -81,11 +88,9 @@ public class PrepareOrderFragment extends Fragment {
         getActivity().startActivityForResult(intent, 1);
     }
 
-    public Vehicle vehicle=null;
+    public Vehicle vehicle = null;
 
     // TODO: Rename and change types of parameters
-    private String mParam1;
-    private String mParam2;
 
     private OnOrderedListener mListener;
 
@@ -93,15 +98,14 @@ public class PrepareOrderFragment extends Fragment {
         // Required empty public constructor
     }
 
-
-    public static PrepareOrderFragment newInstance(String param1, String param2) {
+    public Fragment newInstance(PrepareOrder prepareOrder) {
         PrepareOrderFragment fragment = new PrepareOrderFragment();
         Bundle args = new Bundle();
-        args.putString(ARG_PARAM1, param1);
-        args.putString(ARG_PARAM2, param2);
+        args.putSerializable(Sample.PREPARE_ORDER_OBJECT, prepareOrder);
         fragment.setArguments(args);
         return fragment;
     }
+
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -113,8 +117,7 @@ public class PrepareOrderFragment extends Fragment {
                 .with(new SimpleLineIconsModule());
         super.onCreate(savedInstanceState);
         if (getArguments() != null) {
-            mParam1 = getArguments().getString(ARG_PARAM1);
-            mParam2 = getArguments().getString(ARG_PARAM2);
+            prepareOrder = (PrepareOrder) getArguments().getSerializable(Sample.PREPARE_ORDER_OBJECT);
         }
     }
 
@@ -164,11 +167,11 @@ public class PrepareOrderFragment extends Fragment {
                 .with(this)
                 .load("")
                 .centerCrop()
-                .placeholder(vehicle.type == 1 ? R.drawable.mobil : R.drawable.motor)
+                .placeholder(vehicle.vehicle_type == 1 ? R.drawable.mobil : R.drawable.motor)
                 .crossFade()
                 .into(vehicleImage);
 
-        vehicleDescription.setText(vehicle.brand + "\n" + vehicle.model + " " + vehicle.transmission + " " + vehicle.year);
+        vehicleDescription.setText(vehicle.vehicle_brand + "\n" + vehicle.vehicle_model + " " + vehicle.vehicle_transmission + " " + vehicle.vehicle_year);
     }
 
 

@@ -2,12 +2,10 @@ package com.ad.sample.adapter;
 
 import android.app.Activity;
 import android.content.Context;
-import android.graphics.drawable.GradientDrawable;
 import android.media.AudioManager;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.widget.CardView;
 import android.support.v7.widget.RecyclerView;
-import android.text.Html;
 import android.util.SparseBooleanArray;
 import android.view.GestureDetector;
 import android.view.LayoutInflater;
@@ -26,7 +24,6 @@ import com.joanzapata.iconify.widget.IconTextView;
 
 import java.util.ArrayList;
 
-import agency.tango.android.avatarview.loader.PicassoLoader;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 
@@ -141,11 +138,11 @@ public class VehicleAdapter extends RecyclerView.Adapter<VehicleAdapter.ViewHold
                 .with(activity)
                 .load("")
                 .centerCrop()
-                .placeholder(vehicle.type == 1 ? R.drawable.mobil : R.drawable.motor)
+                .placeholder(vehicle.vehicle_type == 1 ? R.drawable.mobil : R.drawable.motor)
                 .crossFade()
                 .into(holder.vehicleImage);
 
-        holder.vehicleDescription.setText(vehicle.brand + "\n" + vehicle.model + " " + vehicle.transmission + " " + vehicle.year);
+        holder.vehicleDescription.setText(vehicle.vehicle_brand + "\n" + vehicle.vehicle_model + " " + vehicle.vehicle_transmission + " " + vehicle.vehicle_year);
         if (selected == position) {
             holder.rootParent.setBackgroundColor(ContextCompat.getColor(activity, R.color.blue_2196F3));
             holder.vehicleDescription.setTextColor(ContextCompat.getColor(activity, R.color.white));
@@ -185,7 +182,7 @@ public class VehicleAdapter extends RecyclerView.Adapter<VehicleAdapter.ViewHold
 
     public void setSelectionByIdVehicle(String id_vehicle) {
         for (int i = 0; i < data.size(); i++) {
-            if (data.get(i).id_vehicle.equalsIgnoreCase(id_vehicle)) {
+            if (data.get(i).vehicle_id.equalsIgnoreCase(id_vehicle)) {
                 setSelection(i);
                 break;
             }

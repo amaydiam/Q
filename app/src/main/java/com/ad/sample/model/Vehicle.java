@@ -6,30 +6,30 @@ import android.os.Parcelable;
 public class Vehicle implements Parcelable {
 
     // Attributes
-    public String id_vehicle;
-    public int type;
-    public String brand;
-    public String model;
-    public String transmission;
-    public String year;
+    public String vehicle_id;
+    public int vehicle_type;
+    public String vehicle_brand;
+    public String vehicle_model;
+    public String vehicle_transmission;
+    public String vehicle_year;
 
     // Constructor
     public Vehicle(String id_vehicle, int type, String brand, String model, String transmission, String year) {
-        this.id_vehicle = id_vehicle;
-        this.type = type;
-        this.brand = brand;
-        this.model = model;
-        this.transmission = transmission;
-        this.year = year;
+        this.vehicle_id = id_vehicle;
+        this.vehicle_type = type;
+        this.vehicle_brand = brand;
+        this.vehicle_model = model;
+        this.vehicle_transmission = transmission;
+        this.vehicle_year = year;
     }
 
     public Vehicle(Parcel in) {
-        this.id_vehicle = in.readString();
-        this.type = in.readInt();
-        this.brand = in.readString();
-        this.model = in.readString();
-        this.transmission = in.readString();
-        this.year = in.readString();
+        this.vehicle_id = in.readString();
+        this.vehicle_type = in.readInt();
+        this.vehicle_brand = in.readString();
+        this.vehicle_model = in.readString();
+        this.vehicle_transmission = in.readString();
+        this.vehicle_year = in.readString();
     }
 
     // Parcelable Creator
@@ -46,12 +46,12 @@ public class Vehicle implements Parcelable {
     // Parcelling methods
     @Override
     public void writeToParcel(Parcel out, int i) {
-        out.writeString(id_vehicle);
-        out.writeInt(type);
-        out.writeString(brand);
-        out.writeString(model);
-        out.writeString(transmission);
-        out.writeString(year);
+        out.writeString(vehicle_id);
+        out.writeInt(vehicle_type);
+        out.writeString(vehicle_brand);
+        out.writeString(vehicle_model);
+        out.writeString(vehicle_transmission);
+        out.writeString(vehicle_year);
     }
 
     @Override

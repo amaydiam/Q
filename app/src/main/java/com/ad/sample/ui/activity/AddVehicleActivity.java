@@ -135,10 +135,10 @@ public class AddVehicleActivity extends AppCompatActivity {
     @OnClick(R.id.klik_submit)
     public void klikSubmit() {
         SharedPreferences settings = this.getSharedPreferences("my_prefs", Context.MODE_PRIVATE);
-        settings.edit().remove("brand").commit();
-        settings.edit().remove("model").commit();
-        settings.edit().remove("transmission").commit();
-        settings.edit().remove("year").commit();
+        settings.edit().remove("vehicle_brand").commit();
+        settings.edit().remove("vehicle_model").commit();
+        settings.edit().remove("vehicle_transmission").commit();
+        settings.edit().remove("vehicle_year").commit();
 
         finish();
     }
@@ -190,10 +190,10 @@ public class AddVehicleActivity extends AppCompatActivity {
         SharedPreferences bb = getSharedPreferences("my_prefs", 0);
         SharedPreferences.Editor editor = bb.edit();
 
-        String brand = bb.getString("brand", String.valueOf(getString(R.string.select_brand)));
-        String model = bb.getString("model", String.valueOf(getString(R.string.select_model)));
-        String transmission = bb.getString("transmission", String.valueOf(getString(R.string.select_transmission)));
-        String year = bb.getString("year", String.valueOf(getString(R.string.select_year)));
+        String brand = bb.getString("vehicle_brand", String.valueOf(getString(R.string.select_brand)));
+        String model = bb.getString("vehicle_model", String.valueOf(getString(R.string.select_model)));
+        String transmission = bb.getString("vehicle_transmission", String.valueOf(getString(R.string.select_transmission)));
+        String year = bb.getString("vehicle_year", String.valueOf(getString(R.string.select_year)));
 
         textBrand.setText(brand);
         textModel.setText(model);

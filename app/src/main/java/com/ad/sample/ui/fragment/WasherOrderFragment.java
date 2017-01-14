@@ -141,7 +141,7 @@ public class WasherOrderFragment extends Fragment {
     }
 
     public interface OnWasherOrderListener {
-        // TODO: Update argument type and name
+        // TODO: Update argument vehicle_type and name
         void onCancelOrder();
     }
 

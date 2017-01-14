@@ -57,7 +57,7 @@ public class ModelAdapter extends RecyclerView.Adapter<ModelAdapter.RecyclerView
             public void onClick(View v) {
                 SharedPreferences prefs = context.getSharedPreferences("my_prefs", Context.MODE_PRIVATE);
                 SharedPreferences.Editor edit = prefs.edit();
-                edit.putString("model", model[position]);
+                edit.putString("vehicle_model", model[position]);
                 edit.commit();
                 ((Activity) context).finish();
             }
