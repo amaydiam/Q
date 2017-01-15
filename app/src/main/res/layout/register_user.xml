@@ -85,10 +85,9 @@
                     android:layout_marginTop="@dimen/activity_vertical_margin"
                     android:ems="10"
                     android:hint="@string/hint_number"
-                    android:inputType="textEmailAddress|textNoSuggestions"
+                    android:inputType="phone"
                     android:maxLength="14"
-                    android:maxLines="1"
-                    android:phoneNumber="true" />
+                    android:maxLines="1" />
 
                 <com.ad.sample.ui.widget.RobotoRegularEditText
                     android:id="@+id/password"
