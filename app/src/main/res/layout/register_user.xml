@@ -9,7 +9,7 @@
     android:paddingLeft="@dimen/activity_horizontal_margin"
     android:paddingRight="@dimen/activity_horizontal_margin"
     android:paddingTop="@dimen/activity_vertical_margin"
-    tools:context="com.ad.sample.ui.activity.RegisterUserActivity">
+    tools:context="com.qwash.user.ui.activity.RegisterUserActivity">
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -33,7 +33,7 @@
                     android:adjustViewBounds="true"
                     android:src="@mipmap/ic_launcher" />
 
-                <com.ad.sample.ui.widget.RobotoRegularTextView
+                <com.qwash.user.ui.widget.RobotoRegularTextView
                     android:id="@+id/btn_login"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
@@ -44,7 +44,7 @@
 
             </RelativeLayout>
 
-            <com.ad.sample.ui.widget.RobotoBoldTextView
+            <com.qwash.user.ui.widget.RobotoBoldTextView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="30dp"
@@ -58,7 +58,7 @@
                 android:layout_marginRight="@dimen/activity_vertical_margin"
                 android:orientation="vertical">
 
-                <com.ad.sample.ui.widget.RobotoRegularEditText
+                <com.qwash.user.ui.widget.RobotoRegularEditText
                     android:id="@+id/nama"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
@@ -68,7 +68,7 @@
                     android:inputType="textEmailAddress|textNoSuggestions"
                     android:maxLines="1" />
 
-                <com.ad.sample.ui.widget.RobotoRegularEditText
+                <com.qwash.user.ui.widget.RobotoRegularEditText
                     android:id="@+id/email"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
@@ -78,7 +78,7 @@
                     android:inputType="textEmailAddress|textNoSuggestions"
                     android:maxLines="1" />
 
-                <com.ad.sample.ui.widget.RobotoRegularEditText
+                <com.qwash.user.ui.widget.RobotoRegularEditText
                     android:id="@+id/phonenumber"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
@@ -89,7 +89,7 @@
                     android:maxLength="14"
                     android:maxLines="1" />
 
-                <com.ad.sample.ui.widget.RobotoRegularEditText
+                <com.qwash.user.ui.widget.RobotoRegularEditText
                     android:id="@+id/password"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
@@ -101,7 +101,7 @@
 
             </LinearLayout>
 
-            <com.ad.sample.ui.widget.RobotoRegularButton
+            <com.qwash.user.ui.widget.RobotoRegularButton
                 android:id="@+id/btn_register"
                 style="@style/btn_blue"
                 android:layout_width="match_parent"
@@ -115,7 +115,7 @@
                 android:layout_marginTop="25dp"
                 android:orientation="horizontal">
 
-                <com.ad.sample.ui.widget.RobotoRegularTextView
+                <com.qwash.user.ui.widget.RobotoRegularTextView
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_centerVertical="true"
@@ -153,7 +153,7 @@
                 </LinearLayout>
             </RelativeLayout>
 
-            <com.ad.sample.ui.widget.RobotoRegularTextView
+            <com.qwash.user.ui.widget.RobotoRegularTextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"

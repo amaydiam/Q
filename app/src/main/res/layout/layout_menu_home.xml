@@ -52,7 +52,7 @@
                 android:adjustViewBounds="true"
                 android:layout_marginLeft="@dimen/activity_vertical_margin"/>
 
-            <com.ad.sample.ui.widget.RobotoLightTextView
+            <com.qwash.user.ui.widget.RobotoLightTextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="@dimen/activity_vertical_margin"
@@ -79,7 +79,7 @@
                 android:adjustViewBounds="true"
                 android:layout_marginLeft="@dimen/activity_vertical_margin" />
 
-            <com.ad.sample.ui.widget.RobotoLightTextView
+            <com.qwash.user.ui.widget.RobotoLightTextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="@dimen/activity_vertical_margin"
@@ -106,7 +106,7 @@
                 android:adjustViewBounds="true"
                 android:layout_marginLeft="@dimen/activity_vertical_margin" />
 
-            <com.ad.sample.ui.widget.RobotoLightTextView
+            <com.qwash.user.ui.widget.RobotoLightTextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="@dimen/activity_vertical_margin"
@@ -133,7 +133,7 @@
                 android:adjustViewBounds="true"
                 android:layout_marginLeft="@dimen/activity_vertical_margin" />
 
-            <com.ad.sample.ui.widget.RobotoLightTextView
+            <com.qwash.user.ui.widget.RobotoLightTextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="@dimen/activity_vertical_margin"
@@ -160,7 +160,7 @@
                 android:adjustViewBounds="true"
                 android:layout_marginLeft="@dimen/activity_vertical_margin" />
 
-            <com.ad.sample.ui.widget.RobotoLightTextView
+            <com.qwash.user.ui.widget.RobotoLightTextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="@dimen/activity_vertical_margin"
@@ -187,7 +187,7 @@
                 android:adjustViewBounds="true"
                 android:layout_marginLeft="@dimen/activity_vertical_margin" />
 
-            <com.ad.sample.ui.widget.RobotoLightTextView
+            <com.qwash.user.ui.widget.RobotoLightTextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="@dimen/activity_vertical_margin"

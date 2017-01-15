@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context="com.ad.sample.ui.activity.AddVehicleActivity">
+    tools:context="com.qwash.user.ui.activity.AddVehicleActivity">
 
     <include layout="@layout/toolbar" />
 
@@ -53,7 +53,7 @@
                             android:adjustViewBounds="true"
                             android:scaleType="fitCenter" />
 
-                        <com.ad.sample.ui.widget.RobotoRegularTextView
+                        <com.qwash.user.ui.widget.RobotoRegularTextView
                             android:id="@+id/tx_car"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
@@ -90,7 +90,7 @@
                             android:adjustViewBounds="true"
                             android:scaleType="fitCenter" />
 
-                        <com.ad.sample.ui.widget.RobotoRegularTextView
+                        <com.qwash.user.ui.widget.RobotoRegularTextView
                             android:id="@+id/tx_motorcycle"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
@@ -135,7 +135,7 @@
                             android:adjustViewBounds="true"
                             android:src="@mipmap/ic_launcher" />
 
-                        <com.ad.sample.ui.widget.RobotoRegularTextView
+                        <com.qwash.user.ui.widget.RobotoRegularTextView
                             android:id="@+id/text_brand"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
@@ -193,7 +193,7 @@
                             android:adjustViewBounds="true"
                             android:src="@mipmap/ic_launcher" />
 
-                        <com.ad.sample.ui.widget.RobotoRegularTextView
+                        <com.qwash.user.ui.widget.RobotoRegularTextView
                             android:id="@+id/text_model"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
@@ -252,7 +252,7 @@
                             android:adjustViewBounds="true"
                             android:src="@mipmap/ic_launcher" />
 
-                        <com.ad.sample.ui.widget.RobotoRegularTextView
+                        <com.qwash.user.ui.widget.RobotoRegularTextView
                             android:id="@+id/text_transmission"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
@@ -311,7 +311,7 @@
                             android:adjustViewBounds="true"
                             android:src="@mipmap/ic_launcher" />
 
-                        <com.ad.sample.ui.widget.RobotoRegularTextView
+                        <com.qwash.user.ui.widget.RobotoRegularTextView
                             android:id="@+id/text_year"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"

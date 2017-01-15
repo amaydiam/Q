@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">Sample</string>
+    <string name="app_name">Qwash User</string>
     <string name="create_new_accout">Create New Account</string>
     <string name="hint_password">Password</string>
     <string name="hint_email">Email</string>
@@ -122,4 +122,6 @@
     <string name="hint_number">0877-7889-9430</string>
     <string name="requesting">REQUESTING</string>
     <string name="alert_find_washer"><![CDATA[Don\'t give your key car to the washer\nCheck all the equipment in the car\nCheck equipment workers]]></string>
+    <string name="add_vehicle">Add Vehicle</string>
+    <string name="add_first_vehicle">First you must select vehicle to order. Click Add Vehicle if no vehicle.</string>
 </resources>

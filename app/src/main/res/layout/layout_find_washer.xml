@@ -9,7 +9,7 @@
     android:orientation="vertical"
     android:soundEffectsEnabled="false">
 
-    <com.ad.sample.ui.widget.RobotoRegularTextView
+    <com.qwash.user.ui.widget.RobotoRegularTextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_margin="@dimen/activity_vertical_margin"
@@ -50,7 +50,7 @@
         android:textColor="@color/white"
         android:textSize="40sp" />
 
-    <com.ad.sample.ui.widget.RobotoLightTextView
+    <com.qwash.user.ui.widget.RobotoLightTextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="center"

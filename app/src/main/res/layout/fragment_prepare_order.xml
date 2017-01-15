@@ -6,54 +6,43 @@
     android:layout_height="wrap_content"
     android:orientation="vertical"
     android:layout_margin="@dimen/activity_vertical_margin"
-    tools:context="com.ad.sample.ui.fragment.PrepareOrderFragment">
-
-    <FrameLayout
+    tools:context="com.qwash.user.ui.fragment.PrepareOrderFragment">
+    <LinearLayout
+        android:id="@+id/layout_select_vehicle"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content">
+        android:layout_height="wrap_content"
+        android:orientation="vertical">
 
-        <LinearLayout
-            android:id="@+id/layout_select_vehicle"
+    <com.qwash.user.ui.widget.RobotoBoldTextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/select_vehicle"
+        android:textAppearance="?android:attr/textAppearanceMedium"
+        android:layout_gravity="center"
+        android:gravity="center"/>
+
+        <FrameLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:gravity="center"
             android:orientation="vertical">
 
-            <com.ad.sample.ui.widget.RobotoBoldTextView
+            <include android:id="@+id/layout_selected_vehicle" layout="@layout/layout_selected_vehicle"/>
+
+            <include android:id="@+id/layout_no_one_vehicle" layout="@layout/layout_no_one_vehicle"/>
+
+            <com.joanzapata.iconify.widget.IconTextView
+                android:id="@+id/btn_pick_vehicle"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="@string/select_vehicle"
-                android:textAppearance="?android:attr/textAppearanceMedium" />
+                android:layout_gravity="center|right"
+                android:text="{entypo-chevron-with-circle-right}"
+                android:textAppearance="?android:attr/textAppearanceLarge"
+                android:textColor="@color/blue_2196F3"
+                android:textStyle="bold" />
 
-            <ImageView
-                android:id="@+id/vehicle_image"
-                android:layout_width="200dp"
-                android:layout_height="wrap_content"
-                android:layout_marginBottom="@dimen/activity_vertical_margin"
-                android:layout_marginTop="@dimen/activity_vertical_margin"
-                android:adjustViewBounds="true"
-                android:src="@drawable/mobil"
-
-                />
-
-            <com.ad.sample.ui.widget.RobotoBoldTextView
-                android:id="@+id/vehicle_description"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:gravity="center"
-                android:text="Honda\nJazz 1.5 AT 2012" />
-        </LinearLayout>
-
-        <com.joanzapata.iconify.widget.IconTextView
-            android:id="@+id/btn_pick_vehicle"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center|right"
-            android:text="{entypo-chevron-with-circle-right}"
-            android:textAppearance="?android:attr/textAppearanceLarge"
-            android:textColor="@color/blue_2196F3"
-            android:textStyle="bold" />
-    </FrameLayout>
+        </FrameLayout>
+    </LinearLayout>
 
 
     <!--TextView layout Main Menu TextView-->
@@ -66,7 +55,7 @@
         android:orientation="horizontal">
 
 
-        <com.ad.sample.ui.widget.RobotoRegularButton
+        <com.qwash.user.ui.widget.RobotoRegularButton
             android:id="@+id/btn_cancel"
             style="@style/btn_blue"
             android:layout_width="0dp"
@@ -108,7 +97,7 @@
 
         </LinearLayout>
 
-        <com.ad.sample.ui.widget.RobotoRegularButton
+        <com.qwash.user.ui.widget.RobotoRegularButton
             android:id="@+id/btn_next"
             style="@style/btn_blue"
             android:layout_width="0dp"

@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:layout_centerInParent="true"
+    android:gravity="center"
+    android:orientation="vertical">
+
+    <!-- Error Icon -->
+    <ImageView
+        android:layout_width="@dimen/error_icon_width"
+        android:layout_height="@dimen/error_icon_height"
+        android:src="@drawable/vehicle"
+        android:layout_marginBottom="@dimen/activity_half_vertical_margin"
+        android:layout_marginTop="@dimen/activity_half_vertical_margin"
+        android:adjustViewBounds="true" />
+
+    <!-- Unable to connect -->
+    <com.qwash.user.ui.widget.RobotoLightTextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:gravity="center_horizontal"
+        android:text="@string/add_first_vehicle"
+        android:textSize="16sp"
+        android:layout_marginBottom="@dimen/activity_half_vertical_margin" />
+
+    <!-- Try again -->
+    <com.qwash.user.ui.widget.RobotoRegularTextView
+        android:layout_marginTop="@dimen/activity_half_vertical_margin"
+       android:background="@drawable/shape_dashed"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:padding="8dp"
+        android:textColor="@color/blue_2196F3"
+        android:text="@string/add_vehicle"
+        android:textSize="16sp" />
+
+</LinearLayout>

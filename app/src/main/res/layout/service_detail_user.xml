@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context="com.ad.sample.ui.activity.ServiceDetailUserActivity">
+    tools:context="com.qwash.user.ui.activity.ServiceDetailUserActivity">
 
     <include layout="@layout/toolbar" />
 
@@ -473,7 +473,7 @@
 
         </android.support.v4.widget.NestedScrollView>
 
-        <com.ad.sample.ui.widget.RobotoRegularButton
+        <com.qwash.user.ui.widget.RobotoRegularButton
             android:id="@+id/btn_order"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
