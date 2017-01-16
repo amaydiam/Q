@@ -127,6 +127,7 @@ public class LoginUserActivity extends AppCompatActivity implements GoogleApiCli
     @OnClick(R.id.btn_google_plus)
     void LoginGooglePlus() {
         signInGoogle();
+        startActivity(new Intent(this, HomeActivity.class));
         //Toast.makeText(this, "Gplus", Toast.LENGTH_SHORT).show();
     }
 

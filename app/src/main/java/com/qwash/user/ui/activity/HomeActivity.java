@@ -272,12 +272,12 @@ public class HomeActivity extends AppCompatActivity implements
 
         imgMenu.setImageDrawable(
                 new IconDrawable(this, MaterialIcons.md_menu)
-                        .colorRes(R.color.blue_2196F3)
+                        .colorRes(R.color.font_color)
                         .actionBarSize());
 
         imgSearch.setImageDrawable(
                 new IconDrawable(this, MaterialIcons.md_search)
-                        .colorRes(R.color.blue_2196F3)
+                        .colorRes(R.color.font_color)
                         .actionBarSize());
 
         layoutMenuHome.bringToFront();
@@ -306,15 +306,15 @@ public class HomeActivity extends AppCompatActivity implements
 
         btnWork.setImageDrawable(
                 new IconDrawable(this, SimpleLineIconsIcons.icon_bag)
-                        .colorRes(R.color.blue_2196F3)
+                        .colorRes(R.color.font_color)
                         .actionBarSize());
         btnHome.setImageDrawable(
                 new IconDrawable(this, SimpleLineIconsIcons.icon_home)
-                        .colorRes(R.color.blue_2196F3)
+                        .colorRes(R.color.font_color)
                         .actionBarSize());
         btnMyLocation.setImageDrawable(
                 new IconDrawable(this, MaterialIcons.md_my_location)
-                        .colorRes(R.color.blue_2196F3)
+                        .colorRes(R.color.font_color)
                         .actionBarSize());
 
         pickLayoutLocationShow(false);
