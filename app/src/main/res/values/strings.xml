@@ -124,4 +124,5 @@
     <string name="alert_find_washer"><![CDATA[Don\'t give your key car to the washer\nCheck all the equipment in the car\nCheck equipment workers]]></string>
     <string name="add_vehicle">Add Vehicle</string>
     <string name="add_first_vehicle">First you must select vehicle to order. Click Add Vehicle if no vehicle.</string>
+    <string name="title_activity_rating">Rating Your Wash</string>
 </resources>

@@ -1014,6 +1014,7 @@ public class HomeActivity extends AppCompatActivity implements
     }
 
     private void OpenActionRating() {
+        startActivity( new Intent(this,RatingActivity.class));
         
     }
 
