@@ -173,7 +173,7 @@ public class RegisterUserActivity extends AppCompatActivity {
         params.put(Sample.EMAIL, email.getText().toString());
         params.put(Sample.NAME, nama.getText().toString());
         params.put(Sample.PASSWORD, password.getText().toString());
-        params.put(Sample.AUTH_LEVEL, String.valueOf(10));
+        params.put(Sample.AUTH_LEVEL, String.valueOf(5));
         params.put(Sample.PHONE, phonenumber.getText().toString());
         params.put(Sample.CITY, "Tangerang Selatan");
 

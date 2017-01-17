@@ -423,6 +423,7 @@ public class LoginUserActivity extends AppCompatActivity implements GoogleApiCli
         params.put(Sample.EMAIL, emailOrNumberPhone.getText().toString());
         params.put(Sample.PASSWORD, password.getText().toString());
         params.put(Sample.FIREBASE_ID, firebase_id);
+        params.put(Sample.AUTH_LEVEL, "10");
 
         for (Map.Entry entry : params.entrySet()) {
             System.out.println(entry.getKey() + ", " + entry.getValue());

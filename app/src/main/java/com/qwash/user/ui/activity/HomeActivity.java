@@ -6,6 +6,7 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.location.Location;
+import android.os.AsyncTask;
 import android.os.Build;
 import android.os.Bundle;
 import android.provider.Settings;
@@ -26,15 +27,15 @@ import com.qwash.user.R;
 import com.qwash.user.Sample;
 import com.qwash.user.api.ApiUtils;
 import com.qwash.user.api.client.addressfromgoogleapi.AddressMapsFromGoogleApi;
-import com.qwash.user.api.client.order.OrderService;
-import com.qwash.user.api.client.register.RegisterService;
+import com.qwash.user.api.client.washer.WasherService;
 import com.qwash.user.api.model.Address;
 import com.qwash.user.api.model.AddressFromMapsResponse;
-import com.qwash.user.api.model.order.Order;
-import com.qwash.user.api.model.register.DataRegister;
-import com.qwash.user.api.model.register.Register;
+import com.qwash.user.api.model.washer.DataNearbyWasher;
+import com.qwash.user.api.model.washer.NearbyWasher;
+import com.qwash.user.model.FindWasher;
 import com.qwash.user.model.PrepareOrder;
 import com.qwash.user.model.VehicleUser;
+import com.qwash.user.model.WasherAccepted;
 import com.qwash.user.ui.fragment.PrepareOrderFragment;
 import com.qwash.user.ui.fragment.WasherOrderFragment;
 import com.qwash.user.ui.widget.RobotoLightTextView;
@@ -70,19 +71,25 @@ import com.joanzapata.iconify.fonts.SimpleLineIconsIcons;
 import com.joanzapata.iconify.fonts.SimpleLineIconsModule;
 import com.joanzapata.iconify.widget.IconTextView;
 
+import org.greenrobot.eventbus.EventBus;
+import org.greenrobot.eventbus.Subscribe;
+import org.greenrobot.eventbus.ThreadMode;
+import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.io.IOException;
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
 import java.util.Locale;
-import java.util.Map;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
+import okhttp3.MediaType;
+import okhttp3.OkHttpClient;
+import okhttp3.Request;
+import okhttp3.RequestBody;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
@@ -141,6 +148,13 @@ public class HomeActivity extends AppCompatActivity implements
 
     @BindView(R.id.layout_find_washer)
     View layoutFindWasher;
+
+    private OkHttpClient mClient = new OkHttpClient();
+    private MediaType JSON = MediaType.parse("application/json; charset=utf-8");
+    private ArrayList<FindWasher> listWasher = new ArrayList<>();
+    private PrepareOrder prepareOrder;
+    private int urutan = 0;
+    private WasherAccepted washerAccepted;
 
 
     @OnClick({
@@ -350,7 +364,7 @@ public class HomeActivity extends AppCompatActivity implements
     private void LoadWasherOrderFragment() {
         mMap.getUiSettings().setScrollGesturesEnabled(false);
         btnPickLocation.setVisibility(View.INVISIBLE);
-        current_fragment = new WasherOrderFragment();
+        current_fragment = new WasherOrderFragment().newInstance(washerAccepted);
         getSupportFragmentManager().beginTransaction().replace(R.id.fragment_bottom, current_fragment).commitAllowingStateLoss();
     }
 
@@ -563,7 +577,7 @@ public class HomeActivity extends AppCompatActivity implements
 
         if (requestCode == 1) {
             if (resultCode == Activity.RESULT_OK) {
-                PrepareOrder prepareOrder = (PrepareOrder) data.getSerializableExtra(Sample.PREPARE_ORDER_OBJECT);
+                prepareOrder = (PrepareOrder) data.getSerializableExtra(Sample.PREPARE_ORDER_OBJECT);
                 if (prepareOrder != null) {
                     prepareOrder.userId = Prefs.getUserId(this);
                     prepareOrder.username = Prefs.getUsername(this);
@@ -573,7 +587,8 @@ public class HomeActivity extends AppCompatActivity implements
                     prepareOrder.authLevel = Prefs.getAuthLevel(this);
                     prepareOrder.firebase_id = Prefs.getFirebaseId(this);
 
-                    Map<String, String> params = new HashMap<>();
+
+                  /*  Map<String, String> params = new HashMap<>();
                     // customer order
                     params.put(Sample.ORDER_USERID, prepareOrder.userId);
                     params.put(Sample.ORDER_USERNAME, prepareOrder.username);
@@ -642,7 +657,10 @@ public class HomeActivity extends AppCompatActivity implements
                             String message = t.getMessage();
                             Log.d(TAG, message);
                         }
-                    });
+                    });*/
+
+
+                    getNearbyWasher(prepareOrder.latlong);
 
                     RemoveBottomFragment();
                     isFind = true;
@@ -662,6 +680,156 @@ public class HomeActivity extends AppCompatActivity implements
                 //Write your code if there's no result
             }
         }
+    }
+
+
+    void getNearbyWasher(String latlong) {
+        WasherService mService = ApiUtils.WasherService(this);
+        mService.getNearbyWasherLink().enqueue(new Callback<NearbyWasher>() {
+            @Override
+            public void onResponse(Call<NearbyWasher> call, Response<NearbyWasher> response) {
+                Log.w("response", new Gson().toJson(response));
+                if (response.isSuccessful()) {
+                    if (response.body().getStatus()) {
+                        List<DataNearbyWasher> washer = response.body().getWashers();
+
+                        if (washer.size() > 0) {
+                            for (int i = 0; i < washer.size(); i++) {
+                                String userId = washer.get(i).getUserId();
+                                String username = washer.get(i).getUsername();
+                                String email = washer.get(i).getEmail();
+                                String name = washer.get(i).getName();
+                                String phone = washer.get(i).getPhone();
+                                String city = washer.get(i).getCity();
+                                String authLevel = washer.get(i).getAuthLevel();
+                                String firebaseId = washer.get(i).getFirebaseId();
+                                FindWasher findWasher = new FindWasher(userId, username, email, name, phone, city, authLevel, firebaseId, false);
+                                listWasher.add(findWasher);
+
+                            }
+                            SearchWasher();
+                        }
+                    }
+                    Log.d(TAG, "Send Order");
+                } else {
+                    int statusCode = response.code();
+                    try {
+                        Log.d(TAG, response.errorBody().string());
+                    } catch (IOException e) {
+                        e.printStackTrace();
+                    }
+                }
+            }
+
+            @Override
+            public void onFailure(Call<NearbyWasher> call, Throwable t) {
+                String message = t.getMessage();
+                Log.d(TAG, message);
+            }
+        });
+
+    }
+
+    private void SearchWasher() {
+
+        new AsyncTask<String, String, String>() {
+            @Override
+            protected String doInBackground(String... params) {
+                try {
+                    JSONObject root = new JSONObject();
+                    JSONArray jsonArray = new JSONArray();
+                    jsonArray.put(listWasher.get(urutan).firebaseId);
+
+                    JSONObject notification = new JSONObject();
+                    notification.put("body", "GET NOW !!!");
+                    notification.put("title", "Qwash - NEW ORDER");
+
+                    JSONObject data = new JSONObject();
+                    data.put("action", "1");
+
+                    JSONObject order = new JSONObject();
+
+                    JSONObject customer = new JSONObject();
+                    customer.put(Sample.ORDER_USERID, prepareOrder.userId);
+                    customer.put(Sample.ORDER_USERNAME, prepareOrder.username);
+                    customer.put(Sample.ORDER_EMAIL, prepareOrder.email);
+                    customer.put(Sample.ORDER_NAME, prepareOrder.name);
+                    customer.put(Sample.ORDER_PHONE, prepareOrder.phone);
+                    customer.put(Sample.ORDER_AUTHLEVEL, prepareOrder.authLevel);
+                    customer.put(Sample.ORDER_FIREBASE_ID, prepareOrder.firebase_id);
+                    order.put("customer", customer);
+
+                    JSONObject address = new JSONObject();
+                    address.put(Sample.ORDER_USERSDETAILSID, prepareOrder.usersDetailsId);
+                    address.put(Sample.ORDER_USERIDFK, prepareOrder.userIdFk);
+                    address.put(Sample.ORDER_NAMEADDRESS, prepareOrder.nameAddress);
+                    address.put(Sample.ORDER_ADDRESS, prepareOrder.address);
+                    address.put(Sample.ORDER_LATLONG, prepareOrder.latlong);
+                    address.put(Sample.ORDER_TYPE, prepareOrder.type);
+                    order.put("address", address);
+
+                    JSONObject vehicle = new JSONObject();
+                    vehicle.put(Sample.ORDER_VCUSTOMERSID, prepareOrder.vCustomersId);
+                    vehicle.put(Sample.ORDER_VNAME, prepareOrder.vName);
+                    vehicle.put(Sample.ORDER_VBRAND, prepareOrder.vBrand);
+                    vehicle.put(Sample.ORDER_MODELS, prepareOrder.models);
+                    vehicle.put(Sample.ORDER_VTRANSMISION, prepareOrder.vTransmision);
+                    vehicle.put(Sample.ORDER_YEARS, prepareOrder.years);
+                    vehicle.put(Sample.ORDER_VID, prepareOrder.vId);
+                    vehicle.put(Sample.ORDER_VBRANDID, prepareOrder.vBrandId);
+                    vehicle.put(Sample.ORDER_VMODELID, prepareOrder.vModelId);
+                    vehicle.put(Sample.ORDER_VTRANSID, prepareOrder.vTransId);
+                    vehicle.put(Sample.ORDER_VYEARSID, prepareOrder.vYearsId);
+                    order.put("vehicle", vehicle);
+
+
+                    JSONObject details = new JSONObject();
+                    details.put(Sample.ORDER_PRICE, String.valueOf(prepareOrder.price));
+                    details.put(Sample.ORDER_PERFUMED, String.valueOf(prepareOrder.perfumed));
+                    details.put(Sample.ORDER_INTERIOR_VACCUM, String.valueOf(prepareOrder.interior_vaccum));
+                    details.put(Sample.ORDER_ESTIMATED_PRICE, String.valueOf(prepareOrder.estimated_price));
+                    details.put(Sample.ORDER_DATETIME, prepareOrder.datetime);
+                    order.put("details", details);
+
+                    data.put("order", order);
+                    root.put("notification", notification);
+                    root.put("data", data);
+                    root.put("registration_ids", jsonArray);
+
+                    String result = postToFCM(root.toString());
+                    Log.d("RESULT", "Result: " + result);
+                    return result;
+                } catch (Exception ex) {
+                    ex.printStackTrace();
+                }
+                return null;
+            }
+
+            @Override
+            protected void onPostExecute(String result) {
+                try {
+                    JSONObject resultJson = new JSONObject(result);
+                    int success, failure;
+                    success = resultJson.getInt("success");
+                    failure = resultJson.getInt("failure");
+                    //Toast.makeText(LoginUserActivity.this, "Message Success: " + success + "Message Failed: " + failure, Toast.LENGTH_LONG).show();
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                    Toast.makeText(HomeActivity.this, "Message Failed, Unknown error occurred.", Toast.LENGTH_LONG).show();
+                }
+            }
+        }.execute();
+    }
+
+    String postToFCM(String bodyString) throws IOException {
+        RequestBody body = RequestBody.create(JSON, bodyString);
+        Request request = new Request.Builder()
+                .url(Sample.FCM_MESSAGE_URL)
+                .post(body)
+                .addHeader("Authorization", "key=" + Sample.SERVER_KEY_FIREBASE)
+                .build();
+        okhttp3.Response response = mClient.newCall(request).execute();
+        return response.body().string();
     }
 
     private void FindingWasher() {
@@ -684,13 +852,6 @@ public class HomeActivity extends AppCompatActivity implements
         startActivity(intent);
     }
 
-    @Override
-    protected void onStart() {
-        super.onStart();
-        if (mGoogleApiClient != null) {
-            mGoogleApiClient.connect();
-        }
-    }
 
     PermissionListener permissionMapsListener = new PermissionListener() {
         @Override
@@ -774,7 +935,6 @@ public class HomeActivity extends AppCompatActivity implements
         marker = new MarkerOptions().position(new LatLng(-6.344006, 106.713008)).title("Washer").icon(BitmapDescriptorFactory.fromResource(R.drawable.ic_washer));
         mMap.addMarker(marker);
 
-
     }
 
 
@@ -786,4 +946,75 @@ public class HomeActivity extends AppCompatActivity implements
         else
             finish();
     }
+
+    @Override
+    protected void onStart() {
+        super.onStart();
+        EventBus.getDefault().register(this);
+        if (mGoogleApiClient != null) {
+            mGoogleApiClient.connect();
+        }
+    }
+
+    @Override
+    public void onStop() {
+        super.onStop();
+        EventBus.getDefault().unregister(this);
+    }
+
+    @Subscribe(threadMode = ThreadMode.MAIN)
+    public void onMessageFireBase(MessageFireBase MessageFireBase) {
+
+        try {
+            JSONObject json = new JSONObject(MessageFireBase.getData());
+            int action = json.getInt(Sample.ACTION);
+            if (action == Sample.CODE_DEACLINE) {
+                //   Log.v("action","deacline");
+                //  Toast.makeText(this, "ditolak", Toast.LENGTH_SHORT).show();
+            } else if (action == Sample.CODE_ACCEPT) {
+                Toast.makeText(this, "Washer found", Toast.LENGTH_SHORT).show();
+                JSONObject jsonWasher = new JSONObject(json.getString(Sample.WASHER));
+                String firebase_id = jsonWasher.getString(Sample.WASHER_FIREBASE_ID);
+                String userId = jsonWasher.getString(Sample.WASHER_USER_ID);
+                String email = jsonWasher.getString(Sample.WASHER_EMAIL);
+                String name = jsonWasher.getString(Sample.WASHER_NAME);
+                String phone = jsonWasher.getString(Sample.WASHER_PHONE);
+                String rating = jsonWasher.getString(Sample.WASHER_RATING);
+
+                washerAccepted = new WasherAccepted(firebase_id, userId, email, name, phone, rating, prepareOrder.datetime, String.valueOf(prepareOrder.estimated_price));
+
+                isFind = false;
+                FindingWasher();
+                LoadWasherOrderFragment();
+            } else if (action == Sample.CODE_START) {
+                Toast.makeText(this, "Your washer is start working", Toast.LENGTH_SHORT).show();
+            } else if (action == Sample.CODE_FINISH_WORKING) {
+                JSONObject jsonWasher = new JSONObject(json.getString(Sample.WASHER));
+                String firebase_id = jsonWasher.getString(Sample.WASHER_FIREBASE_ID);
+                String userId = jsonWasher.getString(Sample.WASHER_USER_ID);
+                String email = jsonWasher.getString(Sample.WASHER_EMAIL);
+                String name = jsonWasher.getString(Sample.WASHER_NAME);
+                String phone = jsonWasher.getString(Sample.WASHER_PHONE);
+                String rating = jsonWasher.getString(Sample.WASHER_RATING);
+
+                washerAccepted = new WasherAccepted(firebase_id, userId, email, name, phone, rating, prepareOrder.datetime, String.valueOf(prepareOrder.estimated_price));
+
+                isFind = true;
+                FindingWasher();
+                RemoveBottomFragment();
+                washerAccepted = null;
+
+                OpenActionRating();
+
+
+            }
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+    }
+
+    private void OpenActionRating() {
+        
+    }
+
 }

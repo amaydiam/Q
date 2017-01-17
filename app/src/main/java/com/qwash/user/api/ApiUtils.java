@@ -8,6 +8,7 @@ import com.qwash.user.api.client.RetrofitClient;
 import com.qwash.user.api.client.addressfromgoogleapi.AddressMapsFromGoogleApi;
 import com.qwash.user.api.client.order.OrderService;
 import com.qwash.user.api.client.register.RegisterService;
+import com.qwash.user.api.client.washer.WasherService;
 
 /**
  * Created by Amay on 12/29/2016.
@@ -39,6 +40,12 @@ public class ApiUtils {
 
     public static OrderService OrderService(Context context) {
         return RetrofitClient.getClient(context, BASE_URL_QWASH).create(OrderService.class);
+
+    }
+
+
+    public static WasherService WasherService(Context context) {
+        return RetrofitClient.getClient(context, BASE_URL_QWASH).create(WasherService.class);
 
     }
 }
