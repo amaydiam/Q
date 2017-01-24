@@ -5,9 +5,9 @@ package com.qwash.user.api.client.order;
  */
 
 
-
-
-import com.qwash.user.api.model.order.Order;
+import com.qwash.user.api.model.order.CancelOrder;
+import com.qwash.user.api.model.order.RatingWasher;
+import com.qwash.user.api.model.order.RequestNewOrder;
 
 import java.util.Map;
 
@@ -18,6 +18,14 @@ import retrofit2.http.POST;
 
 public interface OrderService {
     @FormUrlEncoded
-    @POST("firebase/sendOrder")
-    Call<Order> getOrderLink(@FieldMap Map<String, String> params);
+    @POST("findmatch/startOrder")
+    Call<RequestNewOrder> getRequestStartOrderLink(@FieldMap Map<String, String> params);
+
+    @FormUrlEncoded
+    @POST("transact/ratings")
+    Call<RatingWasher> getRatingWasherLink(@FieldMap Map<String, String> params);
+
+    @FormUrlEncoded
+    @POST("findmatch/cancelOrder")
+    Call<CancelOrder> getCancelOrderLink(@FieldMap Map<String, String> params);
 }

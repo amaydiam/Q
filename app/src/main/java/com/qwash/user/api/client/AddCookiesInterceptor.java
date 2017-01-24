@@ -14,7 +14,7 @@ import okhttp3.Response;
 
 /**
  * This interceptor put all the Cookies in Preferences in the Request.
- * Your implementation on how to get the Preferences may ary, but this will work 99% of the time.
+ * Your implementation on how to get the Preferences may ary, but this will work 99% of the pick_time.
  */
 public class AddCookiesInterceptor implements Interceptor {
     public static final String PREF_COOKIES = "PREF_COOKIES";

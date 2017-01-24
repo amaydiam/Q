@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="#eee">
@@ -7,9 +8,9 @@
     <android.support.v4.widget.NestedScrollView
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_alignParentTop="true"
         android:layout_alignParentLeft="true"
-        android:layout_alignParentStart="true">
+        android:layout_alignParentStart="true"
+        android:layout_alignParentTop="true">
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -23,27 +24,7 @@
                 android:orientation="vertical"
                 android:paddingBottom="20dp">
 
-                <ImageView
-                    android:layout_width="250dp"
-                    android:layout_height="100dp"
-                    android:layout_gravity="center"
-                    android:src="@drawable/mobil" />
-
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_gravity="center"
-                    android:text="Honda"
-                    android:textColor="@color/white"
-                    android:textSize="20sp" />
-
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_gravity="center"
-                    android:text="Jazz 1.5 AT 2016"
-                    android:textColor="@color/white"
-                    android:textSize="20sp" />
+                <include layout="@layout/layout_selected_vehicle" />
 
             </LinearLayout>
 
@@ -51,25 +32,26 @@
             <RelativeLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="10dp"
                 android:layout_marginLeft="16dp"
-                android:layout_marginRight="16dp">
+                android:layout_marginRight="16dp"
+                android:layout_marginTop="10dp">
 
-                <ImageView
-                    android:id="@+id/rating_logo"
-                    android:layout_width="50dp"
-                    android:layout_height="50dp"
-                    android:src="@drawable/logo" />
+                <agency.tango.android.avatarview.views.AvatarView
+                    android:id="@+id/image_washer"
+                    android:layout_width="@dimen/image_washer_size"
+                    android:layout_height="@dimen/image_washer_size"
+                    app:av_border_color="@android:color/white"
+                    app:av_border_width="4dp"
+                    app:av_text_size_percentage="35" />
 
-                <TextView
-                    android:id="@+id/rating_name"
+                <com.qwash.user.ui.widget.RobotoBoldTextView
+                    android:id="@+id/whaser_name"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_centerInParent="true"
                     android:layout_marginLeft="10dp"
-                    android:layout_toRightOf="@id/rating_logo"
-                    android:text="Aan Aliudin"
-                    android:textSize="18sp" />
+                    android:layout_toRightOf="@id/image_washer"
+                    android:text="Fachri" />
 
                 <LinearLayout
                     android:layout_width="wrap_content"
@@ -78,27 +60,27 @@
                     android:layout_centerInParent="true"
                     android:orientation="vertical">
 
-                    <TextView
+                    <com.qwash.user.ui.widget.RobotoRegularTextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="TOTAL COST"
-                        android:textSize="14sp" />
+                        android:gravity="center"
+                        android:text="@string/harga_total"
+                        android:textColor="@color/grey" />
 
-                    <TextView
-                        android:id="@+id/total_cost"
+                    <com.qwash.user.ui.widget.RobotoBoldTextView
+                        android:id="@+id/total_price"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="IDR 25.000"
                         android:textColor="@color/blue_2196F3"
-                        android:textSize="18dp" />
+                        android:textSize="34sp" />
                 </LinearLayout>
 
                 <View
                     android:id="@+id/view1"
                     android:layout_width="match_parent"
                     android:layout_height="1dp"
+                    android:layout_below="@id/image_washer"
                     android:layout_marginTop="10dp"
-                    android:layout_below="@id/rating_logo"
                     android:background="#ccc" />
 
             </RelativeLayout>
@@ -110,7 +92,6 @@
                 android:orientation="vertical">
 
                 <LinearLayout
-                    android:id="@+id/view2"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginLeft="16dp"
@@ -147,32 +128,33 @@
                     android:layout_height="wrap_content"
                     android:layout_gravity="center"
                     android:layout_marginBottom="15dp"
-                    android:layout_marginTop="10dp"
-                    android:rating="3" />
+                    android:layout_marginTop="10dp" />
 
                 <EditText
-                    android:inputType="textMultiLine"
-                    android:lines="5"
-                    android:minLines="1"
-                    android:gravity="top|left"
-                    android:maxLines="5"
-                    android:hint="Leave a comment"
-                    android:background="@drawable/rounded_edittext"
+                    android:id="@+id/comment"
+                    android:layout_width="fill_parent"
                     android:layout_height="100dp"
-                    android:padding="10dp"
                     android:layout_marginLeft="16dp"
                     android:layout_marginRight="16dp"
-                    android:layout_width="fill_parent"
+                    android:background="@drawable/rounded_edittext"
+                    android:gravity="top|left"
+                    android:hint="Leave a comment"
+                    android:inputType="textMultiLine"
+                    android:lines="5"
+                    android:maxLines="5"
+                    android:minLines="1"
+                    android:padding="10dp"
                     android:scrollbars="vertical" />
 
                 <Button
+                    android:id="@+id/btn_submit"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:background="@drawable/border_blue"
-                    android:text="SUBMIT"
-                    android:layout_marginTop="20dp"
                     android:layout_marginLeft="16dp"
                     android:layout_marginRight="16dp"
+                    android:layout_marginTop="20dp"
+                    android:background="@drawable/border_blue"
+                    android:text="SUBMIT"
                     android:textColor="@color/white" />
 
             </LinearLayout>

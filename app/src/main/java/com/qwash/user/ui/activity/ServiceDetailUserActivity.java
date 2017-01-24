@@ -62,10 +62,11 @@ public class ServiceDetailUserActivity extends AppCompatActivity implements Time
 
 
     private PrepareOrder prepareOrder;
-    private int estimated_price=0;
-    private int perfumed_price=0;
-    private int interior_vaccum_price;
-    private int price = 25000;
+    private int estimated_price = 0;
+    private int perfumed_price = 0;
+    private int interior_vaccum_price = 0;
+    private int price_CAR = 25000;
+    private int price_MOTOR = 10000;
     private String date = null;
     private String time = null;
 
@@ -118,19 +119,24 @@ public class ServiceDetailUserActivity extends AppCompatActivity implements Time
                 break;
             case R.id.btn_order:
                 if (date == null)
-                    Toast.makeText(this, "Please select date for Washer will wash your vehicel", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(this, "Please select pick_date for Washer will wash your vehicel", Toast.LENGTH_SHORT).show();
                 else if (time == null)
-                    Toast.makeText(this, "Please select time for Washer will wash your vehicel", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(this, "Please select pick_time for Washer will wash your vehicel", Toast.LENGTH_SHORT).show();
                 else {
-                    prepareOrder.price = price;
-                    prepareOrder.datetime = date + " " + time;
+
+                    prepareOrder.pick_date = date;
+                    prepareOrder.pick_time = time;
                     if (prepareOrder.vId.equalsIgnoreCase("1")) {
-                        prepareOrder.perfumed = perfumed_price;
-                        prepareOrder.interior_vaccum = interior_vaccum_price;
+                        prepareOrder.price = price_CAR;
+                        prepareOrder.perfumed_price = perfumed_price;
+                        prepareOrder.interior_vaccum_price = interior_vaccum_price;
                         prepareOrder.estimated_price = estimated_price;
                     } else if (prepareOrder.vId.equalsIgnoreCase("2")) {
-                        prepareOrder.perfumed = 0;
-                        prepareOrder.interior_vaccum = 0;
+                        prepareOrder.price = price_MOTOR;
+                        prepareOrder.perfumed_price = 0;
+                        prepareOrder.perfumed_status = 0;
+                        prepareOrder.interior_vaccum_price = 0;
+                        prepareOrder.interior_vaccum_status = 0;
                         prepareOrder.estimated_price = 25000;
                     }
                     Intent intent = new Intent();
@@ -158,16 +164,18 @@ public class ServiceDetailUserActivity extends AppCompatActivity implements Time
     private void calculate() {
         checkPerfurmed();
         checkInteriorVaccum();
-        estimated_price = price + perfumed_price + interior_vaccum_price;
-        totalPrice.setText("IDR "+Utils.Rupiah(estimated_price));
-        btnOrder.setText("IDR "+Utils.Rupiah(estimated_price)+ " > ORDER NOW");
+        estimated_price = prepareOrder.vId.equalsIgnoreCase("1") ? (price_CAR + perfumed_price + interior_vaccum_price) : price_MOTOR ;
+        totalPrice.setText("IDR " + Utils.Rupiah(estimated_price));
+        btnOrder.setText("IDR " + Utils.Rupiah(estimated_price) + " > ORDER NOW");
     }
 
     private void checkInteriorVaccum() {
         if (interiorVaccum.isChecked()) {
             interior_vaccum_price = 3000;
+            prepareOrder.interior_vaccum_status = 1;
         } else {
             interior_vaccum_price = 0;
+            prepareOrder.interior_vaccum_status = 0;
         }
     }
 
@@ -175,8 +183,10 @@ public class ServiceDetailUserActivity extends AppCompatActivity implements Time
     private void checkPerfurmed() {
         if (perfumed.isChecked()) {
             perfumed_price = 3000;
+            prepareOrder.perfumed_status = 1;
         } else {
             perfumed_price = 0;
+            prepareOrder.perfumed_status = 0;
         }
     }
 

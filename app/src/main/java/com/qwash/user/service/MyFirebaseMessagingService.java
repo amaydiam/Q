@@ -4,12 +4,8 @@ import android.util.Log;
 
 import com.google.firebase.messaging.FirebaseMessagingService;
 import com.google.firebase.messaging.RemoteMessage;
-import com.qwash.user.Sample;
-import com.qwash.user.ui.activity.MessageFireBase;
 
 import org.greenrobot.eventbus.EventBus;
-import org.json.JSONException;
-import org.json.JSONObject;
 
 /**
  * Created by binderbyte on 11/01/17.

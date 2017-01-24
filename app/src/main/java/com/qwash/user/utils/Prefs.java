@@ -98,6 +98,15 @@ public final class Prefs {
         return Prefs.getPref(context, Sample.PHONE, "");
     }
 
+
+    public static void putPhoto(final Context context, String photo) {
+        Prefs.putPref(context, Sample.PHOTO, photo);
+    }
+
+    public static String getPhoto(final Context context) {
+        return Prefs.getPref(context, Sample.PHOTO, "");
+    }
+
     //end data user
 
 

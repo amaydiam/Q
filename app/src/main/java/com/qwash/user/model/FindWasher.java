@@ -7,29 +7,18 @@ import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
 
 public class FindWasher {
-
-    public String userId;
-    public String username;
-    public String email;
-    public String name;
-    public String phone;
-    public String city;
-    public String authLevel;
-    public String firebaseId;
+    public String user_id_fk, name,  latlong, firebaseId;
     public boolean deacline;
 
     FindWasher(){
 
     }
 
-    public FindWasher(String userId, String username, String email, String name, String phone, String city, String authLevel, String firebaseId, boolean deacline) {
-        this.userId = userId;
-        this.username = username;
-        this.email = email;
+    public FindWasher(String user_id_fk, String latlong, String name,String firebaseId, boolean deacline) {
+        this.user_id_fk = user_id_fk;
         this.name = name;
-        this.phone = phone;
-        this.city = city;
-        this.authLevel = authLevel;
+        this.latlong = latlong;
+        this.name = name;
         this.firebaseId = firebaseId;
         this.deacline = deacline;
     }

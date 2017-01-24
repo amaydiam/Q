@@ -1,4 +1,4 @@
-package com.qwash.user.api.model.washer; /**
+package com.qwash.user.api.model.order; /**
  * Created by Amay on 12/29/2016.
  */
 
@@ -6,15 +6,15 @@ package com.qwash.user.api.model.washer; /**
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
 
-import java.util.List;
+public class CancelOrder {
 
-public class NearbyWasher {
+
     @SerializedName("status")
     @Expose
     private Boolean status;
-    @SerializedName("washers")
+    @SerializedName("message")
     @Expose
-    private List<DataNearbyWasher> washers = null;
+    private String message;
 
     public Boolean getStatus() {
         return status;
@@ -24,12 +24,12 @@ public class NearbyWasher {
         this.status = status;
     }
 
-    public List<DataNearbyWasher> getWashers() {
-        return washers;
+    public String getMessage() {
+        return message;
     }
 
-    public void setWashers(List<DataNearbyWasher> washers) {
-        this.washers = washers;
+    public void setMessage(String message) {
+        this.message = message;
     }
 
 }

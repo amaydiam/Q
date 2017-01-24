@@ -27,15 +27,21 @@ import com.qwash.user.R;
 import com.qwash.user.Sample;
 import com.qwash.user.api.ApiUtils;
 import com.qwash.user.api.client.addressfromgoogleapi.AddressMapsFromGoogleApi;
+import com.qwash.user.api.client.order.OrderService;
 import com.qwash.user.api.client.washer.WasherService;
 import com.qwash.user.api.model.Address;
 import com.qwash.user.api.model.AddressFromMapsResponse;
-import com.qwash.user.api.model.washer.DataNearbyWasher;
-import com.qwash.user.api.model.washer.NearbyWasher;
+import com.qwash.user.api.model.order.CancelOrder;
+import com.qwash.user.api.model.order.Washer;
+import com.qwash.user.api.model.order.RequestNewOrder;
+import com.qwash.user.api.model.washer.DataShowWasherOn;
+import com.qwash.user.api.model.washer.ShowWasherOn;
 import com.qwash.user.model.FindWasher;
 import com.qwash.user.model.PrepareOrder;
 import com.qwash.user.model.VehicleUser;
 import com.qwash.user.model.WasherAccepted;
+import com.qwash.user.service.MessageFireBase;
+import com.qwash.user.service.PushNotification;
 import com.qwash.user.ui.fragment.PrepareOrderFragment;
 import com.qwash.user.ui.fragment.WasherOrderFragment;
 import com.qwash.user.ui.widget.RobotoLightTextView;
@@ -54,7 +60,6 @@ import com.google.android.gms.maps.model.BitmapDescriptorFactory;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
-import com.google.firebase.iid.FirebaseInstanceId;
 import com.google.gson.Gson;
 import com.gun0912.tedpermission.PermissionListener;
 import com.gun0912.tedpermission.TedPermission;
@@ -70,6 +75,8 @@ import com.joanzapata.iconify.fonts.MaterialModule;
 import com.joanzapata.iconify.fonts.SimpleLineIconsIcons;
 import com.joanzapata.iconify.fonts.SimpleLineIconsModule;
 import com.joanzapata.iconify.widget.IconTextView;
+import com.qwash.user.utils.ProgressDialogBuilder;
+import com.sdsmdg.tastytoast.TastyToast;
 
 import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
@@ -80,16 +87,16 @@ import org.json.JSONObject;
 
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Locale;
+import java.util.Map;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 import okhttp3.MediaType;
 import okhttp3.OkHttpClient;
-import okhttp3.Request;
-import okhttp3.RequestBody;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
@@ -111,7 +118,6 @@ public class HomeActivity extends AppCompatActivity implements
     @BindView(R.id.img_search)
     ImageView imgSearch;
 
-    private AddressMapsFromGoogleApi mService;
 
     @BindView(R.id.layout_pick_location)
     RelativeLayout layoutPickLocation;
@@ -155,6 +161,7 @@ public class HomeActivity extends AppCompatActivity implements
     private PrepareOrder prepareOrder;
     private int urutan = 0;
     private WasherAccepted washerAccepted;
+    private ProgressDialogBuilder dialogProgress;
 
 
     @OnClick({
@@ -194,7 +201,7 @@ public class HomeActivity extends AppCompatActivity implements
                 if (hasIdetify)
                     LoadPrepareOrderFragment();
                 else
-                    LoadAddress(current_latitude + "," + current_longitude);
+                    LoadAddress(current_latitude, current_longitude);
                 break;
 
             // sub Menu
@@ -229,16 +236,13 @@ public class HomeActivity extends AppCompatActivity implements
             case R.id.btn_work:
                 if (!isHidden)
                     ShowMenuHome(imgMenu);
-                String firebase_id = FirebaseInstanceId.getInstance().getToken();
-                Toast.makeText(this, "" + firebase_id, Toast.LENGTH_SHORT).show();
                 break;
             case R.id.btn_home:
                 if (!isHidden)
                     ShowMenuHome(imgMenu);
                 break;
             case R.id.btn_close:
-                isFind = false;
-                FindingWasher();
+                CancelOrder();
                 break;
 
             default:
@@ -247,6 +251,7 @@ public class HomeActivity extends AppCompatActivity implements
     }
 
 
+    
     private boolean hasIdetify = false;
     private boolean isFind = false;
 
@@ -272,16 +277,15 @@ public class HomeActivity extends AppCompatActivity implements
         setContentView(R.layout.activity_home);
         ButterKnife.bind(this);
 
+        dialogProgress = new ProgressDialogBuilder(HomeActivity.this);
         Intent intent = getIntent();
         String location = intent.getStringExtra("location");
-        //Toast.makeText(this, ""+location, Toast.LENGTH_SHORT).show();
 
         if (location != null) {
             search.setText("" + location);
         }
 
 
-        mService = ApiUtils.getAddressMapsFromGoogleApi(this);
         //set Toolbar
 
         imgMenu.setImageDrawable(
@@ -350,7 +354,7 @@ public class HomeActivity extends AppCompatActivity implements
         //TODO name adress
         prepareOrder.usersDetailsId = "";
         prepareOrder.userIdFk = Prefs.getUserId(this);
-        prepareOrder.nameAddress = "";
+        prepareOrder.nameAddress = "-";
         prepareOrder.address = search.getText().toString();
         prepareOrder.latlong = current_latitude + "," + current_longitude;
         prepareOrder.type = "0";
@@ -364,7 +368,7 @@ public class HomeActivity extends AppCompatActivity implements
     private void LoadWasherOrderFragment() {
         mMap.getUiSettings().setScrollGesturesEnabled(false);
         btnPickLocation.setVisibility(View.INVISIBLE);
-        current_fragment = new WasherOrderFragment().newInstance(washerAccepted);
+        current_fragment = new WasherOrderFragment().newInstance(prepareOrder, washerAccepted);
         getSupportFragmentManager().beginTransaction().replace(R.id.fragment_bottom, current_fragment).commitAllowingStateLoss();
     }
 
@@ -395,7 +399,6 @@ public class HomeActivity extends AppCompatActivity implements
         } else {
             buildGoogleApiClient();
         }
-        setWasher();
 
     }
 
@@ -449,7 +452,7 @@ public class HomeActivity extends AppCompatActivity implements
                     } else {
                         double Lat = location.getLatitude();
                         double Long = location.getLongitude();
-                        LoadAddress(Lat + "," + Long);
+                        LoadAddress(Lat, Long);
                         CameraUpdate cameraUpdate = CameraUpdateFactory.newLatLngZoom(new LatLng(Lat, Long), zoomLevel);
                         mMap.animateCamera(cameraUpdate);
                     }
@@ -475,7 +478,7 @@ public class HomeActivity extends AppCompatActivity implements
         // current location
         current_latitude = location.getLatitude();
         current_longitude = location.getLongitude();
-        LoadAddress(current_latitude + "," + current_longitude);
+        LoadAddress(current_latitude, current_longitude);
 
         pickLayoutLocationShow(true);
 
@@ -584,84 +587,11 @@ public class HomeActivity extends AppCompatActivity implements
                     prepareOrder.email = Prefs.getEmail(this);
                     prepareOrder.name = Prefs.getName(this);
                     prepareOrder.phone = Prefs.getPhone(this);
+                    prepareOrder.photo = Prefs.getPhoto(this);
                     prepareOrder.authLevel = Prefs.getAuthLevel(this);
                     prepareOrder.firebase_id = Prefs.getFirebaseId(this);
 
-
-                  /*  Map<String, String> params = new HashMap<>();
-                    // customer order
-                    params.put(Sample.ORDER_USERID, prepareOrder.userId);
-                    params.put(Sample.ORDER_USERNAME, prepareOrder.username);
-                    params.put(Sample.ORDER_EMAIL, prepareOrder.email);
-                    params.put(Sample.ORDER_NAME, prepareOrder.name);
-                    params.put(Sample.ORDER_PHONE, prepareOrder.phone);
-                    params.put(Sample.ORDER_AUTHLEVEL, prepareOrder.authLevel);
-                    params.put(Sample.ORDER_FIREBASE_ID, prepareOrder.firebase_id);
-
-                    // address order
-                    params.put(Sample.ORDER_USERSDETAILSID, prepareOrder.usersDetailsId);
-                    params.put(Sample.ORDER_USERIDFK, prepareOrder.userIdFk);
-                    params.put(Sample.ORDER_NAMEADDRESS, prepareOrder.nameAddress);
-                    params.put(Sample.ORDER_ADDRESS, prepareOrder.address);
-                    params.put(Sample.ORDER_LATLONG, prepareOrder.latlong);
-                    params.put(Sample.ORDER_TYPE, prepareOrder.type);
-
-                    //vehicle order
-                    params.put(Sample.ORDER_VCUSTOMERSID, prepareOrder.vCustomersId);
-                    params.put(Sample.ORDER_VNAME, prepareOrder.vName);
-                    params.put(Sample.ORDER_VBRAND, prepareOrder.vBrand);
-                    params.put(Sample.ORDER_MODELS, prepareOrder.models);
-                    params.put(Sample.ORDER_VTRANSMISION, prepareOrder.vTransmision);
-                    params.put(Sample.ORDER_YEARS, prepareOrder.years);
-                    params.put(Sample.ORDER_VID, prepareOrder.vId);
-                    params.put(Sample.ORDER_VBRANDID, prepareOrder.vBrandId);
-                    params.put(Sample.ORDER_VMODELID, prepareOrder.vModelId);
-                    params.put(Sample.ORDER_VTRANSID, prepareOrder.vTransId);
-                    params.put(Sample.ORDER_VYEARSID, prepareOrder.vYearsId);
-
-                    //order detail
-                    params.put(Sample.ORDER_PRICE, String.valueOf(prepareOrder.price));
-                    params.put(Sample.ORDER_PERFUMED, String.valueOf(prepareOrder.perfumed));
-                    params.put(Sample.ORDER_INTERIOR_VACCUM, String.valueOf(prepareOrder.interior_vaccum));
-                    params.put(Sample.ORDER_ESTIMATED_PRICE, String.valueOf(prepareOrder.estimated_price));
-                    params.put(Sample.ORDER_DATETIME, prepareOrder.datetime);
-
-                    for (Map.Entry entry : params.entrySet()) {
-                        System.out.println(entry.getKey() + ", " + entry.getValue());
-                    }
-
-                    OrderService mService = ApiUtils.OrderService(this);
-                    mService.getOrderLink(params).enqueue(new Callback<Order>() {
-                        @Override
-                        public void onResponse(Call<Order> call, Response<Order> response) {
-                            Log.w("response", new Gson().toJson(response));
-                            if (response.isSuccessful()) {
-                                if (response.body().getSuccess() == 1) {
-                                    isFind = false;
-                                    FindingWasher();
-                                    LoadWasherOrderFragment();
-                                }
-                                Log.d(TAG, "Send Order");
-                            } else {
-                                int statusCode = response.code();
-                                try {
-                                    Log.d(TAG, response.errorBody().string());
-                                } catch (IOException e) {
-                                    e.printStackTrace();
-                                }
-                            }
-                        }
-
-                        @Override
-                        public void onFailure(Call<Order> call, Throwable t) {
-                            String message = t.getMessage();
-                            Log.d(TAG, message);
-                        }
-                    });*/
-
-
-                    getNearbyWasher(prepareOrder.latlong);
-
+                    RequestNewOrder();
                     RemoveBottomFragment();
                     isFind = true;
                     FindingWasher();
@@ -683,27 +613,47 @@ public class HomeActivity extends AppCompatActivity implements
     }
 
 
-    void getNearbyWasher(String latlong) {
-        WasherService mService = ApiUtils.WasherService(this);
-        mService.getNearbyWasherLink().enqueue(new Callback<NearbyWasher>() {
+    void RequestNewOrder() {
+        String LatLong = prepareOrder.latlong;
+        String[] ll = LatLong.split(",");
+        Map<String, String> params = new HashMap<>();
+
+        params.put(Sample.USER_ID_FK, Prefs.getUserId(this));
+        params.put(Sample.V_CUSTOMERS_ID_FK, prepareOrder.vCustomersId);
+        params.put(Sample.PICK_DATE, prepareOrder.pick_date);
+        params.put(Sample.PICK_TIME, prepareOrder.pick_time);
+        params.put(Sample.LAT, ll[0]);
+        params.put(Sample.LONG, ll[1]);
+        params.put(Sample.PRICE, String.valueOf(prepareOrder.price));
+        params.put(Sample.NAME_ADDRESS, prepareOrder.nameAddress);
+        params.put(Sample.ADDRESS, prepareOrder.address);
+        params.put(Sample.PERFUMED, String.valueOf(prepareOrder.perfumed_status));
+        params.put(Sample.VACUMMED, String.valueOf(prepareOrder.interior_vaccum_status));
+
+        for (Map.Entry entry : params.entrySet()) {
+            System.out.println(entry.getKey() + ", " + entry.getValue());
+        }
+
+        OrderService mService = ApiUtils.OrderService(this);
+        mService.getRequestStartOrderLink(params).enqueue(new Callback<RequestNewOrder>() {
             @Override
-            public void onResponse(Call<NearbyWasher> call, Response<NearbyWasher> response) {
+            public void onResponse(Call<RequestNewOrder> call, Response<RequestNewOrder> response) {
                 Log.w("response", new Gson().toJson(response));
                 if (response.isSuccessful()) {
                     if (response.body().getStatus()) {
-                        List<DataNearbyWasher> washer = response.body().getWashers();
+                        prepareOrder.orders_ref = response.body().getOrders();
+                        List<Washer> washer = response.body().getWashers();
 
                         if (washer.size() > 0) {
+                            listWasher.clear();
                             for (int i = 0; i < washer.size(); i++) {
-                                String userId = washer.get(i).getUserId();
-                                String username = washer.get(i).getUsername();
-                                String email = washer.get(i).getEmail();
+
+                                String user_id_fk = washer.get(i).getUserIdFk();
                                 String name = washer.get(i).getName();
-                                String phone = washer.get(i).getPhone();
-                                String city = washer.get(i).getCity();
-                                String authLevel = washer.get(i).getAuthLevel();
+                                String latlong = washer.get(i).getLat() + "," + washer.get(i).getLong();
                                 String firebaseId = washer.get(i).getFirebaseId();
-                                FindWasher findWasher = new FindWasher(userId, username, email, name, phone, city, authLevel, firebaseId, false);
+
+                                FindWasher findWasher = new FindWasher(user_id_fk, name, latlong, firebaseId, false);
                                 listWasher.add(findWasher);
 
                             }
@@ -722,7 +672,7 @@ public class HomeActivity extends AppCompatActivity implements
             }
 
             @Override
-            public void onFailure(Call<NearbyWasher> call, Throwable t) {
+            public void onFailure(Call<RequestNewOrder> call, Throwable t) {
                 String message = t.getMessage();
                 Log.d(TAG, message);
             }
@@ -730,106 +680,52 @@ public class HomeActivity extends AppCompatActivity implements
 
     }
 
-    private void SearchWasher() {
+    // ======== CancelOrder Order
+    private void CancelOrder() {
+        {
+            dialogProgress.show("Cancel Order Wash ...", "Please wait...");
+            Map<String, String> params = new HashMap<>();
+            params.put(Sample.ORDERS_REF, prepareOrder.orders_ref);
 
-        new AsyncTask<String, String, String>() {
-            @Override
-            protected String doInBackground(String... params) {
-                try {
-                    JSONObject root = new JSONObject();
-                    JSONArray jsonArray = new JSONArray();
-                    jsonArray.put(listWasher.get(urutan).firebaseId);
-
-                    JSONObject notification = new JSONObject();
-                    notification.put("body", "GET NOW !!!");
-                    notification.put("title", "Qwash - NEW ORDER");
-
-                    JSONObject data = new JSONObject();
-                    data.put("action", "1");
-
-                    JSONObject order = new JSONObject();
-
-                    JSONObject customer = new JSONObject();
-                    customer.put(Sample.ORDER_USERID, prepareOrder.userId);
-                    customer.put(Sample.ORDER_USERNAME, prepareOrder.username);
-                    customer.put(Sample.ORDER_EMAIL, prepareOrder.email);
-                    customer.put(Sample.ORDER_NAME, prepareOrder.name);
-                    customer.put(Sample.ORDER_PHONE, prepareOrder.phone);
-                    customer.put(Sample.ORDER_AUTHLEVEL, prepareOrder.authLevel);
-                    customer.put(Sample.ORDER_FIREBASE_ID, prepareOrder.firebase_id);
-                    order.put("customer", customer);
-
-                    JSONObject address = new JSONObject();
-                    address.put(Sample.ORDER_USERSDETAILSID, prepareOrder.usersDetailsId);
-                    address.put(Sample.ORDER_USERIDFK, prepareOrder.userIdFk);
-                    address.put(Sample.ORDER_NAMEADDRESS, prepareOrder.nameAddress);
-                    address.put(Sample.ORDER_ADDRESS, prepareOrder.address);
-                    address.put(Sample.ORDER_LATLONG, prepareOrder.latlong);
-                    address.put(Sample.ORDER_TYPE, prepareOrder.type);
-                    order.put("address", address);
-
-                    JSONObject vehicle = new JSONObject();
-                    vehicle.put(Sample.ORDER_VCUSTOMERSID, prepareOrder.vCustomersId);
-                    vehicle.put(Sample.ORDER_VNAME, prepareOrder.vName);
-                    vehicle.put(Sample.ORDER_VBRAND, prepareOrder.vBrand);
-                    vehicle.put(Sample.ORDER_MODELS, prepareOrder.models);
-                    vehicle.put(Sample.ORDER_VTRANSMISION, prepareOrder.vTransmision);
-                    vehicle.put(Sample.ORDER_YEARS, prepareOrder.years);
-                    vehicle.put(Sample.ORDER_VID, prepareOrder.vId);
-                    vehicle.put(Sample.ORDER_VBRANDID, prepareOrder.vBrandId);
-                    vehicle.put(Sample.ORDER_VMODELID, prepareOrder.vModelId);
-                    vehicle.put(Sample.ORDER_VTRANSID, prepareOrder.vTransId);
-                    vehicle.put(Sample.ORDER_VYEARSID, prepareOrder.vYearsId);
-                    order.put("vehicle", vehicle);
-
-
-                    JSONObject details = new JSONObject();
-                    details.put(Sample.ORDER_PRICE, String.valueOf(prepareOrder.price));
-                    details.put(Sample.ORDER_PERFUMED, String.valueOf(prepareOrder.perfumed));
-                    details.put(Sample.ORDER_INTERIOR_VACCUM, String.valueOf(prepareOrder.interior_vaccum));
-                    details.put(Sample.ORDER_ESTIMATED_PRICE, String.valueOf(prepareOrder.estimated_price));
-                    details.put(Sample.ORDER_DATETIME, prepareOrder.datetime);
-                    order.put("details", details);
-
-                    data.put("order", order);
-                    root.put("notification", notification);
-                    root.put("data", data);
-                    root.put("registration_ids", jsonArray);
-
-                    String result = postToFCM(root.toString());
-                    Log.d("RESULT", "Result: " + result);
-                    return result;
-                } catch (Exception ex) {
-                    ex.printStackTrace();
-                }
-                return null;
+            for (Map.Entry entry : params.entrySet()) {
+                System.out.println(entry.getKey() + ", " + entry.getValue());
             }
 
-            @Override
-            protected void onPostExecute(String result) {
-                try {
-                    JSONObject resultJson = new JSONObject(result);
-                    int success, failure;
-                    success = resultJson.getInt("success");
-                    failure = resultJson.getInt("failure");
-                    //Toast.makeText(LoginUserActivity.this, "Message Success: " + success + "Message Failed: " + failure, Toast.LENGTH_LONG).show();
-                } catch (JSONException e) {
-                    e.printStackTrace();
-                    Toast.makeText(HomeActivity.this, "Message Failed, Unknown error occurred.", Toast.LENGTH_LONG).show();
+            OrderService mService = ApiUtils.OrderService(HomeActivity.this);
+            mService.getCancelOrderLink(params).enqueue(new Callback<CancelOrder>() {
+                @Override
+                public void onResponse(Call<CancelOrder> call, Response<CancelOrder> response) {
+                    Log.w("response", new Gson().toJson(response));
+                    dialogProgress.hide();
+                    if (response.isSuccessful()) {
+                        if (response.body().getStatus()) {
+                            isFind = false;
+                            FindingWasher();
+                            PushCancelOrder();
+                        }
+                    } else {
+                        int statusCode = response.code();
+                        try {
+                            JSONObject jsonObject = new JSONObject(response.errorBody().string());
+                            String message = jsonObject.getString(Sample.MESSAGE);
+                            // TODO
+                            // kalo udah diterima orang finish();
+                            Toast.makeText(HomeActivity.this, message, Toast.LENGTH_SHORT).show();
+                        } catch (JSONException | IOException e) {
+                            Toast.makeText(HomeActivity.this, "Error", Toast.LENGTH_SHORT).show();
+                            e.printStackTrace();
+                        }
+                    }
                 }
-            }
-        }.execute();
-    }
 
-    String postToFCM(String bodyString) throws IOException {
-        RequestBody body = RequestBody.create(JSON, bodyString);
-        Request request = new Request.Builder()
-                .url(Sample.FCM_MESSAGE_URL)
-                .post(body)
-                .addHeader("Authorization", "key=" + Sample.SERVER_KEY_FIREBASE)
-                .build();
-        okhttp3.Response response = mClient.newCall(request).execute();
-        return response.body().string();
+                @Override
+                public void onFailure(Call<CancelOrder> call, Throwable t) {
+                    String message = t.getMessage();
+                    dialogProgress.hide();
+                    Toast.makeText(HomeActivity.this, message, Toast.LENGTH_SHORT).show();
+                }
+            });
+        }
     }
 
     private void FindingWasher() {
@@ -874,11 +770,13 @@ public class HomeActivity extends AppCompatActivity implements
 
     };
 
-    public void LoadAddress(String LatLong) {
+    public void LoadAddress(final double Lat, final double Long) {
+        mMap.clear();
         hasIdetify = false;
         search.setText("");
         btnPickLocation.setText(Html.fromHtml("<i>{fa-spinner spin} Indentify Address...</i>"));
-        mService.getAddress(LatLong).enqueue(new Callback<AddressFromMapsResponse>() {
+        AddressMapsFromGoogleApi mService = ApiUtils.getAddressMapsFromGoogleApi(this);
+        mService.getAddress(Lat + "," + Long).enqueue(new Callback<AddressFromMapsResponse>() {
             @Override
             public void onResponse(Call<AddressFromMapsResponse> call, Response<AddressFromMapsResponse> response) {
 
@@ -887,6 +785,7 @@ public class HomeActivity extends AppCompatActivity implements
                         List<Address> address = response.body().getResults();
                         search.setText(address.get(0).getFormattedAddress());
                         btnPickLocation.setText(getResources().getString(R.string.btn_pick_location));
+                        LoadWasherOnMap(Lat, Long);
                     } else {
                         search.setText("");
                         btnPickLocation.setText(Html.fromHtml("<i>Not Identified...</i>"));
@@ -917,23 +816,50 @@ public class HomeActivity extends AppCompatActivity implements
         });
     }
 
+    public void LoadWasherOnMap(double Lat, double Long) {
+
+        Map<String, String> params = new HashMap<>();
+        params.put(Sample.CENTER_LAT, String.valueOf(Lat));
+        params.put(Sample.CENTER_LONG, String.valueOf(Long));
+        WasherService mService = ApiUtils.WasherService(this);
+        mService.getshowWasherOnLink(params).enqueue(new Callback<ShowWasherOn>() {
+            @Override
+            public void onResponse(Call<ShowWasherOn> call, Response<ShowWasherOn> response) {
+
+                if (response.isSuccessful()) {
+                    if (response.body().getStatus()) {
+                        setWasher(response.body().getData());
+                    }
+
+                } else {
+                    int statusCode = response.code();
+                }
+            }
+
+            @Override
+            public void onFailure(Call<ShowWasherOn> call, Throwable t) {
+            }
+
+
+        });
+    }
+
 
     @Override
     public void onCameraIdle() {
         current_latitude = mMap.getCameraPosition().target.latitude;
         current_longitude = mMap.getCameraPosition().target.longitude;
-        LoadAddress(current_latitude + "," + current_longitude);
+        LoadAddress(current_latitude, current_longitude);
     }
 
 
-    void setWasher() {
-
-        MarkerOptions marker = new MarkerOptions().position(new LatLng(-6.338405, 106.709180)).title("Washer").icon(BitmapDescriptorFactory.fromResource(R.drawable.ic_washer));
-        mMap.addMarker(marker);
-        marker = new MarkerOptions().position(new LatLng(-6.341807, 106.710146)).title("Washer").icon(BitmapDescriptorFactory.fromResource(R.drawable.ic_washer));
-        mMap.addMarker(marker);
-        marker = new MarkerOptions().position(new LatLng(-6.344006, 106.713008)).title("Washer").icon(BitmapDescriptorFactory.fromResource(R.drawable.ic_washer));
-        mMap.addMarker(marker);
+    void setWasher(List<DataShowWasherOn> data) {
+        for (int i = 0; i < data.size(); i++) {
+            double Lat = Double.parseDouble(data.get(i).getLat());
+            double Long = Double.parseDouble(data.get(i).getLng());
+            MarkerOptions marker = new MarkerOptions().position(new LatLng(Lat, Long)).icon(BitmapDescriptorFactory.fromResource(R.drawable.ic_washer));
+            mMap.addMarker(marker);
+        }
 
     }
 
@@ -970,42 +896,37 @@ public class HomeActivity extends AppCompatActivity implements
             int action = json.getInt(Sample.ACTION);
             if (action == Sample.CODE_DEACLINE) {
                 //   Log.v("action","deacline");
-                //  Toast.makeText(this, "ditolak", Toast.LENGTH_SHORT).show();
             } else if (action == Sample.CODE_ACCEPT) {
-                Toast.makeText(this, "Washer found", Toast.LENGTH_SHORT).show();
+                TastyToast.makeText(getApplicationContext(), "Washer found", TastyToast.LENGTH_SHORT, TastyToast.SUCCESS);
                 JSONObject jsonWasher = new JSONObject(json.getString(Sample.WASHER));
                 String firebase_id = jsonWasher.getString(Sample.WASHER_FIREBASE_ID);
                 String userId = jsonWasher.getString(Sample.WASHER_USER_ID);
                 String email = jsonWasher.getString(Sample.WASHER_EMAIL);
                 String name = jsonWasher.getString(Sample.WASHER_NAME);
                 String phone = jsonWasher.getString(Sample.WASHER_PHONE);
+                String photo = jsonWasher.getString(Sample.WASHER_PHOTO);
                 String rating = jsonWasher.getString(Sample.WASHER_RATING);
 
-                washerAccepted = new WasherAccepted(firebase_id, userId, email, name, phone, rating, prepareOrder.datetime, String.valueOf(prepareOrder.estimated_price));
+                washerAccepted = new WasherAccepted(firebase_id, userId, email, name, phone, photo, rating);
 
                 isFind = false;
                 FindingWasher();
                 LoadWasherOrderFragment();
             } else if (action == Sample.CODE_START) {
-                Toast.makeText(this, "Your washer is start working", Toast.LENGTH_SHORT).show();
+                TastyToast.makeText(getApplicationContext(), "Your washer is start working", TastyToast.LENGTH_SHORT, TastyToast.SUCCESS);
+                WasherOrderFragment fragment = (WasherOrderFragment) getSupportFragmentManager().findFragmentById(R.id.fragment_bottom);
+                if (fragment != null) {
+                    fragment.layoutBtnWasherOrder.setVisibility(View.GONE);
+                }
             } else if (action == Sample.CODE_FINISH_WORKING) {
                 JSONObject jsonWasher = new JSONObject(json.getString(Sample.WASHER));
                 String firebase_id = jsonWasher.getString(Sample.WASHER_FIREBASE_ID);
                 String userId = jsonWasher.getString(Sample.WASHER_USER_ID);
-                String email = jsonWasher.getString(Sample.WASHER_EMAIL);
-                String name = jsonWasher.getString(Sample.WASHER_NAME);
-                String phone = jsonWasher.getString(Sample.WASHER_PHONE);
-                String rating = jsonWasher.getString(Sample.WASHER_RATING);
-
-                washerAccepted = new WasherAccepted(firebase_id, userId, email, name, phone, rating, prepareOrder.datetime, String.valueOf(prepareOrder.estimated_price));
-
-                isFind = true;
+                TastyToast.makeText(getApplicationContext(), "Your washer is finish working", TastyToast.LENGTH_SHORT, TastyToast.SUCCESS);
+                isFind = false;
                 FindingWasher();
                 RemoveBottomFragment();
-                washerAccepted = null;
-
                 OpenActionRating();
-
 
             }
         } catch (JSONException e) {
@@ -1014,8 +935,161 @@ public class HomeActivity extends AppCompatActivity implements
     }
 
     private void OpenActionRating() {
-        startActivity( new Intent(this,RatingActivity.class));
-        
+        Intent intent = new Intent(this, RatingActivity.class);
+        intent.putExtra(Sample.PREPARE_ORDER_OBJECT, prepareOrder);
+        intent.putExtra(Sample.WASHER_ACCEPTED_OBJECT, washerAccepted);
+        washerAccepted = null;
+        prepareOrder = null;
+        startActivity(intent);
     }
+
+
+
+    private void SearchWasher() {
+
+        new AsyncTask<String, String, String>() {
+            @Override
+            protected String doInBackground(String... params) {
+                try {
+                    JSONObject root = new JSONObject();
+                    JSONArray jsonArray = new JSONArray();
+                    for (int i = 0; i < listWasher.size(); i++) {
+                        //  jsonArray.put(listWasher.get(urutan).firebaseId);
+                        jsonArray.put(listWasher.get(i).firebaseId);
+                    }
+
+                    JSONObject notification = new JSONObject();
+                    notification.put("body", "GET NOW !!!");
+                    notification.put("title", "Qwash - NEW ORDER");
+
+                    JSONObject data = new JSONObject();
+                    data.put(Sample.ACTION, Sample.ACTION_ORDER);
+
+                    JSONObject order = new JSONObject();
+
+                    JSONObject customer_order = new JSONObject();
+                    customer_order.put(Sample.ORDERS_REF, prepareOrder.orders_ref);
+                    order.put(Sample.CUSTOMER_ORDER, customer_order);
+
+                    JSONObject customer = new JSONObject();
+                    customer.put(Sample.ORDER_USERID, prepareOrder.userId);
+                    customer.put(Sample.ORDER_USERNAME, prepareOrder.username);
+                    customer.put(Sample.ORDER_EMAIL, prepareOrder.email);
+                    customer.put(Sample.ORDER_NAME, prepareOrder.name);
+                    customer.put(Sample.ORDER_PHONE, prepareOrder.phone);
+                    customer.put(Sample.ORDER_PHOTO, prepareOrder.photo);
+                    customer.put(Sample.ORDER_AUTHLEVEL, prepareOrder.authLevel);
+                    customer.put(Sample.ORDER_FIREBASE_ID, prepareOrder.firebase_id);
+                    order.put("customer", customer);
+
+                    JSONObject address = new JSONObject();
+                    address.put(Sample.ORDER_USERSDETAILSID, prepareOrder.usersDetailsId);
+                    address.put(Sample.ORDER_USERIDFK, prepareOrder.userIdFk);
+                    address.put(Sample.ORDER_NAMEADDRESS, prepareOrder.nameAddress);
+                    address.put(Sample.ORDER_ADDRESS, prepareOrder.address);
+                    address.put(Sample.ORDER_LATLONG, prepareOrder.latlong);
+                    address.put(Sample.ORDER_TYPE, prepareOrder.type);
+                    order.put("address", address);
+
+                    JSONObject vehicle = new JSONObject();
+                    vehicle.put(Sample.ORDER_VCUSTOMERSID, prepareOrder.vCustomersId);
+                    vehicle.put(Sample.ORDER_VNAME, prepareOrder.vName);
+                    vehicle.put(Sample.ORDER_VBRAND, prepareOrder.vBrand);
+                    vehicle.put(Sample.ORDER_MODELS, prepareOrder.models);
+                    vehicle.put(Sample.ORDER_VTRANSMISION, prepareOrder.vTransmision);
+                    vehicle.put(Sample.ORDER_YEARS, prepareOrder.years);
+                    vehicle.put(Sample.ORDER_VID, prepareOrder.vId);
+                    vehicle.put(Sample.ORDER_VBRANDID, prepareOrder.vBrandId);
+                    vehicle.put(Sample.ORDER_VMODELID, prepareOrder.vModelId);
+                    vehicle.put(Sample.ORDER_VTRANSID, prepareOrder.vTransId);
+                    vehicle.put(Sample.ORDER_VYEARSID, prepareOrder.vYearsId);
+                    order.put("vehicle", vehicle);
+
+
+                    JSONObject details = new JSONObject();
+                    details.put(Sample.ORDER_PRICE, String.valueOf(prepareOrder.price));
+                    details.put(Sample.ORDER_PERFUMED, String.valueOf(prepareOrder.perfumed_price));
+                    details.put(Sample.ORDER_PERFUMED_STATUS, String.valueOf(prepareOrder.perfumed_status));
+                    details.put(Sample.ORDER_INTERIOR_VACCUM, String.valueOf(prepareOrder.interior_vaccum_price));
+                    details.put(Sample.ORDER_INTERIOR_VACCUM_STATUS, String.valueOf(prepareOrder.interior_vaccum_status));
+                    details.put(Sample.ORDER_ESTIMATED_PRICE, String.valueOf(prepareOrder.estimated_price));
+                    details.put(Sample.ORDER_PICK_DATE, prepareOrder.pick_date);
+                    details.put(Sample.ORDER_PICK_TIME, prepareOrder.pick_time);
+                    order.put("details", details);
+
+                    data.put("order", order);
+                    root.put("notification", notification);
+                    root.put("data", data);
+                    root.put("registration_ids", jsonArray);
+
+                    String result = PushNotification.postToFCM(root.toString());
+                    Log.d("RESULT", "Result: " + result);
+                    return result;
+                } catch (Exception ex) {
+                    ex.printStackTrace();
+                }
+                return null;
+            }
+
+            @Override
+            protected void onPostExecute(String result) {
+                try {
+                    JSONObject resultJson = new JSONObject(result);
+                    int success, failure;
+                    success = resultJson.getInt("success");
+                    failure = resultJson.getInt("failure");
+                    //Toast.makeText(LoginUserActivity.this, "Message Success: " + success + "Message Failed: " + failure, Toast.LENGTH_LONG).show();
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                    Toast.makeText(HomeActivity.this, "Message Failed, Unknown error occurred.", Toast.LENGTH_LONG).show();
+                }
+            }
+        }.execute();
+    }
+
+    private void PushCancelOrder() {
+        new AsyncTask<String, String, String>() {
+            @Override
+            protected String doInBackground(String... params) {
+                try {
+                    JSONObject root = new JSONObject();
+                    JSONArray jsonArray = new JSONArray();
+                    for (int i = 0; i < listWasher.size(); i++) {
+                        jsonArray.put(listWasher.get(i).firebaseId);
+                    }
+
+                    JSONObject data = new JSONObject();
+                    data.put(Sample.ACTION, Sample.ACTION_CANCEL_ORDER);
+                    data.put(Sample.MESSAGE, "cancel_order");
+
+                    root.put(Sample.DATA, data);
+                    root.put(Sample.REGISTRATION_IDS, jsonArray);
+
+                    String result = PushNotification.postToFCM(root.toString());
+                    Log.d("RESULT", "Result: " + result);
+                    return result;
+                } catch (Exception ex) {
+                    ex.printStackTrace();
+
+                }
+                return null;
+            }
+
+            @Override
+            protected void onPostExecute(String result) {
+
+                try {
+                    JSONObject resultJson = new JSONObject(result);
+                    int success, failure;
+                    success = resultJson.getInt("success");
+                    failure = resultJson.getInt("failure");
+                } catch (JSONException e) {
+                    e.printStackTrace();
+
+                }
+            }
+        }.execute();
+    }
+
 
 }

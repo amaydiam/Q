@@ -82,8 +82,8 @@ public class HistoryDetailFragment extends Fragment implements AdditionalOrderAd
     IconTextView bookDate;
     @BindView(R.id.book_time)
     IconTextView bookTime;
-    @BindView(R.id.bill_total)
-    RobotoBoldTextView billTotal;
+    @BindView(R.id.total_price)
+    RobotoBoldTextView totalPrice;
 
     //additional
     @BindView(R.id.recyclerview)
@@ -231,8 +231,8 @@ public class HistoryDetailFragment extends Fragment implements AdditionalOrderAd
         contentHolder.setVisibility(View.VISIBLE);
         fabAction.setVisibility(View.GONE);
 
-        imageLoader.loadImage(imageWasher, "URL", "Fahri");
-        billTotal.setText(Utils.Rupiah(50000));
+        imageLoader.loadImage(imageWasher, Sample.BASE_URL_IMAGE+"URL", "Fahri");
+        totalPrice.setText(Utils.Rupiah(50000));
 
         data.clear();
         AdditionalOrder a1 = new AdditionalOrder(0, "Perfurm");

@@ -7,24 +7,15 @@ import java.io.Serializable;
  */
 public class WasherAccepted implements Serializable {
 
-    public String userId,
-            name,
-            email,
-            phone,
-            firebase_id,
-            rating,
-            datetime,
-            estimated_price;
+    public String firebase_id, userId, email, name, phone, photo, rating ;
 
-    public WasherAccepted(String firebase_id, String userId, String email, String name, String phone, String rating, String datetime, String estimated_price) {
-        this.userId = userId;
-        this.name = name;
-        this.email = email;
-        this.phone = phone;
+    public WasherAccepted(String firebase_id, String userId, String email, String name, String phone, String photo, String rating) {
         this.firebase_id = firebase_id;
+        this.userId = userId;
+        this.email = email;
+        this.name = name;
+        this.phone = phone;
+        this.photo = photo;
         this.rating = rating;
-        this.datetime = datetime;
-        this.estimated_price = estimated_price;
     }
-
 }

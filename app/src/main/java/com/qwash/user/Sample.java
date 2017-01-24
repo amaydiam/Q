@@ -4,6 +4,16 @@ package com.qwash.user;
  * Created by Amay on 12/28/2016.
  */
 public class Sample {
+
+    public static final String BASE_URL = "http://maps.googleapis.com/maps/api/";
+    public static final String BASE_URL_QLAP = "https://api.myjson.com/bins/";
+    public static final String BASE_URL_INPROGRESS = "https://api.myjson.com/bins/";
+    public static final String BASE_URL_QWASH = "http://apis.aanaliudin.com/index.php/api/";
+    public static final String BASE_URL_IMAGE = " http://apis.aanaliudin.com/sources/images/profile/";
+
+    public static final String BASE_URL_MAP = "http://maps.googleapis.com/maps/api/";
+    public static final String BASE_URL_MY_JON = "https://api.myjson.com/bins/";
+
     public static final String PREPARE_ORDER_OBJECT = "prepare_order_object";
     public static final String WASHER_ACCEPTED_OBJECT = "washer_accepted_object";
     public static final String VEHICLE_OBJECT = "vehicle_object";
@@ -22,6 +32,9 @@ public class Sample {
     public static final String PASSWORD = "password";
     public static final String FIREBASE_ID = "firebase_id";
     public static final String CITY = "city";
+    public static final String RATE = "rate";
+    public static final String CENTER_LAT = "center_lat";
+    public static final String CENTER_LONG = "center_long";
     public static String PAGE = "page";
     public static String DATA = "data";
 
@@ -43,6 +56,11 @@ public class Sample {
     public static final String LATITUDE = "Latitude";
     public static final String LONGITUDE = "Longitude";
     public static final String PHONE = "phone";
+    public static final String PHOTO = "photo";
+
+    public static final String CUSTOMER_ORDER = "customer_order";
+
+    public static final String ORDERS_REF = "orders_ref";
 
     // customer order
     public static final String ORDER_USERID="userId";
@@ -50,6 +68,7 @@ public class Sample {
     public static final String ORDER_EMAIL="email";
     public static final String ORDER_NAME="name";
     public static final String ORDER_PHONE="phone";
+    public static final String ORDER_PHOTO="photo";
     public static final String ORDER_AUTHLEVEL="authLevel";
     public static final String ORDER_FIREBASE_ID="firebase_id";
 
@@ -76,10 +95,13 @@ public class Sample {
 
     //order detail
     public static final String ORDER_PRICE="price";
-    public static final String ORDER_PERFUMED="perfumed";
-    public static final String ORDER_INTERIOR_VACCUM="interior_vaccum";
+    public static final String ORDER_PERFUMED="perfumed_price";
+    public static final String ORDER_PERFUMED_STATUS="perfumed_price";
+    public static final String ORDER_INTERIOR_VACCUM="interior_vaccum_price";
+    public static final String ORDER_INTERIOR_VACCUM_STATUS="perfumed_price";
     public static final String ORDER_ESTIMATED_PRICE="estimated_price";
-    public static final String ORDER_DATETIME="datetime";
+    public static final String ORDER_PICK_DATE="pick_date";
+    public static final String ORDER_PICK_TIME="pick_time";
 
 
     public static final String ACTION="action";
@@ -90,6 +112,7 @@ public class Sample {
 
     //Washer Accept
     public static final String WASHER_PHONE = "phone";
+    public static final String WASHER_PHOTO = "photo";
     public static final String WASHER_NAME = "name";
     public static final String WASHER_EMAIL = "email";
     public static final String WASHER_USER_ID = "userId";
@@ -101,4 +124,23 @@ public class Sample {
     public static final int CODE_ACCEPT = 3;
     public static final int CODE_START = 4;
     public static final int CODE_FINISH_WORKING = 5;
+
+    public static String USER_ID_FK="user_id_fk";
+    public static String V_CUSTOMERS_ID_FK="v_customers_id_fk";
+    public static String PICK_DATE="pick_date";
+    public static String PICK_TIME="pick_time";
+    public static String LAT="lat";
+    public static String LONG="long";
+    public static String PRICE="price";
+    public static String PERFUMED="perfurmed";
+    public static String VACUMMED="vacummed";
+    public static String NAME_ADDRESS="name_address";
+    public static String ADDRESS= "address";
+    public static String COMMENTS="comments";
+
+
+    public static final int ACTION_ORDER = 1;
+    public static final int ACTION_CANCEL_ORDER = 2;
+    public static final int ACTION_OPEN_FEED_ORDER = 3;
+
 }

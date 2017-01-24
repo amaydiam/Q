@@ -5,24 +5,18 @@ package com.qwash.user.api.client.washer;
  */
 
 
-
-
-import com.qwash.user.api.model.order.Order;
-import com.qwash.user.api.model.washer.NearbyWasher;
+import com.qwash.user.api.model.washer.ShowWasherOn;
 
 import java.util.Map;
 
 import retrofit2.Call;
 import retrofit2.http.FieldMap;
 import retrofit2.http.FormUrlEncoded;
-import retrofit2.http.GET;
 import retrofit2.http.POST;
-import retrofit2.http.Path;
 
-public interface WasherService {/*
-   @GET("users/NearbyWasher/{LatLong}")
-    Call<NearbyWasher> getNearbyWasherLink(@Path("LatLong") String LatLong);*/
+public interface WasherService {
+    @FormUrlEncoded
+    @POST("findmatch/showWasherOn")
+    Call<ShowWasherOn> getshowWasherOnLink(@FieldMap Map<String, String> params);
 
-    @GET("users/NearbyWasher")
-    Call<NearbyWasher> getNearbyWasherLink();
 }

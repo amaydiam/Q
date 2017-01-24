@@ -3,6 +3,9 @@ package com.qwash.user.model;
 import java.io.Serializable;
 
 public class PrepareOrder implements Serializable {
+
+    //
+    public String orders_ref;
     
     // customer order
     public String userId;
@@ -10,6 +13,7 @@ public class PrepareOrder implements Serializable {
     public String email;
     public String name;
     public String phone;
+    public String photo;
     public String authLevel;
     public String firebase_id;
 
@@ -36,10 +40,13 @@ public class PrepareOrder implements Serializable {
 
     //order detail
     public int price;
-    public int perfumed;
-    public int interior_vaccum;
+    public int perfumed_price;
+    public int interior_vaccum_price;
     public int estimated_price;
-    public String datetime;
+    public String pick_date;
+    public String pick_time;
 
 
+    public int perfumed_status;
+    public int interior_vaccum_status;
 }

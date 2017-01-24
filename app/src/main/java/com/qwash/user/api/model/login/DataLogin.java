@@ -23,6 +23,9 @@ public class DataLogin {
     @SerializedName("phone")
     @Expose
     private String phone;
+    @SerializedName("photo")
+    @Expose
+    private String photo;
     @SerializedName("auth_level")
     @Expose
     private String authLevel;
@@ -59,12 +62,18 @@ public class DataLogin {
         this.name = name;
     }
 
+    public void setPhone(String phone) {
+        this.phone = phone;
+    }
+
     public String getPhone() {
         return phone;
     }
-
-    public void setPhone(String phone) {
-        this.phone = phone;
+    public void setPhoto(String phone) {
+        this.photo = photo;
+    }
+    public String getPhoto() {
+        return photo;
     }
 
     public String getAuthLevel() {

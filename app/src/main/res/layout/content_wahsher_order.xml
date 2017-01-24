@@ -87,7 +87,7 @@
                     android:textColor="@color/grey" />
 
                 <com.qwash.user.ui.widget.RobotoBoldTextView
-                    android:id="@+id/bill_total"
+                    android:id="@+id/total_price"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:textColor="@color/blue_2196F3"

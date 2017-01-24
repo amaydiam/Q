@@ -1,4 +1,4 @@
-package com.qwash.user.ui.activity;
+package com.qwash.user.service;
 
 import java.util.Map;
 
