@@ -54,21 +54,21 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="center"
-        android:layout_marginRight="@dimen/activity_vertical_margin"
-        android:layout_marginLeft="@dimen/activity_vertical_margin"
         android:layout_marginBottom="@dimen/activity_vertical_margin"
+        android:layout_marginLeft="@dimen/activity_vertical_margin"
+        android:layout_marginRight="@dimen/activity_vertical_margin"
+        android:gravity="center"
+        android:lines="3"
         android:text="@string/alert_find_washer"
         android:textColor="@color/white"
-        android:textSize="20sp"
-        android:gravity="center"
-        android:lines="3"/>
+        android:textSize="20sp" />
 
     <com.joanzapata.iconify.widget.IconButton
-        android:layout_margin="@dimen/activity_vertical_margin"
         android:id="@+id/btn_close"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="center"
+        android:layout_margin="@dimen/activity_vertical_margin"
         android:background="@null"
         android:text="{mdi-close-circle}"
         android:textColor="@color/white"

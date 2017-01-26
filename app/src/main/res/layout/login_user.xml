@@ -10,14 +10,14 @@
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:orientation="vertical"
-        android:gravity="center">
+        android:gravity="center"
+        android:orientation="vertical">
 
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:orientation="vertical"
-            android:layout_margin="@dimen/activity_vertical_margin">
+            android:layout_margin="@dimen/activity_vertical_margin"
+            android:orientation="vertical">
 
             <LinearLayout
                 android:id="@+id/gambar"
@@ -40,14 +40,14 @@
                 android:layout_height="wrap_content"
                 android:layout_below="@id/gambar"
                 android:layout_marginTop="30dp"
+                android:layout_weight="1"
                 android:text="@string/sign_in"
-                android:textColor="@color/black_424242"
-                android:layout_weight="1" />
+                android:textColor="@color/black_424242" />
 
             <LinearLayout
-                android:orientation="vertical"
                 android:layout_width="match_parent"
-                android:layout_height="match_parent">
+                android:layout_height="match_parent"
+                android:orientation="vertical">
 
                 <com.qwash.user.ui.widget.RobotoRegularEditText
                     android:id="@+id/email_or_number_phone"
@@ -66,11 +66,11 @@
                     android:layout_marginTop="@dimen/activity_vertical_margin"
                     android:hint="@string/password"
                     android:inputType="textPassword"
-                    android:maxLines="1"
                     android:maxLength="10"
-                    app:showDrawable="@drawable/ic_password_visible_24dp"
+                    android:maxLines="1"
+                    app:drawableTintCompat="?attr/colorAccent"
                     app:hideDrawable="@drawable/ic_password_hidden_24dp"
-                    app:drawableTintCompat="?attr/colorAccent" />
+                    app:showDrawable="@drawable/ic_password_visible_24dp" />
 
             </LinearLayout>
 
@@ -81,8 +81,8 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_below="@id/password"
-                android:background="@drawable/border_blue"
                 android:layout_marginTop="@dimen/activity_vertical_margin"
+                android:background="@drawable/border_blue"
                 android:text="@string/button_login" />
 
             <TextView
@@ -129,9 +129,9 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_centerInParent="true"
-                    android:visibility="gone"
                     android:layout_gravity="center_horizontal"
-                    android:text="  connect_with_facebook" />
+                    android:text="  connect_with_facebook"
+                    android:visibility="gone" />
             </LinearLayout>
 
             <LinearLayout

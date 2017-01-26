@@ -2,7 +2,6 @@ package com.qwash.user.adapter;
 
 import android.app.Activity;
 import android.content.Context;
-import android.graphics.drawable.GradientDrawable;
 import android.media.AudioManager;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.widget.CardView;
@@ -16,13 +15,13 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 
-import com.qwash.user.R;
-import com.qwash.user.model.History;
-import com.qwash.user.ui.widget.RobotoRegularTextView;
 import com.joanzapata.iconify.IconDrawable;
 import com.joanzapata.iconify.fonts.EntypoIcons;
 import com.joanzapata.iconify.fonts.MaterialCommunityIcons;
 import com.joanzapata.iconify.widget.IconButton;
+import com.qwash.user.R;
+import com.qwash.user.model.History;
+import com.qwash.user.ui.widget.RobotoRegularTextView;
 
 import java.util.ArrayList;
 
@@ -31,8 +30,8 @@ import butterknife.ButterKnife;
 
 public class HistoryAdapter extends RecyclerView.Adapter<HistoryAdapter.ViewHolder> implements View.OnTouchListener, View.OnClickListener {
 
-    private final GestureDetector gestureDetector;
     public final ArrayList<History> data;
+    private final GestureDetector gestureDetector;
     private boolean isTablet = false;
     private Activity activity;
     private SparseBooleanArray mSelectedItemsIds;
@@ -40,6 +39,15 @@ public class HistoryAdapter extends RecyclerView.Adapter<HistoryAdapter.ViewHold
 
     private OnHistoryItemClickListener OnHistoryItemClickListener;
 
+
+    public HistoryAdapter(Activity activity, ArrayList<History> mustahiqList, boolean isTable) {
+        this.activity = activity;
+        this.data = mustahiqList;
+        mSelectedItemsIds = new SparseBooleanArray();
+        gestureDetector = new GestureDetector(activity, new SingleTapConfirm());
+        this.isTablet = isTable;
+
+    }
 
     public void setOnHistoryItemClickListener(OnHistoryItemClickListener onHistoryItemClickListener) {
         this.OnHistoryItemClickListener = onHistoryItemClickListener;
@@ -74,24 +82,6 @@ public class HistoryAdapter extends RecyclerView.Adapter<HistoryAdapter.ViewHold
         notifyDataSetChanged();
     }
 
-
-    public interface OnHistoryItemClickListener {
-        void onActionClick(View v, int position);
-
-        void onRootClick(View v, int position);
-
-    }
-
-    public HistoryAdapter(Activity activity, ArrayList<History> mustahiqList, boolean isTable) {
-        this.activity = activity;
-        this.data = mustahiqList;
-        mSelectedItemsIds = new SparseBooleanArray();
-        gestureDetector = new GestureDetector(activity, new SingleTapConfirm());
-        this.isTablet = isTable;
-
-    }
-
-
     public void delete_all() {
         int count = getItemCount();
         if (count > 0) {
@@ -103,32 +93,6 @@ public class HistoryAdapter extends RecyclerView.Adapter<HistoryAdapter.ViewHold
 
     public long getItemId(int position) {
         return position;
-    }
-
-
-    public class ViewHolder extends RecyclerView.ViewHolder {
-
-        @BindView(R.id.history_time)
-        RobotoRegularTextView historyTime;
-        @BindView(R.id.img_address)
-        ImageView imgAddress;
-        @BindView(R.id.address)
-        RobotoRegularTextView address;
-        @BindView(R.id.img_vehicle_model)
-        ImageView imgVehicleModel;
-        @BindView(R.id.vehicle_model)
-        RobotoRegularTextView vehicleModel;
-        @BindView(R.id.btn_action)
-        IconButton btnAction;
-        @BindView(R.id.root_parent)
-        CardView rootParent;
-
-        public ViewHolder(View vi) {
-            super(vi);
-            ButterKnife.bind(this, vi);
-
-        }
-
     }
 
     @Override
@@ -153,21 +117,21 @@ public class HistoryAdapter extends RecyclerView.Adapter<HistoryAdapter.ViewHold
         if (isTablet) {
             if (selected == position) {
                 holder.rootParent.setBackgroundColor(ContextCompat.getColor(activity, R.color.blue_1E87DA));
-                holder.historyTime.setTextColor(ContextCompat.getColor(activity,R.color.white));
-                holder.address.setTextColor(ContextCompat.getColor(activity,R.color.white));
+                holder.historyTime.setTextColor(ContextCompat.getColor(activity, R.color.white));
+                holder.address.setTextColor(ContextCompat.getColor(activity, R.color.white));
                 holder.imgAddress.setImageDrawable(new IconDrawable(activity, EntypoIcons.entypo_location_pin).colorRes(R.color.white).actionBarSize());
                 holder.imgVehicleModel.setImageDrawable(new IconDrawable(activity, MaterialCommunityIcons.mdi_car).colorRes(R.color.white).actionBarSize());
             } else {
                 holder.rootParent.setBackgroundColor(ContextCompat.getColor(activity, R.color.white));
-                holder.historyTime.setTextColor(ContextCompat.getColor(activity,R.color.black_424242));
-                holder.address.setTextColor(ContextCompat.getColor(activity,R.color.black_424242));
+                holder.historyTime.setTextColor(ContextCompat.getColor(activity, R.color.black_424242));
+                holder.address.setTextColor(ContextCompat.getColor(activity, R.color.black_424242));
                 holder.imgAddress.setImageDrawable(new IconDrawable(activity, EntypoIcons.entypo_location_pin).colorRes(R.color.blue_1E87DA).actionBarSize());
                 holder.imgVehicleModel.setImageDrawable(new IconDrawable(activity, MaterialCommunityIcons.mdi_car).colorRes(R.color.blue_1E87DA).actionBarSize());
             }
         } else {
             holder.rootParent.setBackgroundColor(ContextCompat.getColor(activity, R.color.white));
-            holder.historyTime.setTextColor(ContextCompat.getColor(activity,R.color.black_424242));
-            holder.address.setTextColor(ContextCompat.getColor(activity,R.color.black_424242));
+            holder.historyTime.setTextColor(ContextCompat.getColor(activity, R.color.black_424242));
+            holder.address.setTextColor(ContextCompat.getColor(activity, R.color.black_424242));
             holder.imgAddress.setImageDrawable(new IconDrawable(activity, EntypoIcons.entypo_location_pin).colorRes(R.color.blue_1E87DA).actionBarSize());
             holder.imgVehicleModel.setImageDrawable(new IconDrawable(activity, MaterialCommunityIcons.mdi_car).colorRes(R.color.blue_1E87DA).actionBarSize());
         }
@@ -213,6 +177,38 @@ public class HistoryAdapter extends RecyclerView.Adapter<HistoryAdapter.ViewHold
 
     public SparseBooleanArray getSelectedIds() {
         return mSelectedItemsIds;
+    }
+
+    public interface OnHistoryItemClickListener {
+        void onActionClick(View v, int position);
+
+        void onRootClick(View v, int position);
+
+    }
+
+    public class ViewHolder extends RecyclerView.ViewHolder {
+
+        @BindView(R.id.history_time)
+        RobotoRegularTextView historyTime;
+        @BindView(R.id.img_address)
+        ImageView imgAddress;
+        @BindView(R.id.address)
+        RobotoRegularTextView address;
+        @BindView(R.id.img_vehicle_model)
+        ImageView imgVehicleModel;
+        @BindView(R.id.vehicle_model)
+        RobotoRegularTextView vehicleModel;
+        @BindView(R.id.btn_action)
+        IconButton btnAction;
+        @BindView(R.id.root_parent)
+        CardView rootParent;
+
+        public ViewHolder(View vi) {
+            super(vi);
+            ButterKnife.bind(this, vi);
+
+        }
+
     }
 
     private class SingleTapConfirm extends GestureDetector.SimpleOnGestureListener {

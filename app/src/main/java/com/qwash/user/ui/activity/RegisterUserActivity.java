@@ -6,25 +6,13 @@ import android.graphics.Paint;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v7.app.AppCompatActivity;
-import android.util.Log;
 import android.view.View;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.EditText;
 import android.widget.LinearLayout;
 import android.widget.Toast;
 
-import com.qwash.user.R;
-import com.qwash.user.Sample;
-import com.qwash.user.api.ApiUtils;
-import com.qwash.user.api.client.register.RegisterService;
-import com.qwash.user.api.model.register.DataRegister;
-import com.qwash.user.api.model.register.Register;
-import com.qwash.user.ui.widget.RobotoRegularButton;
-import com.qwash.user.ui.widget.RobotoRegularEditText;
-import com.qwash.user.ui.widget.RobotoRegularTextView;
-import com.qwash.user.utils.ProgressDialogBuilder;
 import com.google.firebase.iid.FirebaseInstanceId;
-import com.google.gson.Gson;
 import com.joanzapata.iconify.IconDrawable;
 import com.joanzapata.iconify.Iconify;
 import com.joanzapata.iconify.fonts.EntypoIcons;
@@ -40,6 +28,16 @@ import com.mobsandgeeks.saripaar.annotation.Email;
 import com.mobsandgeeks.saripaar.annotation.Length;
 import com.mobsandgeeks.saripaar.annotation.NotEmpty;
 import com.mobsandgeeks.saripaar.annotation.Password;
+import com.qwash.user.R;
+import com.qwash.user.Sample;
+import com.qwash.user.api.ApiUtils;
+import com.qwash.user.api.client.register.RegisterService;
+import com.qwash.user.api.model.register.DataRegister;
+import com.qwash.user.api.model.register.Register;
+import com.qwash.user.ui.widget.RobotoRegularButton;
+import com.qwash.user.ui.widget.RobotoRegularEditText;
+import com.qwash.user.ui.widget.RobotoRegularTextView;
+import com.qwash.user.utils.ProgressDialogBuilder;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -92,6 +90,7 @@ public class RegisterUserActivity extends AppCompatActivity {
 
     private String firebase_id;
     private ProgressDialogBuilder dialogProgress;
+    private Validator validator;
 
     @OnClick(R.id.btn_login)
     void ActionLogin() {
@@ -112,8 +111,6 @@ public class RegisterUserActivity extends AppCompatActivity {
     void LoginViaGooglePlus() {
         Toast.makeText(this, "LoginService Via Google plus", Toast.LENGTH_SHORT).show();
     }
-
-    private Validator validator;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -165,7 +162,6 @@ public class RegisterUserActivity extends AppCompatActivity {
 
 
     private void remoteRegister() {
-        Log.d(TAG, "remote register...");
         dialogProgress.show("Register...", "Please wait...");
 
         firebase_id = FirebaseInstanceId.getInstance().getToken();
@@ -179,15 +175,11 @@ public class RegisterUserActivity extends AppCompatActivity {
 
         params.put(Sample.FIREBASE_ID, firebase_id);
 
-        for (Map.Entry entry : params.entrySet()) {
-            System.out.println(entry.getKey() + ", " + entry.getValue());
-        }
-
         RegisterService mService = ApiUtils.RegisterService(this);
         mService.getRegisterLink(params).enqueue(new Callback<Register>() {
             @Override
             public void onResponse(Call<Register> call, Response<Register> response) {
-                Log.w("response", new Gson().toJson(response));
+
                 dialogProgress.hide();
                 if (response.isSuccessful()) {
                     if (response.body().getStatus()) {
@@ -207,10 +199,8 @@ public class RegisterUserActivity extends AppCompatActivity {
                         toVerificationCodeActivity();
 
                     }
-                    Log.d(TAG, "posts loaded from API");
                 } else {
                     int statusCode = response.code();
-                    Log.d(TAG, "error loading from API, status: " + statusCode);
                     try {
                         JSONObject jsonObject = new JSONObject(response.errorBody().string());
                         String message = jsonObject.getString(Sample.MESSAGE);
@@ -226,7 +216,6 @@ public class RegisterUserActivity extends AppCompatActivity {
             @Override
             public void onFailure(Call<Register> call, Throwable t) {
                 String message = t.getMessage();
-                Log.d(TAG, message);
                 dialogProgress.hide();
                 Toast.makeText(getApplicationContext(), message, Toast.LENGTH_SHORT).show();
             }

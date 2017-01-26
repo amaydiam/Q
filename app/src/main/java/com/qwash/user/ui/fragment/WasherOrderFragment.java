@@ -8,7 +8,6 @@ import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.v4.app.Fragment;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.MenuItem;
 import android.view.View;
@@ -17,7 +16,13 @@ import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.Toast;
 
-import com.google.gson.Gson;
+import com.joanzapata.iconify.Iconify;
+import com.joanzapata.iconify.fonts.EntypoModule;
+import com.joanzapata.iconify.fonts.FontAwesomeModule;
+import com.joanzapata.iconify.fonts.MaterialCommunityModule;
+import com.joanzapata.iconify.fonts.MaterialModule;
+import com.joanzapata.iconify.fonts.SimpleLineIconsModule;
+import com.joanzapata.iconify.widget.IconTextView;
 import com.kennyc.bottomsheet.BottomSheet;
 import com.kennyc.bottomsheet.BottomSheetListener;
 import com.qwash.user.R;
@@ -32,13 +37,6 @@ import com.qwash.user.ui.widget.RobotoBoldTextView;
 import com.qwash.user.ui.widget.RobotoRegularButton;
 import com.qwash.user.utils.ProgressDialogBuilder;
 import com.qwash.user.utils.Utils;
-import com.joanzapata.iconify.Iconify;
-import com.joanzapata.iconify.fonts.EntypoModule;
-import com.joanzapata.iconify.fonts.FontAwesomeModule;
-import com.joanzapata.iconify.fonts.MaterialCommunityModule;
-import com.joanzapata.iconify.fonts.MaterialModule;
-import com.joanzapata.iconify.fonts.SimpleLineIconsModule;
-import com.joanzapata.iconify.widget.IconTextView;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -59,6 +57,9 @@ import retrofit2.Response;
 
 public class WasherOrderFragment extends Fragment implements BottomSheetListener {
 
+    @BindView(R.id.layout_btn_washer_order)
+    public
+    LinearLayout layoutBtnWasherOrder;
     @BindView(R.id.image_washer)
     AvatarView imageWasher;
     @BindView(R.id.whaser_name)
@@ -81,14 +82,21 @@ public class WasherOrderFragment extends Fragment implements BottomSheetListener
     RobotoRegularButton btnContact;
     @BindView(R.id.btn_cancel)
     RobotoRegularButton btnCancel;
-    @BindView(R.id.layout_btn_washer_order)
-    public
-    LinearLayout layoutBtnWasherOrder;
     private PicassoLoader imageLoader;
     private WasherAccepted washerAccepted;
     private PrepareOrder prepareOrder;
     private ProgressDialogBuilder dialogProgress;
+    // TODO: Rename and change types of parameters
+    private String mParam1;
+    private String mParam2;
+    private OnWasherOrderListener mListener;
 
+
+    @SuppressLint("UseSparseArrays")
+
+    public WasherOrderFragment() {
+        // Required empty public constructor
+    }
 
     @OnClick({R.id.btn_contact, R.id.btn_cancel})
     void Action(View v) {
@@ -111,19 +119,6 @@ public class WasherOrderFragment extends Fragment implements BottomSheetListener
 
 
     }
-    // TODO: Rename and change types of parameters
-    private String mParam1;
-    private String mParam2;
-
-
-    private OnWasherOrderListener mListener;
-
-    @SuppressLint("UseSparseArrays")
-
-    public WasherOrderFragment() {
-        // Required empty public constructor
-    }
-
 
     public Fragment newInstance(PrepareOrder prepareOrder, WasherAccepted washerAccepted) {
         WasherOrderFragment fragment = new WasherOrderFragment();
@@ -175,15 +170,11 @@ public class WasherOrderFragment extends Fragment implements BottomSheetListener
             Map<String, String> params = new HashMap<>();
             params.put(Sample.ORDERS_REF, prepareOrder.orders_ref);
 
-            for (Map.Entry entry : params.entrySet()) {
-                System.out.println(entry.getKey() + ", " + entry.getValue());
-            }
-
             OrderService mService = ApiUtils.OrderService(getActivity());
             mService.getCancelOrderLink(params).enqueue(new Callback<CancelOrder>() {
                 @Override
                 public void onResponse(Call<CancelOrder> call, Response<CancelOrder> response) {
-                    Log.w("response", new Gson().toJson(response));
+
                     dialogProgress.hide();
                     if (response.isSuccessful()) {
                         if (response.body().getStatus()) {
@@ -233,7 +224,7 @@ public class WasherOrderFragment extends Fragment implements BottomSheetListener
                     root.put(Sample.REGISTRATION_IDS, jsonArray);
 
                     String result = PushNotification.postToFCM(root.toString());
-                    Log.d("RESULT", "Result: " + result);
+
                     return result;
                 } catch (Exception ex) {
                     ex.printStackTrace();

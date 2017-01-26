@@ -14,6 +14,7 @@ public class Application extends SugarApp {
 
     /**
      * Gets the default {@link Tracker} for this {@link android.app.Application}.
+     *
      * @return tracker
      */
 //    synchronized public Tracker getDefaultTracker() {

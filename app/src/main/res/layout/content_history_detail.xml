@@ -34,9 +34,9 @@
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/activity_vertical_margin"
                 android:background="@color/white"
-                android:orientation="vertical"
-                android:layout_marginTop="@dimen/activity_vertical_margin">
+                android:orientation="vertical">
 
                 <include layout="@layout/layout_additional_history" />
 
@@ -45,13 +45,13 @@
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/activity_vertical_margin"
                 android:background="@color/white"
                 android:orientation="vertical"
-                android:layout_marginTop="@dimen/activity_vertical_margin"
-                android:paddingTop="@dimen/activity_half_vertical_margin"
                 android:paddingBottom="@dimen/activity_half_vertical_margin"
                 android:paddingLeft="@dimen/activity_vertical_margin"
-                android:paddingRight="@dimen/activity_vertical_margin">
+                android:paddingRight="@dimen/activity_vertical_margin"
+                android:paddingTop="@dimen/activity_half_vertical_margin">
 
                 <include layout="@layout/layout_history_item_order" />
 
@@ -59,12 +59,12 @@
 
             <com.qwash.user.ui.widget.RobotoRegularButton
                 android:id="@+id/btn_report_an_issue"
+                style="@style/btn_blue"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_margin="@dimen/activity_vertical_margin"
-                android:text="@string/button_report_an_issue"
                 android:background="@drawable/border_blue"
-                style="@style/btn_blue" />
+                android:text="@string/button_report_an_issue" />
         </LinearLayout>
 
     </android.support.v4.widget.NestedScrollView>

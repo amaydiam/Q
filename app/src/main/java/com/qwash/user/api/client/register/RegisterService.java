@@ -5,7 +5,6 @@ package com.qwash.user.api.client.register;
  */
 
 
-
 import com.qwash.user.api.model.register.Register;
 
 import java.util.Map;

@@ -1,7 +1,6 @@
 package com.qwash.user.ui.activity;
 
 import android.app.AlertDialog;
-import android.app.Dialog;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.AsyncTask;
@@ -9,32 +8,19 @@ import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
-import android.util.Log;
 import android.view.View;
-import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.RatingBar;
 import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
-import com.google.firebase.iid.FirebaseInstanceId;
-import com.google.gson.Gson;
-import com.mobsandgeeks.saripaar.ValidationError;
-import com.mobsandgeeks.saripaar.Validator;
 import com.qwash.user.R;
 import com.qwash.user.Sample;
 import com.qwash.user.api.ApiUtils;
-import com.qwash.user.api.client.auth.LoginService;
 import com.qwash.user.api.client.order.OrderService;
-import com.qwash.user.api.model.login.AddressLogin;
-import com.qwash.user.api.model.login.DataLogin;
-import com.qwash.user.api.model.login.Login;
-import com.qwash.user.api.model.login.VehicleLogin;
 import com.qwash.user.api.model.order.RatingWasher;
-import com.qwash.user.model.AddressUser;
 import com.qwash.user.model.PrepareOrder;
-import com.qwash.user.model.VehicleUser;
 import com.qwash.user.model.WasherAccepted;
 import com.qwash.user.service.PushNotification;
 import com.qwash.user.ui.widget.RobotoBoldTextView;
@@ -49,7 +35,6 @@ import org.json.JSONObject;
 
 import java.io.IOException;
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 
 import agency.tango.android.avatarview.loader.PicassoLoader;
@@ -57,10 +42,6 @@ import agency.tango.android.avatarview.views.AvatarView;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
-import okhttp3.MediaType;
-import okhttp3.OkHttpClient;
-import okhttp3.Request;
-import okhttp3.RequestBody;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
@@ -92,6 +73,9 @@ public class RatingActivity extends AppCompatActivity {
     @BindView(R.id.comment)
     EditText comment;
     private String TAG = "RatingActivity";
+    private WasherAccepted washerAccepted;
+    private PrepareOrder prepareOrder;
+    private ProgressDialogBuilder dialogProgress;
 
     @OnClick(R.id.btn_submit)
     void Send() {
@@ -102,11 +86,6 @@ public class RatingActivity extends AppCompatActivity {
         }
         SendRating();
     }
-
-    private WasherAccepted washerAccepted;
-    private PrepareOrder prepareOrder;
-    private ProgressDialogBuilder dialogProgress;
-
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -126,7 +105,7 @@ public class RatingActivity extends AppCompatActivity {
                 .placeholder(prepareOrder.vId.equalsIgnoreCase("1") ? R.drawable.mobil : R.drawable.motor)
                 .crossFade()
                 .into(vehicleImage);
-        vehicleDescription.setText(prepareOrder.vBrand + "\n" + prepareOrder.models + " " + prepareOrder.vTransmision + " " + prepareOrder.years);
+        vehicleDescription.setText(prepareOrder.vBrand + "\n" + prepareOrder.models + " " + prepareOrder.vTransmission + " " + prepareOrder.years);
         vehicleDescription.setTextColor(ContextCompat.getColor(this, R.color.white));
         whaserName.setText(washerAccepted.name);
         PicassoLoader imageLoader = new PicassoLoader();
@@ -138,7 +117,6 @@ public class RatingActivity extends AppCompatActivity {
 
     private void SendRating() {
         {
-            Log.d(TAG, "RatingActivity");
             dialogProgress.show("Rating ...", "Please wait...");
             Map<String, String> params = new HashMap<>();
             params.put(Sample.RATE, String.valueOf(ratingWash.getRating()));
@@ -149,15 +127,12 @@ public class RatingActivity extends AppCompatActivity {
             params.put(Sample.ORDERS_REF, prepareOrder.orders_ref);
             params.put(Sample.USER_ID, Prefs.getUserId(this));
 
-            for (Map.Entry entry : params.entrySet()) {
-                System.out.println(entry.getKey() + ", " + entry.getValue());
-            }
 
             OrderService mService = ApiUtils.OrderService(this);
             mService.getRatingWasherLink(params).enqueue(new Callback<RatingWasher>() {
                 @Override
                 public void onResponse(Call<RatingWasher> call, Response<RatingWasher> response) {
-                    Log.w("response", new Gson().toJson(response));
+
                     dialogProgress.hide();
                     if (response.isSuccessful()) {
                         if (response.body().getStatus()) {
@@ -177,10 +152,8 @@ public class RatingActivity extends AppCompatActivity {
                             alertDialog.show();
 
                         }
-                        Log.d(TAG, "posts loaded from API");
                     } else {
                         int statusCode = response.code();
-                        Log.d(TAG, "error loading from API, status: " + statusCode);
                         try {
                             JSONObject jsonObject = new JSONObject(response.errorBody().string());
                             String message = jsonObject.getString(Sample.MESSAGE);
@@ -195,7 +168,6 @@ public class RatingActivity extends AppCompatActivity {
                 @Override
                 public void onFailure(Call<RatingWasher> call, Throwable t) {
                     String message = t.getMessage();
-                    Log.d(TAG, message);
                     dialogProgress.hide();
                     Toast.makeText(getApplicationContext(), message, Toast.LENGTH_SHORT).show();
                 }
@@ -221,7 +193,7 @@ public class RatingActivity extends AppCompatActivity {
                     root.put(Sample.REGISTRATION_IDS, jsonArray);
 
                     String result = PushNotification.postToFCM(root.toString());
-                    Log.d("RESULT", "Result: " + result);
+
                     return result;
                 } catch (Exception ex) {
                     ex.printStackTrace();
@@ -246,7 +218,6 @@ public class RatingActivity extends AppCompatActivity {
             }
         }.execute();
     }
-
 
 
 }

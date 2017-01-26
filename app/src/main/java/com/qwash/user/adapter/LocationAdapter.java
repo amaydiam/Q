@@ -12,7 +12,6 @@ import com.qwash.user.R;
 import com.qwash.user.api.model.ListLocation;
 import com.qwash.user.ui.activity.HomeActivity;
 
-
 import java.util.List;
 
 /**

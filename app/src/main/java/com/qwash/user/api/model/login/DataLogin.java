@@ -62,18 +62,20 @@ public class DataLogin {
         this.name = name;
     }
 
+    public String getPhone() {
+        return phone;
+    }
+
     public void setPhone(String phone) {
         this.phone = phone;
     }
 
-    public String getPhone() {
-        return phone;
-    }
-    public void setPhoto(String phone) {
-        this.photo = photo;
-    }
     public String getPhoto() {
         return photo;
+    }
+
+    public void setPhoto(String phone) {
+        this.photo = photo;
     }
 
     public String getAuthLevel() {

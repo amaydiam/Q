@@ -3,16 +3,14 @@ package com.qwash.user.ui.activity;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
-import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
 import android.view.View;
 import android.widget.TextView;
 
-import com.qwash.user.R;
-import com.qwash.user.adapter.BrandAdapter;
 import com.joanzapata.iconify.IconDrawable;
 import com.joanzapata.iconify.fonts.MaterialIcons;
+import com.qwash.user.R;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -49,12 +47,12 @@ public class SelectBrandActivity extends AppCompatActivity {
         getSupportActionBar().setTitle("");
         toolbarTitle.setText(getResources().getString(R.string.select_brand));
 
-        BrandAdapter adapter = new BrandAdapter(this);
+      /*  BrandAdapter adapter = new BrandAdapter(this);
         recyclerViewSelectBrand.setAdapter(adapter);
         recyclerViewSelectBrand.setHasFixedSize(true);
 
         //Layout manager for Recycler view
-        recyclerViewSelectBrand.setLayoutManager(new LinearLayoutManager(this));
+        recyclerViewSelectBrand.setLayoutManager(new LinearLayoutManager(this));*/
 
     }
 }

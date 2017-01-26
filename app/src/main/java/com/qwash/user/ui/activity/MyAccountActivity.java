@@ -10,16 +10,11 @@ import android.support.annotation.Nullable;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
-import android.util.Log;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.qwash.user.R;
-import com.qwash.user.model.AddressUser;
-import com.qwash.user.model.VehicleUser;
-import com.qwash.user.utils.Prefs;
 import com.facebook.FacebookSdk;
 import com.facebook.login.LoginManager;
 import com.google.android.gms.common.ConnectionResult;
@@ -27,6 +22,10 @@ import com.google.android.gms.common.api.GoogleApiClient;
 import com.google.firebase.auth.FirebaseAuth;
 import com.joanzapata.iconify.IconDrawable;
 import com.joanzapata.iconify.fonts.MaterialIcons;
+import com.qwash.user.R;
+import com.qwash.user.model.AddressUser;
+import com.qwash.user.model.VehicleUser;
+import com.qwash.user.utils.Prefs;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -138,14 +137,12 @@ public class MyAccountActivity extends AppCompatActivity implements GoogleApiCli
         editor.apply();
         titleName.setText("" + nama);
         titleEmail.setText("" + email);
-        Log.d("Login", email + nama);
     }
 
     @Override
     public void onConnectionFailed(@NonNull ConnectionResult connectionResult) {
         // An unresolvable error has occurred and Google APIs (including Sign-In) will not
         // be available.
-        Log.d("TAG", "onConnectionFailed:" + connectionResult);
         Toast.makeText(this, "Google Play Services error.", Toast.LENGTH_SHORT).show();
     }
 }

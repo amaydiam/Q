@@ -20,9 +20,9 @@ public class VehicleLogin {
     @SerializedName("models")
     @Expose
     private String models;
-    @SerializedName("v_transmision")
+    @SerializedName("v_transmission")
     @Expose
-    private String vTransmision;
+    private String vTransmission;
     @SerializedName("years")
     @Expose
     private String years;
@@ -74,12 +74,12 @@ public class VehicleLogin {
         this.models = models;
     }
 
-    public String getVTransmision() {
-        return vTransmision;
+    public String getVTransmission() {
+        return vTransmission;
     }
 
-    public void setVTransmision(String vTransmision) {
-        this.vTransmision = vTransmision;
+    public void setVTransmission(String vTransmission) {
+        this.vTransmission = vTransmission;
     }
 
     public String getYears() {

@@ -3,8 +3,6 @@ package com.qwash.user.model;
 import android.os.Parcel;
 import android.os.Parcelable;
 
-import com.google.gson.annotations.Expose;
-import com.google.gson.annotations.SerializedName;
 import com.orm.SugarRecord;
 
 /**
@@ -12,6 +10,17 @@ import com.orm.SugarRecord;
  */
 public class AddressUser extends SugarRecord implements Parcelable {
 
+    public static final Creator<AddressUser> CREATOR = new Creator<AddressUser>() {
+        @Override
+        public AddressUser createFromParcel(Parcel in) {
+            return new AddressUser(in);
+        }
+
+        @Override
+        public AddressUser[] newArray(int size) {
+            return new AddressUser[size];
+        }
+    };
     public String usersDetailsId;
     public String userIdFk;
     public String nameAddress;
@@ -19,8 +28,9 @@ public class AddressUser extends SugarRecord implements Parcelable {
     public String latlong;
     public String type;
     public String createAt;
-    
-    public AddressUser(){}
+
+    public AddressUser() {
+    }
 
     public AddressUser(String usersDetailsId, String userIdFk, String nameAddress, String address, String latlong, String type, String createAt) {
         this.usersDetailsId = usersDetailsId;
@@ -30,6 +40,16 @@ public class AddressUser extends SugarRecord implements Parcelable {
         this.latlong = latlong;
         this.type = type;
         this.createAt = createAt;
+    }
+
+    protected AddressUser(Parcel in) {
+        usersDetailsId = in.readString();
+        userIdFk = in.readString();
+        nameAddress = in.readString();
+        address = in.readString();
+        latlong = in.readString();
+        type = in.readString();
+        createAt = in.readString();
     }
 
     public String getUsersDetailsId() {
@@ -88,16 +108,6 @@ public class AddressUser extends SugarRecord implements Parcelable {
         this.createAt = createAt;
     }
 
-    protected AddressUser(Parcel in) {
-        usersDetailsId = in.readString();
-        userIdFk = in.readString();
-        nameAddress = in.readString();
-        address = in.readString();
-        latlong = in.readString();
-        type = in.readString();
-        createAt = in.readString();
-    }
-
     @Override
     public void writeToParcel(Parcel dest, int flags) {
         dest.writeString(usersDetailsId);
@@ -113,16 +123,4 @@ public class AddressUser extends SugarRecord implements Parcelable {
     public int describeContents() {
         return 0;
     }
-
-    public static final Creator<AddressUser> CREATOR = new Creator<AddressUser>() {
-        @Override
-        public AddressUser createFromParcel(Parcel in) {
-            return new AddressUser(in);
-        }
-
-        @Override
-        public AddressUser[] newArray(int size) {
-            return new AddressUser[size];
-        }
-    };
 }

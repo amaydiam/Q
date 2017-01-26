@@ -1,16 +1,11 @@
 package com.qwash.user.adapter;
 
 import android.app.Activity;
-import android.content.Context;
-import android.media.AudioManager;
-import android.support.v4.content.ContextCompat;
-import android.support.v7.widget.CardView;
 import android.support.v7.widget.RecyclerView;
 import android.util.SparseBooleanArray;
 import android.view.GestureDetector;
 import android.view.LayoutInflater;
 import android.view.MotionEvent;
-import android.view.SoundEffectConstants;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
@@ -19,10 +14,6 @@ import android.widget.LinearLayout;
 import com.qwash.user.R;
 import com.qwash.user.model.AdditionalOrder;
 import com.qwash.user.ui.widget.RobotoRegularTextView;
-import com.joanzapata.iconify.IconDrawable;
-import com.joanzapata.iconify.fonts.EntypoIcons;
-import com.joanzapata.iconify.fonts.MaterialCommunityIcons;
-import com.joanzapata.iconify.widget.IconButton;
 
 import java.util.ArrayList;
 
@@ -31,31 +22,13 @@ import butterknife.ButterKnife;
 
 public class AdditionalOrderAdapter extends RecyclerView.Adapter<AdditionalOrderAdapter.ViewHolder> implements View.OnClickListener {
 
-    private final GestureDetector gestureDetector;
     public final ArrayList<AdditionalOrder> data;
+    private final GestureDetector gestureDetector;
     private Activity activity;
     private SparseBooleanArray mSelectedItemsIds;
 
     private OnAdditionalOrderItemClickListener OnAdditionalOrderItemClickListener;
 
-
-    public void setOnAdditionalOrderItemClickListener(OnAdditionalOrderItemClickListener onAdditionalOrderItemClickListener) {
-        this.OnAdditionalOrderItemClickListener = onAdditionalOrderItemClickListener;
-    }
-
-
-    @Override
-    public void onClick(View v) {
-        if (OnAdditionalOrderItemClickListener != null) {
-            OnAdditionalOrderItemClickListener.onRootClick(v, (Integer) v.getTag());
-        }
-    }
-
-
-    public interface OnAdditionalOrderItemClickListener {
-        void onRootClick(View v, int position);
-
-    }
 
     public AdditionalOrderAdapter(Activity activity, ArrayList<AdditionalOrder> additionalOrderList) {
         this.activity = activity;
@@ -65,6 +38,16 @@ public class AdditionalOrderAdapter extends RecyclerView.Adapter<AdditionalOrder
 
     }
 
+    public void setOnAdditionalOrderItemClickListener(OnAdditionalOrderItemClickListener onAdditionalOrderItemClickListener) {
+        this.OnAdditionalOrderItemClickListener = onAdditionalOrderItemClickListener;
+    }
+
+    @Override
+    public void onClick(View v) {
+        if (OnAdditionalOrderItemClickListener != null) {
+            OnAdditionalOrderItemClickListener.onRootClick(v, (Integer) v.getTag());
+        }
+    }
 
     public void delete_all() {
         int count = getItemCount();
@@ -77,25 +60,6 @@ public class AdditionalOrderAdapter extends RecyclerView.Adapter<AdditionalOrder
 
     public long getItemId(int position) {
         return position;
-    }
-
-
-    public class ViewHolder extends RecyclerView.ViewHolder {
-
-
-        @BindView(R.id.img_additional_order)
-        ImageView imgAdditionalOrder;
-        @BindView(R.id.additional_order)
-        RobotoRegularTextView additionalOrder;
-        @BindView(R.id.root_parent)
-        LinearLayout rootParent;
-
-        public ViewHolder(View vi) {
-            super(vi);
-            ButterKnife.bind(this, vi);
-
-        }
-
     }
 
     @Override
@@ -112,7 +76,7 @@ public class AdditionalOrderAdapter extends RecyclerView.Adapter<AdditionalOrder
         AdditionalOrder additionalOrder = data.get(position);
 
         holder.additionalOrder.setText(additionalOrder.getAdditional_order());
-       // holder.imgAdditionalOrder.setImageDrawable(additionalOrder.getImg_additional_order());
+        // holder.imgAdditionalOrder.setImageDrawable(additionalOrder.getImg_additional_order());
 
         holder.rootParent.setTag(position);
 
@@ -154,6 +118,29 @@ public class AdditionalOrderAdapter extends RecyclerView.Adapter<AdditionalOrder
 
     public SparseBooleanArray getSelectedIds() {
         return mSelectedItemsIds;
+    }
+
+    public interface OnAdditionalOrderItemClickListener {
+        void onRootClick(View v, int position);
+
+    }
+
+    public class ViewHolder extends RecyclerView.ViewHolder {
+
+
+        @BindView(R.id.img_additional_order)
+        ImageView imgAdditionalOrder;
+        @BindView(R.id.additional_order)
+        RobotoRegularTextView additionalOrder;
+        @BindView(R.id.root_parent)
+        LinearLayout rootParent;
+
+        public ViewHolder(View vi) {
+            super(vi);
+            ButterKnife.bind(this, vi);
+
+        }
+
     }
 
     private class SingleTapConfirm extends GestureDetector.SimpleOnGestureListener {

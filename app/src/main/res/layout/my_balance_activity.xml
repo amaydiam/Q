@@ -21,40 +21,40 @@
             android:orientation="vertical">
 
             <LinearLayout
-                android:orientation="vertical"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:background="@color/white">
+                android:background="@color/white"
+                android:orientation="vertical">
 
                 <com.joanzapata.iconify.widget.IconTextView
-                    android:layout_gravity="center"
-                    android:gravity="center"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:layout_marginTop="@dimen/activity_vertical_margin"
+                    android:gravity="center"
                     android:text="{entypo-wallet} Amount of Balance"
-                    android:textColor="@color/blue_1E87DA"
-                    android:layout_marginTop="@dimen/activity_vertical_margin"/>
+                    android:textColor="@color/blue_1E87DA" />
 
                 <com.qwash.user.ui.widget.RobotoBoldTextView
-                    android:layout_marginTop="@dimen/activity_vertical_margin"
-                    android:layout_marginBottom="@dimen/activity_vertical_margin"
                     android:id="@+id/amount_of_balance"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:textColor="@color/black_424242"
-                    android:textSize="34sp"
                     android:layout_gravity="center"
-                    android:gravity="center"/>
+                    android:layout_marginBottom="@dimen/activity_vertical_margin"
+                    android:layout_marginTop="@dimen/activity_vertical_margin"
+                    android:gravity="center"
+                    android:textColor="@color/black_424242"
+                    android:textSize="34sp" />
             </LinearLayout>
 
             <com.qwash.user.ui.widget.RobotoRegularButton
-                android:layout_margin="@dimen/activity_vertical_margin"
                 android:id="@+id/btn_top_up_balance"
+                style="@style/btn_blue"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="@string/button_top_up_balance"
-                style="@style/btn_blue"
-                android:background="@drawable/border_blue" />
+                android:layout_margin="@dimen/activity_vertical_margin"
+                android:background="@drawable/border_blue"
+                android:text="@string/button_top_up_balance" />
 
         </LinearLayout>
     </android.support.v4.widget.NestedScrollView>

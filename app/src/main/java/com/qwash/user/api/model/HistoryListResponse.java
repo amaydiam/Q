@@ -5,9 +5,9 @@ package com.qwash.user.api.model;
  */
 
 
-import com.qwash.user.model.History;
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
+import com.qwash.user.model.History;
 
 import java.util.List;
 

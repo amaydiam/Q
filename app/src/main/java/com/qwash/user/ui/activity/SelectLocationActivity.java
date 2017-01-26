@@ -11,7 +11,6 @@ import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
 import android.text.Editable;
 import android.text.TextWatcher;
-import android.util.Log;
 import android.view.KeyEvent;
 import android.view.View;
 import android.view.inputmethod.EditorInfo;
@@ -22,13 +21,12 @@ import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.joanzapata.iconify.IconDrawable;
+import com.joanzapata.iconify.fonts.MaterialIcons;
 import com.qwash.user.R;
 import com.qwash.user.adapter.LocationAdapter;
 import com.qwash.user.api.client.searchlocation.SearchLocationInterface;
 import com.qwash.user.api.model.ListLocation;
-import com.google.gson.Gson;
-import com.joanzapata.iconify.IconDrawable;
-import com.joanzapata.iconify.fonts.MaterialIcons;
 
 import java.io.IOException;
 import java.util.ArrayList;
@@ -48,6 +46,7 @@ import retrofit2.converter.gson.GsonConverterFactory;
 
 public class SelectLocationActivity extends AppCompatActivity {
 
+    public static final String BASE_URL = "https://maps.googleapis.com";
     @BindView(R.id.toolbar)
     Toolbar toolbar;
     @BindView(R.id.progressBar)
@@ -56,20 +55,17 @@ public class SelectLocationActivity extends AppCompatActivity {
     RecyclerView recyclerView;
     @BindView(R.id.search)
     EditText searchView;
-
-    public static final String BASE_URL = "https://maps.googleapis.com";
     @BindView(R.id.clear)
     ImageView clear;
+    List<com.qwash.user.api.model.ListLocation.Prediction> ListLocation;
+    String input;
+    private LocationAdapter mAdapter;
+    private RecyclerView.LayoutManager mLayoutManager;
 
     @OnClick(R.id.clear)
     void clearSearch() {
         searchView.setText("");
     }
-
-    private LocationAdapter mAdapter;
-    List<com.qwash.user.api.model.ListLocation.Prediction> ListLocation;
-    private RecyclerView.LayoutManager mLayoutManager;
-    String input;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -169,16 +165,13 @@ public class SelectLocationActivity extends AppCompatActivity {
 
             @Override
             public void onResponse(Call<ListLocation> call, retrofit2.Response<ListLocation> response) {
-                Log.d("MainActivity", "Status Code = " + response.code());
 
                 if (response.isSuccessful()) {
                     // request successful (status code 200, 201)
                     progressBar.setVisibility(View.GONE);
                     ListLocation = new ArrayList<>();
                     ListLocation result = response.body();
-                    Log.d("MainActivity", "response = " + new Gson().toJson(result));
                     ListLocation = result.getPredictions();
-                    Log.d("MainActivity", "Items = " + ListLocation.size());
 
                     // This is where data loads
                     mAdapter = new LocationAdapter(ListLocation);

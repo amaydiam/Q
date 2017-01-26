@@ -19,17 +19,18 @@ import com.qwash.user.R;
 
 public class YearAdapter extends RecyclerView.Adapter<YearAdapter.RecyclerViewHolder> {
 
-    String [] year = {"2016","2015","2014","2013",
-            "2012","2011","2010","2009","2008","2007"};
+    String[] year = {"2016", "2015", "2014", "2013",
+            "2012", "2011", "2010", "2009", "2008", "2007"};
 
     Context context;
     LayoutInflater inflater;
     View view;
 
     public YearAdapter(Context context) {
-        this.context=context;
-        inflater=LayoutInflater.from(context);
+        this.context = context;
+        inflater = LayoutInflater.from(context);
     }
+
     @Override
     public RecyclerViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
 
@@ -43,10 +44,10 @@ public class YearAdapter extends RecyclerView.Adapter<YearAdapter.RecyclerViewHo
     public void onBindViewHolder(RecyclerViewHolder holder, final int position) {
 
         int j = 1;
-        for(int i = 0; i < year.length; i++){
+        for (int i = 0; i < year.length; i++) {
 
             i = i + j;
-            if (position == i){
+            if (position == i) {
                 holder.cardView4.setCardBackgroundColor(Color.parseColor("#E3F2FD"));
             }
 

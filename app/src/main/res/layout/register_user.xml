@@ -104,8 +104,8 @@
                 style="@style/btn_blue"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:background="@drawable/border_blue"
                 android:layout_marginTop="@dimen/activity_vertical_margin"
+                android:background="@drawable/border_blue"
                 android:text="@string/button_sign_up" />
 
             <RelativeLayout

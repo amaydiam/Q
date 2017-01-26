@@ -7,20 +7,19 @@ import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.CardView;
 import android.support.v7.widget.Toolbar;
-import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.joanzapata.iconify.IconDrawable;
+import com.joanzapata.iconify.fonts.MaterialIcons;
 import com.qwash.user.R;
 import com.qwash.user.Sample;
 import com.qwash.user.model.PrepareOrder;
 import com.qwash.user.ui.widget.RobotoRegularButton;
 import com.qwash.user.utils.Utils;
-import com.joanzapata.iconify.IconDrawable;
-import com.joanzapata.iconify.fonts.MaterialIcons;
 import com.wdullaer.materialdatetimepicker.date.DatePickerDialog;
 import com.wdullaer.materialdatetimepicker.time.TimePickerDialog;
 
@@ -59,6 +58,10 @@ public class ServiceDetailUserActivity extends AppCompatActivity implements Time
 
     @BindView(R.id.btn_order)
     RobotoRegularButton btnOrder;
+
+
+    @BindView(R.id.price)
+    TextView price;
 
 
     private PrepareOrder prepareOrder;
@@ -164,7 +167,7 @@ public class ServiceDetailUserActivity extends AppCompatActivity implements Time
     private void calculate() {
         checkPerfurmed();
         checkInteriorVaccum();
-        estimated_price = prepareOrder.vId.equalsIgnoreCase("1") ? (price_CAR + perfumed_price + interior_vaccum_price) : price_MOTOR ;
+        estimated_price = prepareOrder.vId.equalsIgnoreCase("1") ? (price_CAR + perfumed_price + interior_vaccum_price) : price_MOTOR;
         totalPrice.setText("IDR " + Utils.Rupiah(estimated_price));
         btnOrder.setText("IDR " + Utils.Rupiah(estimated_price) + " > ORDER NOW");
     }
@@ -215,10 +218,13 @@ public class ServiceDetailUserActivity extends AppCompatActivity implements Time
         getSupportActionBar().setTitle("");
         toolbarTitle.setText(getResources().getString(R.string.our_service));
 
-        if (prepareOrder.vId.equalsIgnoreCase("1"))
+        if (prepareOrder.vId.equalsIgnoreCase("1")) {
             space2.setVisibility(View.VISIBLE);
-        else if (prepareOrder.vId.equalsIgnoreCase("2"))
+            price.setText(price_CAR + "");
+        } else if (prepareOrder.vId.equalsIgnoreCase("2")) {
             space2.setVisibility(View.GONE);
+            price.setText(price_MOTOR + "");
+        }
 
         calculate();
 
@@ -227,17 +233,20 @@ public class ServiceDetailUserActivity extends AppCompatActivity implements Time
 
     @Override
     public void onDateSet(DatePickerDialog view, int year, int monthOfYear, int dayOfMonth) {
-        date = dayOfMonth + "/" + (monthOfYear + 1) + "/" + year;
-        Log.d("TAG", date);
+        date = year + "-" + change2Digit((monthOfYear + 1)) + "-" + change2Digit(dayOfMonth);
         btnPickupDate.setText(date);
     }
 
     @Override
     public void onTimeSet(TimePickerDialog view, int hourOfDay, int minute, int second) {
-        time = hourOfDay + ":" + minute + ":" + second;
-        Log.d("TAG", time);
+        time = change2Digit(hourOfDay) + ":" + change2Digit(minute) + ":" + change2Digit(second);
         btnPickupTime.setText(time);
     }
+
+    private String change2Digit(int var) {
+        return (String.valueOf(var).length()) > 1 ? var + "" : "0" + var;
+    }
+
 
     @Override
     public void onResume() {

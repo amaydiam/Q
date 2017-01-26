@@ -8,6 +8,16 @@ import com.google.gson.annotations.SerializedName;
 
 public class History implements Parcelable {
 
+    // Parcelable Creator
+    public static final Creator CREATOR = new Creator() {
+        public History createFromParcel(Parcel in) {
+            return new History(in);
+        }
+
+        public History[] newArray(int size) {
+            return new History[size];
+        }
+    };
     // Attributes
     @SerializedName("id_history")
     @Expose
@@ -68,17 +78,6 @@ public class History implements Parcelable {
     public void setVehicle_model(String vehicle_model) {
         this.vehicle_model = vehicle_model;
     }
-
-    // Parcelable Creator
-    public static final Creator CREATOR = new Creator() {
-        public History createFromParcel(Parcel in) {
-            return new History(in);
-        }
-
-        public History[] newArray(int size) {
-            return new History[size];
-        }
-    };
 
     // Parcelling methods
     @Override

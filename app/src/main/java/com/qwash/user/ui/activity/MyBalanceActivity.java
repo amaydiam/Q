@@ -7,9 +7,6 @@ import android.support.v7.widget.Toolbar;
 import android.view.View;
 import android.widget.TextView;
 
-import com.qwash.user.R;
-import com.qwash.user.ui.widget.RobotoBoldTextView;
-import com.qwash.user.utils.Utils;
 import com.joanzapata.iconify.IconDrawable;
 import com.joanzapata.iconify.Iconify;
 import com.joanzapata.iconify.fonts.EntypoModule;
@@ -18,6 +15,9 @@ import com.joanzapata.iconify.fonts.MaterialCommunityModule;
 import com.joanzapata.iconify.fonts.MaterialIcons;
 import com.joanzapata.iconify.fonts.MaterialModule;
 import com.joanzapata.iconify.fonts.SimpleLineIconsModule;
+import com.qwash.user.R;
+import com.qwash.user.ui.widget.RobotoBoldTextView;
+import com.qwash.user.utils.Utils;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;

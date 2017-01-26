@@ -5,11 +5,9 @@ package com.qwash.user.api.model;
  */
 
 
-import com.qwash.user.model.History;
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
-
-import java.util.List;
+import com.qwash.user.model.History;
 
 public class HistoryDetailResponse {
 

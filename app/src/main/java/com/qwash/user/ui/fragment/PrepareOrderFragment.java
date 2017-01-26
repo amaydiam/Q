@@ -12,14 +12,6 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.Toast;
 
-import com.qwash.user.R;
-import com.qwash.user.Sample;
-import com.qwash.user.model.PrepareOrder;
-import com.qwash.user.model.VehicleUser;
-import com.qwash.user.ui.activity.SelectVehicleActivity;
-import com.qwash.user.ui.activity.ServiceDetailUserActivity;
-import com.qwash.user.ui.widget.RobotoBoldTextView;
-import com.qwash.user.ui.widget.RobotoRegularButton;
 import com.bumptech.glide.Glide;
 import com.joanzapata.iconify.Iconify;
 import com.joanzapata.iconify.fonts.EntypoModule;
@@ -28,6 +20,14 @@ import com.joanzapata.iconify.fonts.MaterialCommunityModule;
 import com.joanzapata.iconify.fonts.MaterialModule;
 import com.joanzapata.iconify.fonts.SimpleLineIconsModule;
 import com.joanzapata.iconify.widget.IconTextView;
+import com.qwash.user.R;
+import com.qwash.user.Sample;
+import com.qwash.user.model.PrepareOrder;
+import com.qwash.user.model.VehicleUser;
+import com.qwash.user.ui.activity.SelectVehicleActivity;
+import com.qwash.user.ui.activity.ServiceDetailUserActivity;
+import com.qwash.user.ui.widget.RobotoBoldTextView;
+import com.qwash.user.ui.widget.RobotoRegularButton;
 
 import java.util.List;
 
@@ -38,23 +38,39 @@ import butterknife.OnClick;
 public class PrepareOrderFragment extends Fragment {
 
 
+    public VehicleUser vehicle = null;
     @BindView(R.id.btn_cancel)
     RobotoRegularButton btnCancel;
-
     @BindView(R.id.indicator_1)
     IconTextView indicator1;
     @BindView(R.id.indicator_2)
     IconTextView indicator2;
-
     @BindView(R.id.btn_next)
     RobotoRegularButton btnNext;
+    @BindView(R.id.vehicle_image)
+    ImageView vehicleImage;
+    @BindView(R.id.vehicle_description)
+    RobotoBoldTextView vehicleDescription;
+    @BindView(R.id.btn_pick_vehicle)
+    IconTextView btnPickVehicle;
+    @BindView(R.id.layout_selected_vehicle)
+    View layoutSelectedVehicle;
+    @BindView(R.id.layout_no_one_vehicle)
+    View layoutNoOneVehicle;
     private PrepareOrder prepareOrder;
+    private OnOrderedListener mListener;
+
+    public PrepareOrderFragment() {
+        // Required empty public constructor
+    }
 
     @OnClick(R.id.btn_cancel)
     void ActionCancel() {
         mListener.onCancelOrder();
         Toast.makeText(getActivity(), "Cancelled", Toast.LENGTH_SHORT).show();
     }
+
+    // TODO: Rename and change types of parameters
 
     @OnClick(R.id.btn_next)
     void ActionNext() {
@@ -64,12 +80,12 @@ public class PrepareOrderFragment extends Fragment {
             prepareOrder.vName = vehicle.vName;
             prepareOrder.vBrand = vehicle.vBrand;
             prepareOrder.models = vehicle.models;
-            prepareOrder.vTransmision = vehicle.vTransmision;
+            prepareOrder.vTransmission = vehicle.vTransmission;
             prepareOrder.years = vehicle.years;
-            prepareOrder.vBrandId= vehicle.vBrandId;
-            prepareOrder.vModelId= vehicle.vModelId;
-            prepareOrder.vTransId= vehicle.vTransId;
-            prepareOrder.vYearsId= vehicle.vYearsId;
+            prepareOrder.vBrandId = vehicle.vBrandId;
+            prepareOrder.vModelId = vehicle.vModelId;
+            prepareOrder.vTransId = vehicle.vTransId;
+            prepareOrder.vYearsId = vehicle.vYearsId;
             Intent intent = new Intent(getActivity(), ServiceDetailUserActivity.class);
             intent.putExtra(Sample.PREPARE_ORDER_OBJECT, prepareOrder);
             getActivity().startActivityForResult(intent, 1);
@@ -78,36 +94,11 @@ public class PrepareOrderFragment extends Fragment {
         }
     }
 
-
-    @BindView(R.id.vehicle_image)
-    ImageView vehicleImage;
-    @BindView(R.id.vehicle_description)
-    RobotoBoldTextView vehicleDescription;
-    @BindView(R.id.btn_pick_vehicle)
-    IconTextView btnPickVehicle;
-
-
-    @BindView(R.id.layout_selected_vehicle)
-    View layoutSelectedVehicle;
-
-    @BindView(R.id.layout_no_one_vehicle)
-    View layoutNoOneVehicle;
-
     @OnClick(R.id.layout_select_vehicle)
     void SelectVehicle() {
         Intent intent = new Intent(getActivity(), SelectVehicleActivity.class);
         intent.putExtra(Sample.VEHICLE_OBJECT, vehicle);
         getActivity().startActivityForResult(intent, 1);
-    }
-
-    public VehicleUser vehicle = null;
-
-    // TODO: Rename and change types of parameters
-
-    private OnOrderedListener mListener;
-
-    public PrepareOrderFragment() {
-        // Required empty public constructor
     }
 
     public Fragment newInstance(PrepareOrder prepareOrder) {
@@ -150,7 +141,7 @@ public class PrepareOrderFragment extends Fragment {
                     .placeholder(vehicle.vId.equalsIgnoreCase("1") ? R.drawable.mobil : R.drawable.motor)
                     .crossFade()
                     .into(vehicleImage);
-            vehicleDescription.setText(vehicle.vBrand + "\n" + vehicle.models + " " + vehicle.vTransmision + " " + vehicle.years);
+            vehicleDescription.setText(vehicle.vBrand + "\n" + vehicle.models + " " + vehicle.vTransmission + " " + vehicle.years);
             layoutSelectedVehicle.setVisibility(View.VISIBLE);
             layoutNoOneVehicle.setVisibility(View.GONE);
         } else {
@@ -201,7 +192,7 @@ public class PrepareOrderFragment extends Fragment {
                 .crossFade()
                 .into(vehicleImage);
 
-        vehicleDescription.setText(vehicle.vBrand + "\n" + vehicle.models + " " + vehicle.vTransmision + " " + vehicle.years);
+        vehicleDescription.setText(vehicle.vBrand + "\n" + vehicle.models + " " + vehicle.vTransmission + " " + vehicle.years);
     }
 
 

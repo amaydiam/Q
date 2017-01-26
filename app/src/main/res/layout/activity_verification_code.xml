@@ -2,8 +2,8 @@
 <android.support.v4.widget.NestedScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:orientation="vertical"
-    android:background="@color/blue_2196F3">
+    android:background="@color/blue_2196F3"
+    android:orientation="vertical">
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -15,31 +15,32 @@
             android:layout_height="match_parent"
             android:layout_marginLeft="40dp"
             android:layout_marginRight="40dp">
-        <RelativeLayout
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_centerInParent="true">
 
-            <TextView
-                android:id="@+id/ff"
+            <RelativeLayout
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="50sp"
-                android:text="Verification Code"
-                android:textColor="@color/white"
-                android:textSize="25sp"
-                android:textStyle="bold" />
+                android:layout_centerInParent="true">
 
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_below="@id/ff"
-                android:layout_marginTop="10dp"
-                android:maxLines="2"
-                android:text="Please type the verification code send to 08777-8899-430"
-                android:textColor="@color/white"
-                android:textSize="18sp" />
-        </RelativeLayout>
+                <TextView
+                    android:id="@+id/ff"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="50sp"
+                    android:text="Verification Code"
+                    android:textColor="@color/white"
+                    android:textSize="25sp"
+                    android:textStyle="bold" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@id/ff"
+                    android:layout_marginTop="10dp"
+                    android:maxLines="2"
+                    android:text="Please type the verification code send to 08777-8899-430"
+                    android:textColor="@color/white"
+                    android:textSize="18sp" />
+            </RelativeLayout>
         </RelativeLayout>
 
         <LinearLayout
@@ -53,90 +54,90 @@
                 android:id="@+id/set1"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:hint="    "
-                android:textColor="@color/white"
-                android:textAlignment="center"
-                android:maxEms="1"
                 android:enabled="false"
+                android:hint="    "
+                android:maxEms="1"
                 android:maxLength="1"
+                android:textAlignment="center"
+                android:textColor="@color/white"
                 android:textSize="40dp" />
 
             <EditText
                 android:id="@+id/set2"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:hint="    "
-                android:textColor="@color/white"
-                android:textAlignment="center"
-                android:maxEms="1"
                 android:enabled="false"
+                android:hint="    "
+                android:maxEms="1"
                 android:maxLength="1"
+                android:textAlignment="center"
+                android:textColor="@color/white"
                 android:textSize="40dp" />
 
             <EditText
                 android:id="@+id/set3"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:hint="    "
-                android:textColor="@color/white"
-                android:textAlignment="center"
-                android:maxEms="1"
                 android:enabled="false"
+                android:hint="    "
+                android:maxEms="1"
                 android:maxLength="1"
+                android:textAlignment="center"
+                android:textColor="@color/white"
                 android:textSize="40dp" />
 
             <EditText
                 android:id="@+id/set4"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:hint="    "
-                android:textColor="@color/white"
-                android:textAlignment="center"
-                android:maxEms="1"
                 android:enabled="false"
+                android:hint="    "
+                android:maxEms="1"
                 android:maxLength="1"
+                android:textAlignment="center"
+                android:textColor="@color/white"
                 android:textSize="40dp" />
 
             <EditText
                 android:id="@+id/set5"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:hint="    "
-                android:textColor="@color/white"
-                android:textAlignment="center"
-                android:maxEms="1"
                 android:enabled="false"
+                android:hint="    "
+                android:maxEms="1"
                 android:maxLength="1"
+                android:textAlignment="center"
+                android:textColor="@color/white"
                 android:textSize="40dp" />
 
             <EditText
                 android:id="@+id/set6"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:hint="    "
-                android:textColor="@color/white"
-                android:textAlignment="center"
-                android:maxEms="1"
                 android:enabled="false"
+                android:hint="    "
+                android:maxEms="1"
                 android:maxLength="1"
+                android:textAlignment="center"
+                android:textColor="@color/white"
                 android:textSize="40dp" />
 
         </LinearLayout>
 
         <LinearLayout
-            android:layout_marginTop="20dp"
-            android:layout_marginBottom="40dp"
-            android:orientation="vertical"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_gravity="center">
+            android:layout_gravity="center"
+            android:layout_marginBottom="40dp"
+            android:layout_marginTop="20dp"
+            android:orientation="vertical">
 
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="Don't receive code?"
-                android:textSize="18sp"
-                android:textColor="@color/white" />
+                android:textColor="@color/white"
+                android:textSize="18sp" />
 
             <RelativeLayout
                 android:layout_width="wrap_content"
@@ -153,21 +154,22 @@
 
                 <TextView
                     android:id="@+id/minutes"
-                    android:layout_toRightOf="@id/title_timer"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginLeft="10dp"
+                    android:layout_toRightOf="@id/title_timer"
                     android:text="00:"
-                    android:textSize="18sp"
-                    android:textColor="#fcbd34" />
+                    android:textColor="#fcbd34"
+                    android:textSize="18sp" />
+
                 <TextView
-                    android:layout_toRightOf="@id/minutes"
                     android:id="@+id/time_display"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+                    android:layout_toRightOf="@id/minutes"
+                    android:text="60"
                     android:textColor="#fcbd34"
-                    android:textSize="18sp"
-                    android:text="60" />
+                    android:textSize="18sp" />
             </RelativeLayout>
         </LinearLayout>
 

@@ -5,12 +5,6 @@ package com.qwash.user.api.model.order; /**
 
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
-import com.qwash.user.api.model.login.AddressLogin;
-import com.qwash.user.api.model.login.DataLogin;
-import com.qwash.user.api.model.login.VehicleLogin;
-import com.qwash.user.api.model.register.DataRegister;
-
-import java.util.List;
 
 public class RatingWasher {
 

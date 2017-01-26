@@ -168,45 +168,45 @@
         android:clickable="true"
         android:soundEffectsEnabled="false" />
 
-        <RelativeLayout
-            android:layout_marginLeft="@dimen/activity_vertical_margin"
-            android:layout_marginRight="@dimen/activity_vertical_margin"
-            android:layout_marginTop="@dimen/marginTopToolbar"
-            android:background="@drawable/border_toolbar_home"
-            android:layout_width="fill_parent"
-            android:layout_height="wrap_content" >
+    <RelativeLayout
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="@dimen/activity_vertical_margin"
+        android:layout_marginRight="@dimen/activity_vertical_margin"
+        android:layout_marginTop="@dimen/marginTopToolbar"
+        android:background="@drawable/border_toolbar_home">
 
-            <ImageView
-                android:layout_margin="@dimen/activity_vertical_margin"
-                android:id="@+id/img_menu"
-                android:layout_alignParentTop="true"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_alignParentLeft="true"
-                android:src="@mipmap/ic_launcher" />
+        <ImageView
+            android:id="@+id/img_menu"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentLeft="true"
+            android:layout_alignParentTop="true"
+            android:layout_margin="@dimen/activity_vertical_margin"
+            android:src="@mipmap/ic_launcher" />
 
-            <com.qwash.user.ui.widget.RobotoLightTextView
-                android:id="@+id/search"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:background="@null"
-                android:layout_alignParentTop="true"
-                android:hint="@string/hint_your_location"
-                android:maxLines="5"
-                android:paddingTop="@dimen/activity_vertical_margin"
-                android:paddingBottom="@dimen/activity_vertical_margin"
-                android:layout_toRightOf="@+id/img_menu"
-                android:layout_toLeftOf="@+id/img_search"/>
+        <com.qwash.user.ui.widget.RobotoLightTextView
+            android:id="@+id/search"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_alignParentTop="true"
+            android:layout_toLeftOf="@+id/img_search"
+            android:layout_toRightOf="@+id/img_menu"
+            android:background="@null"
+            android:hint="@string/hint_your_location"
+            android:maxLines="5"
+            android:paddingBottom="@dimen/activity_vertical_margin"
+            android:paddingTop="@dimen/activity_vertical_margin" />
 
-            <ImageView
-                android:layout_alignParentTop="true"
-                android:layout_margin="@dimen/activity_vertical_margin"
-                android:id="@+id/img_search"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:src="@mipmap/ic_launcher"
-                android:layout_alignParentRight="true"/>
-        </RelativeLayout>
+        <ImageView
+            android:id="@+id/img_search"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentRight="true"
+            android:layout_alignParentTop="true"
+            android:layout_margin="@dimen/activity_vertical_margin"
+            android:src="@mipmap/ic_launcher" />
+    </RelativeLayout>
 
     <include
         android:id="@+id/layout_menu_home"

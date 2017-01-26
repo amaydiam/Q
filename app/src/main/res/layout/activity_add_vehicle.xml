@@ -11,8 +11,8 @@
     <android.support.v4.widget.NestedScrollView
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:fillViewport="true"
         android:layout_marginBottom="50dp"
+        android:fillViewport="true"
         app:layout_behavior="@string/appbar_scrolling_view_behavior">
 
         <LinearLayout
@@ -155,6 +155,7 @@
                     android:layout_alignParentRight="true"
                     android:layout_centerVertical="true"
                     android:gravity="center">
+
                     <com.joanzapata.iconify.widget.IconTextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
@@ -213,6 +214,7 @@
                     android:layout_alignParentRight="true"
                     android:layout_centerVertical="true"
                     android:gravity="center">
+
                     <com.joanzapata.iconify.widget.IconTextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
@@ -272,6 +274,7 @@
                     android:layout_alignParentRight="true"
                     android:layout_centerVertical="true"
                     android:gravity="center">
+
                     <com.joanzapata.iconify.widget.IconTextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
@@ -331,6 +334,7 @@
                     android:layout_alignParentRight="true"
                     android:layout_centerVertical="true"
                     android:gravity="center">
+
                     <com.joanzapata.iconify.widget.IconTextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
@@ -352,11 +356,11 @@
             android:id="@+id/klik_submit"
             android:layout_width="match_parent"
             android:layout_height="50dp"
+            android:layout_alignParentBottom="true"
+            android:background="@color/blue_2196F3"
             android:text="@string/submit_add_vehicle"
             android:textColor="@color/white"
-            android:textSize="17sp"
-            android:background="@color/blue_2196F3"
-            android:layout_alignParentBottom="true" />
+            android:textSize="17sp" />
     </RelativeLayout>
 
 </android.support.design.widget.CoordinatorLayout>

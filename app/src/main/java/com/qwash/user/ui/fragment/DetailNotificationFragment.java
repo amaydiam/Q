@@ -1,23 +1,18 @@
 package com.qwash.user.ui.fragment;
 
 import android.content.Context;
-import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
-import android.support.v4.app.FragmentTransaction;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
-import android.widget.Toast;
 
-import com.qwash.user.R;
 import com.joanzapata.iconify.IconDrawable;
 import com.joanzapata.iconify.Iconify;
 import com.joanzapata.iconify.fonts.EntypoModule;
@@ -26,6 +21,7 @@ import com.joanzapata.iconify.fonts.MaterialCommunityModule;
 import com.joanzapata.iconify.fonts.MaterialIcons;
 import com.joanzapata.iconify.fonts.MaterialModule;
 import com.joanzapata.iconify.fonts.SimpleLineIconsModule;
+import com.qwash.user.R;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -87,7 +83,6 @@ public class DetailNotificationFragment extends Fragment {
             String name = bundle.getString("name");
             String deskripsi = bundle.getString("deskripsi");
             int img = bundle.getInt("image", R.mipmap.ic_launcher);
-            Log.d("TAG", name + deskripsi);
             imgDetailNotification.setImageResource(img);
             deskripsiDetailNotification.setText(deskripsi);
         }

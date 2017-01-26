@@ -26,6 +26,11 @@ import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.joanzapata.iconify.IconDrawable;
+import com.joanzapata.iconify.fonts.MaterialCommunityIcons;
+import com.joanzapata.iconify.widget.IconButton;
+import com.mugen.Mugen;
+import com.mugen.MugenCallbacks;
 import com.qwash.user.R;
 import com.qwash.user.Sample;
 import com.qwash.user.adapter.HistoryAdapter;
@@ -36,11 +41,6 @@ import com.qwash.user.model.History;
 import com.qwash.user.ui.activity.HistoryActivity;
 import com.qwash.user.ui.activity.HistoryDetailActivity;
 import com.qwash.user.utils.TextUtils;
-import com.joanzapata.iconify.IconDrawable;
-import com.joanzapata.iconify.fonts.MaterialCommunityIcons;
-import com.joanzapata.iconify.widget.IconButton;
-import com.mugen.Mugen;
-import com.mugen.MugenCallbacks;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -67,7 +67,7 @@ public class HistoryListFragment extends Fragment implements HistoryAdapter.OnHi
 
     private static final String TAG_TOP = "top";
     private static final String TAG_BOTTOM = "bottom";
-
+    public HistoryAdapter adapter;
     @BindBool(R.bool.is_tablet)
     boolean isTablet;
     @BindView(R.id.btn_search)
@@ -84,18 +84,6 @@ public class HistoryListFragment extends Fragment implements HistoryAdapter.OnHi
     SwipeRefreshLayout swipeContainer;
     @BindView(R.id.fab_action)
     FloatingActionButton fabAction;
-
-    private ArrayList<History> data = new ArrayList<>();
-    private GridLayoutManager mLayoutManager;
-    private String keyword = null;
-    private HistoryService mService;
-
-    @OnClick(R.id.scroll_up)
-    void ScrollUp() {
-        recyclerView.smoothScrollToPosition(0);
-    }
-
-
     //error
     @BindView(R.id.error_message)
     View errorMessage;
@@ -105,12 +93,40 @@ public class HistoryListFragment extends Fragment implements HistoryAdapter.OnHi
     TextView textError;
     @BindView(R.id.try_again)
     TextView tryAgain;
-
-
     @BindView(R.id.search)
     EditText search;
     @BindView(R.id.parent_search)
     CardView parentSearch;
+    private ArrayList<History> data = new ArrayList<>();
+    private GridLayoutManager mLayoutManager;
+    private String keyword = null;
+    private HistoryService mService;
+    private Integer position_delete;
+    private ProgressDialog dialogProgress;
+    private FragmentActivity activity;
+    private Unbinder butterknife;
+    private boolean isFinishLoadingAwalData = true;
+    private boolean isLoadingMoreData = false;
+    private boolean isFinishMoreData = false;
+    private int page = 1;
+    private boolean isRefresh = false;
+    private int mPreviousVisibleItem;
+    public HistoryListFragment() {
+    }
+
+    /**
+     * Returns a new instance of this fragment for the given section
+     * number.
+     */
+    public static HistoryListFragment newInstance() {
+        return new HistoryListFragment();
+    }
+    //  private String session_key;
+
+    @OnClick(R.id.scroll_up)
+    void ScrollUp() {
+        recyclerView.smoothScrollToPosition(0);
+    }
 
     @OnClick(R.id.btn_search)
     void btn_search() {
@@ -122,25 +138,6 @@ public class HistoryListFragment extends Fragment implements HistoryAdapter.OnHi
         RefreshData();
     }
 
-
-    private Integer position_delete;
-    private ProgressDialog dialogProgress;
-    private FragmentActivity activity;
-    private Unbinder butterknife;
-    public HistoryAdapter adapter;
-    private boolean isFinishLoadingAwalData = true;
-    private boolean isLoadingMoreData = false;
-    private boolean isFinishMoreData = false;
-    private int page = 1;
-    private boolean isRefresh = false;
-    //  private String session_key;
-
-    private int mPreviousVisibleItem;
-
-    public HistoryListFragment() {
-    }
-
-
     @Override
     public void onAttach(Context context) {
         super.onAttach(context);
@@ -148,15 +145,6 @@ public class HistoryListFragment extends Fragment implements HistoryAdapter.OnHi
             // activity = (HistoryActivity) context;
         }
         activity = getActivity();
-    }
-
-
-    /**
-     * Returns a new instance of this fragment for the given section
-     * number.
-     */
-    public static HistoryListFragment newInstance() {
-        return new HistoryListFragment();
     }
 
     @Override
@@ -653,7 +641,6 @@ public class HistoryListFragment extends Fragment implements HistoryAdapter.OnHi
             mPopup.setForceShowIcon(true);
 
         } catch (Exception e) {
-            Log.w("TAG", "error forcing menu icons to show", e);
             return;
         }
 

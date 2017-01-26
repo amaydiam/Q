@@ -15,12 +15,12 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 
-import com.qwash.user.R;
-import com.qwash.user.model.VehicleUser;
-import com.qwash.user.ui.widget.RobotoBoldTextView;
 import com.bumptech.glide.Glide;
 import com.joanzapata.iconify.widget.IconButton;
 import com.joanzapata.iconify.widget.IconTextView;
+import com.qwash.user.R;
+import com.qwash.user.model.VehicleUser;
+import com.qwash.user.ui.widget.RobotoBoldTextView;
 
 import java.util.List;
 
@@ -29,8 +29,8 @@ import butterknife.ButterKnife;
 
 public class VehicleAdapter extends RecyclerView.Adapter<VehicleAdapter.ViewHolder> implements View.OnTouchListener, View.OnClickListener {
 
-    private final GestureDetector gestureDetector;
     public final List<VehicleUser> data;
+    private final GestureDetector gestureDetector;
     private Activity activity;
     private SparseBooleanArray medItemsIds;
     private int selected = -1;
@@ -38,6 +38,14 @@ public class VehicleAdapter extends RecyclerView.Adapter<VehicleAdapter.ViewHold
 
     private OnVehicleItemClickListener OnVehicleItemClickListener;
 
+
+    public VehicleAdapter(Activity activity, List<VehicleUser> vehicleList) {
+        this.activity = activity;
+        this.data = vehicleList;
+        medItemsIds = new SparseBooleanArray();
+        gestureDetector = new GestureDetector(activity, new SingleTapConfirm());
+
+    }
 
     public void setOnVehicleItemClickListener(OnVehicleItemClickListener onVehicleItemClickListener) {
         this.OnVehicleItemClickListener = onVehicleItemClickListener;
@@ -67,23 +75,6 @@ public class VehicleAdapter extends RecyclerView.Adapter<VehicleAdapter.ViewHold
         }
     }
 
-
-    public interface OnVehicleItemClickListener {
-        void onActionClick(View v, int position);
-
-        void onRootClick(View v, int position);
-
-    }
-
-    public VehicleAdapter(Activity activity, List<VehicleUser> vehicleList) {
-        this.activity = activity;
-        this.data = vehicleList;
-        medItemsIds = new SparseBooleanArray();
-        gestureDetector = new GestureDetector(activity, new SingleTapConfirm());
-
-    }
-
-
     public void delete_all() {
         int count = getItemCount();
         if (count > 0) {
@@ -95,29 +86,6 @@ public class VehicleAdapter extends RecyclerView.Adapter<VehicleAdapter.ViewHold
 
     public long getItemId(int position) {
         return position;
-    }
-
-
-    public class ViewHolder extends RecyclerView.ViewHolder {
-
-        @BindView(R.id.vehicle_image)
-        ImageView vehicleImage;
-        @BindView(R.id.vehicle_description)
-        RobotoBoldTextView vehicleDescription;
-        @BindView(R.id.btn_action)
-        IconButton btnAction;
-        @BindView(R.id.indicator_item)
-        IconTextView indicatorItem;
-        @BindView(R.id.root_parent)
-        CardView rootParent;
-
-
-        public ViewHolder(View vi) {
-            super(vi);
-            ButterKnife.bind(this, vi);
-
-        }
-
     }
 
     @Override
@@ -142,7 +110,7 @@ public class VehicleAdapter extends RecyclerView.Adapter<VehicleAdapter.ViewHold
                 .crossFade()
                 .into(holder.vehicleImage);
 
-        holder.vehicleDescription.setText(vehicle.vBrand + "\n" + vehicle.models + " " + vehicle.vTransmision + " " + vehicle.years);
+        holder.vehicleDescription.setText(vehicle.vBrand + "\n" + vehicle.models + " " + vehicle.vTransmission + " " + vehicle.years);
         if (selected == position) {
             holder.rootParent.setBackgroundColor(ContextCompat.getColor(activity, R.color.blue_2196F3));
             holder.vehicleDescription.setTextColor(ContextCompat.getColor(activity, R.color.white));
@@ -189,16 +157,14 @@ public class VehicleAdapter extends RecyclerView.Adapter<VehicleAdapter.ViewHold
         }
     }
 
-    public void setSelection(int position) {
-        this.selected = position;
-        notifyDataSetChanged();
-    }
-
-
     public int getSelection() {
         return this.selected;
     }
 
+    public void setSelection(int position) {
+        this.selected = position;
+        notifyDataSetChanged();
+    }
 
     public void selectView(int position, boolean value) {
         if (value)
@@ -214,6 +180,35 @@ public class VehicleAdapter extends RecyclerView.Adapter<VehicleAdapter.ViewHold
 
     public SparseBooleanArray getedIds() {
         return medItemsIds;
+    }
+
+    public interface OnVehicleItemClickListener {
+        void onActionClick(View v, int position);
+
+        void onRootClick(View v, int position);
+
+    }
+
+    public class ViewHolder extends RecyclerView.ViewHolder {
+
+        @BindView(R.id.vehicle_image)
+        ImageView vehicleImage;
+        @BindView(R.id.vehicle_description)
+        RobotoBoldTextView vehicleDescription;
+        @BindView(R.id.btn_action)
+        IconButton btnAction;
+        @BindView(R.id.indicator_item)
+        IconTextView indicatorItem;
+        @BindView(R.id.root_parent)
+        CardView rootParent;
+
+
+        public ViewHolder(View vi) {
+            super(vi);
+            ButterKnife.bind(this, vi);
+
+        }
+
     }
 
     private class SingleTapConfirm extends GestureDetector.SimpleOnGestureListener {

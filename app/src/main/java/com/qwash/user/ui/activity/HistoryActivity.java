@@ -6,10 +6,6 @@ import android.support.v7.widget.Toolbar;
 import android.view.View;
 import android.widget.TextView;
 
-import com.qwash.user.R;
-import com.qwash.user.Sample;
-import com.qwash.user.ui.fragment.HistoryDetailFragment;
-import com.qwash.user.ui.fragment.HistoryListFragment;
 import com.joanzapata.iconify.IconDrawable;
 import com.joanzapata.iconify.Iconify;
 import com.joanzapata.iconify.fonts.EntypoModule;
@@ -18,6 +14,10 @@ import com.joanzapata.iconify.fonts.MaterialCommunityModule;
 import com.joanzapata.iconify.fonts.MaterialIcons;
 import com.joanzapata.iconify.fonts.MaterialModule;
 import com.joanzapata.iconify.fonts.SimpleLineIconsModule;
+import com.qwash.user.R;
+import com.qwash.user.Sample;
+import com.qwash.user.ui.fragment.HistoryDetailFragment;
+import com.qwash.user.ui.fragment.HistoryListFragment;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -61,12 +61,12 @@ public class HistoryActivity extends AppCompatActivity {
     }
 
     private void loadListMustahiqHistory() {
-       HistoryListFragment fragment = new HistoryListFragment();
+        HistoryListFragment fragment = new HistoryListFragment();
         getSupportFragmentManager().beginTransaction().replace(R.id.main_fragment, fragment).commit();
     }
 
     public void loadDetailHistoryFragmentWith(String histortyId) {
-       HistoryDetailFragment fragment = new HistoryDetailFragment();
+        HistoryDetailFragment fragment = new HistoryDetailFragment();
         Bundle args = new Bundle();
         args.putString(Sample.HISTORY_ID, histortyId);
         fragment.setArguments(args);

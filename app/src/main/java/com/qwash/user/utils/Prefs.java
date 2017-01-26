@@ -31,7 +31,6 @@ public final class Prefs {
     }
 
 
-
     //Data User
     public static void putFirebaseId(final Context context, String token) {
         Prefs.putPref(context, Sample.FIREBASE_ID, token);
@@ -49,7 +48,7 @@ public final class Prefs {
         return Prefs.getPref(context, Sample.TOKEN, "");
     }
 
-        public static void putUserId(final Context context, String id_user) {
+    public static void putUserId(final Context context, String id_user) {
         Prefs.putPref(context, Sample.USER_ID, id_user);
     }
 
@@ -138,15 +137,15 @@ public final class Prefs {
 
 
     public static void Reset(Context context) {
-        putToken(context,"");
-        putUserId(context,"");
-        putName(context,"");
-        putAuthLevel(context,"");
-        putEmail(context,"");
-        putUsername(context,"");
-        putPhone(context,"");
-        putLatitude(context,0);
-        putLongitude(context,0);
+        putToken(context, "");
+        putUserId(context, "");
+        putName(context, "");
+        putAuthLevel(context, "");
+        putEmail(context, "");
+        putUsername(context, "");
+        putPhone(context, "");
+        putLatitude(context, 0);
+        putLongitude(context, 0);
     }
 
 

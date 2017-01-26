@@ -2,85 +2,134 @@ package com.qwash.user.adapter;
 
 import android.app.Activity;
 import android.content.Context;
-import android.content.SharedPreferences;
-import android.graphics.Color;
+import android.media.AudioManager;
 import android.support.v7.widget.CardView;
 import android.support.v7.widget.RecyclerView;
+import android.view.GestureDetector;
 import android.view.LayoutInflater;
+import android.view.MotionEvent;
+import android.view.SoundEffectConstants;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
 import com.qwash.user.R;
+import com.qwash.user.model.vehicle.VehicleBrand;
+
+import java.util.List;
+
+import butterknife.BindView;
+import butterknife.ButterKnife;
 
 /**
  * Created by binderbyte on 24/12/16.
  */
 
-public class BrandAdapter extends RecyclerView.Adapter<BrandAdapter.RecyclerViewHolder> {
+public class BrandAdapter extends RecyclerView.Adapter<BrandAdapter.ViewHolder> implements View.OnTouchListener, View.OnClickListener {
+
+    public final List<VehicleBrand> data;
+    private final GestureDetector gestureDetector;
+    private Activity activity;
+    private OnBrandItemClickListener OnBrandItemClickListener;
 
 
-    String [] brand = {"Audi", "Bentley", "BMW"};
-
-    Context context;
-    LayoutInflater inflater;
-    View view;
-
-    public BrandAdapter(Context context) {
-        this.context=context;
-        inflater=LayoutInflater.from(context);
+    public BrandAdapter(Activity activity, List<VehicleBrand> summaryList) {
+        this.activity = activity;
+        this.data = summaryList;
+        gestureDetector = new GestureDetector(activity, new SingleTapConfirm());
     }
-    @Override
-    public RecyclerViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
 
-        view = inflater.inflate(R.layout.item_select_brand, parent, false);
-
-        RecyclerViewHolder viewHolder = new RecyclerViewHolder(view);
-        return viewHolder;
+    public void setOnBrandItemClickListener(OnBrandItemClickListener onBrandItemClickListener) {
+        this.OnBrandItemClickListener = onBrandItemClickListener;
     }
 
     @Override
-    public void onBindViewHolder(final RecyclerViewHolder holder, final int position) {
+    public boolean onTouch(View v, MotionEvent event) {
 
-        int j = 1;
-        for(int i = 0; i < brand.length; i++){
+        AudioManager audioManager = (AudioManager) activity.getSystemService(Context.AUDIO_SERVICE);
+        audioManager.playSoundEffect(SoundEffectConstants.CLICK);
+        final int viewId = v.getId();
 
-            i = i + j;
-            if (position == i){
-                holder.cardView1.setCardBackgroundColor(Color.parseColor("#E3F2FD"));
-            }
+        return false;
+    }
 
+    @Override
+    public void onClick(View v) {
+        if (OnBrandItemClickListener != null) {
+            OnBrandItemClickListener.onRootClick(v, (Integer) v.getTag());
         }
 
-        holder.title1.setText(brand[position]);
-        holder.cardView1.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                SharedPreferences prefs = context.getSharedPreferences("my_prefs", Context.MODE_PRIVATE);
-                SharedPreferences.Editor edit = prefs.edit();
-                edit.putString("vBrand", brand[position]);
-                edit.commit();
-                ((Activity) context).finish();
-            }
-        });
+    }
+
+    public void delete_all() {
+        int count = getItemCount();
+        if (count > 0) {
+            data.clear();
+            notifyDataSetChanged();
+        }
+
+    }
+
+    public long getItemId(int position) {
+        return position;
     }
 
     @Override
+    public ViewHolder onCreateViewHolder(ViewGroup parent,
+                                         int viewType) {
+        View v = LayoutInflater.from(parent.getContext())
+                .inflate(R.layout.item_select_brand, parent, false);
+        ViewHolder holder = new ViewHolder(v);
+        holder.rootParent.setOnClickListener(this);
+        return holder;
+    }
+
+    public void onBindViewHolder(final ViewHolder holder, int position) {
+        VehicleBrand summary = data.get(position);
+        holder.listBrand.setText(summary.vBrand);
+        holder.rootParent.setTag(position);
+
+    }
+
     public int getItemCount() {
-        return brand.length;
+        return data.size();
     }
 
-    class RecyclerViewHolder extends RecyclerView.ViewHolder {
+    public void remove(int position) {
+        data.remove(data.get(position));
+        notifyDataSetChanged();
+    }
 
-        TextView title1;
-        CardView cardView1;
+    public interface OnBrandItemClickListener {
 
-        public RecyclerViewHolder(View itemView) {
-            super(itemView);
+        void onRootClick(View v, int position);
 
-            title1 = (TextView) itemView.findViewById(R.id.list_brand);
-            cardView1 = (CardView) itemView.findViewById(R.id.card_view_brand);
+
+    }
+
+    class ViewHolder extends RecyclerView.ViewHolder {
+
+        @BindView(R.id.list_brand)
+        TextView listBrand;
+        @BindView(R.id.root_parent)
+        CardView rootParent;
+
+        ViewHolder(View vi) {
+            super(vi);
+            ButterKnife.bind(this, vi);
 
         }
+
     }
+
+    private class SingleTapConfirm extends GestureDetector.SimpleOnGestureListener {
+
+        @Override
+        public boolean onSingleTapUp(MotionEvent event) {
+            return true;
+        }
+
+
+    }
+
 }

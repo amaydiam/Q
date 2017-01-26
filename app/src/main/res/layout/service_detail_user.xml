@@ -56,8 +56,8 @@
                                     android:layout_marginLeft="20dp"
                                     android:layout_marginRight="20dp"
                                     android:layout_marginTop="10dp"
-                                    android:textAlignment="center"
-                                    android:text="SERVICE DETAIL" />
+                                    android:text="SERVICE DETAIL"
+                                    android:textAlignment="center" />
 
                                 <View
                                     android:layout_width="match_parent"
@@ -99,8 +99,8 @@
                                         android:layout_width="wrap_content"
                                         android:layout_height="wrap_content"
                                         android:layout_gravity="center"
-                                        android:textStyle="bold"
-                                        android:text="@string/label_exterior_wash" />
+                                        android:text="@string/label_exterior_wash"
+                                        android:textStyle="bold" />
                                 </LinearLayout>
 
 
@@ -122,8 +122,8 @@
                                         android:layout_width="wrap_content"
                                         android:layout_height="wrap_content"
                                         android:layout_gravity="center"
-                                        android:textStyle="bold"
-                                        android:text="@string/label_tires_shine" />
+                                        android:text="@string/label_tires_shine"
+                                        android:textStyle="bold" />
                                 </LinearLayout>
 
                                 <TextView
@@ -135,6 +135,7 @@
                                     android:text="@string/label_deskripsi_service_detail" />
 
                                 <TextView
+                                    android:id="@+id/price"
                                     android:layout_width="wrap_content"
                                     android:layout_height="wrap_content"
                                     android:layout_below="@id/label_deskripsi_service_detail"
@@ -170,12 +171,12 @@
                                     android:id="@+id/label_additional_select"
                                     android:layout_width="match_parent"
                                     android:layout_height="wrap_content"
-                                    android:textAlignment="center"
                                     android:layout_marginBottom="10dp"
                                     android:layout_marginLeft="20dp"
                                     android:layout_marginRight="20dp"
                                     android:layout_marginTop="10dp"
-                                    android:text="ADDITIONAL SELECT" />
+                                    android:text="ADDITIONAL SELECT"
+                                    android:textAlignment="center" />
 
                                 <View
                                     android:layout_width="match_parent"
@@ -187,81 +188,82 @@
 
 
                             <LinearLayout
-                                android:layout_below="@id/additional_select"
                                 android:layout_width="match_parent"
                                 android:layout_height="match_parent"
+                                android:layout_below="@id/additional_select"
                                 android:orientation="vertical">
-                            <RelativeLayout
-                                android:id="@+id/layout_perfumed"
-                                android:clickable="true"
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:layout_marginBottom="5dp"
-                                android:layout_marginLeft="20dp"
-                                android:layout_marginRight="20dp"
-                                android:layout_marginTop="20dp">
 
                                 <RelativeLayout
-                                    android:layout_width="match_parent"
-                                    android:layout_height="wrap_content">
+                                    android:id="@+id/layout_perfumed"
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:layout_marginBottom="5dp"
+                                    android:layout_marginLeft="20dp"
+                                    android:layout_marginRight="20dp"
+                                    android:layout_marginTop="20dp"
+                                    android:clickable="true">
 
-                                    <LinearLayout
-                                        android:id="@+id/space_baris1"
-                                        android:layout_width="wrap_content"
+                                    <RelativeLayout
+                                        android:layout_width="match_parent"
                                         android:layout_height="wrap_content">
 
-                                        <ImageView
-                                            android:layout_width="30dp"
-                                            android:layout_height="30dp"
-                                            android:layout_marginRight="10dp"
-                                            android:src="@mipmap/ic_launcher" />
+                                        <LinearLayout
+                                            android:id="@+id/space_baris1"
+                                            android:layout_width="wrap_content"
+                                            android:layout_height="wrap_content">
+
+                                            <ImageView
+                                                android:layout_width="30dp"
+                                                android:layout_height="30dp"
+                                                android:layout_marginRight="10dp"
+                                                android:src="@mipmap/ic_launcher" />
+
+                                            <TextView
+                                                android:layout_width="wrap_content"
+                                                android:layout_height="wrap_content"
+                                                android:layout_gravity="center"
+                                                android:text="@string/label_perfumed"
+                                                android:textStyle="bold" />
+                                        </LinearLayout>
+
 
                                         <TextView
+                                            android:id="@+id/deskripsi_addtional_select"
                                             android:layout_width="wrap_content"
                                             android:layout_height="wrap_content"
-                                            android:layout_gravity="center"
-                                            android:textStyle="bold"
-                                            android:text="@string/label_perfumed" />
-                                    </LinearLayout>
+                                            android:layout_below="@id/space_baris1"
+                                            android:layout_marginBottom="10dp"
+                                            android:layout_marginTop="5dp"
+                                            android:text="@string/label_deskripsi_addtional_select" />
 
+                                        <TextView
+                                            android:id="@+id/price_perfumed"
+                                            android:layout_width="wrap_content"
+                                            android:layout_height="wrap_content"
+                                            android:layout_below="@id/deskripsi_addtional_select"
+                                            android:text="IDR 3.000"
+                                            android:textColor="@color/blue_2196F3" />
 
-                                    <TextView
-                                        android:id="@+id/deskripsi_addtional_select"
-                                        android:layout_width="wrap_content"
-                                        android:layout_height="wrap_content"
-                                        android:layout_below="@id/space_baris1"
-                                        android:layout_marginBottom="10dp"
-                                        android:layout_marginTop="5dp"
-                                        android:text="@string/label_deskripsi_addtional_select" />
+                                        <CheckBox
+                                            android:id="@+id/perfumed"
+                                            android:layout_width="wrap_content"
+                                            android:layout_height="wrap_content"
+                                            android:layout_alignParentRight="true"
+                                            android:layout_centerInParent="true" />
 
-                                    <TextView
-                                        android:id="@+id/price_perfumed"
-                                        android:layout_width="wrap_content"
-                                        android:layout_height="wrap_content"
-                                        android:layout_below="@id/deskripsi_addtional_select"
-                                        android:text="IDR 3.000"
-                                        android:textColor="@color/blue_2196F3" />
-
-                                    <CheckBox
-                                        android:id="@+id/perfumed"
-                                        android:layout_width="wrap_content"
-                                        android:layout_height="wrap_content"
-                                        android:layout_alignParentRight="true"
-                                        android:layout_centerInParent="true" />
+                                    </RelativeLayout>
 
                                 </RelativeLayout>
 
-                            </RelativeLayout>
-
                                 <RelativeLayout
                                     android:id="@+id/layout_interior_vacuum"
-                                    android:clickable="true"
                                     android:layout_width="wrap_content"
                                     android:layout_height="wrap_content"
                                     android:layout_marginBottom="20dp"
                                     android:layout_marginLeft="20dp"
                                     android:layout_marginRight="20dp"
-                                    android:layout_marginTop="5dp">
+                                    android:layout_marginTop="5dp"
+                                    android:clickable="true">
 
                                     <RelativeLayout
                                         android:layout_width="match_parent"
@@ -283,8 +285,8 @@
                                                 android:layout_width="wrap_content"
                                                 android:layout_height="wrap_content"
                                                 android:layout_gravity="center"
-                                                android:textStyle="bold"
-                                                android:text="@string/label_vacuum" />
+                                                android:text="@string/label_vacuum"
+                                                android:textStyle="bold" />
                                         </LinearLayout>
 
 
@@ -347,12 +349,12 @@
                                     android:id="@+id/label_time"
                                     android:layout_width="match_parent"
                                     android:layout_height="wrap_content"
-                                    android:textAlignment="center"
                                     android:layout_marginBottom="10dp"
                                     android:layout_marginLeft="20dp"
                                     android:layout_marginRight="20dp"
                                     android:layout_marginTop="10dp"
-                                    android:text="TIME" />
+                                    android:text="TIME"
+                                    android:textAlignment="center" />
 
                                 <View
                                     android:layout_width="match_parent"
@@ -422,12 +424,12 @@
                                     android:id="@+id/label_estimated_price"
                                     android:layout_width="match_parent"
                                     android:layout_height="wrap_content"
-                                    android:textAlignment="center"
                                     android:layout_marginBottom="10dp"
                                     android:layout_marginLeft="20dp"
                                     android:layout_marginRight="20dp"
                                     android:layout_marginTop="10dp"
-                                    android:text="ESTIMATED PRICE" />
+                                    android:text="ESTIMATED PRICE"
+                                    android:textAlignment="center" />
 
                                 <View
                                     android:layout_width="match_parent"
@@ -451,8 +453,8 @@
                                     android:layout_width="wrap_content"
                                     android:layout_height="wrap_content"
                                     android:layout_marginBottom="10dp"
-                                    android:textStyle="bold"
-                                    android:text="@string/total_price" />
+                                    android:text="@string/total_price"
+                                    android:textStyle="bold" />
 
                                 <TextView
                                     android:id="@+id/total_price"
@@ -475,11 +477,11 @@
 
         <com.qwash.user.ui.widget.RobotoRegularButton
             android:id="@+id/btn_order"
+            style="@style/btn_blue"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_alignParentBottom="true"
-            style="@style/btn_blue"
-            android:text="ORDER"/>
+            android:text="ORDER" />
 
     </RelativeLayout>
 </android.support.design.widget.CoordinatorLayout>

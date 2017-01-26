@@ -6,7 +6,6 @@ import android.os.Handler;
 import android.os.Message;
 import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
-import android.util.Log;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.ImageView;
@@ -14,8 +13,6 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.qwash.user.R;
-
-import java.util.concurrent.TimeUnit;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -213,7 +210,6 @@ public class VerificationCodeActivity extends AppCompatActivity {
                 set4.getText().toString() +
                 set5.getText().toString() +
                 set6.getText().toString();
-        Log.d("Valid", valid);
 
         String cekout = "123456";
 

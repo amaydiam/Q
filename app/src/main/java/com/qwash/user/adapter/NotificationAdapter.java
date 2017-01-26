@@ -22,7 +22,7 @@ import com.qwash.user.ui.fragment.DetailNotificationFragment;
 
 public class NotificationAdapter extends RecyclerView.Adapter<NotificationAdapter.RecyclerViewHolder> {
 
-    String [] title = {"Promo 2015","Promo 2017","Promo 2018"};
+    String[] title = {"Promo 2015", "Promo 2017", "Promo 2018"};
     int[] image = {R.mipmap.ic_launcher, R.mipmap.ic_launcher, R.mipmap.ic_launcher};
     String[] deskripsi = {"Berlaku pada tgl 12 januari 2015, Berlaku pada tgl 12 januari 2015, Berlaku pada tgl 12 januari 2015, Berlaku pada tgl 12 januari 2015", "Berlaku pada tgl 12 januari 2017", "Berlaku pada tgl 12 januari 2018"};
 
@@ -33,9 +33,10 @@ public class NotificationAdapter extends RecyclerView.Adapter<NotificationAdapte
 
     public NotificationAdapter(FragmentManager fm, Context context) {
         this.fragmentManager = fm;
-        this.context=context;
-        inflater=LayoutInflater.from(context);
+        this.context = context;
+        inflater = LayoutInflater.from(context);
     }
+
     @Override
     public RecyclerViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
 

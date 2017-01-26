@@ -9,10 +9,10 @@ import android.support.v7.widget.Toolbar;
 import android.view.View;
 import android.widget.TextView;
 
-import com.qwash.user.R;
-import com.qwash.user.adapter.ModelAdapter;
 import com.joanzapata.iconify.IconDrawable;
 import com.joanzapata.iconify.fonts.MaterialIcons;
+import com.qwash.user.R;
+import com.qwash.user.adapter.ModelAdapter;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;

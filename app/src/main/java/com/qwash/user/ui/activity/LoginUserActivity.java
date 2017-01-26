@@ -8,9 +8,6 @@ import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v7.app.AppCompatActivity;
-import android.text.InputType;
-import android.text.method.PasswordTransformationMethod;
-import android.util.Log;
 import android.view.KeyEvent;
 import android.view.View;
 import android.view.inputmethod.EditorInfo;
@@ -19,20 +16,6 @@ import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.qwash.user.R;
-import com.qwash.user.Sample;
-import com.qwash.user.api.ApiUtils;
-import com.qwash.user.api.client.auth.LoginService;
-import com.qwash.user.api.model.login.AddressLogin;
-import com.qwash.user.api.model.login.DataLogin;
-import com.qwash.user.api.model.login.Login;
-import com.qwash.user.api.model.login.VehicleLogin;
-import com.qwash.user.model.AddressUser;
-import com.qwash.user.model.VehicleUser;
-import com.qwash.user.ui.widget.RobotoRegularButton;
-import com.qwash.user.ui.widget.RobotoRegularEditText;
-import com.qwash.user.utils.Prefs;
-import com.qwash.user.utils.ProgressDialogBuilder;
 import com.facebook.AccessToken;
 import com.facebook.CallbackManager;
 import com.facebook.FacebookCallback;
@@ -59,7 +42,6 @@ import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.auth.GoogleAuthProvider;
 import com.google.firebase.iid.FirebaseInstanceId;
-import com.google.gson.Gson;
 import com.joanzapata.iconify.IconDrawable;
 import com.joanzapata.iconify.Iconify;
 import com.joanzapata.iconify.fonts.EntypoIcons;
@@ -70,6 +52,20 @@ import com.mobsandgeeks.saripaar.ValidationError;
 import com.mobsandgeeks.saripaar.Validator;
 import com.mobsandgeeks.saripaar.annotation.Length;
 import com.mobsandgeeks.saripaar.annotation.NotEmpty;
+import com.qwash.user.R;
+import com.qwash.user.Sample;
+import com.qwash.user.api.ApiUtils;
+import com.qwash.user.api.client.auth.LoginService;
+import com.qwash.user.api.model.login.AddressLogin;
+import com.qwash.user.api.model.login.DataLogin;
+import com.qwash.user.api.model.login.Login;
+import com.qwash.user.api.model.login.VehicleLogin;
+import com.qwash.user.model.AddressUser;
+import com.qwash.user.model.VehicleUser;
+import com.qwash.user.ui.widget.RobotoRegularButton;
+import com.qwash.user.ui.widget.RobotoRegularEditText;
+import com.qwash.user.utils.Prefs;
+import com.qwash.user.utils.ProgressDialogBuilder;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -88,10 +84,10 @@ import retrofit2.Response;
 
 public class LoginUserActivity extends AppCompatActivity implements GoogleApiClient.OnConnectionFailedListener {
 
+    //GoogleSignIn Firebase
+    private static final int RC_SIGN_IN = 9001;
     @BindView(R.id.button_facebook_login)
     LoginButton loginButton;
-    private String TAG = "LoginUserActivity";
-
     @BindView(R.id.btn_login)
     RobotoRegularButton btnLogin;
     @BindView(R.id.btn_facebook)
@@ -110,7 +106,14 @@ public class LoginUserActivity extends AppCompatActivity implements GoogleApiCli
     @Length(min = 4, max = 10, trim = true, messageResId = R.string.val_password_length)
     @BindView(R.id.password)
     com.txusballesteros.PasswordEditText password;
+    private String TAG = "LoginUserActivity";
     private ProgressDialogBuilder dialogProgress;
+    // Validator form-form
+    private Validator validator;
+    private FirebaseAuth mAuth;
+    private FirebaseAuth.AuthStateListener mAuthListener;
+    private GoogleApiClient mGoogleApiClient;
+    private CallbackManager mCallbackManager;
 
     @OnClick(R.id.btn_login)
     void LoginEmail() {
@@ -135,17 +138,6 @@ public class LoginUserActivity extends AppCompatActivity implements GoogleApiCli
     void Register() {
         startActivity(new Intent(LoginUserActivity.this, RegisterUserActivity.class));
     }
-
-    // Validator form-form
-    private Validator validator;
-
-    //GoogleSignIn Firebase
-    private static final int RC_SIGN_IN = 9001;
-    private FirebaseAuth mAuth;
-    private FirebaseAuth.AuthStateListener mAuthListener;
-    private GoogleApiClient mGoogleApiClient;
-
-    private CallbackManager mCallbackManager;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -204,7 +196,6 @@ public class LoginUserActivity extends AppCompatActivity implements GoogleApiCli
         loginButton.registerCallback(mCallbackManager, new FacebookCallback<LoginResult>() {
             @Override
             public void onSuccess(LoginResult loginResult) {
-                Log.d(TAG, "facebook:onSuccess:" + loginResult);
                 handleFacebookAccessToken(loginResult.getAccessToken());
 
                 if (loginResult.getAccessToken() != null) {
@@ -242,12 +233,10 @@ public class LoginUserActivity extends AppCompatActivity implements GoogleApiCli
 
             @Override
             public void onCancel() {
-                Log.d(TAG, "facebook:onCancel");
             }
 
             @Override
             public void onError(FacebookException error) {
-                Log.d(TAG, "facebook:onError", error);
 
             }
         });
@@ -272,10 +261,8 @@ public class LoginUserActivity extends AppCompatActivity implements GoogleApiCli
                 if (user != null) {
                     // User is signed in
                     checkoutUser(user);
-                    Log.d(TAG, "onAuthStateChanged:signed_in:" + user.getUid());
                 } else {
                     // User is signed out
-                    Log.d(TAG, "onAuthStateChanged:signed_out");
                 }
             }
         };
@@ -314,7 +301,6 @@ public class LoginUserActivity extends AppCompatActivity implements GoogleApiCli
     }
 
     private void handleFacebookAccessToken(AccessToken token) {
-        Log.d(TAG, "handleFacebookAccessToken:" + token);
         // [START_EXCLUDE silent]
         //showProgressDialog();
         // [END_EXCLUDE]
@@ -324,13 +310,11 @@ public class LoginUserActivity extends AppCompatActivity implements GoogleApiCli
                 .addOnCompleteListener(this, new OnCompleteListener<AuthResult>() {
                     @Override
                     public void onComplete(@NonNull Task<AuthResult> task) {
-                        Log.d(TAG, "signInWithCredential:onComplete:" + task.isSuccessful());
 
                         // If sign in fails, display a message to the user. If sign in succeeds
                         // the auth state listener will be notified and logic to handle the
                         // signed in user can be handled in the listener.
                         if (!task.isSuccessful()) {
-                            Log.w(TAG, "signInWithCredential", task.getException());
                             Toast.makeText(LoginUserActivity.this, "Authentication failed.",
                                     Toast.LENGTH_SHORT).show();
                         }
@@ -343,7 +327,6 @@ public class LoginUserActivity extends AppCompatActivity implements GoogleApiCli
     }
 
     private void firebaseAuthWithGoogle(GoogleSignInAccount acct) {
-        Log.d(TAG, "firebaseAuthWithGoogle:" + acct.getId());
         // [START_EXCLUDE silent]
         //showProgressDialog();
         // [END_EXCLUDE]
@@ -353,13 +336,11 @@ public class LoginUserActivity extends AppCompatActivity implements GoogleApiCli
                 .addOnCompleteListener(this, new OnCompleteListener<AuthResult>() {
                     @Override
                     public void onComplete(@NonNull Task<AuthResult> task) {
-                        Log.d(TAG, "signInWithCredential:onComplete:" + task.isSuccessful());
 
                         // If sign in fails, display a message to the user. If sign in succeeds
                         // the auth state listener will be notified and logic to handle the
                         // signed in user can be handled in the listener.
                         if (!task.isSuccessful()) {
-                            Log.w(TAG, "signInWithCredential", task.getException());
                             Toast.makeText(LoginUserActivity.this, "Authentication failed.",
                                     Toast.LENGTH_SHORT).show();
                         }
@@ -415,7 +396,6 @@ public class LoginUserActivity extends AppCompatActivity implements GoogleApiCli
 
 
     private void remoteLogin() {
-        Log.d(TAG, "remote login...");
         dialogProgress.show("LoginService ...", "Please wait...");
 
         final String firebase_id = FirebaseInstanceId.getInstance().getToken();
@@ -425,15 +405,11 @@ public class LoginUserActivity extends AppCompatActivity implements GoogleApiCli
         params.put(Sample.FIREBASE_ID, firebase_id);
         params.put(Sample.AUTH_LEVEL, "10");
 
-        for (Map.Entry entry : params.entrySet()) {
-            System.out.println(entry.getKey() + ", " + entry.getValue());
-        }
-
         LoginService mService = ApiUtils.LoginService(this);
         mService.getLoginLink(params).enqueue(new Callback<Login>() {
             @Override
             public void onResponse(Call<Login> call, Response<Login> response) {
-                Log.w("response", new Gson().toJson(response));
+
                 dialogProgress.hide();
                 if (response.isSuccessful()) {
                     if (response.body().getStatus()) {
@@ -462,14 +438,14 @@ public class LoginUserActivity extends AppCompatActivity implements GoogleApiCli
                             String vName = vehicleLoginList.get(i).getVName();
                             String vBrand = vehicleLoginList.get(i).getVBrand();
                             String models = vehicleLoginList.get(i).getModels();
-                            String vTransmision = vehicleLoginList.get(i).getVTransmision();
+                            String vTransmission = vehicleLoginList.get(i).getVTransmission();
                             String years = vehicleLoginList.get(i).getYears();
                             String vId = vehicleLoginList.get(i).getVId();
                             String vBrandId = vehicleLoginList.get(i).getVBrandId();
                             String vModelId = vehicleLoginList.get(i).getVModelId();
                             String vTransId = vehicleLoginList.get(i).getVTransId();
                             String vYearsId = vehicleLoginList.get(i).getVYearsId();
-                            VehicleUser vehicleUser = new VehicleUser(vCustomersId, vName, vBrand, models, vTransmision, years, vId, vBrandId, vModelId, vTransId, vYearsId);
+                            VehicleUser vehicleUser = new VehicleUser(vCustomersId, vName, vBrand, models, vTransmission, years, vId, vBrandId, vModelId, vTransId, vYearsId);
                             vehicleUser.save();
                         }
 
@@ -495,10 +471,8 @@ public class LoginUserActivity extends AppCompatActivity implements GoogleApiCli
                         toHomeActivity();
 
                     }
-                    Log.d(TAG, "posts loaded from API");
                 } else {
                     int statusCode = response.code();
-                    Log.d(TAG, "error loading from API, status: " + statusCode);
                     try {
                         JSONObject jsonObject = new JSONObject(response.errorBody().string());
                         String message = jsonObject.getString(Sample.MESSAGE);
@@ -514,7 +488,6 @@ public class LoginUserActivity extends AppCompatActivity implements GoogleApiCli
             @Override
             public void onFailure(Call<Login> call, Throwable t) {
                 String message = t.getMessage();
-                Log.d(TAG, message);
                 dialogProgress.hide();
                 Toast.makeText(getApplicationContext(), message, Toast.LENGTH_SHORT).show();
             }
@@ -560,7 +533,6 @@ public class LoginUserActivity extends AppCompatActivity implements GoogleApiCli
     public void onConnectionFailed(@NonNull ConnectionResult connectionResult) {
         // An unresolvable error has occurred and Google APIs (including Sign-In) will not
         // be available.
-        Log.d(TAG, "onConnectionFailed:" + connectionResult);
         Toast.makeText(this, "Google Play Services error.", Toast.LENGTH_SHORT).show();
     }
 }

@@ -20,16 +20,17 @@ import com.qwash.user.R;
 public class TransmissionAdapter extends RecyclerView.Adapter<TransmissionAdapter.RecyclerViewHolder> {
 
 
-    String [] transmission = {"X 1.5 AT", "X 1.5 MT"};
+    String[] transmission = {"X 1.5 AT", "X 1.5 MT"};
 
     Context context;
     LayoutInflater inflater;
     View view;
 
     public TransmissionAdapter(Context context) {
-        this.context=context;
-        inflater=LayoutInflater.from(context);
+        this.context = context;
+        inflater = LayoutInflater.from(context);
     }
+
     @Override
     public RecyclerViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
 
@@ -43,10 +44,10 @@ public class TransmissionAdapter extends RecyclerView.Adapter<TransmissionAdapte
     public void onBindViewHolder(RecyclerViewHolder holder, final int position) {
 
         int j = 1;
-        for(int i = 0; i < transmission.length; i++){
+        for (int i = 0; i < transmission.length; i++) {
 
             i = i + j;
-            if (position == i){
+            if (position == i) {
                 holder.cardView3.setCardBackgroundColor(Color.parseColor("#E3F2FD"));
             }
 
@@ -58,7 +59,7 @@ public class TransmissionAdapter extends RecyclerView.Adapter<TransmissionAdapte
             public void onClick(View v) {
                 SharedPreferences prefs = context.getSharedPreferences("my_prefs", Context.MODE_PRIVATE);
                 SharedPreferences.Editor edit = prefs.edit();
-                edit.putString("vTransmision", transmission[position]);
+                edit.putString("vTransmission", transmission[position]);
                 edit.commit();
                 ((Activity) context).finish();
             }

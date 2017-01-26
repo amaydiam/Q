@@ -16,13 +16,15 @@
             android:name="com.facebook.sdk.ApplicationId"
             android:value="@string/facebook_app_id" />
 
-        <activity android:screenOrientation="portrait"
+        <activity
             android:name="com.facebook.FacebookActivity"
             android:configChanges="keyboard|keyboardHidden|screenLayout|screenSize|orientation"
-            android:theme="@android:style/Theme.Translucent.NoTitleBar"
-            android:label="@string/app_name" />
-        <activity android:screenOrientation="portrait"
+            android:label="@string/app_name"
+            android:screenOrientation="portrait"
+            android:theme="@android:style/Theme.Translucent.NoTitleBar" />
+        <activity
             android:name=".ui.activity.LoginUserActivity"
+            android:screenOrientation="portrait"
             android:theme="@style/AppTheme.NoActionBar">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -30,65 +32,83 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:screenOrientation="portrait"
+        <activity
             android:name=".ui.activity.RegisterUserActivity"
             android:label="@string/title_activity_register"
+            android:screenOrientation="portrait"
             android:theme="@style/AppTheme.NoActionBar" />
-        <activity android:screenOrientation="portrait"
+        <activity
             android:name=".ui.activity.HomeActivity"
             android:label="@string/title_activity_home"
+            android:screenOrientation="portrait"
             android:theme="@style/AppTheme.HomeActivity" />
-        <activity android:screenOrientation="portrait"
+        <activity
             android:name=".ui.activity.RatingActivity"
             android:label="@string/title_activity_rating"
+            android:screenOrientation="portrait"
             android:theme="@style/DialogActivity" />
-        <activity android:screenOrientation="portrait"
+        <activity
             android:name=".ui.activity.SelectLocationActivity"
+            android:screenOrientation="portrait"
             android:theme="@style/AppTheme.NoActionBar" />
-        <activity android:screenOrientation="portrait"
+        <activity
             android:name=".ui.activity.SelectVehicleActivity"
+            android:screenOrientation="portrait"
             android:theme="@style/AppTheme.NoActionBar" />
-        <activity android:screenOrientation="portrait"
+        <activity
             android:name=".ui.activity.ServiceDetailUserActivity"
+            android:screenOrientation="portrait"
             android:theme="@style/AppTheme.NoActionBar" />
-        <activity android:screenOrientation="portrait"
+        <activity
             android:name=".ui.activity.SelectYearActivity"
+            android:screenOrientation="portrait"
             android:theme="@style/AppTheme.NoActionBar" />
-        <activity android:screenOrientation="portrait"
+        <activity
             android:name=".ui.activity.SelectBrandActivity"
+            android:screenOrientation="portrait"
             android:theme="@style/AppTheme.NoActionBar" />
-        <activity android:screenOrientation="portrait"
+        <activity
             android:name=".ui.activity.SelectModelActivity"
+            android:screenOrientation="portrait"
             android:theme="@style/AppTheme.NoActionBar" />
-        <activity android:screenOrientation="portrait"
+        <activity
             android:name=".ui.activity.SelectTransmissionActivity"
+            android:screenOrientation="portrait"
             android:theme="@style/AppTheme.NoActionBar" />
-        <activity android:screenOrientation="portrait"
+        <activity
             android:name=".ui.activity.NotificationActivity"
+            android:screenOrientation="portrait"
             android:theme="@style/AppTheme.NoActionBar" />
-        <activity android:screenOrientation="portrait"
+        <activity
             android:name=".ui.activity.HelpActivity"
+            android:screenOrientation="portrait"
             android:theme="@style/AppTheme.NoActionBar" />
-        <activity android:screenOrientation="portrait"
+        <activity
             android:name=".ui.activity.MyAccountActivity"
+            android:screenOrientation="portrait"
             android:theme="@style/AppTheme.NoActionBar" />
-        <activity android:screenOrientation="portrait"
+        <activity
             android:name=".ui.activity.MyBalanceActivity"
+            android:screenOrientation="portrait"
             android:theme="@style/AppTheme.NoActionBar" />
-        <activity android:screenOrientation="portrait"
+        <activity
             android:name=".ui.activity.AddVehicleActivity"
             android:label="@string/title_activity_add_vehicle_type"
+            android:screenOrientation="portrait"
             android:theme="@style/AppTheme.NoActionBar" />
-        <activity android:screenOrientation="portrait"
+        <activity
             android:name=".ui.activity.HistoryActivity"
             android:label="@string/title_activity_history"
+            android:screenOrientation="portrait"
             android:theme="@style/AppTheme.NoActionBar" />
-        <activity android:screenOrientation="portrait"
+        <activity
             android:name=".ui.activity.HistoryDetailActivity"
             android:label="@string/title_activity_detail_history"
+            android:screenOrientation="portrait"
             android:theme="@style/AppTheme.NoActionBar" />
-        <activity android:screenOrientation="portrait"
+        <activity
             android:name=".ui.activity.VerificationCodeActivity"
+            android:screenOrientation="portrait"
             android:theme="@style/AppTheme.NoActionBar" />
 
         <meta-data

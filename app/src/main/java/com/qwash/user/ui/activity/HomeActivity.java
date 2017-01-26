@@ -16,36 +16,12 @@ import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.text.Html;
-import android.util.Log;
 import android.util.TypedValue;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.Toast;
 
-import com.qwash.user.R;
-import com.qwash.user.Sample;
-import com.qwash.user.api.ApiUtils;
-import com.qwash.user.api.client.addressfromgoogleapi.AddressMapsFromGoogleApi;
-import com.qwash.user.api.client.order.OrderService;
-import com.qwash.user.api.client.washer.WasherService;
-import com.qwash.user.api.model.Address;
-import com.qwash.user.api.model.AddressFromMapsResponse;
-import com.qwash.user.api.model.order.CancelOrder;
-import com.qwash.user.api.model.order.Washer;
-import com.qwash.user.api.model.order.RequestNewOrder;
-import com.qwash.user.api.model.washer.DataShowWasherOn;
-import com.qwash.user.api.model.washer.ShowWasherOn;
-import com.qwash.user.model.FindWasher;
-import com.qwash.user.model.PrepareOrder;
-import com.qwash.user.model.VehicleUser;
-import com.qwash.user.model.WasherAccepted;
-import com.qwash.user.service.MessageFireBase;
-import com.qwash.user.service.PushNotification;
-import com.qwash.user.ui.fragment.PrepareOrderFragment;
-import com.qwash.user.ui.fragment.WasherOrderFragment;
-import com.qwash.user.ui.widget.RobotoLightTextView;
-import com.qwash.user.utils.Prefs;
 import com.google.android.gms.common.ConnectionResult;
 import com.google.android.gms.common.api.GoogleApiClient;
 import com.google.android.gms.location.LocationListener;
@@ -60,7 +36,6 @@ import com.google.android.gms.maps.model.BitmapDescriptorFactory;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
-import com.google.gson.Gson;
 import com.gun0912.tedpermission.PermissionListener;
 import com.gun0912.tedpermission.TedPermission;
 import com.joanzapata.iconify.IconDrawable;
@@ -75,6 +50,29 @@ import com.joanzapata.iconify.fonts.MaterialModule;
 import com.joanzapata.iconify.fonts.SimpleLineIconsIcons;
 import com.joanzapata.iconify.fonts.SimpleLineIconsModule;
 import com.joanzapata.iconify.widget.IconTextView;
+import com.qwash.user.R;
+import com.qwash.user.Sample;
+import com.qwash.user.api.ApiUtils;
+import com.qwash.user.api.client.addressfromgoogleapi.AddressMapsFromGoogleApi;
+import com.qwash.user.api.client.order.OrderService;
+import com.qwash.user.api.client.washer.WasherService;
+import com.qwash.user.api.model.Address;
+import com.qwash.user.api.model.AddressFromMapsResponse;
+import com.qwash.user.api.model.order.CancelOrder;
+import com.qwash.user.api.model.order.RequestNewOrder;
+import com.qwash.user.api.model.order.Washer;
+import com.qwash.user.api.model.washer.DataShowWasherOn;
+import com.qwash.user.api.model.washer.ShowWasherOn;
+import com.qwash.user.model.FindWasher;
+import com.qwash.user.model.PrepareOrder;
+import com.qwash.user.model.VehicleUser;
+import com.qwash.user.model.WasherAccepted;
+import com.qwash.user.service.MessageFireBase;
+import com.qwash.user.service.PushNotification;
+import com.qwash.user.ui.fragment.PrepareOrderFragment;
+import com.qwash.user.ui.fragment.WasherOrderFragment;
+import com.qwash.user.ui.widget.RobotoLightTextView;
+import com.qwash.user.utils.Prefs;
 import com.qwash.user.utils.ProgressDialogBuilder;
 import com.sdsmdg.tastytoast.TastyToast;
 
@@ -110,6 +108,7 @@ public class HomeActivity extends AppCompatActivity implements
         GoogleApiClient.OnConnectionFailedListener,
         LocationListener, GoogleMap.OnCameraIdleListener {
 
+    public static final int MY_PERMISSIONS_REQUEST_LOCATION = 99;
     private static final String TAG = "HomeActivity";
     @BindView(R.id.search)
     RobotoLightTextView search;
@@ -117,26 +116,20 @@ public class HomeActivity extends AppCompatActivity implements
     ImageView imgMenu;
     @BindView(R.id.img_search)
     ImageView imgSearch;
-
-
     @BindView(R.id.layout_pick_location)
     RelativeLayout layoutPickLocation;
     @BindView(R.id.btn_pick_location)
     IconTextView btnPickLocation;
     @BindView(R.id.marker_pick_location)
     ImageView markerPickLocation;
-
-
     @BindView(R.id.btn_work)
     FloatingActionButton btnWork;
     @BindView(R.id.btn_home)
     FloatingActionButton btnHome;
     @BindView(R.id.btn_my_location)
     FloatingActionButton btnMyLocation;
-
     @BindView(R.id.layout_menu_home)
     View layoutMenuHome;
-
     @BindView(R.id.img_close_menu)
     ImageView imgCloseMenu;
     @BindView(R.id.img_menu_home)
@@ -151,10 +144,13 @@ public class HomeActivity extends AppCompatActivity implements
     ImageView imgMenuHelp;
     @BindView(R.id.img_menu_my_account)
     ImageView imgMenuMyAccount;
-
     @BindView(R.id.layout_find_washer)
     View layoutFindWasher;
-
+    Fragment current_fragment = null;
+    GoogleApiClient mGoogleApiClient;
+    Location mLastLocation;
+    Marker mCurrLocationMarker;
+    LocationRequest mLocationRequest;
     private OkHttpClient mClient = new OkHttpClient();
     private MediaType JSON = MediaType.parse("application/json; charset=utf-8");
     private ArrayList<FindWasher> listWasher = new ArrayList<>();
@@ -162,7 +158,32 @@ public class HomeActivity extends AppCompatActivity implements
     private int urutan = 0;
     private WasherAccepted washerAccepted;
     private ProgressDialogBuilder dialogProgress;
+    private boolean hasIdetify = false;
+    private boolean isFind = false;
+    private double current_latitude, current_longitude;
+    private View mapView;
+    PermissionListener permissionMapsListener = new PermissionListener() {
+        @Override
+        public void onPermissionGranted() {
 
+            // Obtain the SupportMapFragment and get notified when the map is ready to be used.
+            SupportMapFragment mapFragment = (SupportMapFragment) getSupportFragmentManager()
+                    .findFragmentById(R.id.map);
+            mapView = mapFragment.getView();
+            mapFragment.getMapAsync(HomeActivity.this);
+        }
+
+        @Override
+        public void onPermissionDenied(ArrayList<String> deniedPermissions) {
+
+            String message = String.format(Locale.getDefault(), getString(R.string.message_denied), "ACCESS_FINE_LOCATION");
+            Toast.makeText(HomeActivity.this, message, Toast.LENGTH_SHORT).show();
+        }
+
+
+    };
+    private boolean isHidden = true;
+    private GoogleMap mMap;
 
     @OnClick({
             R.id.img_menu,
@@ -250,21 +271,6 @@ public class HomeActivity extends AppCompatActivity implements
         }
     }
 
-
-    
-    private boolean hasIdetify = false;
-    private boolean isFind = false;
-
-    Fragment current_fragment = null;
-    private double current_latitude, current_longitude;
-    private View mapView;
-    private boolean isHidden = true;
-    private GoogleMap mMap;
-    GoogleApiClient mGoogleApiClient;
-    Location mLastLocation;
-    Marker mCurrLocationMarker;
-    LocationRequest mLocationRequest;
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         Iconify
@@ -348,7 +354,6 @@ public class HomeActivity extends AppCompatActivity implements
 
     }
 
-
     private void LoadPrepareOrderFragment() {
         PrepareOrder prepareOrder = new PrepareOrder();
         //TODO name adress
@@ -378,7 +383,6 @@ public class HomeActivity extends AppCompatActivity implements
         getSupportFragmentManager().beginTransaction().remove(current_fragment).commitAllowingStateLoss();
         current_fragment = null;
     }
-
 
     @Override
     public void onMapReady(GoogleMap googleMap) {
@@ -505,10 +509,6 @@ public class HomeActivity extends AppCompatActivity implements
 
     }
 
-
-    public static final int MY_PERMISSIONS_REQUEST_LOCATION = 99;
-
-
     @Override
     public void onRequestPermissionsResult(int requestCode,
                                            String permissions[], int[] grantResults) {
@@ -554,12 +554,10 @@ public class HomeActivity extends AppCompatActivity implements
                 .with(new SimpleLineIconsModule());
     }
 
-
     @Override
     public void onCancelOrder() {
         RemoveBottomFragment();
     }
-
 
     private void ShowMenuHome(View v) {
 
@@ -573,7 +571,6 @@ public class HomeActivity extends AppCompatActivity implements
 
         }
     }
-
 
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
@@ -612,7 +609,6 @@ public class HomeActivity extends AppCompatActivity implements
         }
     }
 
-
     void RequestNewOrder() {
         String LatLong = prepareOrder.latlong;
         String[] ll = LatLong.split(",");
@@ -630,15 +626,11 @@ public class HomeActivity extends AppCompatActivity implements
         params.put(Sample.PERFUMED, String.valueOf(prepareOrder.perfumed_status));
         params.put(Sample.VACUMMED, String.valueOf(prepareOrder.interior_vaccum_status));
 
-        for (Map.Entry entry : params.entrySet()) {
-            System.out.println(entry.getKey() + ", " + entry.getValue());
-        }
-
         OrderService mService = ApiUtils.OrderService(this);
         mService.getRequestStartOrderLink(params).enqueue(new Callback<RequestNewOrder>() {
             @Override
             public void onResponse(Call<RequestNewOrder> call, Response<RequestNewOrder> response) {
-                Log.w("response", new Gson().toJson(response));
+
                 if (response.isSuccessful()) {
                     if (response.body().getStatus()) {
                         prepareOrder.orders_ref = response.body().getOrders();
@@ -660,21 +652,14 @@ public class HomeActivity extends AppCompatActivity implements
                             SearchWasher();
                         }
                     }
-                    Log.d(TAG, "Send Order");
                 } else {
                     int statusCode = response.code();
-                    try {
-                        Log.d(TAG, response.errorBody().string());
-                    } catch (IOException e) {
-                        e.printStackTrace();
-                    }
                 }
             }
 
             @Override
             public void onFailure(Call<RequestNewOrder> call, Throwable t) {
                 String message = t.getMessage();
-                Log.d(TAG, message);
             }
         });
 
@@ -687,15 +672,12 @@ public class HomeActivity extends AppCompatActivity implements
             Map<String, String> params = new HashMap<>();
             params.put(Sample.ORDERS_REF, prepareOrder.orders_ref);
 
-            for (Map.Entry entry : params.entrySet()) {
-                System.out.println(entry.getKey() + ", " + entry.getValue());
-            }
 
             OrderService mService = ApiUtils.OrderService(HomeActivity.this);
             mService.getCancelOrderLink(params).enqueue(new Callback<CancelOrder>() {
                 @Override
                 public void onResponse(Call<CancelOrder> call, Response<CancelOrder> response) {
-                    Log.w("response", new Gson().toJson(response));
+
                     dialogProgress.hide();
                     if (response.isSuccessful()) {
                         if (response.body().getStatus()) {
@@ -748,28 +730,6 @@ public class HomeActivity extends AppCompatActivity implements
         startActivity(intent);
     }
 
-
-    PermissionListener permissionMapsListener = new PermissionListener() {
-        @Override
-        public void onPermissionGranted() {
-
-            // Obtain the SupportMapFragment and get notified when the map is ready to be used.
-            SupportMapFragment mapFragment = (SupportMapFragment) getSupportFragmentManager()
-                    .findFragmentById(R.id.map);
-            mapView = mapFragment.getView();
-            mapFragment.getMapAsync(HomeActivity.this);
-        }
-
-        @Override
-        public void onPermissionDenied(ArrayList<String> deniedPermissions) {
-
-            String message = String.format(Locale.getDefault(), getString(R.string.message_denied), "ACCESS_FINE_LOCATION");
-            Toast.makeText(HomeActivity.this, message, Toast.LENGTH_SHORT).show();
-        }
-
-
-    };
-
     public void LoadAddress(final double Lat, final double Long) {
         mMap.clear();
         hasIdetify = false;
@@ -791,13 +751,11 @@ public class HomeActivity extends AppCompatActivity implements
                         btnPickLocation.setText(Html.fromHtml("<i>Not Identified...</i>"));
                     }
                     hasIdetify = true;
-                    Log.d("MainActivity", "posts loaded from API");
 
                 } else {
                     search.setText("");
                     int statusCode = response.code();
                     // handle request errors depending on status code
-                    Log.d("MainActivity", "error loading from API, status: " + statusCode);
                     search.setText("");
                     btnPickLocation.setText(Html.fromHtml("<i>Not Identified...</i>"));
                     hasIdetify = false;
@@ -808,7 +766,6 @@ public class HomeActivity extends AppCompatActivity implements
             public void onFailure(Call<AddressFromMapsResponse> call, Throwable t) {
                 btnPickLocation.setText(getResources().getString(R.string.retry));
                 hasIdetify = false;
-                Log.d("MainActivity", "error loading from API");
 
             }
 
@@ -895,7 +852,6 @@ public class HomeActivity extends AppCompatActivity implements
             JSONObject json = new JSONObject(MessageFireBase.getData());
             int action = json.getInt(Sample.ACTION);
             if (action == Sample.CODE_DEACLINE) {
-                //   Log.v("action","deacline");
             } else if (action == Sample.CODE_ACCEPT) {
                 TastyToast.makeText(getApplicationContext(), "Washer found", TastyToast.LENGTH_SHORT, TastyToast.SUCCESS);
                 JSONObject jsonWasher = new JSONObject(json.getString(Sample.WASHER));
@@ -942,7 +898,6 @@ public class HomeActivity extends AppCompatActivity implements
         prepareOrder = null;
         startActivity(intent);
     }
-
 
 
     private void SearchWasher() {
@@ -996,7 +951,7 @@ public class HomeActivity extends AppCompatActivity implements
                     vehicle.put(Sample.ORDER_VNAME, prepareOrder.vName);
                     vehicle.put(Sample.ORDER_VBRAND, prepareOrder.vBrand);
                     vehicle.put(Sample.ORDER_MODELS, prepareOrder.models);
-                    vehicle.put(Sample.ORDER_VTRANSMISION, prepareOrder.vTransmision);
+                    vehicle.put(Sample.ORDER_VTRANSMISSION, prepareOrder.vTransmission);
                     vehicle.put(Sample.ORDER_YEARS, prepareOrder.years);
                     vehicle.put(Sample.ORDER_VID, prepareOrder.vId);
                     vehicle.put(Sample.ORDER_VBRANDID, prepareOrder.vBrandId);
@@ -1023,7 +978,7 @@ public class HomeActivity extends AppCompatActivity implements
                     root.put("registration_ids", jsonArray);
 
                     String result = PushNotification.postToFCM(root.toString());
-                    Log.d("RESULT", "Result: " + result);
+
                     return result;
                 } catch (Exception ex) {
                     ex.printStackTrace();
@@ -1066,7 +1021,7 @@ public class HomeActivity extends AppCompatActivity implements
                     root.put(Sample.REGISTRATION_IDS, jsonArray);
 
                     String result = PushNotification.postToFCM(root.toString());
-                    Log.d("RESULT", "Result: " + result);
+
                     return result;
                 } catch (Exception ex) {
                     ex.printStackTrace();

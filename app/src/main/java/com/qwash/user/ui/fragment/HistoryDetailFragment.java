@@ -14,6 +14,11 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.joanzapata.iconify.IconDrawable;
+import com.joanzapata.iconify.fonts.EntypoIcons;
+import com.joanzapata.iconify.fonts.MaterialCommunityIcons;
+import com.joanzapata.iconify.fonts.MaterialIcons;
+import com.joanzapata.iconify.widget.IconTextView;
 import com.qwash.user.R;
 import com.qwash.user.Sample;
 import com.qwash.user.adapter.AdditionalOrderAdapter;
@@ -27,11 +32,6 @@ import com.qwash.user.ui.widget.RobotoLightTextView;
 import com.qwash.user.ui.widget.RobotoRegularTextView;
 import com.qwash.user.utils.TextUtils;
 import com.qwash.user.utils.Utils;
-import com.joanzapata.iconify.IconDrawable;
-import com.joanzapata.iconify.fonts.EntypoIcons;
-import com.joanzapata.iconify.fonts.MaterialCommunityIcons;
-import com.joanzapata.iconify.fonts.MaterialIcons;
-import com.joanzapata.iconify.widget.IconTextView;
 
 import java.util.ArrayList;
 
@@ -48,15 +48,14 @@ import retrofit2.Response;
 
 public class HistoryDetailFragment extends Fragment implements AdditionalOrderAdapter.OnAdditionalOrderItemClickListener {
 
+    private static final String TAG_DETAIL = "TAG_DETAIL";
     @BindBool(R.bool.is_tablet)
     boolean isTablet;
-
     // Toolbar
     @BindView(R.id.toolbar)
     Toolbar toolbar;
     @BindView(R.id.toolbar_title)
     TextView toolbarTitle;
-
     // Main views
     @BindView(R.id.progress_circle)
     View progressCircle;
@@ -70,7 +69,6 @@ public class HistoryDetailFragment extends Fragment implements AdditionalOrderAd
     NestedScrollView contentHolder;
     @BindView(R.id.fab_action)
     FloatingActionButton fabAction;
-
     // Basic info
     @BindView(R.id.image_washer)
     AvatarView imageWasher;
@@ -84,11 +82,9 @@ public class HistoryDetailFragment extends Fragment implements AdditionalOrderAd
     IconTextView bookTime;
     @BindView(R.id.total_price)
     RobotoBoldTextView totalPrice;
-
     //additional
     @BindView(R.id.recyclerview)
     RecyclerView recyclerView;
-
     //
     @BindView(R.id.img_address)
     ImageView imgAddress;
@@ -98,17 +94,11 @@ public class HistoryDetailFragment extends Fragment implements AdditionalOrderAd
     ImageView imgVehicleModel;
     @BindView(R.id.vehicle_model)
     RobotoRegularTextView vehicleModel;
-
-
     private HistoryService mService;
-
-
     private Unbinder unbinder;
     private String id;
     private History history;
     private PicassoLoader imageLoader;
-    private static final String TAG_DETAIL = "TAG_DETAIL";
-
     private ArrayList<AdditionalOrder> data = new ArrayList<>();
     private AdditionalOrderAdapter adapter;
 
@@ -231,7 +221,7 @@ public class HistoryDetailFragment extends Fragment implements AdditionalOrderAd
         contentHolder.setVisibility(View.VISIBLE);
         fabAction.setVisibility(View.GONE);
 
-        imageLoader.loadImage(imageWasher, Sample.BASE_URL_IMAGE+"URL", "Fahri");
+        imageLoader.loadImage(imageWasher, Sample.BASE_URL_IMAGE + "URL", "Fahri");
         totalPrice.setText(Utils.Rupiah(50000));
 
         data.clear();

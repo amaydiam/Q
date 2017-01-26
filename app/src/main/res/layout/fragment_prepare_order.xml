@@ -1,25 +1,25 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:orientation="vertical"
     android:layout_margin="@dimen/activity_vertical_margin"
+    android:orientation="vertical"
     tools:context="com.qwash.user.ui.fragment.PrepareOrderFragment">
+
     <LinearLayout
         android:id="@+id/layout_select_vehicle"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="vertical">
 
-    <com.qwash.user.ui.widget.RobotoBoldTextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="@string/select_vehicle"
-        android:textAppearance="?android:attr/textAppearanceMedium"
-        android:layout_gravity="center"
-        android:gravity="center"/>
+        <com.qwash.user.ui.widget.RobotoBoldTextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:gravity="center"
+            android:text="@string/select_vehicle"
+            android:textAppearance="?android:attr/textAppearanceMedium" />
 
         <FrameLayout
             android:layout_width="match_parent"
@@ -27,9 +27,13 @@
             android:gravity="center"
             android:orientation="vertical">
 
-            <include android:id="@+id/layout_selected_vehicle" layout="@layout/layout_selected_vehicle"/>
+            <include
+                android:id="@+id/layout_selected_vehicle"
+                layout="@layout/layout_selected_vehicle" />
 
-            <include android:id="@+id/layout_no_one_vehicle" layout="@layout/layout_no_one_vehicle"/>
+            <include
+                android:id="@+id/layout_no_one_vehicle"
+                layout="@layout/layout_no_one_vehicle" />
 
             <com.joanzapata.iconify.widget.IconTextView
                 android:id="@+id/btn_pick_vehicle"
@@ -49,8 +53,8 @@
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_centerHorizontal="true"
         android:layout_alignParentBottom="true"
+        android:layout_centerHorizontal="true"
         android:layout_marginTop="@dimen/activity_vertical_margin"
         android:orientation="horizontal">
 
@@ -61,18 +65,18 @@
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="1"
-            android:gravity="center"
             android:background="@drawable/border_blue"
+            android:gravity="center"
             android:text="@string/button_cancel" />
 
         <LinearLayout
             android:layout_width="0dp"
             android:layout_height="wrap_content"
+            android:layout_gravity="center"
             android:layout_marginLeft="2dp"
             android:layout_marginRight="2dp"
             android:layout_weight="1"
             android:gravity="center"
-            android:layout_gravity="center"
             android:orientation="horizontal">
 
 
@@ -80,20 +84,20 @@
                 android:id="@+id/indicator_1"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:layout_marginRight="10dp"
                 android:gravity="center"
                 android:text="{mdi-checkbox-blank-circle}"
-                android:textColor="@color/blue_2196F3"
-                android:layout_marginRight="10dp"/>
+                android:textColor="@color/blue_2196F3" />
 
 
             <com.joanzapata.iconify.widget.IconTextView
                 android:id="@+id/indicator_2"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:layout_marginLeft="10dp"
                 android:gravity="center"
                 android:text="{mdi-checkbox-blank-circle}"
-                android:textColor="@color/blue_2196F3"
-                android:layout_marginLeft="10dp"/>
+                android:textColor="@color/blue_2196F3" />
 
 
         </LinearLayout>
@@ -104,8 +108,8 @@
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="1"
-            android:gravity="center"
             android:background="@drawable/border_blue"
+            android:gravity="center"
             android:text="@string/button_next" />
 
     </LinearLayout>

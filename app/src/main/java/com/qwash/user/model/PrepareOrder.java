@@ -6,7 +6,7 @@ public class PrepareOrder implements Serializable {
 
     //
     public String orders_ref;
-    
+
     // customer order
     public String userId;
     public String username;
@@ -19,18 +19,18 @@ public class PrepareOrder implements Serializable {
 
     // address order
     public String usersDetailsId;
-    public String  userIdFk;
-    public String  nameAddress;
-    public String  address;
-    public String  latlong;
-    public String  type;
+    public String userIdFk;
+    public String nameAddress;
+    public String address;
+    public String latlong;
+    public String type;
 
     //vehicle order
     public String vCustomersId;
     public String vName;
     public String vBrand;
     public String models;
-    public String vTransmision;
+    public String vTransmission;
     public String years;
     public String vId;
     public String vBrandId;

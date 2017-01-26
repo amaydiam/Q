@@ -19,16 +19,17 @@ import com.qwash.user.R;
 
 public class ModelAdapter extends RecyclerView.Adapter<ModelAdapter.RecyclerViewHolder> {
 
-    String [] model = {"Ayla", "Ceria", "Espass"};
+    String[] model = {"Ayla", "Ceria", "Espass"};
 
     Context context;
     LayoutInflater inflater;
     View view;
 
     public ModelAdapter(Context context) {
-        this.context=context;
-        inflater=LayoutInflater.from(context);
+        this.context = context;
+        inflater = LayoutInflater.from(context);
     }
+
     @Override
     public RecyclerViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
 
@@ -42,10 +43,10 @@ public class ModelAdapter extends RecyclerView.Adapter<ModelAdapter.RecyclerView
     public void onBindViewHolder(RecyclerViewHolder holder, final int position) {
 
         int j = 1;
-        for(int i = 0; i < model.length; i++){
+        for (int i = 0; i < model.length; i++) {
 
             i = i + j;
-            if (position == i){
+            if (position == i) {
                 holder.cardView2.setCardBackgroundColor(Color.parseColor("#E3F2FD"));
             }
 

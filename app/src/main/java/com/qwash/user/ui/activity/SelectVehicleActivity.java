@@ -16,13 +16,13 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.TextView;
 
+import com.joanzapata.iconify.IconDrawable;
+import com.joanzapata.iconify.fonts.MaterialCommunityIcons;
+import com.joanzapata.iconify.fonts.MaterialIcons;
 import com.qwash.user.R;
 import com.qwash.user.Sample;
 import com.qwash.user.adapter.VehicleAdapter;
 import com.qwash.user.model.VehicleUser;
-import com.joanzapata.iconify.IconDrawable;
-import com.joanzapata.iconify.fonts.MaterialCommunityIcons;
-import com.joanzapata.iconify.fonts.MaterialIcons;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -48,7 +48,10 @@ public class SelectVehicleActivity extends AppCompatActivity implements VehicleA
 
     @BindBool(R.bool.is_tablet)
     boolean isTablet;
-
+    private List<VehicleUser> data = new ArrayList<>();
+    private VehicleAdapter adapter;
+    private MenuItem acOk;
+    private VehicleUser vehicle = null;
 
     @OnClick(R.id.btn_add_vehicle)
     public void onClickAddVehicle() {
@@ -57,11 +60,6 @@ public class SelectVehicleActivity extends AppCompatActivity implements VehicleA
         startActivityForResult(intent, 1);
 
     }
-
-    private List<VehicleUser> data = new ArrayList<>();
-    private VehicleAdapter adapter;
-    private MenuItem acOk;
-    private VehicleUser vehicle = null;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -87,7 +85,7 @@ public class SelectVehicleActivity extends AppCompatActivity implements VehicleA
         getSupportActionBar().setTitle("");
         toolbarTitle.setText(getResources().getString(R.string.select_vehicle));
 
-        data =  VehicleUser.listAll(VehicleUser.class);
+        data = VehicleUser.listAll(VehicleUser.class);
         //inisial adapter
         adapter = new VehicleAdapter(this, data);
         adapter.setOnVehicleItemClickListener(this);

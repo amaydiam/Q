@@ -1,16 +1,15 @@
 <?xml version="1.0" encoding="utf-8"?>
-<android.support.v7.widget.CardView
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<android.support.v7.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/card_view_notification"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:layout_marginBottom="3dp"
-    android:layout_marginTop="5dp"
-    android:layout_marginRight="@dimen/activity_horizontal_margin"
     android:layout_marginLeft="@dimen/activity_horizontal_margin"
+    android:layout_marginRight="@dimen/activity_horizontal_margin"
+    android:layout_marginTop="5dp"
     android:clickable="true"
     android:focusable="true"
-    android:foreground="?android:attr/selectableItemBackground"
-    android:id="@+id/card_view_notification">
+    android:foreground="?android:attr/selectableItemBackground">
 
     <LinearLayout
         android:id="@+id/space_text"
@@ -22,28 +21,29 @@
             android:id="@+id/image_notification"
             android:layout_width="match_parent"
             android:layout_height="100dp"
-            android:background="@mipmap/ic_launcher"
-            android:layout_marginBottom="10dp" />
+            android:layout_marginBottom="10dp"
+            android:background="@mipmap/ic_launcher" />
 
         <TextView
             android:id="@+id/title_notification"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="Promo Awal Tahun 2017"
             android:lines="1"
             android:paddingLeft="15dp"
             android:paddingRight="15dp"
+            android:text="Promo Awal Tahun 2017"
             android:textSize="20sp" />
+
         <TextView
             android:id="@+id/deskripsi_notification"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginBottom="10dp"
+            android:lines="3"
             android:paddingLeft="15dp"
             android:paddingRight="15dp"
             android:text="1 januari 2016, 1 januari 20161 januari 2016
             1 januari 20161 januari 20161 januari 20161 januari 20161 januari 2016"
-            android:lines="3"
             android:textSize="15sp" />
     </LinearLayout>
 
