@@ -1,5 +1,7 @@
 package com.qwash.user.service;
 
+import android.util.Log;
+
 import com.qwash.user.Sample;
 
 import java.io.IOException;
@@ -27,6 +29,7 @@ public class PushNotification {
                 .addHeader("Authorization", "key=" + Sample.SERVER_KEY_FIREBASE)
                 .build();
         okhttp3.Response response = mClient.newCall(request).execute();
+        Log.v("Respon",response.body().string());
         return response.body().string();
     }
 }

@@ -71,7 +71,7 @@ public class MyAccountActivity extends AppCompatActivity implements GoogleApiCli
                             VehicleUser.deleteAll(VehicleUser.class);
                         }
 
-                        //delete data google
+                        //delete dataBrands google
                         SharedPreferences settings = getSharedPreferences("my_prefs", Context.MODE_PRIVATE);
                         settings.edit().remove("email").commit();
                         settings.edit().remove("nama").commit();

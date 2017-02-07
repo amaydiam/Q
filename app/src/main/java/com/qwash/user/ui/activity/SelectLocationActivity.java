@@ -173,7 +173,7 @@ public class SelectLocationActivity extends AppCompatActivity {
                     ListLocation result = response.body();
                     ListLocation = result.getPredictions();
 
-                    // This is where data loads
+                    // This is where dataBrands loads
                     mAdapter = new LocationAdapter(ListLocation);
 
                     //attach to recyclerview

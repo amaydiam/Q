@@ -17,12 +17,19 @@ import android.view.View;
 import android.widget.TextView;
 
 import com.joanzapata.iconify.IconDrawable;
+import com.joanzapata.iconify.Iconify;
+import com.joanzapata.iconify.fonts.EntypoModule;
+import com.joanzapata.iconify.fonts.FontAwesomeModule;
 import com.joanzapata.iconify.fonts.MaterialCommunityIcons;
+import com.joanzapata.iconify.fonts.MaterialCommunityModule;
 import com.joanzapata.iconify.fonts.MaterialIcons;
+import com.joanzapata.iconify.fonts.MaterialModule;
+import com.joanzapata.iconify.fonts.SimpleLineIconsModule;
 import com.qwash.user.R;
 import com.qwash.user.Sample;
 import com.qwash.user.adapter.VehicleAdapter;
 import com.qwash.user.model.VehicleUser;
+import com.qwash.user.utils.TextUtils;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -52,6 +59,7 @@ public class SelectVehicleActivity extends AppCompatActivity implements VehicleA
     private VehicleAdapter adapter;
     private MenuItem acOk;
     private VehicleUser vehicle = null;
+    private String selected_id =null;
 
     @OnClick(R.id.btn_add_vehicle)
     public void onClickAddVehicle() {
@@ -63,6 +71,12 @@ public class SelectVehicleActivity extends AppCompatActivity implements VehicleA
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
+        Iconify
+                .with(new FontAwesomeModule())
+                .with(new EntypoModule())
+                .with(new MaterialModule())
+                .with(new MaterialCommunityModule())
+                .with(new SimpleLineIconsModule());
         super.onCreate(savedInstanceState);
         setContentView(R.layout.select_vehicle_user);
         ButterKnife.bind(this);
@@ -103,8 +117,10 @@ public class SelectVehicleActivity extends AppCompatActivity implements VehicleA
     }
 
     private void setPosisitionSelected() {
-        if (vehicle != null)
-            adapter.setSelectionByIdVehicle(vehicle.vCustomersId);
+        if (vehicle != null) {
+            adapter.setSelectionByIdVehicle(vehicle.getvCustomersId());
+            selected_id =vehicle.getvCustomersId();
+        }
         else
             adapter.setSelection(0);
     }
@@ -132,8 +148,8 @@ public class SelectVehicleActivity extends AppCompatActivity implements VehicleA
 
     @Override
     public void onRootClick(View v, int position) {
-
         adapter.setSelection(position);
+        getSelectedId();
     }
 
     @Override
@@ -201,5 +217,32 @@ public class SelectVehicleActivity extends AppCompatActivity implements VehicleA
                 //Write your code if there's no result
             }
         }
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        adapter.delete_all();
+        adapter.data = VehicleUser.listAll(VehicleUser.class);
+        adapter.notifyDataSetChanged();
+        if(!TextUtils.isNullOrEmpty(selected_id)){
+            adapter.setSelectionByIdVehicle(selected_id);
+        }
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        finish();
+    }
+
+    @Override
+    public void onBackPressed() {
+        super.onBackPressed();
+        finish();
+    }
+
+    public void getSelectedId() {
+        selected_id = adapter.getSelectedId();
     }
 }

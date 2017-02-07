@@ -17,7 +17,7 @@ import com.joanzapata.iconify.fonts.SimpleLineIconsModule;
 import com.qwash.user.R;
 import com.qwash.user.Sample;
 import com.qwash.user.ui.fragment.HistoryDetailFragment;
-import com.qwash.user.ui.fragment.HistoryListFragment;
+import com.qwash.user.ui.fragment.HistoryFragment;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -61,7 +61,7 @@ public class HistoryActivity extends AppCompatActivity {
     }
 
     private void loadListMustahiqHistory() {
-        HistoryListFragment fragment = new HistoryListFragment();
+        HistoryFragment fragment = HistoryFragment.newInstance();
         getSupportFragmentManager().beginTransaction().replace(R.id.main_fragment, fragment).commit();
     }
 

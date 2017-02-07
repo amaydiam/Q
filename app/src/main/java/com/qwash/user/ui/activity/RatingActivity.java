@@ -8,8 +8,6 @@ import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
-import android.view.View;
-import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.RatingBar;
 import android.widget.Toast;
@@ -24,6 +22,9 @@ import com.qwash.user.model.PrepareOrder;
 import com.qwash.user.model.WasherAccepted;
 import com.qwash.user.service.PushNotification;
 import com.qwash.user.ui.widget.RobotoBoldTextView;
+import com.qwash.user.ui.widget.RobotoRegularButton;
+import com.qwash.user.ui.widget.RobotoRegularEditText;
+import com.qwash.user.ui.widget.RobotoRegularTextView;
 import com.qwash.user.utils.Prefs;
 import com.qwash.user.utils.ProgressDialogBuilder;
 import com.qwash.user.utils.TextUtils;
@@ -60,18 +61,15 @@ public class RatingActivity extends AppCompatActivity {
     @BindView(R.id.image_washer)
     AvatarView imageWasher;
     @BindView(R.id.whaser_name)
-    RobotoBoldTextView whaserName;
+    RobotoRegularTextView whaserName;
     @BindView(R.id.total_price)
     RobotoBoldTextView totalPrice;
-
-    @BindView(R.id.view1)
-    View view1;
-
     @BindView(R.id.rating_wash)
     RatingBar ratingWash;
-
     @BindView(R.id.comment)
-    EditText comment;
+    RobotoRegularEditText comment;
+    @BindView(R.id.btn_submit)
+    RobotoRegularButton btnSubmit;
     private String TAG = "RatingActivity";
     private WasherAccepted washerAccepted;
     private PrepareOrder prepareOrder;

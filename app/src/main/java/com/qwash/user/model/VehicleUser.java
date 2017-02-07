@@ -20,17 +20,17 @@ public class VehicleUser extends SugarRecord implements Parcelable {
             return new VehicleUser[size];
         }
     };
-    public String vCustomersId;
-    public String vName;
-    public String vBrand;
-    public String models;
-    public String vTransmission;
-    public String years;
-    public String vId;
-    public String vBrandId;
-    public String vModelId;
-    public String vTransId;
-    public String vYearsId;
+    private String vCustomersId;
+    private String vName;
+    private String vBrand;
+    private String models;
+    private String vTransmission;
+    private String years;
+    private String vId;
+    private String vBrandId;
+    private String vModelId;
+    private String vTransId;
+    private String vYearsId;
 
     public VehicleUser() {
     }

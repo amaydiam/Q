@@ -24,7 +24,7 @@ import com.qwash.user.Sample;
 import com.qwash.user.adapter.AdditionalOrderAdapter;
 import com.qwash.user.api.ApiUtils;
 import com.qwash.user.api.client.history.HistoryService;
-import com.qwash.user.api.model.HistoryDetailResponse;
+import com.qwash.user.api.model.history.HistoryDetailResponse;
 import com.qwash.user.model.AdditionalOrder;
 import com.qwash.user.model.History;
 import com.qwash.user.ui.widget.RobotoBoldTextView;
@@ -221,8 +221,8 @@ public class HistoryDetailFragment extends Fragment implements AdditionalOrderAd
         contentHolder.setVisibility(View.VISIBLE);
         fabAction.setVisibility(View.GONE);
 
-        imageLoader.loadImage(imageWasher, Sample.BASE_URL_IMAGE + "URL", "Fahri");
-        totalPrice.setText(Utils.Rupiah(50000));
+        imageLoader.loadImage(imageWasher, Sample.BASE_URL_IMAGE + history.getPhoto(), history.getName());
+        totalPrice.setText(Utils.Rupiah(history.getPrice()));
 
         data.clear();
         AdditionalOrder a1 = new AdditionalOrder(0, "Perfurm");
@@ -232,8 +232,8 @@ public class HistoryDetailFragment extends Fragment implements AdditionalOrderAd
         data.add(a2);
         adapter.notifyDataSetChanged();
 
-        address.setText("Jl. Pamulang");
-        vehicleModel.setText("Xenia");
+        address.setText(history.getAddress());
+        vehicleModel.setText(history.getPhoto());
         imgAddress.setImageDrawable(new IconDrawable(getActivity(), EntypoIcons.entypo_location_pin).colorRes(R.color.blue_1E87DA).actionBarSize());
         imgVehicleModel.setImageDrawable(new IconDrawable(getActivity(), MaterialCommunityIcons.mdi_car).colorRes(R.color.blue_1E87DA).actionBarSize());
 
@@ -275,12 +275,49 @@ public class HistoryDetailFragment extends Fragment implements AdditionalOrderAd
         if (Boolean.parseBoolean(isSuccess)) {
 
             History jsDetail = response.body().getHistory();
-            String id_history = jsDetail.getId_history();
-            String nama_history = jsDetail.getHistory_time();
-            String alamat_history = jsDetail.getAddress();
-            String no_identitas_history = jsDetail.getVehicle_model();
+            String ordersId = jsDetail.getOrdersId();
+            String userIdFk = jsDetail.getUserIdFk();
+            String washerIdFk = jsDetail.getWasherIdFk();
+            String vCustomersIdFk = jsDetail.getVCustomersIdFk();
+            String createAt = jsDetail.getCreateAt();
+            String pickDate = jsDetail.getPickDate();
+            String pickTime = jsDetail.getPickTime();
+            String lat = jsDetail.getLat();
+            String lng = jsDetail.getLng();
+            String nameAddress = jsDetail.getNameAddress();
+            String address = jsDetail.getAddress();
+            String price = jsDetail.getPrice();
+            String perfumed = jsDetail.getPerfumed();
+            String vacuum = jsDetail.getVacuum();
+            String status = jsDetail.getStatus();
+            String description = jsDetail.getDescription();
+            String ordersRef = jsDetail.getOrdersRef();
+            String name = jsDetail.getName();
+            String photo = jsDetail.getPhoto();
+            String vBrand = jsDetail.getVBrand();
 
-            history = new History(id_history, nama_history, alamat_history, no_identitas_history);
+            history = new History(
+                    ordersId,
+                    userIdFk,
+                    washerIdFk,
+                    vCustomersIdFk,
+                    createAt,
+                    pickDate,
+                    pickTime,
+                    lat,
+                    lng,
+                    nameAddress,
+                    address,
+                    price,
+                    perfumed,
+                    vacuum,
+                    status,
+                    description,
+                    ordersRef,
+                    name,
+                    photo,
+                    vBrand
+                    );
 
             onDownloadSuccessful();
         } else

@@ -75,17 +75,17 @@ public class PrepareOrderFragment extends Fragment {
     @OnClick(R.id.btn_next)
     void ActionNext() {
         if (vehicle != null) {
-            prepareOrder.vId = vehicle.vId;
-            prepareOrder.vCustomersId = vehicle.vCustomersId;
-            prepareOrder.vName = vehicle.vName;
-            prepareOrder.vBrand = vehicle.vBrand;
-            prepareOrder.models = vehicle.models;
-            prepareOrder.vTransmission = vehicle.vTransmission;
-            prepareOrder.years = vehicle.years;
-            prepareOrder.vBrandId = vehicle.vBrandId;
-            prepareOrder.vModelId = vehicle.vModelId;
-            prepareOrder.vTransId = vehicle.vTransId;
-            prepareOrder.vYearsId = vehicle.vYearsId;
+            prepareOrder.vId = vehicle.getvId();
+            prepareOrder.vCustomersId = vehicle.getvCustomersId();
+            prepareOrder.vName = vehicle.getvName();
+            prepareOrder.vBrand = vehicle.getvBrand();
+            prepareOrder.models = vehicle.getModels();
+            prepareOrder.vTransmission = vehicle.getvTransmission();
+            prepareOrder.years = vehicle.getYears();
+            prepareOrder.vBrandId = vehicle.getvBrandId();
+            prepareOrder.vModelId = vehicle.getvModelId();
+            prepareOrder.vTransId = vehicle.getvTransId();
+            prepareOrder.vYearsId = vehicle.getvYearsId();
             Intent intent = new Intent(getActivity(), ServiceDetailUserActivity.class);
             intent.putExtra(Sample.PREPARE_ORDER_OBJECT, prepareOrder);
             getActivity().startActivityForResult(intent, 1);
@@ -138,10 +138,10 @@ public class PrepareOrderFragment extends Fragment {
                     .with(this)
                     .load("")
                     .centerCrop()
-                    .placeholder(vehicle.vId.equalsIgnoreCase("1") ? R.drawable.mobil : R.drawable.motor)
+                    .placeholder(vehicle.getvId().equalsIgnoreCase("1") ? R.drawable.mobil : R.drawable.motor)
                     .crossFade()
                     .into(vehicleImage);
-            vehicleDescription.setText(vehicle.vBrand + "\n" + vehicle.models + " " + vehicle.vTransmission + " " + vehicle.years);
+            vehicleDescription.setText(vehicle.getvBrand() + "\n" + vehicle.getModels() + " " + vehicle.getvTransmission() + " " + vehicle.getYears());
             layoutSelectedVehicle.setVisibility(View.VISIBLE);
             layoutNoOneVehicle.setVisibility(View.GONE);
         } else {
@@ -188,11 +188,11 @@ public class PrepareOrderFragment extends Fragment {
                 .with(this)
                 .load("")
                 .centerCrop()
-                .placeholder(vehicle.vId.equalsIgnoreCase("1") ? R.drawable.mobil : R.drawable.motor)
+                .placeholder(vehicle.getvId().equalsIgnoreCase("1") ? R.drawable.mobil : R.drawable.motor)
                 .crossFade()
                 .into(vehicleImage);
 
-        vehicleDescription.setText(vehicle.vBrand + "\n" + vehicle.models + " " + vehicle.vTransmission + " " + vehicle.years);
+        vehicleDescription.setText(vehicle.getvBrand() + "\n" + vehicle.getModels() + " " + vehicle.getvTransmission() + " " + vehicle.getYears());
     }
 
 

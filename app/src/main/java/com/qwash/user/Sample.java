@@ -1,30 +1,31 @@
 package com.qwash.user;
 
+import com.qwash.user.utils.Prefs;
+
 /**
  * Created by Amay on 12/28/2016.
  */
 public class Sample {
 
-    public static final String BASE_URL = "http://maps.googleapis.com/maps/api/";
-    public static final String BASE_URL_QLAP = "https://api.myjson.com/bins/";
-    public static final String BASE_URL_INPROGRESS = "https://api.myjson.com/bins/";
     public static final String BASE_URL_QWASH = "http://apis.aanaliudin.com/index.php/api/";
     public static final String BASE_URL_IMAGE = " http://apis.aanaliudin.com/sources/images/profile/";
 
-    public static final String BASE_URL_MAP = "http://maps.googleapis.com/maps/api/";
-    public static final String BASE_URL_MY_JON = "https://api.myjson.com/bins/";
+    public static final String BASE_URL_MAP = "https://maps.googleapis.com/maps/api/";
 
     public static final String PREPARE_ORDER_OBJECT = "prepare_order_object";
     public static final String WASHER_ACCEPTED_OBJECT = "washer_accepted_object";
     public static final String VEHICLE_OBJECT = "vehicle_object";
     public static final String HISTORY_OBJECT = "history_object";
     public static final String HISTORY_ID = "historyId";
+    public static final String NOTIFICATION_ID = "notificationId";
+
+    //KEY GOOGLE API
+    public static final String KEY_GOOGLE = "AIzaSyB57vfJlr9d4155E8hY4Klf2s9H3E3ouGM";
 
     //FCM
-    public static final String SERVER_KEY_FIREBASE = "AAAA6dPgYVk:APA91bHI2HxHsoiiqS6_8pdO84jNMU-Rq_Rhg9nWAmwETLsiyn5Do8zB_MW-__aGu1keJOIS3_moL-csuAsvUYeOBcdBCZp93GJGk1JKm3VMfxQ_0AWlxrpGjqNJNojtbmjM_3UItK90";
+    public static final String SERVER_KEY_FIREBASE = "AAAA2kHlMFE:APA91bHojkPnnebXqNs8IWgL37K0HCvFJyXkipFXbTbYmigL1bsUPJIjv5P1kJDgBbWzbzR6QkxMGNMgLDzb7f_uC-BFfzhb7cEbwnov5ErnjvHSyRw0gKBtfiCqKhz55pOr0zgyld2z";
     public static final String FCM_MESSAGE_URL = "https://fcm.googleapis.com/fcm/send";
 
-    public static final String TOOLBAR_TITLE = "toolbar_title";
     public static final String IS_FINISH_LOADING_AWAL_DATA = "is_loading";
     public static final String IS_LOADING_MORE_DATA = "is_locked";
     public static final String KEYWORD = "keyword";
@@ -147,4 +148,24 @@ public class Sample {
     public static final int VEHICLE_CAR = 1;
     public static final int VEHICLE_MOTORCYCLE = 2;
 
+
+    public static final int TAG_V_BRAND = 1;
+    public static final int TAG_V_MODEL = 2;
+    public static final int TAG_V_TRANSMISSION = 3;
+    public static final int TAG_V_YEAR = 4;
+
+    public static final String LIST_VARIANS_OBJECT = "list_varians_object";
+
+    public static final String TAG = "TAG";
+
+    public static final String V_ID = "v_id";
+    public static final String V_BRAND_ID = "v_brand_id";
+    public static final String V_MODEL_ID = "v_model_id";
+    public static final String V_TRANS_ID = "v_trans_id";
+    public static final String V_YEARS_ID = "v_years_id";
+
+    public static final String LIMIT_DATA = "10";
+    public static final String ADDRESS_TYPE = "address_type";
+    public static final int CODE_ADRESS_HOME= 1;
+    public static final int CODE_ADRESS_WORK = 2;
 }

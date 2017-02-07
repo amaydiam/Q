@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/root_parent"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_marginBottom="2dp"
+    android:layout_marginLeft="16dp"
+    android:layout_marginRight="16dp"
+    android:layout_marginTop="16dp"
+    android:background="@drawable/border_set_green"
+    android:orientation="horizontal"
+    android:padding="10dp">
+
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_weight="1"
+        android:orientation="vertical"
+        android:layout_marginLeft="@dimen/activity_half_vertical_margin">
+
+        <ImageView
+            android:id="@+id/image_notification"
+            android:layout_width="match_parent"
+            android:layout_height="100dp"
+            android:layout_marginBottom="10dp"
+            android:background="@mipmap/ic_launcher" />
+
+        <TextView
+            android:id="@+id/title_notification"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:lines="1"
+            android:paddingLeft="15dp"
+            android:paddingRight="15dp"
+            android:text="Promo Awal Tahun 2017"
+            android:textSize="20sp" />
+
+        <TextView
+            android:id="@+id/deskripsi_notification"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="10dp"
+            android:lines="3"
+            android:paddingLeft="15dp"
+            android:paddingRight="15dp"
+            android:text="1 januari 2016, 1 januari 20161 januari 2016
+            1 januari 20161 januari 20161 januari 20161 januari 20161 januari 2016"
+            android:textSize="15sp" />
+    </LinearLayout>
+</LinearLayout>

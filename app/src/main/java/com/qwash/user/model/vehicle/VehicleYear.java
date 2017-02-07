@@ -5,18 +5,8 @@ import android.os.Parcelable;
 
 import com.orm.SugarRecord;
 
-public class VehicleYear extends SugarRecord implements Parcelable {
-    public static final Creator<VehicleYear> CREATOR = new Creator<VehicleYear>() {
-        @Override
-        public VehicleYear createFromParcel(Parcel in) {
-            return new VehicleYear(in);
-        }
+public class VehicleYear implements Parcelable {
 
-        @Override
-        public VehicleYear[] newArray(int size) {
-            return new VehicleYear[size];
-        }
-    };
     private String vYearsId;
     private String vTransIdFk;
     private String years;
@@ -32,6 +22,30 @@ public class VehicleYear extends SugarRecord implements Parcelable {
         this.years = years;
     }
 
+    public String getvYearsId() {
+        return vYearsId;
+    }
+
+    public void setvYearsId(String vYearsId) {
+        this.vYearsId = vYearsId;
+    }
+
+    public String getvTransIdFk() {
+        return vTransIdFk;
+    }
+
+    public void setvTransIdFk(String vTransIdFk) {
+        this.vTransIdFk = vTransIdFk;
+    }
+
+    public String getYears() {
+        return years;
+    }
+
+    public void setYears(String years) {
+        this.years = years;
+    }
+
     private VehicleYear(Parcel in) {
         vYearsId = in.readString();
         vTransIdFk = in.readString();
@@ -44,7 +58,17 @@ public class VehicleYear extends SugarRecord implements Parcelable {
         dest.writeString(vTransIdFk);
         dest.writeString(years);
     }
+    public static final Creator<VehicleYear> CREATOR = new Creator<VehicleYear>() {
+        @Override
+        public VehicleYear createFromParcel(Parcel in) {
+            return new VehicleYear(in);
+        }
 
+        @Override
+        public VehicleYear[] newArray(int size) {
+            return new VehicleYear[size];
+        }
+    };
     @Override
     public int describeContents() {
         return 0;

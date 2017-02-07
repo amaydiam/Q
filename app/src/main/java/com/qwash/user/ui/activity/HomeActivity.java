@@ -12,10 +12,13 @@ import android.os.Bundle;
 import android.provider.Settings;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentManager;
+import android.support.v4.app.FragmentTransaction;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.text.Html;
+import android.util.Log;
 import android.util.TypedValue;
 import android.view.View;
 import android.widget.ImageView;
@@ -63,12 +66,15 @@ import com.qwash.user.api.model.order.RequestNewOrder;
 import com.qwash.user.api.model.order.Washer;
 import com.qwash.user.api.model.washer.DataShowWasherOn;
 import com.qwash.user.api.model.washer.ShowWasherOn;
+import com.qwash.user.model.AddressUser;
 import com.qwash.user.model.FindWasher;
 import com.qwash.user.model.PrepareOrder;
 import com.qwash.user.model.VehicleUser;
 import com.qwash.user.model.WasherAccepted;
 import com.qwash.user.service.MessageFireBase;
 import com.qwash.user.service.PushNotification;
+import com.qwash.user.ui.fragment.DialogSelectAddressFragment;
+import com.qwash.user.ui.fragment.DialogSelectVehicleVariansFragment;
 import com.qwash.user.ui.fragment.PrepareOrderFragment;
 import com.qwash.user.ui.fragment.WasherOrderFragment;
 import com.qwash.user.ui.widget.RobotoLightTextView;
@@ -106,7 +112,7 @@ public class HomeActivity extends AppCompatActivity implements
         WasherOrderFragment.OnWasherOrderListener,
         GoogleApiClient.ConnectionCallbacks,
         GoogleApiClient.OnConnectionFailedListener,
-        LocationListener, GoogleMap.OnCameraIdleListener {
+        LocationListener, GoogleMap.OnCameraIdleListener, DialogSelectAddressFragment.DialogSelectAddressUserListener {
 
     public static final int MY_PERMISSIONS_REQUEST_LOCATION = 99;
     private static final String TAG = "HomeActivity";
@@ -257,10 +263,12 @@ public class HomeActivity extends AppCompatActivity implements
             case R.id.btn_work:
                 if (!isHidden)
                     ShowMenuHome(imgMenu);
+                OpenData(Sample.CODE_ADRESS_WORK);
                 break;
             case R.id.btn_home:
                 if (!isHidden)
                     ShowMenuHome(imgMenu);
+                OpenData(Sample.CODE_ADRESS_HOME);
                 break;
             case R.id.btn_close:
                 CancelOrder();
@@ -269,6 +277,12 @@ public class HomeActivity extends AppCompatActivity implements
             default:
                 break;
         }
+    }
+
+    private void OpenData(int type_address) {
+        FragmentManager fm = getSupportFragmentManager();
+        DialogSelectAddressFragment dialogSelectAddressFragment = DialogSelectAddressFragment.newInstance(type_address);
+        dialogSelectAddressFragment.show(fm, "Select Adreess");
     }
 
     @Override
@@ -367,7 +381,11 @@ public class HomeActivity extends AppCompatActivity implements
         mMap.getUiSettings().setScrollGesturesEnabled(false);
         btnPickLocation.setVisibility(View.INVISIBLE);
         current_fragment = new PrepareOrderFragment().newInstance(prepareOrder);
-        getSupportFragmentManager().beginTransaction().replace(R.id.fragment_bottom, current_fragment).commit();
+        FragmentManager fragmentManager = getSupportFragmentManager();
+        FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
+        fragmentTransaction.replace(R.id.fragment_bottom, current_fragment);
+        fragmentTransaction.addToBackStack(null);
+        fragmentTransaction.commit();
     }
 
     private void LoadWasherOrderFragment() {
@@ -614,6 +632,8 @@ public class HomeActivity extends AppCompatActivity implements
         String[] ll = LatLong.split(",");
         Map<String, String> params = new HashMap<>();
 
+        Log.v("latlong", LatLong);
+
         params.put(Sample.USER_ID_FK, Prefs.getUserId(this));
         params.put(Sample.V_CUSTOMERS_ID_FK, prepareOrder.vCustomersId);
         params.put(Sample.PICK_DATE, prepareOrder.pick_date);
@@ -633,7 +653,7 @@ public class HomeActivity extends AppCompatActivity implements
 
                 if (response.isSuccessful()) {
                     if (response.body().getStatus()) {
-                        prepareOrder.orders_ref = response.body().getOrders();
+                        prepareOrder.orders_ref = response.body().getOrders().getOrdersRef();
                         List<Washer> washer = response.body().getWashers();
 
                         if (washer.size() > 0) {
@@ -811,12 +831,13 @@ public class HomeActivity extends AppCompatActivity implements
 
 
     void setWasher(List<DataShowWasherOn> data) {
-        for (int i = 0; i < data.size(); i++) {
-            double Lat = Double.parseDouble(data.get(i).getLat());
-            double Long = Double.parseDouble(data.get(i).getLng());
-            MarkerOptions marker = new MarkerOptions().position(new LatLng(Lat, Long)).icon(BitmapDescriptorFactory.fromResource(R.drawable.ic_washer));
-            mMap.addMarker(marker);
-        }
+        if (data != null)
+            for (int i = 0; i < data.size(); i++) {
+                double Lat = Double.parseDouble(data.get(i).getLat());
+                double Long = Double.parseDouble(data.get(i).getLng());
+                MarkerOptions marker = new MarkerOptions().position(new LatLng(Lat, Long)).icon(BitmapDescriptorFactory.fromResource(R.drawable.ic_washer));
+                mMap.addMarker(marker);
+            }
 
     }
 
@@ -852,6 +873,15 @@ public class HomeActivity extends AppCompatActivity implements
             JSONObject json = new JSONObject(MessageFireBase.getData());
             int action = json.getInt(Sample.ACTION);
             if (action == Sample.CODE_DEACLINE) {
+                Log.v("deacline", "yes");
+                JSONObject jsonWasher = new JSONObject(json.getString(Sample.WASHER));
+                String firebase_id = jsonWasher.getString(Sample.WASHER_FIREBASE_ID);
+                String washer_id = jsonWasher.getString(Sample.WASHER_USER_ID);
+                TastyToast.makeText(getApplicationContext(), "Your washer is deacline order", TastyToast.LENGTH_SHORT, TastyToast.WARNING);
+                isFind = false;
+                FindingWasher();
+                RemoveBottomFragment();
+
             } else if (action == Sample.CODE_ACCEPT) {
                 TastyToast.makeText(getApplicationContext(), "Washer found", TastyToast.LENGTH_SHORT, TastyToast.SUCCESS);
                 JSONObject jsonWasher = new JSONObject(json.getString(Sample.WASHER));
@@ -877,7 +907,7 @@ public class HomeActivity extends AppCompatActivity implements
             } else if (action == Sample.CODE_FINISH_WORKING) {
                 JSONObject jsonWasher = new JSONObject(json.getString(Sample.WASHER));
                 String firebase_id = jsonWasher.getString(Sample.WASHER_FIREBASE_ID);
-                String userId = jsonWasher.getString(Sample.WASHER_USER_ID);
+                String washer_id = jsonWasher.getString(Sample.WASHER_USER_ID);
                 TastyToast.makeText(getApplicationContext(), "Your washer is finish working", TastyToast.LENGTH_SHORT, TastyToast.SUCCESS);
                 isFind = false;
                 FindingWasher();
@@ -1046,5 +1076,22 @@ public class HomeActivity extends AppCompatActivity implements
         }.execute();
     }
 
+    @Override
+    public void onFinishDialogSelectAddressUserDialog(AddressUser addressUser) {
+        String LatLong = addressUser.getLatlong();
+        String[] X = LatLong.split(",");
+        current_latitude = Double.parseDouble(X[0]);
+        current_longitude = Double.parseDouble(X[1]);
+        //move map camera
+        mMap.moveCamera(CameraUpdateFactory.newLatLng(new LatLng(current_latitude, current_longitude)));
+        mMap.animateCamera(CameraUpdateFactory.zoomTo(14));
+
+        LoadAddress(current_latitude, current_longitude);
+
+        //stop location updates
+        if (mGoogleApiClient != null) {
+            LocationServices.FusedLocationApi.removeLocationUpdates(mGoogleApiClient, this);
+        }
+    }
 
 }

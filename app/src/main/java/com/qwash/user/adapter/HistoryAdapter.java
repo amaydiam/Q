@@ -1,24 +1,22 @@
 package com.qwash.user.adapter;
 
 import android.app.Activity;
-import android.content.Context;
-import android.media.AudioManager;
+import android.os.Build;
+import android.support.annotation.RequiresApi;
 import android.support.v4.content.ContextCompat;
-import android.support.v7.widget.CardView;
 import android.support.v7.widget.RecyclerView;
 import android.util.SparseBooleanArray;
 import android.view.GestureDetector;
 import android.view.LayoutInflater;
 import android.view.MotionEvent;
-import android.view.SoundEffectConstants;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 
 import com.joanzapata.iconify.IconDrawable;
 import com.joanzapata.iconify.fonts.EntypoIcons;
 import com.joanzapata.iconify.fonts.MaterialCommunityIcons;
-import com.joanzapata.iconify.widget.IconButton;
 import com.qwash.user.R;
 import com.qwash.user.model.History;
 import com.qwash.user.ui.widget.RobotoRegularTextView;
@@ -32,6 +30,7 @@ public class HistoryAdapter extends RecyclerView.Adapter<HistoryAdapter.ViewHold
 
     public final ArrayList<History> data;
     private final GestureDetector gestureDetector;
+
     private boolean isTablet = false;
     private Activity activity;
     private SparseBooleanArray mSelectedItemsIds;
@@ -40,9 +39,9 @@ public class HistoryAdapter extends RecyclerView.Adapter<HistoryAdapter.ViewHold
     private OnHistoryItemClickListener OnHistoryItemClickListener;
 
 
-    public HistoryAdapter(Activity activity, ArrayList<History> mustahiqList, boolean isTable) {
+    public HistoryAdapter(Activity activity, ArrayList<History> histories, boolean isTable) {
         this.activity = activity;
-        this.data = mustahiqList;
+        this.data = histories;
         mSelectedItemsIds = new SparseBooleanArray();
         gestureDetector = new GestureDetector(activity, new SingleTapConfirm());
         this.isTablet = isTable;
@@ -55,17 +54,6 @@ public class HistoryAdapter extends RecyclerView.Adapter<HistoryAdapter.ViewHold
 
     @Override
     public boolean onTouch(View v, MotionEvent event) {
-
-        final int viewId = v.getId();
-        if (viewId == R.id.btn_action) {
-            if (gestureDetector.onTouchEvent(event)) {
-                if (OnHistoryItemClickListener != null) {
-                    AudioManager audioManager = (AudioManager) activity.getSystemService(Context.AUDIO_SERVICE);
-                    audioManager.playSoundEffect(SoundEffectConstants.CLICK);
-                    OnHistoryItemClickListener.onActionClick(v, (Integer) v.getTag());
-                }
-            }
-        }
 
         return false;
     }
@@ -99,44 +87,55 @@ public class HistoryAdapter extends RecyclerView.Adapter<HistoryAdapter.ViewHold
     public ViewHolder onCreateViewHolder(ViewGroup parent,
                                          int viewType) {
         View v = LayoutInflater.from(parent.getContext())
-                .inflate(R.layout.item_history_list, parent, false);
+                .inflate(R.layout.item_list_history, parent, false);
         ViewHolder holder = new ViewHolder(v);
         holder.rootParent.setOnClickListener(this);
-        holder.btnAction.setOnTouchListener(this);
         return holder;
     }
 
+    @RequiresApi(api = Build.VERSION_CODES.JELLY_BEAN)
     public void onBindViewHolder(final ViewHolder holder, int position) {
-        holder.btnAction.setVisibility(View.GONE);
         History history = data.get(position);
 
-        holder.historyTime.setText(history.history_time);
-        holder.address.setText(history.address);
-        holder.vehicleModel.setText(history.vehicle_model);
+        holder.historyTime.setText(history.getCreateAt());
+        holder.address.setText(history.getAddress());
+        holder.vehicleModel.setText(history.getVBrand());
 
+        final int sdk = android.os.Build.VERSION.SDK_INT;
         if (isTablet) {
             if (selected == position) {
-                holder.rootParent.setBackgroundColor(ContextCompat.getColor(activity, R.color.blue_1E87DA));
+                if (sdk < android.os.Build.VERSION_CODES.JELLY_BEAN) {
+                    holder.rootParent.setBackgroundDrawable(ContextCompat.getDrawable(activity, R.drawable.border_set_blue));
+                } else {
+                    holder.rootParent.setBackground(ContextCompat.getDrawable(activity, R.drawable.border_set_blue));
+                }
                 holder.historyTime.setTextColor(ContextCompat.getColor(activity, R.color.white));
                 holder.address.setTextColor(ContextCompat.getColor(activity, R.color.white));
                 holder.imgAddress.setImageDrawable(new IconDrawable(activity, EntypoIcons.entypo_location_pin).colorRes(R.color.white).actionBarSize());
                 holder.imgVehicleModel.setImageDrawable(new IconDrawable(activity, MaterialCommunityIcons.mdi_car).colorRes(R.color.white).actionBarSize());
             } else {
-                holder.rootParent.setBackgroundColor(ContextCompat.getColor(activity, R.color.white));
+                if (sdk < android.os.Build.VERSION_CODES.JELLY_BEAN) {
+                    holder.rootParent.setBackgroundDrawable(ContextCompat.getDrawable(activity, R.drawable.border_set_green));
+                } else {
+                    holder.rootParent.setBackground(ContextCompat.getDrawable(activity, R.drawable.border_set_green));
+                }
                 holder.historyTime.setTextColor(ContextCompat.getColor(activity, R.color.black_424242));
                 holder.address.setTextColor(ContextCompat.getColor(activity, R.color.black_424242));
                 holder.imgAddress.setImageDrawable(new IconDrawable(activity, EntypoIcons.entypo_location_pin).colorRes(R.color.blue_1E87DA).actionBarSize());
                 holder.imgVehicleModel.setImageDrawable(new IconDrawable(activity, MaterialCommunityIcons.mdi_car).colorRes(R.color.blue_1E87DA).actionBarSize());
             }
         } else {
-            holder.rootParent.setBackgroundColor(ContextCompat.getColor(activity, R.color.white));
+            if (sdk < android.os.Build.VERSION_CODES.JELLY_BEAN) {
+                holder.rootParent.setBackgroundDrawable(ContextCompat.getDrawable(activity, R.drawable.border_set_green));
+            } else {
+                holder.rootParent.setBackground(ContextCompat.getDrawable(activity, R.drawable.border_set_green));
+            }
             holder.historyTime.setTextColor(ContextCompat.getColor(activity, R.color.black_424242));
             holder.address.setTextColor(ContextCompat.getColor(activity, R.color.black_424242));
             holder.imgAddress.setImageDrawable(new IconDrawable(activity, EntypoIcons.entypo_location_pin).colorRes(R.color.blue_1E87DA).actionBarSize());
             holder.imgVehicleModel.setImageDrawable(new IconDrawable(activity, MaterialCommunityIcons.mdi_car).colorRes(R.color.blue_1E87DA).actionBarSize());
         }
 
-        holder.btnAction.setTag(position);
         holder.rootParent.setTag(position);
 
     }
@@ -180,14 +179,12 @@ public class HistoryAdapter extends RecyclerView.Adapter<HistoryAdapter.ViewHold
     }
 
     public interface OnHistoryItemClickListener {
-        void onActionClick(View v, int position);
 
         void onRootClick(View v, int position);
 
     }
 
     public class ViewHolder extends RecyclerView.ViewHolder {
-
         @BindView(R.id.history_time)
         RobotoRegularTextView historyTime;
         @BindView(R.id.img_address)
@@ -198,10 +195,8 @@ public class HistoryAdapter extends RecyclerView.Adapter<HistoryAdapter.ViewHold
         ImageView imgVehicleModel;
         @BindView(R.id.vehicle_model)
         RobotoRegularTextView vehicleModel;
-        @BindView(R.id.btn_action)
-        IconButton btnAction;
         @BindView(R.id.root_parent)
-        CardView rootParent;
+        LinearLayout rootParent;
 
         public ViewHolder(View vi) {
             super(vi);

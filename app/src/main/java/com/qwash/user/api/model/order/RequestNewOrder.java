@@ -10,7 +10,6 @@ import java.util.List;
 
 public class RequestNewOrder {
 
-
     @SerializedName("status")
     @Expose
     private Boolean status;
@@ -19,7 +18,7 @@ public class RequestNewOrder {
     private String message;
     @SerializedName("orders")
     @Expose
-    private String orders;
+    private Orders orders;
     @SerializedName("washers")
     @Expose
     private List<Washer> washers = null;
@@ -40,11 +39,11 @@ public class RequestNewOrder {
         this.message = message;
     }
 
-    public String getOrders() {
+    public Orders getOrders() {
         return orders;
     }
 
-    public void setOrders(String orders) {
+    public void setOrders(Orders orders) {
         this.orders = orders;
     }
 

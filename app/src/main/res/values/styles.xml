@@ -28,11 +28,6 @@
         <item name="android:textColor">@color/white</item>
     </style>
 
-    <style name="SearchViewTheme">
-        <item name="colorControlActivated">@color/amber500</item>
-        <item name="colorControlNormal">@color/green500</item>
-    </style>
-
     <style name="FullScreen" parent="android:Theme.Translucent.NoTitleBar">
         <item name="android:windowNoTitle">true</item>
         <item name="android:windowFullscreen">true</item>
@@ -58,7 +53,10 @@
 
     <style name="AppTheme.PopupOverlay" parent="ThemeOverlay.AppCompat.Light" />
 
+    <style name="RatingBar" parent="Theme.AppCompat">
+        <item name="colorControlNormal">@color/grey</item>
+        <item name="colorControlActivated">@color/orange_light</item>
+    </style>
 
-    <color name="amber500">#ccc</color>
-    <color name="green500">#ccc</color>
+
 </resources>

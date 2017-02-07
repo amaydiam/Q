@@ -59,7 +59,7 @@ import com.qwash.user.api.client.auth.LoginService;
 import com.qwash.user.api.model.login.AddressLogin;
 import com.qwash.user.api.model.login.DataLogin;
 import com.qwash.user.api.model.login.Login;
-import com.qwash.user.api.model.login.VehicleLogin;
+import com.qwash.user.api.model.vehicle.DataVehicle;
 import com.qwash.user.model.AddressUser;
 import com.qwash.user.model.VehicleUser;
 import com.qwash.user.ui.widget.RobotoRegularButton;
@@ -428,23 +428,23 @@ public class LoginUserActivity extends AppCompatActivity implements GoogleApiCli
                         Prefs.putAuthLevel(LoginUserActivity.this, String.valueOf(dataLogin.getAuthLevel()));
 
 
-                        List<VehicleLogin> vehicleLoginList = response.body().getVehicleLogins();
-                        if (vehicleLoginList.size() > 0 && (VehicleUser.findAll(VehicleUser.class).hasNext())) {
+                        List<DataVehicle> dataVehicleList = response.body().getVehicle();
+                        if (dataVehicleList.size() > 0 && (VehicleUser.findAll(VehicleUser.class).hasNext())) {
                             VehicleUser.deleteAll(VehicleUser.class);
                         }
 
-                        for (int i = 0; i < vehicleLoginList.size(); i++) {
-                            String vCustomersId = vehicleLoginList.get(i).getVCustomersId();
-                            String vName = vehicleLoginList.get(i).getVName();
-                            String vBrand = vehicleLoginList.get(i).getVBrand();
-                            String models = vehicleLoginList.get(i).getModels();
-                            String vTransmission = vehicleLoginList.get(i).getVTransmission();
-                            String years = vehicleLoginList.get(i).getYears();
-                            String vId = vehicleLoginList.get(i).getVId();
-                            String vBrandId = vehicleLoginList.get(i).getVBrandId();
-                            String vModelId = vehicleLoginList.get(i).getVModelId();
-                            String vTransId = vehicleLoginList.get(i).getVTransId();
-                            String vYearsId = vehicleLoginList.get(i).getVYearsId();
+                        for (int i = 0; i < dataVehicleList.size(); i++) {
+                            String vCustomersId = dataVehicleList.get(i).getVCustomersId();
+                            String vName = dataVehicleList.get(i).getVName();
+                            String vBrand = dataVehicleList.get(i).getVBrand();
+                            String models = dataVehicleList.get(i).getModels();
+                            String vTransmission = dataVehicleList.get(i).getVTransmission();
+                            String years = dataVehicleList.get(i).getYears();
+                            String vId = dataVehicleList.get(i).getVId();
+                            String vBrandId = dataVehicleList.get(i).getVBrandId();
+                            String vModelId = dataVehicleList.get(i).getVModelId();
+                            String vTransId = dataVehicleList.get(i).getVTransId();
+                            String vYearsId = dataVehicleList.get(i).getVYearsId();
                             VehicleUser vehicleUser = new VehicleUser(vCustomersId, vName, vBrand, models, vTransmission, years, vId, vBrandId, vModelId, vTransId, vYearsId);
                             vehicleUser.save();
                         }

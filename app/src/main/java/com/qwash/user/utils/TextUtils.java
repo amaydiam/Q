@@ -6,4 +6,7 @@ public class TextUtils {
         return (str == null || str.equals("null") || str.equals(""));
     }
 
+    public static boolean isNullOrEmpty(int str) {
+        return str == 0 ;
+    }
 }

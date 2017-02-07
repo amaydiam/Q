@@ -1,6 +1,5 @@
 package com.qwash.user.ui.activity;
 
-import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.os.Bundle;
@@ -9,6 +8,8 @@ import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.CardView;
 import android.support.v7.widget.Toolbar;
+import android.text.Html;
+import android.util.Log;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
@@ -16,6 +17,7 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.joanzapata.iconify.IconDrawable;
 import com.joanzapata.iconify.Iconify;
@@ -30,23 +32,31 @@ import com.qwash.user.R;
 import com.qwash.user.Sample;
 import com.qwash.user.api.ApiUtils;
 import com.qwash.user.api.client.vehicle.VehicleService;
+import com.qwash.user.api.model.vehicle.DataVehicle;
 import com.qwash.user.api.model.vehicle.DataVehicleBrandList;
 import com.qwash.user.api.model.vehicle.DataVehicleModelList;
 import com.qwash.user.api.model.vehicle.DataVehicleTransmissionList;
 import com.qwash.user.api.model.vehicle.DataVehicleYearList;
+import com.qwash.user.api.model.vehicle.RegisterVehicle;
 import com.qwash.user.api.model.vehicle.VehicleBrandFromService;
 import com.qwash.user.api.model.vehicle.VehicleModelFromService;
 import com.qwash.user.api.model.vehicle.VehicleTransmissionFromService;
 import com.qwash.user.api.model.vehicle.VehicleYearFromService;
+import com.qwash.user.model.VehicleUser;
 import com.qwash.user.model.vehicle.VehicleBrand;
 import com.qwash.user.model.vehicle.VehicleModel;
 import com.qwash.user.model.vehicle.VehicleTransmission;
 import com.qwash.user.model.vehicle.VehicleYear;
-import com.qwash.user.ui.fragment.DialogSelectBrandFragment;
+import com.qwash.user.ui.fragment.DialogSelectVehicleVariansFragment;
 import com.qwash.user.ui.widget.RobotoRegularTextView;
+import com.qwash.user.utils.Prefs;
 import com.qwash.user.utils.ProgressDialogBuilder;
+import com.qwash.user.utils.TextUtils;
 
+import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import butterknife.BindDimen;
 import butterknife.BindView;
@@ -56,12 +66,8 @@ import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 
-public class AddVehicleActivity extends AppCompatActivity {
+public class AddVehicleActivity extends AppCompatActivity implements DialogSelectVehicleVariansFragment.DialogSelectVehicleVariansListener {
 
-    private static final int TAG_V_BRAND = 1;
-    private static final int TAG_V_MODEL = 2;
-    private static final int TAG_V_TRANSMISSION = 3;
-    private static final int TAG_V_YEAR = 4;
     @BindView(R.id.toolbar)
     Toolbar toolbar;
 
@@ -119,11 +125,12 @@ public class AddVehicleActivity extends AppCompatActivity {
     @BindView(R.id.img_year)
     ImageView imgYear;
     private int selected_vehicle;
-    private int selected_brand_vehicle;
-    private int selected_model_vehicle;
-    private int selected_transmission_vehicle;
-    private int selected_year_vehicle;
+    private String selected_brand_vehicle = null;
+    private String selected_model_vehicle = null;
+    private String selected_transmission_vehicle = null;
+    private String selected_year_vehicle = null;
     private ProgressDialogBuilder dialogProgress;
+    private VehicleService mService;
 
     @OnClick(R.id.vehicle_mobil)
     void VehicleMobil() {
@@ -137,33 +144,40 @@ public class AddVehicleActivity extends AppCompatActivity {
 
     @OnClick(R.id.select_brand)
     void select_brand() {
-        FragmentManager fm = getSupportFragmentManager();
-        DialogSelectBrandFragment dialogSelectBrandFragment = DialogSelectBrandFragment.newInstance();
-        dialogSelectBrandFragment.show(fm, "Select Brand");
+        getVehicle(Sample.TAG_V_BRAND);
     }
 
     @OnClick(R.id.select_model)
     void select_model() {
-        startActivity(new Intent(this, SelectModelActivity.class));
-        //Toast.makeText(this, "Select Model", Toast.LENGTH_SHORT).show();
+        if (!TextUtils.isNullOrEmpty(selected_brand_vehicle))
+            getVehicle(Sample.TAG_V_MODEL);
+        else
+            Toast.makeText(this, "Please select your brands vehicle", Toast.LENGTH_SHORT).show();
     }
 
     @OnClick(R.id.select_transmission)
     void select_transmission() {
-        startActivity(new Intent(this, SelectTransmissionActivity.class));
-        //Toast.makeText(this, "Select Transmission", Toast.LENGTH_SHORT).show();
+        if (!TextUtils.isNullOrEmpty(selected_model_vehicle))
+            getVehicle(Sample.TAG_V_TRANSMISSION);
+        else
+            Toast.makeText(this, "Please select your model of brands vehicle", Toast.LENGTH_SHORT).show();
     }
 
     @OnClick(R.id.select_year)
     void select_year() {
-        startActivity(new Intent(this, SelectYearActivity.class));
-        //Toast.makeText(this, "Select Year", Toast.LENGTH_SHORT).show();
+        if (!TextUtils.isNullOrEmpty(selected_transmission_vehicle))
+            getVehicle(Sample.TAG_V_YEAR);
+        else
+            Toast.makeText(this, "Please select your transmission of model brands vehicle", Toast.LENGTH_SHORT).show();
     }
 
     @OnClick(R.id.klik_submit)
     public void klikSubmit() {
 
-        finish();
+        if (TextUtils.isNullOrEmpty(selected_vehicle) || TextUtils.isNullOrEmpty(selected_brand_vehicle) || TextUtils.isNullOrEmpty(selected_model_vehicle) || TextUtils.isNullOrEmpty(selected_transmission_vehicle) || TextUtils.isNullOrEmpty(selected_year_vehicle))
+            Toast.makeText(this, "Please complete form", Toast.LENGTH_SHORT).show();
+        else
+            RegisterVehicle();
     }
 
 
@@ -178,6 +192,7 @@ public class AddVehicleActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_add_vehicle);
         ButterKnife.bind(this);
+        mService = ApiUtils.VehicleService(this);
         dialogProgress = new ProgressDialogBuilder(this);
         setSupportActionBar(toolbar);
         toolbar.setNavigationIcon(
@@ -239,8 +254,8 @@ public class AddVehicleActivity extends AppCompatActivity {
     }
 
 
-    private void SelectVehicle(int i) {
-        if (i == Sample.VEHICLE_CAR) {
+    private void SelectVehicle(int selected) {
+        if (selected == Sample.VEHICLE_CAR) {
             vehicleMobil.setCardBackgroundColor(ContextCompat.getColor(this, R.color.blue_2196F3));
             imgCar.setImageResource(R.drawable.car_white);
             txCar.setTextColor(ContextCompat.getColor(this, R.color.white));
@@ -249,7 +264,7 @@ public class AddVehicleActivity extends AppCompatActivity {
             imgMotorcycle.setImageResource(R.drawable.motor_blue);
             txMotorcycle.setTextColor(ContextCompat.getColor(this, R.color.black_424242));
 
-        } else if (i == Sample.VEHICLE_MOTORCYCLE) {
+        } else if (selected == Sample.VEHICLE_MOTORCYCLE) {
             vehicleMobil.setCardBackgroundColor(ContextCompat.getColor(this, R.color.white));
             imgCar.setImageResource(R.drawable.car_blue);
             txCar.setTextColor(ContextCompat.getColor(this, R.color.black_424242));
@@ -259,17 +274,33 @@ public class AddVehicleActivity extends AppCompatActivity {
             txMotorcycle.setTextColor(ContextCompat.getColor(this, R.color.white));
 
         }
+        if (selected_vehicle != selected) {
 
-        selected_vehicle = i;
-        getVehicle(TAG_V_BRAND);
+            selected_brand_vehicle = null;
+            selected_model_vehicle = null;
+            selected_transmission_vehicle = null;
+            selected_year_vehicle = null;
+        }
+        checkSelectedVarians();
+        selected_vehicle = selected;
+    }
+
+    private void checkSelectedVarians() {
+        if (TextUtils.isNullOrEmpty(selected_brand_vehicle))
+            textBrand.setText(Html.fromHtml("<i>- Select Brand -<i>"));
+        if (TextUtils.isNullOrEmpty(selected_model_vehicle))
+            textModel.setText(Html.fromHtml("<i>- Select Model -<i>"));
+        if (TextUtils.isNullOrEmpty(selected_transmission_vehicle))
+            textTransmission.setText(Html.fromHtml("<i>- Select Transmission -<i>"));
+        if (TextUtils.isNullOrEmpty(selected_year_vehicle))
+            textYear.setText(Html.fromHtml("<i>- Select Year -<i>"));
     }
 
 
     private void getVehicle(final int TAG) {
         onRetrofitStart(TAG);
-        VehicleService mService = ApiUtils.VehicleService(this);
         // get Brand
-        if (TAG == TAG_V_BRAND)
+        if (TAG == Sample.TAG_V_BRAND)
             mService.getBrandVehicleLink(selected_vehicle).enqueue(new Callback<VehicleBrandFromService>() {
                 @Override
                 public void onResponse(Call<VehicleBrandFromService> call, Response<VehicleBrandFromService> response) {
@@ -290,7 +321,7 @@ public class AddVehicleActivity extends AppCompatActivity {
                 }
             });
 // get model
-        if (TAG == TAG_V_MODEL)
+        else if (TAG == Sample.TAG_V_MODEL)
             mService.getModelVehicleLink(selected_brand_vehicle).enqueue(new Callback<VehicleModelFromService>() {
                 @Override
                 public void onResponse(Call<VehicleModelFromService> call, Response<VehicleModelFromService> response) {
@@ -311,7 +342,7 @@ public class AddVehicleActivity extends AppCompatActivity {
                 }
             });
 // get tranmission
-        if (TAG == TAG_V_TRANSMISSION)
+        else if (TAG == Sample.TAG_V_TRANSMISSION)
             mService.getTransmissionVehicleLink(selected_model_vehicle).enqueue(new Callback<VehicleTransmissionFromService>() {
                 @Override
                 public void onResponse(Call<VehicleTransmissionFromService> call, Response<VehicleTransmissionFromService> response) {
@@ -332,8 +363,8 @@ public class AddVehicleActivity extends AppCompatActivity {
                 }
             });
 // year
-        if (TAG == TAG_V_YEAR)
-            mService.getYearVehicleLink(selected_year_vehicle).enqueue(new Callback<VehicleYearFromService>() {
+        else if (TAG == Sample.TAG_V_YEAR)
+            mService.getYearVehicleLink(selected_transmission_vehicle).enqueue(new Callback<VehicleYearFromService>() {
                 @Override
                 public void onResponse(Call<VehicleYearFromService> call, Response<VehicleYearFromService> response) {
                     if (response.isSuccessful()) {
@@ -356,17 +387,80 @@ public class AddVehicleActivity extends AppCompatActivity {
 
     }
 
+    private void RegisterVehicle() {
+        onRetrofitStart(0);
+        Map<String, String> params = new HashMap<>();
+        params.put(Sample.V_ID, String.valueOf(selected_vehicle));
+        params.put(Sample.V_BRAND_ID, selected_brand_vehicle);
+        params.put(Sample.V_MODEL_ID, selected_model_vehicle);
+        params.put(Sample.V_TRANS_ID, selected_transmission_vehicle);
+        params.put(Sample.V_YEARS_ID, selected_year_vehicle);
+        params.put(Sample.USER_ID, Prefs.getUserId(this));
+        mService.getRegisterVehicleLink(params).enqueue(new Callback<RegisterVehicle>() {
+            @Override
+            public void onResponse(Call<RegisterVehicle> call, Response<RegisterVehicle> response) {
+                if (response.isSuccessful()) {
+                    onRetrofitSuccessRegisterVehicle(response);
+                } else {
+                    int statusCode = response.code();
+                    onRetrofitErrorRegisterVehicle(statusCode);
+                }
+                onRetrofitEnd();
+            }
+
+            @Override
+            public void onFailure(Call<RegisterVehicle> call, Throwable t) {
+                String message = t.getMessage();
+                onRetrofitErrorRegisterVehicle(0);
+                onRetrofitEnd();
+            }
+        });
+    }
+
+    private void onRetrofitErrorRegisterVehicle(int i) {
+
+    }
+
+    private void onRetrofitSuccessRegisterVehicle(Response<RegisterVehicle> response) {
+        if (response.body().getStatus()) {
+
+            List<DataVehicle> dataVehicleList = response.body().getVehicles();
+            Log.v("jmlh",dataVehicleList.size()+"");
+            for (int i = 0; i < dataVehicleList.size(); i++) {
+                String vCustomersId = dataVehicleList.get(i).getVCustomersId();
+                String vName = dataVehicleList.get(i).getVName();
+                String vBrand = dataVehicleList.get(i).getVBrand();
+                String models = dataVehicleList.get(i).getModels();
+                String vTransmission = dataVehicleList.get(i).getVTransmission();
+                String years = dataVehicleList.get(i).getYears();
+                String vId = dataVehicleList.get(i).getVId();
+                String vBrandId = dataVehicleList.get(i).getVBrandId();
+                String vModelId = dataVehicleList.get(i).getVModelId();
+                String vTransId = dataVehicleList.get(i).getVTransId();
+                String vYearsId = dataVehicleList.get(i).getVYearsId();
+                VehicleUser vehicleUser = new VehicleUser(vCustomersId, vName, vBrand, models, vTransmission, years, vId, vBrandId, vModelId, vTransId, vYearsId);
+                vehicleUser.save();
+            }
+            finish();
+        } else {
+            Toast.makeText(this, response.body().getMessage(), Toast.LENGTH_SHORT).show();
+        }
+
+    }
+
 
     public void onRetrofitStart(int TAG) {
         String msg = "";
-        if (TAG == TAG_V_BRAND)
+        if (TAG == Sample.TAG_V_BRAND)
             msg = "Get Brands ...";
-        if (TAG == TAG_V_MODEL)
+        else if (TAG == Sample.TAG_V_MODEL)
             msg = "Get Models ...";
-        if (TAG == TAG_V_TRANSMISSION)
+        else if (TAG == Sample.TAG_V_TRANSMISSION)
             msg = "Get Transmissions ...";
-        if (TAG == TAG_V_YEAR)
+        else if (TAG == Sample.TAG_V_YEAR)
             msg = "Get Years ...";
+        else
+            msg = "Submit";
 
         dialogProgress.show(msg, "Please wait...");
     }
@@ -377,64 +471,80 @@ public class AddVehicleActivity extends AppCompatActivity {
 
     public void onRetrofitSuccessVehicleBrandResponse(Response<VehicleBrandFromService> response) {
         List<DataVehicleBrandList> vehicleVehicleBrandList = response.body().getData();
-        if (vehicleVehicleBrandList.size() > 0 && (VehicleBrand.findAll(VehicleBrand.class).hasNext())) {
-            VehicleBrand.deleteAll(VehicleBrand.class);
+        if (vehicleVehicleBrandList.size() == 0) {
+            Toast.makeText(this, "No there's Brands", Toast.LENGTH_SHORT).show();
+            return;
         }
+        List<VehicleBrand> listVehicleBrand = new ArrayList<>();
         for (int i = 0; i < vehicleVehicleBrandList.size(); i++) {
             String vBrandId = vehicleVehicleBrandList.get(i).getVBrandId();
             String vIdFk = vehicleVehicleBrandList.get(i).getVIdFk();
             String vBrand = vehicleVehicleBrandList.get(i).getVBrand();
             VehicleBrand vehicleBrand = new VehicleBrand(vBrandId, vIdFk, vBrand);
-            vehicleBrand.save();
+            listVehicleBrand.add(vehicleBrand);
         }
+
+        PickVehicleVarians(listVehicleBrand, Sample.TAG_V_BRAND);
 
     }
 
+
     public void onRetrofitSuccessVehicleModelResponse(Response<VehicleModelFromService> response) {
         List<DataVehicleModelList> vehicleVehicleModelList = response.body().getData();
-        if (vehicleVehicleModelList.size() > 0 && (VehicleModel.findAll(VehicleModel.class).hasNext())) {
-            VehicleModel.deleteAll(VehicleModel.class);
+        if (vehicleVehicleModelList.size() == 0) {
+            Toast.makeText(this, "No there's Models", Toast.LENGTH_SHORT).show();
+            return;
         }
+
+        List<VehicleModel> listVehicleModel = new ArrayList<>();
         for (int i = 0; i < vehicleVehicleModelList.size(); i++) {
             String vModelId = vehicleVehicleModelList.get(i).getVModelId();
-            String vBrandIdFk = vehicleVehicleModelList.get(i).getVModelId();
-            String models = vehicleVehicleModelList.get(i).getVModelId();
-
+            String vBrandIdFk = vehicleVehicleModelList.get(i).getVBrandIdFk();
+            String models = vehicleVehicleModelList.get(i).getModels();
             VehicleModel vehicleModel = new VehicleModel(vModelId, vBrandIdFk, models);
-            vehicleModel.save();
+            listVehicleModel.add(vehicleModel);
         }
+
+        PickVehicleVarians(listVehicleModel, Sample.TAG_V_MODEL);
 
     }
 
     public void onRetrofitSuccessVehicleTransmissionResponse(Response<VehicleTransmissionFromService> response) {
         List<DataVehicleTransmissionList> vehicleVehicleTransmissionList = response.body().getData();
-        if (vehicleVehicleTransmissionList.size() > 0 && (VehicleTransmission.findAll(VehicleTransmission.class).hasNext())) {
-            VehicleTransmission.deleteAll(VehicleTransmission.class);
+        if (vehicleVehicleTransmissionList.size() == 0) {
+            Toast.makeText(this, "No there's Transmission", Toast.LENGTH_SHORT).show();
+            return;
         }
+
+        List<VehicleTransmission> listVehicleTransmission = new ArrayList<>();
         for (int i = 0; i < vehicleVehicleTransmissionList.size(); i++) {
             String vTransId = vehicleVehicleTransmissionList.get(i).getVTransId();
             String vModelIdFk = vehicleVehicleTransmissionList.get(i).getVModelIdFk();
             String vTransmission = vehicleVehicleTransmissionList.get(i).getVTransmission();
             VehicleTransmission vehicleTransmission = new VehicleTransmission(vTransId, vModelIdFk, vTransmission);
-            vehicleTransmission.save();
+            listVehicleTransmission.add(vehicleTransmission);
         }
+        PickVehicleVarians(listVehicleTransmission, Sample.TAG_V_TRANSMISSION);
 
     }
 
     public void onRetrofitSuccessVehicleYearResponse(Response<VehicleYearFromService> response) {
         List<DataVehicleYearList> vehicleVehicleYearList = response.body().getData();
-        if (vehicleVehicleYearList.size() > 0 && (VehicleYear.findAll(VehicleYear.class).hasNext())) {
-            VehicleYear.deleteAll(VehicleYear.class);
+        if (vehicleVehicleYearList.size() == 0) {
+            Toast.makeText(this, "No there's Years", Toast.LENGTH_SHORT).show();
+            return;
         }
+
+        List<VehicleYear> listVehicleYear = new ArrayList<>();
         for (int i = 0; i < vehicleVehicleYearList.size(); i++) {
             String vYearsId = vehicleVehicleYearList.get(i).getVYearsId();
             String vTransIdFk = vehicleVehicleYearList.get(i).getVTransIdFk();
             String years = vehicleVehicleYearList.get(i).getYears();
-
             VehicleYear vehicleYear = new VehicleYear(vYearsId, vTransIdFk, years);
-            vehicleYear.save();
+            listVehicleYear.add(vehicleYear);
         }
 
+        PickVehicleVarians(listVehicleYear, Sample.TAG_V_YEAR);
     }
 
     void onRetrofitErrorVehicleBrandResponse(int statusCode) {
@@ -453,4 +563,62 @@ public class AddVehicleActivity extends AppCompatActivity {
 
     }
 
+    private void PickVehicleVarians(List<?> Objects, int TAG) {
+        FragmentManager fm = getSupportFragmentManager();
+        DialogSelectVehicleVariansFragment dialogSelectVehicleVariansFragment = DialogSelectVehicleVariansFragment.newInstance(Objects, TAG);
+        dialogSelectVehicleVariansFragment.show(fm, String.valueOf(TAG));
+    }
+
+
+    @Override
+    public void onFinishDialogSelectVehicleVarianBrandsDialog(int TAG, VehicleBrand vehicleBrand) {
+        textBrand.setText(vehicleBrand.getvBrand());
+        if (TextUtils.isNullOrEmpty(selected_brand_vehicle) || !selected_brand_vehicle.equalsIgnoreCase(vehicleBrand.getvBrandId())) {
+            selected_model_vehicle = null;
+            selected_transmission_vehicle = null;
+            selected_year_vehicle = null;
+        }
+        selected_brand_vehicle = vehicleBrand.getvBrandId();
+        checkSelectedVarians();
+    }
+
+    @Override
+    public void onFinishDialogSelectVehicleVarianModelsDialog(int tag, VehicleModel vehicleModel) {
+        textModel.setText(vehicleModel.getModels());
+        if (TextUtils.isNullOrEmpty(selected_model_vehicle) || !selected_model_vehicle.equalsIgnoreCase(vehicleModel.getvModelId())) {
+            selected_transmission_vehicle = null;
+            selected_year_vehicle = null;
+        }
+        selected_model_vehicle = vehicleModel.getvModelId();
+        checkSelectedVarians();
+    }
+
+    @Override
+    public void onFinishDialogSelectVehicleVarianTransmissionsDialog(int tag, VehicleTransmission vehicleTransmission) {
+        textTransmission.setText(vehicleTransmission.getvTransmission());
+        if (TextUtils.isNullOrEmpty(selected_transmission_vehicle) || !selected_transmission_vehicle.equalsIgnoreCase(vehicleTransmission.getvTransId())) {
+            selected_year_vehicle = null;
+        }
+        selected_transmission_vehicle = vehicleTransmission.getvTransId();
+        checkSelectedVarians();
+    }
+
+    @Override
+    public void onFinishDialogSelectVehicleVarianYearsDialog(int tag, VehicleYear vehicleYear) {
+
+        textYear.setText(vehicleYear.getYears());
+        selected_year_vehicle = vehicleYear.getvYearsId();
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        finish();
+    }
+
+    @Override
+    public void onBackPressed() {
+        super.onBackPressed();
+        finish();
+    }
 }

@@ -29,7 +29,7 @@ import butterknife.ButterKnife;
 
 public class VehicleAdapter extends RecyclerView.Adapter<VehicleAdapter.ViewHolder> implements View.OnTouchListener, View.OnClickListener {
 
-    public final List<VehicleUser> data;
+    public List<VehicleUser> data;
     private final GestureDetector gestureDetector;
     private Activity activity;
     private SparseBooleanArray medItemsIds;
@@ -106,11 +106,11 @@ public class VehicleAdapter extends RecyclerView.Adapter<VehicleAdapter.ViewHold
                 .with(activity)
                 .load("")
                 .centerCrop()
-                .placeholder(vehicle.vId.equalsIgnoreCase("1") ? R.drawable.mobil : R.drawable.motor)
+                .placeholder(vehicle.getvId().equalsIgnoreCase("1") ? R.drawable.mobil : R.drawable.motor)
                 .crossFade()
                 .into(holder.vehicleImage);
 
-        holder.vehicleDescription.setText(vehicle.vBrand + "\n" + vehicle.models + " " + vehicle.vTransmission + " " + vehicle.years);
+        holder.vehicleDescription.setText(vehicle.getvBrand() + "\n" + vehicle.getModels() + " " + vehicle.getvTransmission() + " " + vehicle.getYears());
         if (selected == position) {
             holder.rootParent.setBackgroundColor(ContextCompat.getColor(activity, R.color.blue_2196F3));
             holder.vehicleDescription.setTextColor(ContextCompat.getColor(activity, R.color.white));
@@ -150,12 +150,17 @@ public class VehicleAdapter extends RecyclerView.Adapter<VehicleAdapter.ViewHold
 
     public void setSelectionByIdVehicle(String id_vehicle) {
         for (int i = 0; i < data.size(); i++) {
-            if (data.get(i).vCustomersId.equalsIgnoreCase(id_vehicle)) {
+            if (data.get(i).getvCustomersId().equalsIgnoreCase(id_vehicle)) {
                 setSelection(i);
                 break;
             }
         }
     }
+
+    public String getSelectedId() {
+        return data.get(selected).getvCustomersId();
+    }
+
 
     public int getSelection() {
         return this.selected;

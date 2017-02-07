@@ -58,7 +58,6 @@
             </LinearLayout>
 
             <com.qwash.user.ui.widget.RobotoRegularButton
-                android:id="@+id/btn_report_an_issue"
                 style="@style/btn_blue"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"

@@ -106,7 +106,7 @@ public final class Prefs {
         return Prefs.getPref(context, Sample.PHOTO, "");
     }
 
-    //end data user
+    //end dataBrands user
 
 
     public static void putLatitude(final Context context, float latitude) {

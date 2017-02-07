@@ -10,7 +10,6 @@
     <string name="login">Login</string>
     <string name="title_activity_home">Map</string>
     <string name="sign_in">Sign in</string>
-    <string name="email">Email</string>
     <string name="password">Password</string>
     <string name="label_sign_with">or sign in with:</string>
     <string name="dont_have_an_account">Don\'t Have An Account?</string>
@@ -36,7 +35,6 @@
 
     <string name="label_what_youll_get">What you\'ll get:</string>
     <string name="label_exterior_wash">Exterior Wash</string>
-    <string name="label_interior_cleaning">Interior Cleaning</string>
     <string name="label_tires_shine">Tires Shine</string>
     <string name="label_deskripsi_service_detail"><![CDATA[Our washer is equiped with tool & technique to wash your car use the taps provided by customer:]]></string>
     <string name="label_perfumed">Perfumed</string>
@@ -53,7 +51,6 @@
     <string name="title_activity_add_vehicle_type">Add Vehicle Type</string>
     <string name="button_login">Login</string>
 
-    <string name="action_search">Search</string>
     <string name="our_service">Our Service</string>
     <string name="notification">Notification</string>
     <string name="help_guide">A guide to Q\'Lap</string>
@@ -71,7 +68,6 @@
     <string name="harga_total">Harga Total</string>
     <string name="menu_my_balance">My Balance</string>
     <string name="my_balance">My Balance</string>
-    <string name="title_activity_my_balance">My Balnce</string>
     <string name="button_top_up_balance">Top Up Balance</string>
     <string name="type_search">search ...</string>
     <string name="server_unreachable">Oops! Something went wrong.\nPlease check your internet connection.</string>
@@ -81,35 +77,9 @@
     <string name="loading">Loading ...</string>
     <string name="additional_select">ADDITIONAL SELECT</string>
     <string name="button_report_an_issue">Report An Issue</string>
-    <string name="select_location">Select Location</string>
-    <string name="app_label">Search Location</string>
-    <string name="search_hint">Search here...</string>
     <string name="label_vacuum">Interior Vacuum</string>
     <string name="label_deskripsi_vacuum">We will vacuum your car interior.</string>
     <string name="submit_add_vehicle">SUBMIT</string>
-    <string name="model_alya">Ayla</string>
-    <string name="model_ceria">Ceria</string>
-    <string name="model_espass">Espass</string>
-    <string name="model_grand_max">Grand Max</string>
-    <string name="model_luxio">Luxio</string>
-    <string name="model_mira">Mira</string>
-    <string name="model_sirion">Sirion</string>
-    <string name="model_taruna">Taruna</string>
-    <string name="model_terios">Terios</string>
-    <string name="model_xenia">Xenia</string>
-    <string name="transmission_at">X 1.5 AT</string>
-    <string name="transmission_mt">X 1.5 MT</string>
-    <string name="brand_audi">Audi</string>
-    <string name="brand_bentley">Bentley</string>
-    <string name="brand_bmw">BMW</string>
-    <string name="brand_chevrolet">Chevrolet</string>
-    <string name="brand_chysler">Chysler</string>
-    <string name="brand_daihatsu">Daihatsu</string>
-    <string name="brand_datsun">Datsun</string>
-    <string name="brand_ferrari">Ferrari</string>
-    <string name="brand_ford">Ford</string>
-    <string name="brand_holden">Holden</string>
-    <string name="action_clear">Clear</string>
     <string name="val_email_length">Email must be at least 5 chars and 100 chars length</string>
     <string name="val_email_or_number_length">Email Or Number Phone must be at least 5 chars and 100 chars length</string>
     <string name="val_password_length">Password must be at least 4 chars and 10 chars length</string>
@@ -125,4 +95,7 @@
     <string name="add_vehicle">Add Vehicle</string>
     <string name="add_first_vehicle">First you must select vehicle to order. Click Add Vehicle if no vehicle.</string>
     <string name="title_activity_rating">Rating Your Wash</string>
+    <string name="select_address_home">Select Home</string>
+    <string name="select_address_work">Select Work</string>
+    <string name="title_activity_notification">Notification</string>
 </resources>

@@ -8,19 +8,7 @@ import com.orm.SugarRecord;
 /**
  * Created by Amay on 1/12/2017.
  */
-public class VehicleBrand extends SugarRecord implements Parcelable {
-
-    public static final Creator<VehicleBrand> CREATOR = new Creator<VehicleBrand>() {
-        @Override
-        public VehicleBrand createFromParcel(Parcel in) {
-            return new VehicleBrand(in);
-        }
-
-        @Override
-        public VehicleBrand[] newArray(int size) {
-            return new VehicleBrand[size];
-        }
-    };
+public class VehicleBrand  implements Parcelable {
     public String vBrandId;
     public String vIdFk;
     public String vBrand;
@@ -31,6 +19,30 @@ public class VehicleBrand extends SugarRecord implements Parcelable {
     public VehicleBrand(String vBrandId, String vIdFk, String vBrand) {
         this.vBrandId = vBrandId;
         this.vIdFk = vIdFk;
+        this.vBrand = vBrand;
+    }
+
+    public String getvBrandId() {
+        return vBrandId;
+    }
+
+    public void setvBrandId(String vBrandId) {
+        this.vBrandId = vBrandId;
+    }
+
+    public String getvIdFk() {
+        return vIdFk;
+    }
+
+    public void setvIdFk(String vIdFk) {
+        this.vIdFk = vIdFk;
+    }
+
+    public String getvBrand() {
+        return vBrand;
+    }
+
+    public void setvBrand(String vBrand) {
         this.vBrand = vBrand;
     }
 
@@ -46,6 +58,19 @@ public class VehicleBrand extends SugarRecord implements Parcelable {
         dest.writeString(vIdFk);
         dest.writeString(vBrand);
     }
+
+
+    public static final Creator<VehicleBrand> CREATOR = new Creator<VehicleBrand>() {
+        @Override
+        public VehicleBrand createFromParcel(Parcel in) {
+            return new VehicleBrand(in);
+        }
+
+        @Override
+        public VehicleBrand[] newArray(int size) {
+            return new VehicleBrand[size];
+        }
+    };
 
     @Override
     public int describeContents() {

@@ -1,96 +1,207 @@
 package com.qwash.user.adapter;
 
-import android.content.Context;
-import android.os.Bundle;
-import android.support.v4.app.FragmentManager;
-import android.support.v4.app.FragmentTransaction;
-import android.support.v7.app.AppCompatActivity;
-import android.support.v7.widget.CardView;
+import android.app.Activity;
+import android.os.Build;
+import android.support.annotation.RequiresApi;
+import android.support.v4.content.ContextCompat;
 import android.support.v7.widget.RecyclerView;
+import android.util.SparseBooleanArray;
+import android.view.GestureDetector;
 import android.view.LayoutInflater;
+import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.qwash.user.R;
-import com.qwash.user.ui.fragment.DetailNotificationFragment;
+import com.qwash.user.model.Notification;
 
-/**
- * Created by binderbyte on 24/12/16.
- */
+import java.util.ArrayList;
 
-public class NotificationAdapter extends RecyclerView.Adapter<NotificationAdapter.RecyclerViewHolder> {
+import butterknife.BindView;
+import butterknife.ButterKnife;
 
-    String[] title = {"Promo 2015", "Promo 2017", "Promo 2018"};
-    int[] image = {R.mipmap.ic_launcher, R.mipmap.ic_launcher, R.mipmap.ic_launcher};
-    String[] deskripsi = {"Berlaku pada tgl 12 januari 2015, Berlaku pada tgl 12 januari 2015, Berlaku pada tgl 12 januari 2015, Berlaku pada tgl 12 januari 2015", "Berlaku pada tgl 12 januari 2017", "Berlaku pada tgl 12 januari 2018"};
+public class NotificationAdapter extends RecyclerView.Adapter<NotificationAdapter.ViewHolder> implements View.OnTouchListener, View.OnClickListener {
 
-    Context context;
-    LayoutInflater inflater;
-    View view;
-    FragmentManager fragmentManager;
+    public final ArrayList<Notification> data;
+    private final GestureDetector gestureDetector;
 
-    public NotificationAdapter(FragmentManager fm, Context context) {
-        this.fragmentManager = fm;
-        this.context = context;
-        inflater = LayoutInflater.from(context);
+    private boolean isTablet = false;
+    private Activity activity;
+    private SparseBooleanArray mSelectedItemsIds;
+    private int selected = -1;
+
+    private OnNotificationItemClickListener OnNotificationItemClickListener;
+
+
+    public NotificationAdapter(Activity activity, ArrayList<Notification> histories, boolean isTable) {
+        this.activity = activity;
+        this.data = histories;
+        mSelectedItemsIds = new SparseBooleanArray();
+        gestureDetector = new GestureDetector(activity, new SingleTapConfirm());
+        this.isTablet = isTable;
+
+    }
+
+    public void setOnNotificationItemClickListener(OnNotificationItemClickListener onNotificationItemClickListener) {
+        this.OnNotificationItemClickListener = onNotificationItemClickListener;
     }
 
     @Override
-    public RecyclerViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
+    public boolean onTouch(View v, MotionEvent event) {
 
-        view = inflater.inflate(R.layout.item_notification, parent, false);
-
-        RecyclerViewHolder viewHolder = new RecyclerViewHolder(view);
-        return viewHolder;
+        return false;
     }
 
     @Override
-    public void onBindViewHolder(final RecyclerViewHolder holder, final int position) {
-
-        holder.title5.setText(title[position]);
-        holder.deskripsi1.setText(deskripsi[position]);
-        holder.image1.setImageResource(image[position]);
-        holder.cardView5.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-
-                Bundle i = new Bundle();
-                i.putString("title", title[position]);
-                i.putString("deskripsi", deskripsi[position]);
-                i.putInt("image", image[position]);
-
-                DetailNotificationFragment newFragment = new DetailNotificationFragment();
-                newFragment.setArguments(i);
-                FragmentManager fragmentManager = ((AppCompatActivity) context).getSupportFragmentManager();
-                FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
-                fragmentTransaction.replace(R.id.fragment_container, newFragment);
-                fragmentTransaction.addToBackStack(null);
-                fragmentTransaction.commit();
-            }
-        });
-    }
-
-    @Override
-    public int getItemCount() {
-        return title.length;
-    }
-
-    class RecyclerViewHolder extends RecyclerView.ViewHolder {
-
-        TextView title5, deskripsi1;
-        CardView cardView5;
-        ImageView image1;
-
-        public RecyclerViewHolder(View itemView) {
-            super(itemView);
-
-            title5 = (TextView) itemView.findViewById(R.id.title_notification);
-            deskripsi1 = (TextView) itemView.findViewById(R.id.deskripsi_notification);
-            cardView5 = (CardView) itemView.findViewById(R.id.card_view_notification);
-            image1 = (ImageView) itemView.findViewById(R.id.image_notification);
-
+    public void onClick(View v) {
+        if (OnNotificationItemClickListener != null) {
+            OnNotificationItemClickListener.onRootClick(v, (Integer) v.getTag());
         }
     }
+
+    public void setSelected(int selected) {
+        this.selected = selected;
+        notifyDataSetChanged();
+    }
+
+    public void delete_all() {
+        int count = getItemCount();
+        if (count > 0) {
+            data.clear();
+            notifyDataSetChanged();
+        }
+
+    }
+
+    public long getItemId(int position) {
+        return position;
+    }
+
+    @Override
+    public ViewHolder onCreateViewHolder(ViewGroup parent,
+                                         int viewType) {
+        View v = LayoutInflater.from(parent.getContext())
+                .inflate(R.layout.item_list_notification, parent, false);
+        ViewHolder holder = new ViewHolder(v);
+        holder.rootParent.setOnClickListener(this);
+        return holder;
+    }
+
+    @RequiresApi(api = Build.VERSION_CODES.JELLY_BEAN)
+    public void onBindViewHolder(final ViewHolder holder, int position) {
+        Notification notification = data.get(position);
+
+        holder.titleNotification.setText(notification.getTitle());
+        holder.deskripsiNotification.setText(notification.getDescription());
+
+        final int sdk = android.os.Build.VERSION.SDK_INT;
+        if (isTablet) {
+            if (selected == position) {
+                if (sdk < android.os.Build.VERSION_CODES.JELLY_BEAN) {
+                    holder.rootParent.setBackgroundDrawable(ContextCompat.getDrawable(activity, R.drawable.border_set_blue));
+                } else {
+                    holder.rootParent.setBackground(ContextCompat.getDrawable(activity, R.drawable.border_set_blue));
+                }
+
+                holder.titleNotification.setTextColor(ContextCompat.getColor(activity, R.color.white));
+                holder.deskripsiNotification.setTextColor(ContextCompat.getColor(activity, R.color.white));
+            } else {
+                if (sdk < android.os.Build.VERSION_CODES.JELLY_BEAN) {
+                    holder.rootParent.setBackgroundDrawable(ContextCompat.getDrawable(activity, R.drawable.border_set_green));
+                } else {
+                    holder.rootParent.setBackground(ContextCompat.getDrawable(activity, R.drawable.border_set_green));
+                }
+                holder.titleNotification.setTextColor(ContextCompat.getColor(activity, R.color.black_424242));
+                holder.deskripsiNotification.setTextColor(ContextCompat.getColor(activity, R.color.black_424242));
+            }
+        } else {
+            if (sdk < android.os.Build.VERSION_CODES.JELLY_BEAN) {
+                holder.rootParent.setBackgroundDrawable(ContextCompat.getDrawable(activity, R.drawable.border_set_green));
+            } else {
+                holder.rootParent.setBackground(ContextCompat.getDrawable(activity, R.drawable.border_set_green));
+            }
+            holder.titleNotification.setTextColor(ContextCompat.getColor(activity, R.color.black_424242));
+            holder.deskripsiNotification.setTextColor(ContextCompat.getColor(activity, R.color.black_424242));
+        }
+
+        holder.rootParent.setTag(position);
+
+    }
+
+    public int getItemCount() {
+        return data.size();
+    }
+
+    /**
+     * Here is the key method to apply the animation
+     */
+
+    public void remove(int position) {
+        data.remove(data.get(position));
+        notifyDataSetChanged();
+    }
+
+    public void toggleSelection(int position) {
+        selectView(position, !mSelectedItemsIds.get(position));
+    }
+
+    public void removeSelection() {
+        mSelectedItemsIds = new SparseBooleanArray();
+        notifyDataSetChanged();
+    }
+
+    public void selectView(int position, boolean value) {
+        if (value)
+            mSelectedItemsIds.put(position, value);
+        else
+            mSelectedItemsIds.delete(position);
+        notifyDataSetChanged();
+    }
+
+    public int getSelectedCount() {
+        return mSelectedItemsIds.size();
+    }
+
+    public SparseBooleanArray getSelectedIds() {
+        return mSelectedItemsIds;
+    }
+
+    public interface OnNotificationItemClickListener {
+
+        void onRootClick(View v, int position);
+
+    }
+
+    public class ViewHolder extends RecyclerView.ViewHolder {
+
+        @BindView(R.id.image_notification)
+        ImageView imageNotification;
+        @BindView(R.id.title_notification)
+        TextView titleNotification;
+        @BindView(R.id.deskripsi_notification)
+        TextView deskripsiNotification;
+        @BindView(R.id.root_parent)
+        LinearLayout rootParent;
+
+        public ViewHolder(View vi) {
+            super(vi);
+            ButterKnife.bind(this, vi);
+
+        }
+
+    }
+
+    private class SingleTapConfirm extends GestureDetector.SimpleOnGestureListener {
+
+        @Override
+        public boolean onSingleTapUp(MotionEvent event) {
+            return true;
+        }
+
+
+    }
+
 }

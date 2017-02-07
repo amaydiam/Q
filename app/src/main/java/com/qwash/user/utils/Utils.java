@@ -1,12 +1,19 @@
 package com.qwash.user.utils;
 
+import android.app.Activity;
 import android.content.Context;
 import android.content.res.Resources;
+import android.support.v4.app.FragmentActivity;
 import android.util.DisplayMetrics;
+import android.view.inputmethod.InputMethodManager;
+
+import com.qwash.user.R;
 
 import java.math.BigInteger;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
+
+import static android.content.Context.INPUT_METHOD_SERVICE;
 
 /**
  * Created by Mia on 29/02/2016.
@@ -64,5 +71,26 @@ public class Utils {
 
         }
         return "IDR. " + ss.replace(",", ".");
+    }
+
+    public static int getNumberOfColumns(Activity activity, boolean isTablet) {
+        // Get screen width
+        DisplayMetrics displayMetrics = activity.getResources().getDisplayMetrics();
+        float widthPx = displayMetrics.widthPixels;
+        if (isTablet) {
+            widthPx = widthPx / 3;
+        }
+        // Calculate desired width
+
+        float desiredPx = activity.getResources().getDimensionPixelSize(R.dimen.list_width);
+        int columns = Math.round(widthPx / desiredPx);
+        return columns > 1 ? columns : 1;
+    }
+
+    public static void hideSoftKeyboard(Activity act) {
+        if (act.getCurrentFocus() != null) {
+            InputMethodManager inputMethodManager = (InputMethodManager) act.getSystemService(INPUT_METHOD_SERVICE);
+            inputMethodManager.hideSoftInputFromWindow(act.getCurrentFocus().getWindowToken(), 0);
+        }
     }
 }
