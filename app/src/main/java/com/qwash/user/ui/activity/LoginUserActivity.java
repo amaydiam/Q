@@ -23,6 +23,7 @@ import com.facebook.FacebookException;
 import com.facebook.FacebookSdk;
 import com.facebook.GraphRequest;
 import com.facebook.GraphResponse;
+import com.facebook.login.LoginManager;
 import com.facebook.login.LoginResult;
 import com.facebook.login.widget.LoginButton;
 import com.google.android.gms.auth.api.Auth;
@@ -42,6 +43,7 @@ import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.auth.GoogleAuthProvider;
 import com.google.firebase.iid.FirebaseInstanceId;
+import com.google.gson.Gson;
 import com.joanzapata.iconify.IconDrawable;
 import com.joanzapata.iconify.Iconify;
 import com.joanzapata.iconify.fonts.EntypoIcons;
@@ -56,12 +58,11 @@ import com.qwash.user.R;
 import com.qwash.user.Sample;
 import com.qwash.user.api.ApiUtils;
 import com.qwash.user.api.client.auth.LoginService;
+import com.qwash.user.api.model.GlobalError;
 import com.qwash.user.api.model.login.AddressLogin;
 import com.qwash.user.api.model.login.DataLogin;
 import com.qwash.user.api.model.login.Login;
-import com.qwash.user.api.model.vehicle.DataVehicle;
 import com.qwash.user.model.AddressUser;
-import com.qwash.user.model.VehicleUser;
 import com.qwash.user.ui.widget.RobotoRegularButton;
 import com.qwash.user.ui.widget.RobotoRegularEditText;
 import com.qwash.user.utils.Prefs;
@@ -71,6 +72,7 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.io.IOException;
+import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -106,7 +108,7 @@ public class LoginUserActivity extends AppCompatActivity implements GoogleApiCli
     @Length(min = 4, max = 10, trim = true, messageResId = R.string.val_password_length)
     @BindView(R.id.password)
     com.txusballesteros.PasswordEditText password;
-    private String TAG = "LoginUserActivity";
+    private String TAG = "X";
     private ProgressDialogBuilder dialogProgress;
     // Validator form-form
     private Validator validator;
@@ -114,6 +116,10 @@ public class LoginUserActivity extends AppCompatActivity implements GoogleApiCli
     private FirebaseAuth.AuthStateListener mAuthListener;
     private GoogleApiClient mGoogleApiClient;
     private CallbackManager mCallbackManager;
+    private int LOGIN = 1;
+    private int LOGIN_SOSIAL = 2;
+    private FirebaseUser user;
+    private boolean AfterSuccessGetDataFacebook = false;
 
     @OnClick(R.id.btn_login)
     void LoginEmail() {
@@ -123,15 +129,16 @@ public class LoginUserActivity extends AppCompatActivity implements GoogleApiCli
 
     @OnClick(R.id.btn_facebook)
     void LoginFacebook() {
-        loginButton.performClick();
-        //Toast.makeText(this, "Facebook", Toast.LENGTH_SHORT).show();
+        if (user != null) {
+
+        } else {
+            loginButton.performClick();
+        }
     }
 
     @OnClick(R.id.btn_google_plus)
     void LoginGooglePlus() {
         signInGoogle();
-        startActivity(new Intent(this, HomeActivity.class));
-        //Toast.makeText(this, "Gplus", Toast.LENGTH_SHORT).show();
     }
 
     @OnClick(R.id.register)
@@ -148,6 +155,7 @@ public class LoginUserActivity extends AppCompatActivity implements GoogleApiCli
         FacebookSdk.sdkInitialize(this.getApplicationContext());
         setContentView(R.layout.login_user);
         ButterKnife.bind(this);
+
         inisialisasiSignIn();
 
         dialogProgress = new ProgressDialogBuilder(this);
@@ -155,7 +163,7 @@ public class LoginUserActivity extends AppCompatActivity implements GoogleApiCli
         validator.setValidationListener(new Validator.ValidationListener() {
             @Override
             public void onValidationSucceeded() {
-                remoteLogin();
+                remoteLogin(LOGIN, null, null);
             }
 
             @Override
@@ -187,7 +195,9 @@ public class LoginUserActivity extends AppCompatActivity implements GoogleApiCli
         });
         setIcon();
 
+
     }
+
 
     private void inisialisasiSignIn() {
         //LoginFacebook
@@ -204,21 +214,23 @@ public class LoginUserActivity extends AppCompatActivity implements GoogleApiCli
                             loginResult.getAccessToken(),
                             new GraphRequest.GraphJSONObjectCallback() {
                                 @Override
-                                public void onCompleted(JSONObject object, GraphResponse response) {
+                                public void onCompleted(JSONObject json, GraphResponse response) {
                                     // Application code
-                                    try {
-                                        String email = object.getString("email");
-                                        String name = object.getString("name");
+                                        try {
+                                            JSONObject data = response.getJSONObject();
+                                            String profilePicUrl = data.getJSONObject("picture").getJSONObject("data").getString("url");
+                                            String email = json.getString("email");
+                                            String str_firstname = json.getString("first_name");
+                                            String str_lastname = json.getString("last_name");
+                                            String id = json.getString("id");
+                                            String fullName = str_firstname + " " + str_lastname;
 
-                                        startActivity(new Intent(LoginUserActivity.this, HomeActivity.class));
-                                        SharedPreferences bb = getSharedPreferences("my_prefs", Context.MODE_PRIVATE);
-                                        SharedPreferences.Editor editor = bb.edit();
-                                        editor.putString("email", email);
-                                        editor.putString("nama", name);
-                                        editor.commit();
-                                    } catch (JSONException e) {
-                                        e.printStackTrace();
-                                    }
+                                            remoteLogin(LOGIN_SOSIAL, email, fullName);
+
+                                        } catch (JSONException e) {
+                                            e.printStackTrace();
+                                        }
+
                                 }
                             });
                     Bundle parameters = new Bundle();
@@ -243,10 +255,8 @@ public class LoginUserActivity extends AppCompatActivity implements GoogleApiCli
 
         //LoginGoogle
         GoogleSignInOptions gso = new GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
-                .requestIdToken(getString(R.string.default_web_client_id))
                 .requestEmail()
                 .build();
-
         mGoogleApiClient = new GoogleApiClient.Builder(this)
                 .enableAutoManage(this /* FragmentActivity */, this /* OnConnectionFailedListener */)
                 .addApi(Auth.GOOGLE_SIGN_IN_API, gso)
@@ -257,10 +267,15 @@ public class LoginUserActivity extends AppCompatActivity implements GoogleApiCli
         mAuthListener = new FirebaseAuth.AuthStateListener() {
             @Override
             public void onAuthStateChanged(@NonNull FirebaseAuth firebaseAuth) {
-                FirebaseUser user = firebaseAuth.getCurrentUser();
+                user = firebaseAuth.getCurrentUser();
                 if (user != null) {
-                    // User is signed in
-                    checkoutUser(user);
+
+                    if (AfterSuccessGetDataFacebook) {
+
+                        // User is signed in
+                        //  checkoutUser(user);
+                    }
+
                 } else {
                     // User is signed out
                 }
@@ -268,37 +283,6 @@ public class LoginUserActivity extends AppCompatActivity implements GoogleApiCli
         };
     }
 
-    private void checkoutUser(FirebaseUser user) {
-        if (user != null) {
-            startActivity(new Intent(this, HomeActivity.class));
-            SharedPreferences bb = getSharedPreferences("my_prefs", Context.MODE_PRIVATE);
-            SharedPreferences.Editor editor = bb.edit();
-            editor.putString("email", user.getEmail().toString());
-            editor.putString("nama", user.getDisplayName().toString());
-            editor.putString("photo", user.getPhotoUrl().toString());
-            editor.commit();
-        }
-    }
-
-    @Override
-    public void onActivityResult(int requestCode, int resultCode, Intent data) {
-        super.onActivityResult(requestCode, resultCode, data);
-
-        mCallbackManager.onActivityResult(requestCode, resultCode, data);
-
-        // Result returned from launching the Intent from GoogleSignInApi.getSignInIntent(...);
-        if (requestCode == RC_SIGN_IN) {
-            GoogleSignInResult result = Auth.GoogleSignInApi.getSignInResultFromIntent(data);
-            if (result.isSuccess()) {
-                // Google Sign In was successful, authenticate with Firebase
-                GoogleSignInAccount account = result.getSignInAccount();
-                firebaseAuthWithGoogle(account);
-            } else {
-                // Google Sign In failed, update UI appropriately
-                //activity sign in failed
-            }
-        }
-    }
 
     private void handleFacebookAccessToken(AccessToken token) {
         // [START_EXCLUDE silent]
@@ -325,6 +309,29 @@ public class LoginUserActivity extends AppCompatActivity implements GoogleApiCli
                     }
                 });
     }
+
+
+
+    @Override
+    public void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+
+        mCallbackManager.onActivityResult(requestCode, resultCode, data);
+
+        // Result returned from launching the Intent from GoogleSignInApi.getSignInIntent(...);
+        if (requestCode == RC_SIGN_IN) {
+            GoogleSignInResult result = Auth.GoogleSignInApi.getSignInResultFromIntent(data);
+            if (result.isSuccess()) {
+                // Google Sign In was successful, authenticate with Firebase
+                GoogleSignInAccount account = result.getSignInAccount();
+                firebaseAuthWithGoogle(account);
+            } else {
+                // Google Sign In failed, update UI appropriately
+                //activity sign in failed
+            }
+        }
+    }
+
 
     private void firebaseAuthWithGoogle(GoogleSignInAccount acct) {
         // [START_EXCLUDE silent]
@@ -395,18 +402,26 @@ public class LoginUserActivity extends AppCompatActivity implements GoogleApiCli
     }
 
 
-    private void remoteLogin() {
-        dialogProgress.show("LoginService ...", "Please wait...");
+    private void remoteLogin(final int method, final String email, final String fullName) {
+
+        dialogProgress.show("Login...", "Please wait...");
 
         final String firebase_id = FirebaseInstanceId.getInstance().getToken();
-        Map<String, String> params = new HashMap<>();
-        params.put(Sample.EMAIL, emailOrNumberPhone.getText().toString());
-        params.put(Sample.PASSWORD, password.getText().toString());
+        final Map<String, String> params = new HashMap<>();
+        params.put(Sample.EMAIL, method == LOGIN_SOSIAL ? email : emailOrNumberPhone.getText().toString());
+        if (method != LOGIN_SOSIAL) {
+            params.put(Sample.PASSWORD, password.getText().toString());
+        }
         params.put(Sample.FIREBASE_ID, firebase_id);
         params.put(Sample.AUTH_LEVEL, "10");
 
+        for (Map.Entry entry : params.entrySet()) {
+            System.out.println(entry.getKey() + ", " + entry.getValue());
+        }
+
         LoginService mService = ApiUtils.LoginService(this);
-        mService.getLoginLink(params).enqueue(new Callback<Login>() {
+        Call<Login> ms = method == LOGIN_SOSIAL ? mService.getLoginSosialLink(params) : mService.getLoginLink(params);
+        ms.enqueue(new Callback<Login>() {
             @Override
             public void onResponse(Call<Login> call, Response<Login> response) {
 
@@ -428,28 +443,6 @@ public class LoginUserActivity extends AppCompatActivity implements GoogleApiCli
                         Prefs.putAuthLevel(LoginUserActivity.this, String.valueOf(dataLogin.getAuthLevel()));
 
 
-                        List<DataVehicle> dataVehicleList = response.body().getVehicle();
-                        if (dataVehicleList.size() > 0 && (VehicleUser.findAll(VehicleUser.class).hasNext())) {
-                            VehicleUser.deleteAll(VehicleUser.class);
-                        }
-
-                        for (int i = 0; i < dataVehicleList.size(); i++) {
-                            String vCustomersId = dataVehicleList.get(i).getVCustomersId();
-                            String vName = dataVehicleList.get(i).getVName();
-                            String vBrand = dataVehicleList.get(i).getVBrand();
-                            String models = dataVehicleList.get(i).getModels();
-                            String vTransmission = dataVehicleList.get(i).getVTransmission();
-                            String years = dataVehicleList.get(i).getYears();
-                            String vId = dataVehicleList.get(i).getVId();
-                            String vBrandId = dataVehicleList.get(i).getVBrandId();
-                            String vModelId = dataVehicleList.get(i).getVModelId();
-                            String vTransId = dataVehicleList.get(i).getVTransId();
-                            String vYearsId = dataVehicleList.get(i).getVYearsId();
-                            VehicleUser vehicleUser = new VehicleUser(vCustomersId, vName, vBrand, models, vTransmission, years, vId, vBrandId, vModelId, vTransId, vYearsId);
-                            vehicleUser.save();
-                        }
-
-
                         List<AddressLogin> addressLoginList = response.body().getAddressLogin();
                         if (addressLoginList.size() > 0 && (AddressUser.findAll(AddressUser.class).hasNext())) {
                             AddressUser.deleteAll(AddressUser.class);
@@ -468,20 +461,29 @@ public class LoginUserActivity extends AppCompatActivity implements GoogleApiCli
                             addressUser.save();
                         }
 
-                        toHomeActivity();
+                        toActivity("home", null, null);
 
+                    } else {
+                        toActivity("register", email, fullName);
                     }
                 } else {
                     int statusCode = response.code();
                     try {
-                        JSONObject jsonObject = new JSONObject(response.errorBody().string());
-                        String message = jsonObject.getString(Sample.MESSAGE);
-                        Toast.makeText(getApplicationContext(), message, Toast.LENGTH_SHORT).show();
-                        password.setText("");
-                    } catch (JSONException | IOException e) {
-                        Toast.makeText(getApplicationContext(), "Error", Toast.LENGTH_SHORT).show();
+                        String json = response.errorBody().string();
+                        GlobalError globalError = new Gson().fromJson(json, GlobalError.class);
+                        if (!globalError.getStatus()) {
+                            if (method != LOGIN_SOSIAL) {
+                                Toast.makeText(getApplicationContext(), globalError.getMessage(), Toast.LENGTH_LONG).show();
+                            } else {
+                                toActivity("register", email, fullName);
+                            }
+                        }
+
+                    } catch (IOException e) {
                         e.printStackTrace();
+                        Toast.makeText(getApplicationContext(), "Error", Toast.LENGTH_SHORT).show();
                     }
+
                 }
             }
 
@@ -495,29 +497,32 @@ public class LoginUserActivity extends AppCompatActivity implements GoogleApiCli
     }
 
 
-    private void toHomeActivity() {
-        Intent intent = new Intent(this, HomeActivity.class);
-        intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
+    private void toActivity(String action, String email, String fullName) {
+        Intent intent;
+        if (action.equalsIgnoreCase("home")) {
+            intent = new Intent(this, HomeActivity.class);
+            intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
+        } else {
+            intent = new Intent(this, RegisterUserActivity.class);
+            intent.putExtra(Sample.EMAIL, email);
+            intent.putExtra(Sample.NAME, fullName);
+        }
         startActivity(intent);
         finish();
     }
 
+
     @Override
     protected void onStop() {
         super.onStop();
-        if (mAuthListener != null) {
-            mAuth.removeAuthStateListener(mAuthListener);
-        }
     }
 
     @Override
     protected void onStart() {
         super.onStart();
 
-        mAuth.addAuthStateListener(mAuthListener);
-
         if (Prefs.isLogedIn(this)) {
-            toHomeActivity();
+            toActivity("home", null, null);
         }
     }
 
@@ -535,4 +540,6 @@ public class LoginUserActivity extends AppCompatActivity implements GoogleApiCli
         // be available.
         Toast.makeText(this, "Google Play Services error.", Toast.LENGTH_SHORT).show();
     }
+
+
 }

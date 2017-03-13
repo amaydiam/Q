@@ -57,9 +57,7 @@ import retrofit2.Response;
 public class RegisterUserActivity extends AppCompatActivity {
 
     private static final String TAG = "RegisterUserActivity";
-    @BindView(R.id.btn_login)
-    RobotoRegularTextView btnLogin;
-    @BindView(R.id.btn_register)
+    @BindView(R.id.btn_new_account)
     RobotoRegularButton btnRegister;
     @BindView(R.id.btn_facebook)
     FloatingActionButton btnFacebook;
@@ -68,8 +66,8 @@ public class RegisterUserActivity extends AppCompatActivity {
 
     @NotEmpty
     @Length(min = 2, max = 50, trim = true, messageResId = R.string.val_name_length)
-    @BindView(R.id.nama)
-    RobotoRegularEditText nama;
+    @BindView(R.id.full_name)
+    RobotoRegularEditText fullName;
 
     @NotEmpty
     @Length(min = 6, max = 50, trim = true, messageResId = R.string.val_email_length)
@@ -81,23 +79,16 @@ public class RegisterUserActivity extends AppCompatActivity {
     @Length(min = 4, max = 100, trim = true, messageResId = R.string.val_password_length)
     @Password
     @BindView(R.id.password)
-
     RobotoRegularEditText password;
-    @BindView(R.id.phonenumber)
-    RobotoRegularEditText phonenumber;
-    @BindView(R.id.layout_btn_register_alternatif)
-    LinearLayout layoutBtnRegisterAlternatif;
+
+    @BindView(R.id.no_telp)
+    RobotoRegularEditText noTelp;
 
     private String firebase_id;
     private ProgressDialogBuilder dialogProgress;
     private Validator validator;
 
-    @OnClick(R.id.btn_login)
-    void ActionLogin() {
-        finish();
-    }
-
-    @OnClick(R.id.btn_register)
+    @OnClick(R.id.btn_new_account)
     void SubmitRegister() {
         validator.validate();
     }
@@ -147,8 +138,6 @@ public class RegisterUserActivity extends AppCompatActivity {
                 }
             }
         });
-        //set underline
-        btnLogin.setPaintFlags(btnLogin.getPaintFlags() | Paint.UNDERLINE_TEXT_FLAG);
         //set icon
         btnFacebook.setImageDrawable(
                 new IconDrawable(this, FontAwesomeIcons.fa_facebook)
@@ -167,10 +156,10 @@ public class RegisterUserActivity extends AppCompatActivity {
         firebase_id = FirebaseInstanceId.getInstance().getToken();
         Map<String, String> params = new HashMap<>();
         params.put(Sample.EMAIL, email.getText().toString());
-        params.put(Sample.NAME, nama.getText().toString());
+        params.put(Sample.NAME, fullName.getText().toString());
         params.put(Sample.PASSWORD, password.getText().toString());
         params.put(Sample.AUTH_LEVEL, String.valueOf(5));
-        params.put(Sample.PHONE, phonenumber.getText().toString());
+        params.put(Sample.PHONE, noTelp.getText().toString());
         params.put(Sample.CITY, "Tangerang Selatan");
 
         params.put(Sample.FIREBASE_ID, firebase_id);

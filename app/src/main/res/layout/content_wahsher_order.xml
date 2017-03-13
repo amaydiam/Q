@@ -33,65 +33,55 @@
                 android:layout_height="wrap_content"
                 android:layout_marginBottom="@dimen/activity_half_vertical_margin"
                 android:layout_marginTop="@dimen/activity_half_vertical_margin"
-                android:text="Fachri" />
+                android:text="Fachri"
+                android:textSize="14sp"/>
 
             <com.joanzapata.iconify.widget.IconTextView
                 android:id="@+id/rating_whaser"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="{entypo-star-outlined} 4.7" />
+                android:text="{entypo-star-outlined} 4.7"
+                android:textSize="14sp"/>
 
         </LinearLayout>
 
         <RelativeLayout
             android:id="@+id/kanan"
             android:layout_height="wrap_content"
-            android:layout_marginLeft="@dimen/activity_vertical_margin"
+            android:layout_marginLeft="@dimen/activity_half_vertical_margin"
             android:layout_toRightOf="@id/kiri"
             app:layout_widthPercent="60%">
 
             <View
-                android:layout_width="1dp"
+                android:layout_width="0.5dp"
                 android:layout_height="wrap_content"
                 android:layout_alignBottom="@+id/content"
                 android:layout_alignTop="@+id/content"
-                android:background="@color/grey" />
+                android:background="@color/divider" />
 
             <LinearLayout
                 android:id="@+id/content"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginLeft="@dimen/activity_vertical_margin"
+                android:layout_marginLeft="@dimen/activity_half_vertical_margin"
                 android:gravity="center|left"
                 android:orientation="vertical">
-
-                <com.joanzapata.iconify.widget.IconTextView
-                    android:id="@+id/book_date"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="{fa-calendar} Wed, 23 September 2015" />
-
-                <com.joanzapata.iconify.widget.IconTextView
-                    android:id="@+id/book_time"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="@dimen/activity_half_vertical_margin"
-                    android:text="{entypo-clock} 10:20:45" />
-
                 <com.qwash.user.ui.widget.RobotoRegularTextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginTop="@dimen/activity_vertical_margin"
+                    android:layout_marginTop="@dimen/activity_half_vertical_margin"
                     android:gravity="center"
                     android:text="@string/harga_total"
-                    android:textColor="@color/grey" />
+                    android:textColor="@color/grey"
+                    android:textSize="14sp" />
 
                 <com.qwash.user.ui.widget.RobotoBoldTextView
                     android:id="@+id/total_price"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:textColor="@color/blue_2196F3"
-                    android:textSize="34sp" />
+                    android:textSize="16sp"
+                    android:text="total_price"/>
             </LinearLayout>
         </RelativeLayout>
 

@@ -561,10 +561,10 @@ public class HistoryFragment extends Fragment implements HistoryAdapter.OnHistor
     public void onRootClick(View v, int position) {
         if (isTablet) {
             adapter.setSelected(position);
-            ((HistoryActivity) getActivity()).loadDetailHistoryFragmentWith(adapter.data.get(position).getOrdersId());
+            ((HistoryActivity) getActivity()).loadDetailHistoryFragmentWith(adapter.data.get(position).getOrdersRef());
         } else {
             Intent intent = new Intent(activity, HistoryDetailActivity.class);
-            intent.putExtra(Sample.HISTORY_ID, adapter.data.get(position).getOrdersId());
+            intent.putExtra(Sample.ORDERS_REF, adapter.data.get(position).getOrdersRef());
             startActivity(intent);
         }
 

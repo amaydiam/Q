@@ -6,10 +6,9 @@ import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
-import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
+import android.util.Log;
 import android.widget.ImageView;
-import android.widget.RatingBar;
 import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
@@ -43,6 +42,7 @@ import agency.tango.android.avatarview.views.AvatarView;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
+import io.techery.properratingbar.ProperRatingBar;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
@@ -56,8 +56,6 @@ public class RatingActivity extends AppCompatActivity {
 
     @BindView(R.id.vehicle_image)
     ImageView vehicleImage;
-    @BindView(R.id.vehicle_description)
-    RobotoBoldTextView vehicleDescription;
     @BindView(R.id.image_washer)
     AvatarView imageWasher;
     @BindView(R.id.whaser_name)
@@ -65,7 +63,7 @@ public class RatingActivity extends AppCompatActivity {
     @BindView(R.id.total_price)
     RobotoBoldTextView totalPrice;
     @BindView(R.id.rating_wash)
-    RatingBar ratingWash;
+    ProperRatingBar ratingWash;
     @BindView(R.id.comment)
     RobotoRegularEditText comment;
     @BindView(R.id.btn_submit)
@@ -77,8 +75,8 @@ public class RatingActivity extends AppCompatActivity {
 
     @OnClick(R.id.btn_submit)
     void Send() {
-        String rating = String.valueOf(ratingWash.getRating());
-        if (rating.equalsIgnoreCase("0.0")) {
+        int rating = ratingWash.getRating();
+        if (rating==0) {
             Toast.makeText(this, "Please rate washer", Toast.LENGTH_SHORT).show();
             return;
         }
@@ -96,15 +94,29 @@ public class RatingActivity extends AppCompatActivity {
 
         dialogProgress = new ProgressDialogBuilder(this);
 
+        int d = 0;
+        if (prepareOrder.vehicles == Sample.VEHICLE_CAR_CITY_CAR) {
+            d = R.drawable.big_citycar;
+        } else if (prepareOrder.vehicles == Sample.VEHICLE_CAR_MINIVAN) {
+            d = R.drawable.big_minivan;
+        } else if (prepareOrder.vehicles == Sample.VEHICLE_CAR_SUV) {
+            d = R.drawable.big_suv;
+        } else if (prepareOrder.vehicles == Sample.VEHICLE_MOTORCYCLE_UNDER_150) {
+            d = R.drawable.big_under_srp_cc;
+        } else if (prepareOrder.vehicles == Sample.VEHICLE_MOTORCYCLE_150) {
+            d = R.drawable.big_srp_cc;
+        } else if (prepareOrder.vehicles == Sample.VEHICLE_MOTORCYCLE_ABOVE_150) {
+            d = R.drawable.big_above_srp_cc;
+        }
+
         Glide
                 .with(this)
                 .load("")
                 .centerCrop()
-                .placeholder(prepareOrder.vId.equalsIgnoreCase("1") ? R.drawable.mobil : R.drawable.motor)
+                .placeholder(d)
                 .crossFade()
                 .into(vehicleImage);
-        vehicleDescription.setText(prepareOrder.vBrand + "\n" + prepareOrder.models + " " + prepareOrder.vTransmission + " " + prepareOrder.years);
-        vehicleDescription.setTextColor(ContextCompat.getColor(this, R.color.white));
+
         whaserName.setText(washerAccepted.name);
         PicassoLoader imageLoader = new PicassoLoader();
         imageLoader.loadImage(imageWasher, Sample.BASE_URL_IMAGE + washerAccepted.photo, washerAccepted.name);
@@ -192,27 +204,18 @@ public class RatingActivity extends AppCompatActivity {
 
                     String result = PushNotification.postToFCM(root.toString());
 
+                    Log.v("result", result);
+
                     return result;
                 } catch (Exception ex) {
                     ex.printStackTrace();
-
+                    Log.v("Error", ex.getMessage());
                 }
                 return null;
             }
 
             @Override
             protected void onPostExecute(String result) {
-
-
-                try {
-                    JSONObject resultJson = new JSONObject(result);
-                    int success, failure;
-                    success = resultJson.getInt("success");
-                    failure = resultJson.getInt("failure");
-                } catch (JSONException e) {
-                    e.printStackTrace();
-
-                }
             }
         }.execute();
     }

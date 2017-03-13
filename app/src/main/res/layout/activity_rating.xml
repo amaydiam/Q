@@ -2,15 +2,15 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:background="@color/white">
+    android:layout_height="match_parent">
 
     <android.support.v4.widget.NestedScrollView
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
+        android:layout_height="wrap_content"
         android:layout_alignParentLeft="true"
         android:layout_alignParentStart="true"
-        android:layout_alignParentTop="true">
+        android:layout_alignParentTop="true"
+        android:background="@color/white">
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -21,33 +21,41 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:background="@color/blue_2196F3"
-                android:orientation="vertical"
-                android:paddingBottom="20dp">
+                android:gravity="center"
+                android:orientation="vertical">
 
-                <include layout="@layout/layout_selected_vehicle" />
+                <ImageView
+                    android:id="@+id/vehicle_image"
+                    android:layout_width="120dp"
+                    android:layout_height="120dp"
+                    android:layout_marginBottom="@dimen/activity_half_vertical_margin"
+                    android:layout_marginTop="@dimen/activity_half_vertical_margin"
+                    android:adjustViewBounds="true"
+                    android:src="@drawable/mobil"
 
+                    />
             </LinearLayout>
 
 
             <LinearLayout
-                android:orientation="vertical"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:layout_margin="@dimen/activity_vertical_margin">
+                android:layout_margin="@dimen/activity_half_vertical_margin"
+                android:orientation="vertical">
 
                 <LinearLayout
-                    android:orientation="horizontal"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
-                    android:layout_marginBottom="@dimen/activity_vertical_margin">
+                    android:layout_marginBottom="@dimen/activity_half_vertical_margin"
+                    android:orientation="horizontal">
 
                     <LinearLayout
-                        android:layout_weight="1"
-                        android:orientation="horizontal"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
+                        android:layout_marginRight="@dimen/activity_half_vertical_margin"
+                        android:layout_weight="1"
                         android:gravity="center_vertical|left"
-                        android:layout_marginRight="@dimen/activity_half_vertical_margin">
+                        android:orientation="horizontal">
 
                         <agency.tango.android.avatarview.views.AvatarView
                             android:id="@+id/image_washer"
@@ -66,14 +74,14 @@
                             android:layout_toRightOf="@id/image_washer"
                             android:text="Fachri"
                             android:textColor="@color/black_424242"
-                            android:textSize="18sp"/>
+                            android:textSize="14sp" />
                     </LinearLayout>
 
                     <LinearLayout
-                        android:gravity="center_vertical|right"
-                        android:layout_weight="1"
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
+                        android:layout_weight="1"
+                        android:gravity="center_vertical|right"
                         android:orientation="vertical">
 
                         <com.qwash.user.ui.widget.RobotoRegularTextView
@@ -82,39 +90,40 @@
                             android:gravity="right"
                             android:text="@string/harga_total"
                             android:textColor="@color/grey"
-                            android:textSize="16sp"/>
+                            android:textSize="14sp" />
 
                         <com.qwash.user.ui.widget.RobotoBoldTextView
-                            android:gravity="right"
                             android:id="@+id/total_price"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
+                            android:gravity="right"
+                            android:text="@string/harga_total"
                             android:textColor="@color/blue_2196F3"
-                            android:textSize="18sp"
-                            android:text="@string/harga_total"/>
+                            android:textSize="16sp" />
                     </LinearLayout>
                 </LinearLayout>
 
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
-                    android:layout_marginBottom="@dimen/activity_vertical_margin"
+                    android:layout_marginBottom="@dimen/activity_half_vertical_margin"
                     android:orientation="horizontal">
 
                     <View
                         android:layout_width="0dp"
-                        android:layout_height="1dp"
+                        android:layout_height="0.5dp"
                         android:layout_gravity="center"
                         android:layout_weight="1"
-                        android:background="#ccc" />
+                        android:background="@color/divider" />
 
-                    <TextView
+                    <com.qwash.user.ui.widget.RobotoRegularTextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_marginLeft="@dimen/activity_half_vertical_margin"
                         android:layout_marginRight="@dimen/activity_half_vertical_margin"
                         android:text="RATE YOUR WASH"
-                        android:textColor="@color/green_light"/>
+                        android:textColor="@color/green_light"
+                        android:textSize="14sp" />
 
                     <View
                         android:layout_width="0dp"
@@ -124,37 +133,41 @@
                         android:background="#ccc" />
                 </LinearLayout>
 
-                <RatingBar
+                <io.techery.properratingbar.ProperRatingBar
                     android:id="@+id/rating_wash"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_gravity="center"
-                    android:theme="@style/RatingBar"
-                    android:numStars="5"
-                    android:layout_marginBottom="@dimen/activity_vertical_margin"/>
+                    android:layout_gravity="center_horizontal"
+                    android:layout_marginBottom="@dimen/activity_half_vertical_margin"
+                    app:prb_defaultRating="0"
+                    app:prb_clickable="true"
+                    app:prb_tickNormalDrawable="@drawable/rate"
+                    app:prb_tickSelectedDrawable="@drawable/rate_sell"
+                    app:prb_tickSpacing="@dimen/activity_half_vertical_margin"
+                    app:prb_totalTicks="5" />
 
                 <com.qwash.user.ui.widget.RobotoRegularEditText
                     android:id="@+id/comment"
                     android:layout_width="match_parent"
-                    android:layout_height="100dp"
-                    android:layout_marginBottom="@dimen/activity_vertical_margin"
+                    android:layout_height="wrap_content"
+                    android:layout_marginBottom="@dimen/activity_half_vertical_margin"
                     android:gravity="top|left"
                     android:hint="Leave a comment"
-                    android:textColorHint="@color/grey"
                     android:inputType="textMultiLine"
                     android:lines="5"
                     android:maxLines="5"
                     android:minLines="1"
-                    android:padding="10dp"
-                    android:scrollbars="vertical" />
+                    android:padding="@dimen/activity_half_vertical_margin"
+                    android:scrollbars="vertical"
+                    android:textColorHint="@color/grey"
+                    android:textSize="16sp" />
 
                 <com.qwash.user.ui.widget.RobotoRegularButton
                     android:id="@+id/btn_submit"
+                    style="@style/btn_blue"
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:background="@drawable/border_blue"
-                    android:text="SUBMIT"
-                    android:textColor="@color/white" />
+                    android:layout_height="@dimen/btn_height"
+                    android:text="SUBMIT" />
             </LinearLayout>
 
         </LinearLayout>

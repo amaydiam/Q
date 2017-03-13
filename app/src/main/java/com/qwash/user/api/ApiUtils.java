@@ -11,7 +11,6 @@ import com.qwash.user.api.client.history.HistoryService;
 import com.qwash.user.api.client.notification.NotificationService;
 import com.qwash.user.api.client.order.OrderService;
 import com.qwash.user.api.client.register.RegisterService;
-import com.qwash.user.api.client.vehicle.VehicleService;
 import com.qwash.user.api.client.washer.WasherService;
 
 import agency.tango.android.avatarview.AvatarPlaceholder;
@@ -52,11 +51,6 @@ public class ApiUtils {
 
     public static WasherService WasherService(Context context) {
         return RetrofitClient.getClient(context, Sample.BASE_URL_QWASH).create(WasherService.class);
-
-    }
-
-    public static VehicleService VehicleService(Context context) {
-        return RetrofitClient.getClient(context, Sample.BASE_URL_QWASH).create(VehicleService.class);
 
     }
 

@@ -5,7 +5,6 @@ package com.qwash.user.api.model.login; /**
 
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
-import com.qwash.user.api.model.vehicle.DataVehicle;
 
 import java.util.List;
 
@@ -24,9 +23,6 @@ public class Login {
     @SerializedName("address")
     @Expose
     private List<AddressLogin> address = null;
-    @SerializedName("vehicles")
-    @Expose
-    private List<DataVehicle> vehicles = null;
 
     public Boolean getStatus() {
         return status;
@@ -60,13 +56,7 @@ public class Login {
         this.address = address;
     }
 
-    public List<DataVehicle> getVehicle() {
-        return vehicles;
-    }
 
-    public void setVehicle(List<DataVehicle> vehicles) {
-        this.vehicles = vehicles;
-    }
 
 }
 

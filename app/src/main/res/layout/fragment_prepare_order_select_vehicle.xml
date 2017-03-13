@@ -1,0 +1,143 @@
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:fillViewport="true"
+    android:orientation="vertical">
+
+    <!--  tools:context="com.qwash.user.ui.fragment.ProfilFragment"-->
+
+    <android.support.v4.widget.NestedScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:fillViewport="true">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_margin="@dimen/activity_half_vertical_margin"
+                android:gravity="center"
+                android:orientation="vertical">
+
+                <com.qwash.user.ui.widget.RobotoRegularTextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:gravity="center"
+                    android:text="SELECT VEHICLE"
+                    android:textSize="14sp" />
+
+            </LinearLayout>
+
+
+            <net.soulwolf.widget.materialradio.MaterialRadioGroup
+                android:id="@+id/rg_car"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:gravity="center"
+                android:orientation="horizontal"
+                android:layout_margin="@dimen/activity_half_vertical_margin">
+
+                <net.soulwolf.widget.materialradio.MaterialRadioButton
+                    android:id="@+id/rd_car_city_car"
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    app:mcAnimator="true"
+                    app:mcButton="@drawable/radio_button_city_car_selector"
+                    app:mcPadding="5dp"
+                    app:mcText="@string/rd_car_city_car"
+                    app:mcTextColor="@drawable/radio_button_text_selector"
+                    android:layout_marginRight="@dimen/activity_vertical_margin"
+                    app:mcTextSize="6sp" />
+
+                <net.soulwolf.widget.materialradio.MaterialRadioButton
+                    android:id="@+id/rd_car_minivan"
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    app:mcAnimator="true"
+                    app:mcButton="@drawable/radio_button_minivan_selector"
+                    app:mcPadding="5dp"
+                    app:mcText="@string/rd_car_minivan"
+                    app:mcTextColor="@drawable/radio_button_text_selector"
+                    app:mcTextSize="6sp"
+                    android:layout_marginLeft="@dimen/activity_vertical_margin"
+                    android:layout_marginRight="@dimen/activity_vertical_margin" />
+
+                <net.soulwolf.widget.materialradio.MaterialRadioButton
+                    android:id="@+id/rd_car_suv"
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    app:mcAnimator="true"
+                    app:mcButton="@drawable/radio_button_suv_selector"
+                    app:mcPadding="5dp"
+                    app:mcText="@string/rd_car_suv"
+                    app:mcTextColor="@drawable/radio_button_text_selector"
+                    android:layout_marginLeft="@dimen/activity_vertical_margin"
+                    app:mcTextSize="6sp" />
+
+            </net.soulwolf.widget.materialradio.MaterialRadioGroup>
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="0.5dp"
+                android:layout_marginLeft="@dimen/activity_half_vertical_margin"
+                android:layout_marginRight="@dimen/activity_half_vertical_margin"
+                android:background="@color/divider" />
+
+
+            <net.soulwolf.widget.materialradio.MaterialRadioGroup
+                android:id="@+id/rg_motocycle"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:gravity="center"
+                android:orientation="horizontal"
+                android:layout_margin="@dimen/activity_half_vertical_margin">
+
+                <net.soulwolf.widget.materialradio.MaterialRadioButton
+                    android:id="@+id/rd_motocycle_under_150"
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    app:mcAnimator="true"
+                    app:mcButton="@drawable/radio_button_under_srp_selector"
+                    app:mcPadding="5dp"
+                    app:mcText="@string/rd_motocycle_under_150"
+                    app:mcTextColor="@drawable/radio_button_text_selector"
+                    android:layout_marginRight="@dimen/activity_vertical_margin"
+                    app:mcTextSize="6sp" />
+
+                <net.soulwolf.widget.materialradio.MaterialRadioButton
+                    android:id="@+id/rd_motocycle_150"
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    app:mcAnimator="true"
+                    app:mcButton="@drawable/radio_button_srp_selector"
+                    app:mcPadding="5dp"
+                    app:mcText="@string/rd_motocycle_150"
+                    app:mcTextColor="@drawable/radio_button_text_selector"
+                    app:mcTextSize="6sp"
+                    android:layout_marginLeft="@dimen/activity_vertical_margin"
+                    android:layout_marginRight="@dimen/activity_vertical_margin"/>
+
+                <net.soulwolf.widget.materialradio.MaterialRadioButton
+                    android:id="@+id/rd_motocycle_above_150"
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    app:mcAnimator="true"
+                    app:mcButton="@drawable/radio_button_above_srp_selector"
+                    android:layout_marginLeft="@dimen/activity_vertical_margin"
+                    app:mcPadding="5dp"
+                    app:mcText="@string/rd_motocycle_above_150"
+                    app:mcTextColor="@drawable/radio_button_text_selector"
+                    app:mcTextSize="6sp" />
+
+            </net.soulwolf.widget.materialradio.MaterialRadioGroup>
+
+
+        </LinearLayout>
+    </android.support.v4.widget.NestedScrollView>
+</LinearLayout>

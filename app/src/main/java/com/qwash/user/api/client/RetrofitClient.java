@@ -7,6 +7,9 @@ package com.qwash.user.api.client;
 
 import android.content.Context;
 
+import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
+
 import java.util.concurrent.TimeUnit;
 
 import okhttp3.OkHttpClient;
@@ -16,6 +19,7 @@ import retrofit2.converter.gson.GsonConverterFactory;
 
 public class RetrofitClient {
 
+    public static Retrofit retrofit;
 
     public static Retrofit getClient(Context context, String baseUrl) {
 
@@ -23,18 +27,23 @@ public class RetrofitClient {
         logging.setLevel(HttpLoggingInterceptor.Level.BASIC);
 
         OkHttpClient.Builder httpClient = new OkHttpClient.Builder();
+        Gson gson = new GsonBuilder()
+                .setLenient()
+                .create();
 
         httpClient.readTimeout(60, TimeUnit.SECONDS)
                 .connectTimeout(60, TimeUnit.SECONDS)
+                .retryOnConnectionFailure(true)
                 .addInterceptor(logging)
                 .addInterceptor(new AddCookiesInterceptor(context))
                 .addInterceptor(new ReceivedCookiesInterceptor(context));
 
-        return new Retrofit.Builder()
+        retrofit = new Retrofit.Builder()
                 .baseUrl(baseUrl)
-                .addConverterFactory(GsonConverterFactory.create())
+                .addConverterFactory(GsonConverterFactory.create(gson))
                 .client(httpClient.build())
                 .build();
+        return retrofit;
 
     }
 

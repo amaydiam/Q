@@ -1,0 +1,309 @@
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:fillViewport="true"
+    android:orientation="vertical">
+
+    <!--  tools:context="com.qwash.user.ui.fragment.ProfilFragment"-->
+
+    <android.support.v4.widget.NestedScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:fillViewport="true">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_margin="@dimen/activity_half_vertical_margin"
+                android:gravity="center"
+                android:orientation="vertical">
+
+                <com.qwash.user.ui.widget.RobotoRegularTextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:gravity="center"
+                    android:text="WHAT YOU'LL GET"
+                    android:textSize="14sp" />
+
+            </LinearLayout>
+
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:gravity="center"
+                android:orientation="horizontal"
+                android:layout_marginTop="@dimen/activity_half_vertical_margin">
+
+                <net.soulwolf.widget.materialradio.MaterialRadioGroup
+                    android:id="@+id/fitur_service_motor"
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:layout_marginRight="@dimen/activity_vertical_margin"
+                    android:gravity="center"
+                    android:orientation="horizontal">
+
+                    <net.soulwolf.widget.materialradio.MaterialRadioButton
+                        android:layout_width="wrap_content"
+                        android:layout_height="match_parent"
+                        android:clickable="false"
+                        app:mcAnimator="true"
+                        app:mcButton="@drawable/radio_button_fullbody_wash_selector"
+                        app:mcChecked="true"
+                        app:mcPadding="5dp"
+                        app:mcText="@string/rd_fullbody_wash"
+                        app:mcTextColor="@drawable/radio_button_text_selector"
+                        app:mcTextSize="6sp" />
+                </net.soulwolf.widget.materialradio.MaterialRadioGroup>
+
+                <net.soulwolf.widget.materialradio.MaterialRadioGroup
+                    android:id="@+id/fitur_service_car"
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:layout_marginRight="@dimen/activity_vertical_margin"
+                    android:gravity="center"
+                    android:orientation="horizontal">
+
+                    <net.soulwolf.widget.materialradio.MaterialRadioButton
+                        android:layout_width="wrap_content"
+                        android:layout_height="match_parent"
+                        android:layout_marginRight="@dimen/activity_vertical_margin"
+                        android:clickable="false"
+                        app:mcAnimator="true"
+                        app:mcButton="@drawable/radio_button_exterior_wash_selector"
+                        app:mcChecked="true"
+                        app:mcPadding="5dp"
+                        app:mcText="@string/rd_exterior_wash"
+                        app:mcTextColor="@drawable/radio_button_text_selector"
+                        app:mcTextSize="6sp" />
+                </net.soulwolf.widget.materialradio.MaterialRadioGroup>
+
+                <net.soulwolf.widget.materialradio.MaterialRadioGroup
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:layout_marginLeft="@dimen/activity_vertical_margin"
+                    android:gravity="center"
+                    android:orientation="horizontal">
+
+                    <net.soulwolf.widget.materialradio.MaterialRadioButton
+                        android:layout_width="wrap_content"
+                        android:layout_height="match_parent"
+                        app:mcAnimator="true"
+                        app:mcButton="@drawable/radio_button_tires_shine_selector"
+                        app:mcChecked="true"
+                        app:mcPadding="5dp"
+                        app:mcText="@string/rd_tires_shine"
+                        app:mcTextColor="@drawable/radio_button_text_selector"
+                        app:mcTextSize="6sp" />
+
+                </net.soulwolf.widget.materialradio.MaterialRadioGroup>
+            </LinearLayout>
+
+            <com.qwash.user.ui.widget.RobotoRegularTextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="@dimen/activity_half_vertical_margin"
+                android:gravity="center"
+                android:text="@string/desc_fitur_service"
+                android:textSize="14sp" />
+
+
+            <LinearLayout
+                android:id="@+id/layout_additional_car"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical">
+
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="0.5dp"
+                    android:layout_marginLeft="@dimen/activity_half_vertical_margin"
+                    android:layout_marginRight="@dimen/activity_half_vertical_margin"
+                    android:background="@color/divider" />
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:gravity="center"
+                    android:orientation="horizontal">
+
+                    <LinearLayout
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_margin="@dimen/activity_half_vertical_margin"
+                        android:gravity="center"
+                        android:orientation="vertical">
+
+                        <RelativeLayout
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content">
+
+                            <net.soulwolf.widget.materialradio.MaterialRadioGroup
+                                android:id="@+id/rg_perfumed"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:clickable="true"
+                                android:gravity="center"
+                                android:orientation="horizontal">
+
+                                <net.soulwolf.widget.materialradio.MaterialRadioButton
+                                    android:id="@+id/rd_perfumed"
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="match_parent"
+
+                                    app:mcAnimator="true"
+                                    app:mcButton="@drawable/radio_button_perfumed_selector"
+                                    app:mcPadding="5dp"
+                                    app:mcText="@string/rd_perfumed"
+                                    app:mcTextColor="@drawable/radio_button_text_selector"
+                                    app:mcTextSize="6sp" />
+
+
+                            </net.soulwolf.widget.materialradio.MaterialRadioGroup>
+
+                            <View
+                                android:id="@+id/tap_perfumed"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_alignBottom="@+id/rg_perfumed"
+                                android:layout_alignEnd="@+id/rg_perfumed"
+                                android:layout_alignRight="@+id/rg_perfumed"
+                                android:layout_alignTop="@+id/rg_perfumed" />
+                        </RelativeLayout>
+
+                        <com.qwash.user.ui.widget.RobotoRegularTextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:gravity="center"
+                            android:text="IDR 2.000"
+                            android:textColor="@color/orange"
+                            android:textSize="14sp" />
+
+                    </LinearLayout>
+
+
+                    <LinearLayout
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_margin="@dimen/activity_half_vertical_margin"
+                        android:gravity="center"
+                        android:orientation="vertical">
+
+                        <RelativeLayout
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content">
+
+                            <net.soulwolf.widget.materialradio.MaterialRadioGroup
+                                android:id="@+id/rg_interior_vaccum"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:clickable="true"
+                                android:gravity="center"
+                                android:orientation="horizontal">
+
+                                <net.soulwolf.widget.materialradio.MaterialRadioButton
+                                    android:id="@+id/rd_interior_vaccum"
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="match_parent"
+
+                                    app:mcAnimator="true"
+                                    app:mcButton="@drawable/radio_button_interior_vaccum_selector"
+                                    app:mcPadding="5dp"
+                                    app:mcText="@string/rd_interior_vaccum"
+                                    app:mcTextColor="@drawable/radio_button_text_selector"
+                                    app:mcTextSize="6sp" />
+
+                            </net.soulwolf.widget.materialradio.MaterialRadioGroup>
+
+                            <View
+                                android:id="@+id/tap_interior_vaccum"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_alignBottom="@+id/rg_interior_vaccum"
+                                android:layout_alignEnd="@+id/rg_interior_vaccum"
+                                android:layout_alignRight="@+id/rg_interior_vaccum"
+                                android:layout_alignTop="@+id/rg_interior_vaccum" />
+                        </RelativeLayout>
+
+                        <com.qwash.user.ui.widget.RobotoRegularTextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:gravity="center"
+                            android:text="IDR 2.000"
+                            android:textColor="@color/orange"
+                            android:textSize="14sp" />
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_margin="@dimen/activity_half_vertical_margin"
+                        android:gravity="center"
+                        android:orientation="vertical">
+
+                        <RelativeLayout
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content">
+
+                            <net.soulwolf.widget.materialradio.MaterialRadioGroup
+                                android:id="@+id/rg_waterless"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:clickable="true"
+                                android:gravity="center"
+                                android:orientation="horizontal">
+
+                                <net.soulwolf.widget.materialradio.MaterialRadioButton
+                                    android:id="@+id/rd_waterless"
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="match_parent"
+                                    app:mcAnimator="true"
+                                    app:mcButton="@drawable/radio_button_waterless_selector"
+                                    app:mcPadding="5dp"
+                                    app:mcText="@string/rd_waterless"
+                                    app:mcTextColor="@drawable/radio_button_text_selector"
+                                    app:mcTextSize="6sp" />
+
+                            </net.soulwolf.widget.materialradio.MaterialRadioGroup>
+
+                            <View
+                                android:id="@+id/tap_waterless"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_alignBottom="@+id/rg_waterless"
+                                android:layout_alignEnd="@+id/rg_waterless"
+                                android:layout_alignRight="@+id/rg_waterless"
+                                android:layout_alignTop="@+id/rg_waterless" />
+                        </RelativeLayout>
+
+                        <com.qwash.user.ui.widget.RobotoRegularTextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:gravity="center"
+                            android:text="IDR 7.000"
+                            android:textColor="@color/orange"
+                            android:textSize="14sp" />
+                    </LinearLayout>
+                </LinearLayout>
+
+                <com.qwash.user.ui.widget.RobotoRegularTextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginBottom="@dimen/activity_half_vertical_margin"
+                    android:gravity="center"
+                    android:text="@string/note_waterless"
+                    android:textColor="@color/red_light"
+                    android:textSize="14sp" />
+            </LinearLayout>
+
+
+        </LinearLayout>
+    </android.support.v4.widget.NestedScrollView>
+</LinearLayout>

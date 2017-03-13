@@ -8,6 +8,7 @@ import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.v4.app.Fragment;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.MenuItem;
 import android.view.View;
@@ -68,10 +69,6 @@ public class WasherOrderFragment extends Fragment implements BottomSheetListener
     IconTextView ratingWhaser;
     @BindView(R.id.kiri)
     LinearLayout kiri;
-    @BindView(R.id.book_date)
-    IconTextView bookDate;
-    @BindView(R.id.book_time)
-    IconTextView bookTime;
     @BindView(R.id.total_price)
     RobotoBoldTextView estimatedPrice;
     @BindView(R.id.content)
@@ -155,8 +152,6 @@ public class WasherOrderFragment extends Fragment implements BottomSheetListener
         whaserName.setText(washerAccepted.name);
         imageLoader.loadImage(imageWasher, Sample.BASE_URL_IMAGE + washerAccepted.photo, washerAccepted.name);
         ratingWhaser.setText("{entypo-star-outlined} " + washerAccepted.rating);
-        bookDate.setText("{fa-calendar} " + prepareOrder.pick_date);
-        bookTime.setText("{entypo-clock} " + prepareOrder.pick_time);
         estimatedPrice.setText(Utils.Rupiah(prepareOrder.estimated_price));
 
         return view;
@@ -222,29 +217,20 @@ public class WasherOrderFragment extends Fragment implements BottomSheetListener
 
                     root.put(Sample.DATA, data);
                     root.put(Sample.REGISTRATION_IDS, jsonArray);
-
                     String result = PushNotification.postToFCM(root.toString());
+
+                    Log.v("result",result);
 
                     return result;
                 } catch (Exception ex) {
                     ex.printStackTrace();
-
+                    Log.v("Error",ex.getMessage());
                 }
                 return null;
             }
 
             @Override
             protected void onPostExecute(String result) {
-
-                try {
-                    JSONObject resultJson = new JSONObject(result);
-                    int success, failure;
-                    success = resultJson.getInt("success");
-                    failure = resultJson.getInt("failure");
-                } catch (JSONException e) {
-                    e.printStackTrace();
-
-                }
             }
         }.execute();
     }

@@ -82,27 +82,22 @@ public class Sample {
     public static final String ORDER_TYPE = "type";
 
     //vehicle order
-    public static final String ORDER_VCUSTOMERSID = "vCustomersId";
-    public static final String ORDER_VNAME = "vName";
-    public static final String ORDER_VBRAND = "vBrand";
-    public static final String ORDER_MODELS = "models";
-    public static final String ORDER_VTRANSMISSION = "vTransmission";
-    public static final String ORDER_YEARS = "years";
-    public static final String ORDER_VID = "vId";
-    public static final String ORDER_VBRANDID = "vBrandId";
-    public static final String ORDER_VMODELID = "vModelId";
-    public static final String ORDER_VTRANSID = "vTransId";
-    public static final String ORDER_VYEARSID = "vYearsId";
+    public static final String ORDER_VEHICLES_TYPE = "vehicles_type";
+    public static final String ORDER_VEHICLES = "vehicles";
 
     //order detail
     public static final String ORDER_PRICE = "price";
-    public static final String ORDER_PERFUMED = "perfumed_price";
-    public static final String ORDER_PERFUMED_STATUS = "perfumed_price";
-    public static final String ORDER_INTERIOR_VACCUM = "interior_vaccum_price";
-    public static final String ORDER_INTERIOR_VACCUM_STATUS = "perfumed_price";
+
+    public static final String ORDER_PERFUM_PRICE = "perfum_price";
+    public static final String ORDER_PERFUM_STATUS = "perfum_stattus";
+
+    public static final String ORDER_INTERIOR_VACUUM_PRICE = "interior_vacuum";
+    public static final String ORDER_INTERIOR_VACUUM_STATUS = "interior_vacuum_status";
+
+    public static final String ORDER_WATERLESS_PRICE = "waterless_price";
+    public static final String ORDER_WATERLESS_STATUS = "waterless_status";
+
     public static final String ORDER_ESTIMATED_PRICE = "estimated_price";
-    public static final String ORDER_PICK_DATE = "pick_date";
-    public static final String ORDER_PICK_TIME = "pick_time";
 
 
     public static final String ACTION = "action";
@@ -121,20 +116,19 @@ public class Sample {
     public static final String WASHER_RATING = "rating";
 
     //
-    public static final int CODE_DEACLINE = 2;
-    public static final int CODE_ACCEPT = 3;
-    public static final int CODE_START = 4;
-    public static final int CODE_FINISH_WORKING = 5;
+    public static final int CODE_DEACLINE_ORDER = 3;
+    public static final int CODE_ACCEPT_ORDER = 4;
+    public static final int CODE_START_WORKING = 5;
+    public static final int CODE_FINISH_WORKING = 6;
 
     public static final String USER_ID_FK = "user_id_fk";
-    public static final String V_CUSTOMERS_ID_FK = "v_customers_id_fk";
-    public static final String PICK_DATE = "pick_date";
-    public static final String PICK_TIME = "pick_time";
+    public static final String VEHICLES = "vehicles";
     public static final String LAT = "lat";
     public static final String LONG = "long";
     public static final String PRICE = "price";
-    public static final String PERFUMED = "perfurmed";
-    public static final String VACUMMED = "vacummed";
+    public static final String PERFUM = "perfurm";
+    public static final String VACUUM = "vacuum";
+    public static final String WATERLESS = "waterless";
     public static final String NAME_ADDRESS = "name_address";
     public static final String ADDRESS = "address";
     public static final String COMMENTS = "comments";
@@ -146,26 +140,19 @@ public class Sample {
 
 
     public static final int VEHICLE_CAR = 1;
+    public static final int VEHICLE_CAR_CITY_CAR = 1;
+    public static final int VEHICLE_CAR_MINIVAN = 2;
+    public static final int VEHICLE_CAR_SUV = 3;
+
     public static final int VEHICLE_MOTORCYCLE = 2;
-
-
-    public static final int TAG_V_BRAND = 1;
-    public static final int TAG_V_MODEL = 2;
-    public static final int TAG_V_TRANSMISSION = 3;
-    public static final int TAG_V_YEAR = 4;
-
-    public static final String LIST_VARIANS_OBJECT = "list_varians_object";
-
-    public static final String TAG = "TAG";
-
-    public static final String V_ID = "v_id";
-    public static final String V_BRAND_ID = "v_brand_id";
-    public static final String V_MODEL_ID = "v_model_id";
-    public static final String V_TRANS_ID = "v_trans_id";
-    public static final String V_YEARS_ID = "v_years_id";
+    public static final int VEHICLE_MOTORCYCLE_UNDER_150 = 4;
+    public static final int VEHICLE_MOTORCYCLE_150 = 5;
+    public static final int VEHICLE_MOTORCYCLE_ABOVE_150 = 6;
 
     public static final String LIMIT_DATA = "10";
     public static final String ADDRESS_TYPE = "address_type";
-    public static final int CODE_ADRESS_HOME= 1;
+    public static final int CODE_ADRESS_HOME = 1;
     public static final int CODE_ADRESS_WORK = 2;
+
+
 }

@@ -30,6 +30,7 @@ import com.qwash.user.model.History;
 import com.qwash.user.ui.widget.RobotoBoldTextView;
 import com.qwash.user.ui.widget.RobotoLightTextView;
 import com.qwash.user.ui.widget.RobotoRegularTextView;
+import com.qwash.user.utils.Prefs;
 import com.qwash.user.utils.TextUtils;
 import com.qwash.user.utils.Utils;
 
@@ -76,10 +77,6 @@ public class HistoryDetailFragment extends Fragment implements AdditionalOrderAd
     RobotoBoldTextView whaserName;
     @BindView(R.id.rating_whaser)
     IconTextView ratingWhaser;
-    @BindView(R.id.book_date)
-    IconTextView bookDate;
-    @BindView(R.id.book_time)
-    IconTextView bookTime;
     @BindView(R.id.total_price)
     RobotoBoldTextView totalPrice;
     //additional
@@ -96,7 +93,7 @@ public class HistoryDetailFragment extends Fragment implements AdditionalOrderAd
     RobotoRegularTextView vehicleModel;
     private HistoryService mService;
     private Unbinder unbinder;
-    private String id;
+    private String orders_ref;
     private History history;
     private PicassoLoader imageLoader;
     private ArrayList<AdditionalOrder> data = new ArrayList<>();
@@ -146,16 +143,16 @@ public class HistoryDetailFragment extends Fragment implements AdditionalOrderAd
         recyclerView.setAdapter(adapter);
 
         // Download history details if new instance, else restore from saved instance
-        if (savedInstanceState == null || !(savedInstanceState.containsKey(Sample.HISTORY_ID)
+        if (savedInstanceState == null || !(savedInstanceState.containsKey(Sample.ORDERS_REF)
                 && savedInstanceState.containsKey(Sample.HISTORY_OBJECT))) {
-            id = getArguments().getString(Sample.HISTORY_ID);
-            if (TextUtils.isNullOrEmpty(id)) {
+            orders_ref = getArguments().getString(Sample.ORDERS_REF);
+            if (TextUtils.isNullOrEmpty(orders_ref)) {
                 progressCircle.setVisibility(View.GONE);
             } else {
-                downloadLokasiDetails(id);
+                downloadLokasiDetails(orders_ref);
             }
         } else {
-            id = savedInstanceState.getString(Sample.HISTORY_ID);
+            orders_ref = savedInstanceState.getString(Sample.ORDERS_REF);
             history = savedInstanceState.getParcelable(Sample.HISTORY_OBJECT);
             onDownloadSuccessful();
         }
@@ -172,8 +169,8 @@ public class HistoryDetailFragment extends Fragment implements AdditionalOrderAd
     @Override
     public void onSaveInstanceState(Bundle outState) {
         super.onSaveInstanceState(outState);
-        if (history != null && id != null) {
-            outState.putString(Sample.HISTORY_ID, id);
+        if (history != null && orders_ref != null) {
+            outState.putString(Sample.ORDERS_REF, orders_ref);
             outState.putParcelable(Sample.HISTORY_OBJECT, history);
         }
     }
@@ -189,7 +186,7 @@ public class HistoryDetailFragment extends Fragment implements AdditionalOrderAd
     // JSON parsing and display
     private void downloadLokasiDetails(String id) {
         onRetrofitStart(TAG_DETAIL);
-        mService.getDetailHistory(id).enqueue(new Callback<HistoryDetailResponse>() {
+        mService.getDetailHistory(Prefs.getUserId(getActivity()),orders_ref).enqueue(new Callback<HistoryDetailResponse>() {
             @Override
             public void onResponse(Call<HistoryDetailResponse> call, Response<HistoryDetailResponse> response) {
 
@@ -253,7 +250,7 @@ public class HistoryDetailFragment extends Fragment implements AdditionalOrderAd
 
     @OnClick(R.id.try_again)
     public void onTryAgainClicked() {
-        downloadLokasiDetails(id);
+        downloadLokasiDetails(orders_ref);
     }
 
 

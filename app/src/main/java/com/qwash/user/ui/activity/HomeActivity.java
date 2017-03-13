@@ -1,7 +1,6 @@
 package com.qwash.user.ui.activity;
 
 import android.Manifest;
-import android.app.Activity;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.pm.PackageManager;
@@ -30,7 +29,6 @@ import com.google.android.gms.common.api.GoogleApiClient;
 import com.google.android.gms.location.LocationListener;
 import com.google.android.gms.location.LocationRequest;
 import com.google.android.gms.location.LocationServices;
-import com.google.android.gms.maps.CameraUpdate;
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.OnMapReadyCallback;
@@ -69,13 +67,12 @@ import com.qwash.user.api.model.washer.ShowWasherOn;
 import com.qwash.user.model.AddressUser;
 import com.qwash.user.model.FindWasher;
 import com.qwash.user.model.PrepareOrder;
-import com.qwash.user.model.VehicleUser;
 import com.qwash.user.model.WasherAccepted;
 import com.qwash.user.service.MessageFireBase;
 import com.qwash.user.service.PushNotification;
 import com.qwash.user.ui.fragment.DialogSelectAddressFragment;
-import com.qwash.user.ui.fragment.DialogSelectVehicleVariansFragment;
-import com.qwash.user.ui.fragment.PrepareOrderFragment;
+import com.qwash.user.ui.fragment.PrepareOrder.NewOrder;
+import com.qwash.user.ui.fragment.PrepareOrder.PrepareOrderFragment;
 import com.qwash.user.ui.fragment.WasherOrderFragment;
 import com.qwash.user.ui.widget.RobotoLightTextView;
 import com.qwash.user.utils.Prefs;
@@ -99,8 +96,6 @@ import java.util.Map;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
-import okhttp3.MediaType;
-import okhttp3.OkHttpClient;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
@@ -157,8 +152,6 @@ public class HomeActivity extends AppCompatActivity implements
     Location mLastLocation;
     Marker mCurrLocationMarker;
     LocationRequest mLocationRequest;
-    private OkHttpClient mClient = new OkHttpClient();
-    private MediaType JSON = MediaType.parse("application/json; charset=utf-8");
     private ArrayList<FindWasher> listWasher = new ArrayList<>();
     private PrepareOrder prepareOrder;
     private int urutan = 0;
@@ -190,6 +183,7 @@ public class HomeActivity extends AppCompatActivity implements
     };
     private boolean isHidden = true;
     private GoogleMap mMap;
+    private boolean isLocationChanged = false;
 
     @OnClick({
             R.id.img_menu,
@@ -305,9 +299,6 @@ public class HomeActivity extends AppCompatActivity implements
             search.setText("" + location);
         }
 
-
-        //set Toolbar
-
         imgMenu.setImageDrawable(
                 new IconDrawable(this, MaterialIcons.md_menu)
                         .colorRes(R.color.font_color)
@@ -344,15 +335,15 @@ public class HomeActivity extends AppCompatActivity implements
 
         btnWork.setImageDrawable(
                 new IconDrawable(this, SimpleLineIconsIcons.icon_bag)
-                        .colorRes(R.color.font_color)
+                        .colorRes(R.color.blue_2196F3)
                         .actionBarSize());
         btnHome.setImageDrawable(
                 new IconDrawable(this, SimpleLineIconsIcons.icon_home)
-                        .colorRes(R.color.font_color)
+                        .colorRes(R.color.blue_2196F3)
                         .actionBarSize());
         btnMyLocation.setImageDrawable(
                 new IconDrawable(this, MaterialIcons.md_my_location)
-                        .colorRes(R.color.font_color)
+                        .colorRes(R.color.blue_2196F3)
                         .actionBarSize());
 
         pickLayoutLocationShow(false);
@@ -472,11 +463,17 @@ public class HomeActivity extends AppCompatActivity implements
                                     }
                                 });
                     } else {
-                        double Lat = location.getLatitude();
-                        double Long = location.getLongitude();
-                        LoadAddress(Lat, Long);
-                        CameraUpdate cameraUpdate = CameraUpdateFactory.newLatLngZoom(new LatLng(Lat, Long), zoomLevel);
-                        mMap.animateCamera(cameraUpdate);
+                        // current location
+                        current_latitude = location.getLatitude();
+                        current_longitude = location.getLongitude();
+                        LoadAddress(current_latitude, current_longitude);
+
+                        pickLayoutLocationShow(true);
+
+                        //move map camera
+                        mMap.animateCamera(CameraUpdateFactory.newLatLngZoom(new LatLng(current_latitude, current_longitude), isLocationChanged ? zoomLevel : 14), 1500, null);
+                        isLocationChanged = true;
+
                     }
                 }
             }
@@ -497,16 +494,19 @@ public class HomeActivity extends AppCompatActivity implements
             mCurrLocationMarker.remove();
         }
 
-        // current location
-        current_latitude = location.getLatitude();
-        current_longitude = location.getLongitude();
-        LoadAddress(current_latitude, current_longitude);
+        if (!isLocationChanged) {
 
-        pickLayoutLocationShow(true);
+            // current location
+            current_latitude = location.getLatitude();
+            current_longitude = location.getLongitude();
+            LoadAddress(current_latitude, current_longitude);
 
-        //move map camera
-        mMap.moveCamera(CameraUpdateFactory.newLatLng(new LatLng(current_latitude, current_longitude)));
-        mMap.animateCamera(CameraUpdateFactory.zoomTo(14));
+            pickLayoutLocationShow(true);
+
+            //move map camera
+            mMap.animateCamera(CameraUpdateFactory.newLatLngZoom(new LatLng(current_latitude, current_longitude), 14), 1500, null);
+            isLocationChanged = true;
+        }
 
         //stop location updates
         if (mGoogleApiClient != null) {
@@ -590,67 +590,27 @@ public class HomeActivity extends AppCompatActivity implements
         }
     }
 
-    @Override
-    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
-
-        if (requestCode == 1) {
-            if (resultCode == Activity.RESULT_OK) {
-                prepareOrder = (PrepareOrder) data.getSerializableExtra(Sample.PREPARE_ORDER_OBJECT);
-                if (prepareOrder != null) {
-                    prepareOrder.userId = Prefs.getUserId(this);
-                    prepareOrder.username = Prefs.getUsername(this);
-                    prepareOrder.email = Prefs.getEmail(this);
-                    prepareOrder.name = Prefs.getName(this);
-                    prepareOrder.phone = Prefs.getPhone(this);
-                    prepareOrder.photo = Prefs.getPhoto(this);
-                    prepareOrder.authLevel = Prefs.getAuthLevel(this);
-                    prepareOrder.firebase_id = Prefs.getFirebaseId(this);
-
-                    RequestNewOrder();
-                    RemoveBottomFragment();
-                    isFind = true;
-                    FindingWasher();
-                }
-
-                VehicleUser vehicle = (VehicleUser) data.getParcelableExtra(Sample.VEHICLE_OBJECT);
-                if (vehicle != null) {
-                    PrepareOrderFragment fragment = (PrepareOrderFragment) getSupportFragmentManager().findFragmentById(R.id.fragment_bottom);
-                    if (fragment != null) {
-                        fragment.setSelectedVehicle(vehicle);
-                    }
-                }
-            }
-
-            if (resultCode == Activity.RESULT_CANCELED) {
-                //Write your code if there's no result
-            }
-        }
-    }
 
     void RequestNewOrder() {
         String LatLong = prepareOrder.latlong;
         String[] ll = LatLong.split(",");
         Map<String, String> params = new HashMap<>();
 
-        Log.v("latlong", LatLong);
-
         params.put(Sample.USER_ID_FK, Prefs.getUserId(this));
-        params.put(Sample.V_CUSTOMERS_ID_FK, prepareOrder.vCustomersId);
-        params.put(Sample.PICK_DATE, prepareOrder.pick_date);
-        params.put(Sample.PICK_TIME, prepareOrder.pick_time);
+        params.put(Sample.VEHICLES, String.valueOf(prepareOrder.vehicles));
         params.put(Sample.LAT, ll[0]);
         params.put(Sample.LONG, ll[1]);
         params.put(Sample.PRICE, String.valueOf(prepareOrder.price));
         params.put(Sample.NAME_ADDRESS, prepareOrder.nameAddress);
         params.put(Sample.ADDRESS, prepareOrder.address);
-        params.put(Sample.PERFUMED, String.valueOf(prepareOrder.perfumed_status));
-        params.put(Sample.VACUMMED, String.valueOf(prepareOrder.interior_vaccum_status));
+        params.put(Sample.PERFUM, String.valueOf(prepareOrder.perfum_status));
+        params.put(Sample.VACUUM, String.valueOf(prepareOrder.interior_vaccum_status));
+        params.put(Sample.WATERLESS, String.valueOf(prepareOrder.waterless_status));
 
         OrderService mService = ApiUtils.OrderService(this);
         mService.getRequestStartOrderLink(params).enqueue(new Callback<RequestNewOrder>() {
             @Override
             public void onResponse(Call<RequestNewOrder> call, Response<RequestNewOrder> response) {
-
                 if (response.isSuccessful()) {
                     if (response.body().getStatus()) {
                         prepareOrder.orders_ref = response.body().getOrders().getOrdersRef();
@@ -680,6 +640,7 @@ public class HomeActivity extends AppCompatActivity implements
             @Override
             public void onFailure(Call<RequestNewOrder> call, Throwable t) {
                 String message = t.getMessage();
+                Log.v("message",message);
             }
         });
 
@@ -691,7 +652,6 @@ public class HomeActivity extends AppCompatActivity implements
             dialogProgress.show("Cancel Order Wash ...", "Please wait...");
             Map<String, String> params = new HashMap<>();
             params.put(Sample.ORDERS_REF, prepareOrder.orders_ref);
-
 
             OrderService mService = ApiUtils.OrderService(HomeActivity.this);
             mService.getCancelOrderLink(params).enqueue(new Callback<CancelOrder>() {
@@ -872,7 +832,7 @@ public class HomeActivity extends AppCompatActivity implements
         try {
             JSONObject json = new JSONObject(MessageFireBase.getData());
             int action = json.getInt(Sample.ACTION);
-            if (action == Sample.CODE_DEACLINE) {
+            if (action == Sample.CODE_DEACLINE_ORDER) {
                 Log.v("deacline", "yes");
                 JSONObject jsonWasher = new JSONObject(json.getString(Sample.WASHER));
                 String firebase_id = jsonWasher.getString(Sample.WASHER_FIREBASE_ID);
@@ -882,7 +842,7 @@ public class HomeActivity extends AppCompatActivity implements
                 FindingWasher();
                 RemoveBottomFragment();
 
-            } else if (action == Sample.CODE_ACCEPT) {
+            } else if (action == Sample.CODE_ACCEPT_ORDER) {
                 TastyToast.makeText(getApplicationContext(), "Washer found", TastyToast.LENGTH_SHORT, TastyToast.SUCCESS);
                 JSONObject jsonWasher = new JSONObject(json.getString(Sample.WASHER));
                 String firebase_id = jsonWasher.getString(Sample.WASHER_FIREBASE_ID);
@@ -898,7 +858,7 @@ public class HomeActivity extends AppCompatActivity implements
                 isFind = false;
                 FindingWasher();
                 LoadWasherOrderFragment();
-            } else if (action == Sample.CODE_START) {
+            } else if (action == Sample.CODE_START_WORKING) {
                 TastyToast.makeText(getApplicationContext(), "Your washer is start working", TastyToast.LENGTH_SHORT, TastyToast.SUCCESS);
                 WasherOrderFragment fragment = (WasherOrderFragment) getSupportFragmentManager().findFragmentById(R.id.fragment_bottom);
                 if (fragment != null) {
@@ -965,6 +925,7 @@ public class HomeActivity extends AppCompatActivity implements
                     customer.put(Sample.ORDER_PHOTO, prepareOrder.photo);
                     customer.put(Sample.ORDER_AUTHLEVEL, prepareOrder.authLevel);
                     customer.put(Sample.ORDER_FIREBASE_ID, prepareOrder.firebase_id);
+
                     order.put("customer", customer);
 
                     JSONObject address = new JSONObject();
@@ -977,29 +938,24 @@ public class HomeActivity extends AppCompatActivity implements
                     order.put("address", address);
 
                     JSONObject vehicle = new JSONObject();
-                    vehicle.put(Sample.ORDER_VCUSTOMERSID, prepareOrder.vCustomersId);
-                    vehicle.put(Sample.ORDER_VNAME, prepareOrder.vName);
-                    vehicle.put(Sample.ORDER_VBRAND, prepareOrder.vBrand);
-                    vehicle.put(Sample.ORDER_MODELS, prepareOrder.models);
-                    vehicle.put(Sample.ORDER_VTRANSMISSION, prepareOrder.vTransmission);
-                    vehicle.put(Sample.ORDER_YEARS, prepareOrder.years);
-                    vehicle.put(Sample.ORDER_VID, prepareOrder.vId);
-                    vehicle.put(Sample.ORDER_VBRANDID, prepareOrder.vBrandId);
-                    vehicle.put(Sample.ORDER_VMODELID, prepareOrder.vModelId);
-                    vehicle.put(Sample.ORDER_VTRANSID, prepareOrder.vTransId);
-                    vehicle.put(Sample.ORDER_VYEARSID, prepareOrder.vYearsId);
+                    vehicle.put(Sample.ORDER_VEHICLES_TYPE, prepareOrder.vehicles_type);
+                    vehicle.put(Sample.ORDER_VEHICLES, prepareOrder.vehicles);
                     order.put("vehicle", vehicle);
-
 
                     JSONObject details = new JSONObject();
                     details.put(Sample.ORDER_PRICE, String.valueOf(prepareOrder.price));
-                    details.put(Sample.ORDER_PERFUMED, String.valueOf(prepareOrder.perfumed_price));
-                    details.put(Sample.ORDER_PERFUMED_STATUS, String.valueOf(prepareOrder.perfumed_status));
-                    details.put(Sample.ORDER_INTERIOR_VACCUM, String.valueOf(prepareOrder.interior_vaccum_price));
-                    details.put(Sample.ORDER_INTERIOR_VACCUM_STATUS, String.valueOf(prepareOrder.interior_vaccum_status));
+
+                    details.put(Sample.ORDER_PERFUM_PRICE, String.valueOf(prepareOrder.perfum_price));
+                    details.put(Sample.ORDER_PERFUM_STATUS, String.valueOf(prepareOrder.perfum_status));
+
+                    details.put(Sample.ORDER_INTERIOR_VACUUM_PRICE, String.valueOf(prepareOrder.interior_vaccum_price));
+                    details.put(Sample.ORDER_INTERIOR_VACUUM_STATUS, String.valueOf(prepareOrder.interior_vaccum_status));
+
+                    details.put(Sample.ORDER_WATERLESS_PRICE, String.valueOf(prepareOrder.waterless_price));
+                    details.put(Sample.ORDER_WATERLESS_STATUS, String.valueOf(prepareOrder.waterless_status));
+
                     details.put(Sample.ORDER_ESTIMATED_PRICE, String.valueOf(prepareOrder.estimated_price));
-                    details.put(Sample.ORDER_PICK_DATE, prepareOrder.pick_date);
-                    details.put(Sample.ORDER_PICK_TIME, prepareOrder.pick_time);
+
                     order.put("details", details);
 
                     data.put("order", order);
@@ -1009,25 +965,18 @@ public class HomeActivity extends AppCompatActivity implements
 
                     String result = PushNotification.postToFCM(root.toString());
 
+                    Log.v("result", result);
+
                     return result;
                 } catch (Exception ex) {
                     ex.printStackTrace();
+                    Log.v("Error", ex.getMessage());
                 }
                 return null;
             }
 
             @Override
             protected void onPostExecute(String result) {
-                try {
-                    JSONObject resultJson = new JSONObject(result);
-                    int success, failure;
-                    success = resultJson.getInt("success");
-                    failure = resultJson.getInt("failure");
-                    //Toast.makeText(LoginUserActivity.this, "Message Success: " + success + "Message Failed: " + failure, Toast.LENGTH_LONG).show();
-                } catch (JSONException e) {
-                    e.printStackTrace();
-                    Toast.makeText(HomeActivity.this, "Message Failed, Unknown error occurred.", Toast.LENGTH_LONG).show();
-                }
             }
         }.execute();
     }
@@ -1052,26 +1001,18 @@ public class HomeActivity extends AppCompatActivity implements
 
                     String result = PushNotification.postToFCM(root.toString());
 
+                    Log.v("result", result);
+
                     return result;
                 } catch (Exception ex) {
                     ex.printStackTrace();
-
+                    Log.v("Error", ex.getMessage());
                 }
                 return null;
             }
 
             @Override
             protected void onPostExecute(String result) {
-
-                try {
-                    JSONObject resultJson = new JSONObject(result);
-                    int success, failure;
-                    success = resultJson.getInt("success");
-                    failure = resultJson.getInt("failure");
-                } catch (JSONException e) {
-                    e.printStackTrace();
-
-                }
             }
         }.execute();
     }
@@ -1083,9 +1024,8 @@ public class HomeActivity extends AppCompatActivity implements
         current_latitude = Double.parseDouble(X[0]);
         current_longitude = Double.parseDouble(X[1]);
         //move map camera
-        mMap.moveCamera(CameraUpdateFactory.newLatLng(new LatLng(current_latitude, current_longitude)));
-        mMap.animateCamera(CameraUpdateFactory.zoomTo(14));
-
+        mMap.animateCamera(CameraUpdateFactory.newLatLngZoom(new LatLng(current_latitude, current_longitude), 14), 1500, null);
+        isLocationChanged = true;
         LoadAddress(current_latitude, current_longitude);
 
         //stop location updates
@@ -1093,5 +1033,28 @@ public class HomeActivity extends AppCompatActivity implements
             LocationServices.FusedLocationApi.removeLocationUpdates(mGoogleApiClient, this);
         }
     }
+
+
+    @Subscribe
+    public void startNewOrder(NewOrder newOrder) {
+        prepareOrder = newOrder.getNewOrder();
+        if (prepareOrder != null) {
+            prepareOrder.userId = Prefs.getUserId(this);
+            prepareOrder.username = Prefs.getUsername(this);
+            prepareOrder.email = Prefs.getEmail(this);
+            prepareOrder.name = Prefs.getName(this);
+            prepareOrder.phone = Prefs.getPhone(this);
+            prepareOrder.photo = Prefs.getPhoto(this);
+            prepareOrder.authLevel = Prefs.getAuthLevel(this);
+            prepareOrder.firebase_id = Prefs.getFirebaseId(this);
+
+            RequestNewOrder();
+            RemoveBottomFragment();
+            isFind = true;
+            FindingWasher();
+        }
+
+    }
+
 
 }

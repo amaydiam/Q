@@ -18,4 +18,9 @@ public interface LoginService {
     @FormUrlEncoded
     @POST("login/authenticate")
     Call<Login> getLoginLink(@FieldMap Map<String, String> params);
+
+
+    @FormUrlEncoded
+    @POST("login/social")
+    Call<Login> getLoginSosialLink(@FieldMap Map<String, String> params);
 }

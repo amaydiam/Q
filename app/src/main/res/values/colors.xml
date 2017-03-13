@@ -2,16 +2,15 @@
 <resources>
     <color name="colorPrimary">@color/blue_2196F3</color>
     <color name="colorPrimaryDark">@color/blue_1E87DA</color>
-    <color name="colorAccent">#FF4081</color>
+    <color name="colorAccent">#FF5722</color>
     <color name="white">#ffffff</color>
     <color name="grey">#aaa</color>
     <color name="blue_1E87DA">#1E87DA</color>
     <color name="blue_2196F3">#2196F3</color>
-    <color name="blue_BBDEFB">#BBDEFB</color>
     <color name="black_424242">#424242</color>
-    <color name="background">#fafafa</color>
+    <color name="background">#EEEEEE</color>
+
     <color name="font_color">#757575</color>
-    <color name="white_80FFFFFF">#80FFFFFF</color>
     <color name="blue_light">#33B5E5</color>
     <color name="green_light">#99CC00</color>[
     <color name="orange_light">#FFBB33</color>
@@ -20,4 +19,15 @@
     <color name="grey_cccccc">#cccccc</color>
     <color name="green_4CAF50">#cc09891b</color>
     <color name="devider">#aaa</color>
+
+    <color name="orange">#FFC107</color>
+
+    <color name="textColorPrimary">#212121</color>
+    <color name="textColorHint">#9A9A9A</color>
+    <color name="textColorSecondary">#757575</color>
+    <color name="textColorPrimaryInverse">#FFFFFF</color>
+    <color name="textColorSecondaryInverse">#C6E4FC</color>
+    <color name="divider">#BDBDBD</color>
+    <color name="text_shadow">#7F000000</color>
+    <color name="sembilah_puluh_persen_white">#E6ffffff</color>
 </resources>

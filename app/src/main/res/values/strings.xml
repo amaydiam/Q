@@ -1,15 +1,8 @@
 <resources>
     <string name="app_name">Qwash User</string>
-    <string name="create_new_accout">Create New Account</string>
-    <string name="hint_password">Password</string>
     <string name="hint_email">Email</string>
-    <string name="hint_nama">Nama</string>
-    <string name="button_sign_up">Sign Up</string>
-    <string name="or_sign_white">or sign in with:</string>
     <string name="term_login">By Signin your agree with our term and conditions</string>
-    <string name="login">Login</string>
     <string name="title_activity_home">Map</string>
-    <string name="sign_in">Sign in</string>
     <string name="password">Password</string>
     <string name="label_sign_with">or sign in with:</string>
     <string name="dont_have_an_account">Don\'t Have An Account?</string>
@@ -23,8 +16,6 @@
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
     <string name="button_cancel">Cancel</string>
-    <string name="button_next">Next</string>
-    <string name="select_vehicle">Select Vehicle</string>
     <string name="button_contact">Contact</string>
 
     <string name="menu_home">Menu</string>
@@ -33,26 +24,8 @@
     <string name="menu_help">Help</string>
     <string name="menu_my_account">My Account</string>
 
-    <string name="label_what_youll_get">What you\'ll get:</string>
-    <string name="label_exterior_wash">Exterior Wash</string>
-    <string name="label_tires_shine">Tires Shine</string>
-    <string name="label_deskripsi_service_detail"><![CDATA[Our washer is equiped with tool & technique to wash your car use the taps provided by customer:]]></string>
-    <string name="label_perfumed">Perfumed</string>
-    <string name="label_deskripsi_addtional_select">We will scent you car smell.</string>
-    <string name="pickup_date">Pickup Date</string>
-    <string name="pickup_time">Pickup Time</string>
-    <string name="total_price">Total Price :</string>
-    <string name="motorcycle">MOTORCYCLE</string>
-    <string name="car">CAR</string>
-    <string name="select_brand">Select Brand</string>
-    <string name="select_model">Select Model</string>
-    <string name="select_transmission">Select Transmission</string>
-    <string name="select_year">Select Year</string>
-    <string name="title_activity_add_vehicle_type">Add Vehicle Type</string>
     <string name="button_login">Login</string>
 
-    <string name="our_service">Our Service</string>
-    <string name="notification">Notification</string>
     <string name="help_guide">A guide to Q\'Lap</string>
     <string name="help_call">Call Support</string>
     <string name="title_help">How can we help you?</string>
@@ -64,7 +37,6 @@
     <string name="rate_qlap">Rate Q\'LAP App</string>
     <string name="title_my_account">My Account</string>
     <string name="message_denied">Permission \"%1$s\" has been denied.</string>
-    <string name="action_ok">Ok</string>
     <string name="harga_total">Harga Total</string>
     <string name="menu_my_balance">My Balance</string>
     <string name="my_balance">My Balance</string>
@@ -77,25 +49,44 @@
     <string name="loading">Loading ...</string>
     <string name="additional_select">ADDITIONAL SELECT</string>
     <string name="button_report_an_issue">Report An Issue</string>
-    <string name="label_vacuum">Interior Vacuum</string>
-    <string name="label_deskripsi_vacuum">We will vacuum your car interior.</string>
-    <string name="submit_add_vehicle">SUBMIT</string>
     <string name="val_email_length">Email must be at least 5 chars and 100 chars length</string>
     <string name="val_email_or_number_length">Email Or Number Phone must be at least 5 chars and 100 chars length</string>
     <string name="val_password_length">Password must be at least 4 chars and 10 chars length</string>
-    <string name="btn_pick_location">Pick your place here ...</string>
+    <string name="btn_pick_location">Order here ...</string>
     <string name="retry">Retry ...</string>
     <string name="val_name_length">Masukkan nama anda</string>
-    <string name="email_or_number">Email or Number Phone</string>
+    <string name="hint_email_or_number">Email or Number Phone</string>
     <string name="facebook_app_id">202935096795565</string>
     <string name="detail_notification">Detail Notification</string>
-    <string name="hint_number">0877-7889-9430</string>
+    <string name="hint_number">877-7889-9430</string>
     <string name="requesting">REQUESTING</string>
     <string name="alert_find_washer"><![CDATA[Don\'t give your key car to the washer\nCheck all the equipment in the car\nCheck equipment workers]]></string>
-    <string name="add_vehicle">Add Vehicle</string>
-    <string name="add_first_vehicle">First you must select vehicle to order. Click Add Vehicle if no vehicle.</string>
     <string name="title_activity_rating">Rating Your Wash</string>
     <string name="select_address_home">Select Home</string>
     <string name="select_address_work">Select Work</string>
     <string name="title_activity_notification">Notification</string>
+    <string name="tagline">WE CLEAN YOUR VEHICLE ANYWHERE ANYTIME</string>
+    <string name="button_create_new_account">Create New Account</string>
+    <string name="new_account">New Account</string>
+    <string name="des_new_account">Create your account to use Q-Wash</string>
+    <string name="hint_full_name">Full Name</string>
+    <string name="or_sign_up_with">Sign up with</string>
+    <string name="rd_car_minivan">MEDIUM</string>
+    <string name="rd_car_city_car">SMALL</string>
+    <string name="rd_car_suv">BIG</string>
+    <string name="rd_motocycle_under_150">SMALL</string>
+    <string name="rd_motocycle_150">MEDIUM</string>
+    <string name="rd_motocycle_above_150">BIG</string>
+    <string name="btn_next">NEXT</string>
+    <string name="btn_order_washer">ORDER WASHER</string>
+    <string name="desc_fitur_service"><![CDATA[Our washer is equiped with tool & technique to wash your car use the taps provided by customer.]]></string>
+    <string name="rd_exterior_wash">Exterior Wash</string>
+    <string name="rd_tires_shine">Tires Shine</string>
+    <string name="rd_fullbody_wash">Full Body</string>
+    <string name="rd_perfumed">Perfurmed</string>
+    <string name="rd_interior_vaccum">Interior Vaccum</string>
+    <string name="note_waterless">*Waterless only for cars dusty, but not muddy.</string>
+    <string name="rd_waterless">Waterless</string>
+    <string name="please_wait">Please wait ...</string>
+    <string name="checking_loading">Checking ...</string>
 </resources>

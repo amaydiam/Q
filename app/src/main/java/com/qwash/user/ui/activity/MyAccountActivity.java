@@ -24,7 +24,6 @@ import com.joanzapata.iconify.IconDrawable;
 import com.joanzapata.iconify.fonts.MaterialIcons;
 import com.qwash.user.R;
 import com.qwash.user.model.AddressUser;
-import com.qwash.user.model.VehicleUser;
 import com.qwash.user.utils.Prefs;
 
 import butterknife.BindView;
@@ -67,14 +66,11 @@ public class MyAccountActivity extends AppCompatActivity implements GoogleApiCli
                         if (AddressUser.findAll(AddressUser.class).hasNext()) {
                             AddressUser.deleteAll(AddressUser.class);
                         }
-                        if (VehicleUser.findAll(VehicleUser.class).hasNext()) {
-                            VehicleUser.deleteAll(VehicleUser.class);
-                        }
 
                         //delete dataBrands google
                         SharedPreferences settings = getSharedPreferences("my_prefs", Context.MODE_PRIVATE);
                         settings.edit().remove("email").commit();
-                        settings.edit().remove("nama").commit();
+                        settings.edit().remove("fullName").commit();
                         settings.edit().remove("photo").commit();
 
                         // Google sign out
@@ -132,7 +128,7 @@ public class MyAccountActivity extends AppCompatActivity implements GoogleApiCli
         SharedPreferences bb = getSharedPreferences("my_prefs", Context.MODE_PRIVATE);
         SharedPreferences.Editor editor = bb.edit();
         String email = bb.getString("email", "");
-        String nama = bb.getString("nama", "");
+        String nama = bb.getString("fullName", "");
         String foto = bb.getString("photo", "");
         editor.apply();
         titleName.setText("" + nama);
