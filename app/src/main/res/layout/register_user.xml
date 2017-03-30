@@ -4,8 +4,8 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:fillViewport="true"
     android:background="@drawable/wallpaper_car_wash"
+    android:fillViewport="true"
     tools:context="com.qwash.user.ui.activity.RegisterUserActivity">
 
     <LinearLayout
@@ -60,76 +60,26 @@
                 android:background="@color/sembilah_puluh_persen_white"
                 android:orientation="vertical">
 
-                <RelativeLayout
+                <com.qwash.user.ui.widget.RobotoRegularEditText
+                    android:id="@+id/full_name"
                     android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:orientation="horizontal">
-
-                    <LinearLayout
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_centerInParent="true"
-                        android:layout_toLeftOf="@+id/right"
-                        android:orientation="vertical">
-
-                        <com.qwash.user.ui.widget.RobotoRegularEditText
-                            android:id="@+id/full_name"
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:background="@null"
-                            android:hint="@string/hint_full_name"
-                            android:imeOptions="actionNext"
-                            android:inputType="textPersonName"
-                            android:maxLines="1"
-                            android:padding="@dimen/activity_half_vertical_margin"
-                            android:textSize="16sp" />
-
-                        <View
-                            android:layout_width="match_parent"
-                            android:layout_height="0.5dp"
-                            android:layout_marginLeft="@dimen/activity_half_vertical_margin"
-                            android:layout_marginRight="@dimen/activity_half_vertical_margin"
-                            android:background="@color/divider" />
-
-                        <com.qwash.user.ui.widget.RobotoRegularEditText
-                            android:id="@+id/email"
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:background="@null"
-                            android:hint="@string/hint_email"
-                            android:imeOptions="actionNext"
-                            android:inputType="textEmailAddress"
-                            android:maxLines="1"
-                            android:padding="@dimen/activity_half_vertical_margin"
-                            android:textSize="16sp" />
-                    </LinearLayout>
-
-                    <LinearLayout
-                        android:id="@+id/right"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_alignParentRight="true"
-                        android:layout_centerVertical="true"
-                        android:layout_margin="@dimen/activity_half_vertical_margin"
-                        android:gravity="center"
-                        android:orientation="vertical">
-
-                        <agency.tango.android.avatarview.views.AvatarView
-                            android:layout_width="60dp"
-                            android:layout_height="60dp"
-
-                            app:av_border_color="@android:color/white"
-                            app:av_border_width="2dp"
-                            app:av_text_size_percentage="35" />
-                    </LinearLayout>
-                </RelativeLayout>
+                    android:layout_height="wrap_content"
+                    android:background="@null"
+                    android:hint="@string/hint_full_name"
+                    android:imeOptions="actionNext"
+                    android:inputType="textPersonName"
+                    android:maxLines="1"
+                    android:padding="@dimen/activity_half_vertical_margin"
+                    android:textSize="16sp" />
 
                 <View
+                    android:id="@+id/view"
                     android:layout_width="match_parent"
                     android:layout_height="0.5dp"
                     android:layout_marginLeft="@dimen/activity_half_vertical_margin"
                     android:layout_marginRight="@dimen/activity_half_vertical_margin"
                     android:background="@color/divider" />
+
 
                 <LinearLayout
                     android:layout_width="match_parent"
@@ -170,6 +120,47 @@
 
                 </LinearLayout>
 
+                </LinearLayout>
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="@dimen/activity_vertical_margin"
+                android:background="@color/sembilah_puluh_persen_white"
+                android:orientation="vertical">
+
+                <com.qwash.user.ui.widget.RobotoRegularEditText
+                    android:id="@+id/email"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:background="@null"
+                    android:hint="@string/hint_email"
+                    android:imeOptions="actionNext"
+                    android:inputType="textEmailAddress"
+                    android:maxLines="1"
+                    android:padding="@dimen/activity_half_vertical_margin"
+                    android:textSize="16sp" />
+
+
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="0.5dp"
+                    android:layout_marginLeft="@dimen/activity_half_vertical_margin"
+                    android:layout_marginRight="@dimen/activity_half_vertical_margin"
+                    android:background="@color/divider" />
+
+
+                <com.qwash.user.ui.widget.RobotoRegularEditText
+                    android:id="@+id/password"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:background="@null"
+                    android:hint="@string/password"
+                    android:imeOptions="actionNext"
+                    android:inputType="textPassword"
+                    android:maxLines="1"
+                    android:padding="@dimen/activity_half_vertical_margin"
+                    android:textSize="16sp" />
+
                 <View
                     android:layout_width="match_parent"
                     android:layout_height="0.5dp"
@@ -178,17 +169,32 @@
                     android:background="@color/divider" />
 
                 <com.qwash.user.ui.widget.RobotoRegularEditText
-                    android:id="@+id/password"
+                    android:id="@+id/confirm_password"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:background="@null"
-                    android:hint="@string/password"
+                    android:hint="@string/confirm_password"
                     android:imeOptions="actionDone"
                     android:inputType="textPassword"
                     android:maxLines="1"
                     android:padding="@dimen/activity_half_vertical_margin"
                     android:textSize="16sp" />
             </LinearLayout>
+
+
+            <CheckBox
+                android:id="@+id/cb_agree"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="@dimen/activity_vertical_margin"
+                android:shadowColor="@color/text_shadow"
+                android:shadowDx="1"
+                android:shadowDy="1"
+                android:shadowRadius="2"
+                android:text="@string/agree_term_and_condition_qwash"
+                android:textColor="@color/white"
+                android:textSize="14sp" />
+
 
             <com.qwash.user.ui.widget.RobotoRegularButton
                 android:id="@+id/btn_new_account"
@@ -203,18 +209,19 @@
                 android:layout_marginBottom="@dimen/activity_vertical_margin"
                 android:layout_marginTop="@dimen/activity_vertical_margin"
                 android:orientation="horizontal">
+
                 <com.qwash.user.ui.widget.RobotoRegularTextView
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
+                    android:layout_centerVertical="true"
+                    android:layout_toLeftOf="@+id/layout_btn_register_alternatif"
                     android:shadowColor="@color/text_shadow"
                     android:shadowDx="1"
                     android:shadowDy="1"
                     android:shadowRadius="2"
-                    android:textColor="@color/white"
-                    android:textSize="14sp"
-                    android:layout_toLeftOf="@+id/layout_btn_register_alternatif"
                     android:text="@string/or_sign_up_with"
-                    android:layout_centerVertical="true" />
+                    android:textColor="@color/white"
+                    android:textSize="14sp" />
 
                 <LinearLayout
                     android:id="@+id/layout_btn_register_alternatif"

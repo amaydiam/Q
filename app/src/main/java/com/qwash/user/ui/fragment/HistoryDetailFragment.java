@@ -143,16 +143,16 @@ public class HistoryDetailFragment extends Fragment implements AdditionalOrderAd
         recyclerView.setAdapter(adapter);
 
         // Download history details if new instance, else restore from saved instance
-        if (savedInstanceState == null || !(savedInstanceState.containsKey(Sample.ORDERS_REF)
+        if (savedInstanceState == null || !(savedInstanceState.containsKey(Sample.WASHERS_ID)
                 && savedInstanceState.containsKey(Sample.HISTORY_OBJECT))) {
-            orders_ref = getArguments().getString(Sample.ORDERS_REF);
+            orders_ref = getArguments().getString(Sample.WASHERS_ID);
             if (TextUtils.isNullOrEmpty(orders_ref)) {
                 progressCircle.setVisibility(View.GONE);
             } else {
                 downloadLokasiDetails(orders_ref);
             }
         } else {
-            orders_ref = savedInstanceState.getString(Sample.ORDERS_REF);
+            orders_ref = savedInstanceState.getString(Sample.WASHERS_ID);
             history = savedInstanceState.getParcelable(Sample.HISTORY_OBJECT);
             onDownloadSuccessful();
         }
@@ -170,7 +170,7 @@ public class HistoryDetailFragment extends Fragment implements AdditionalOrderAd
     public void onSaveInstanceState(Bundle outState) {
         super.onSaveInstanceState(outState);
         if (history != null && orders_ref != null) {
-            outState.putString(Sample.ORDERS_REF, orders_ref);
+            outState.putString(Sample.WASHERS_ID, orders_ref);
             outState.putParcelable(Sample.HISTORY_OBJECT, history);
         }
     }
@@ -186,7 +186,7 @@ public class HistoryDetailFragment extends Fragment implements AdditionalOrderAd
     // JSON parsing and display
     private void downloadLokasiDetails(String id) {
         onRetrofitStart(TAG_DETAIL);
-        mService.getDetailHistory(Prefs.getUserId(getActivity()),orders_ref).enqueue(new Callback<HistoryDetailResponse>() {
+        mService.getDetailHistory(Prefs.getUserId(getActivity()), orders_ref).enqueue(new Callback<HistoryDetailResponse>() {
             @Override
             public void onResponse(Call<HistoryDetailResponse> call, Response<HistoryDetailResponse> response) {
 
@@ -218,7 +218,7 @@ public class HistoryDetailFragment extends Fragment implements AdditionalOrderAd
         contentHolder.setVisibility(View.VISIBLE);
         fabAction.setVisibility(View.GONE);
 
-        imageLoader.loadImage(imageWasher, Sample.BASE_URL_IMAGE + history.getPhoto(), history.getName());
+        imageLoader.loadImage(imageWasher, Sample.BASE_URL_QWASH_PUBLIC + history.getPhoto(), history.getName());
         totalPrice.setText(Utils.Rupiah(history.getPrice()));
 
         data.clear();
@@ -314,7 +314,7 @@ public class HistoryDetailFragment extends Fragment implements AdditionalOrderAd
                     name,
                     photo,
                     vBrand
-                    );
+            );
 
             onDownloadSuccessful();
         } else

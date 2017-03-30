@@ -1,5 +1,15 @@
 package com.qwash.user.utils;
 
+import android.content.Context;
+import android.view.View;
+import android.widget.AutoCompleteTextView;
+import android.widget.EditText;
+import android.widget.Toast;
+
+import com.mobsandgeeks.saripaar.ValidationError;
+
+import java.util.List;
+
 public class TextUtils {
 
     public static boolean isNullOrEmpty(String str) {
@@ -7,6 +17,31 @@ public class TextUtils {
     }
 
     public static boolean isNullOrEmpty(int str) {
-        return str == 0 ;
+        return str == 0;
+    }
+
+    public static void errorValidation(Context context, List<ValidationError> errors) {
+        for (ValidationError error : errors) {
+            View view = error.getView();
+            String message = error.getCollatedErrorMessage(context);
+
+            // Display error messages
+            if (view instanceof EditText) {
+                ((EditText) view).setError(message);
+            } else if (view instanceof AutoCompleteTextView) {
+                ((AutoCompleteTextView) view).setError(message);
+            } else {
+                Toast.makeText(context, message, Toast.LENGTH_LONG).show();
+            }
+        }
+    }
+
+    public static String ReplaceFirstCaracters(String inputStr) {
+        String substr = inputStr.substring(0, 1);
+        if (substr.equalsIgnoreCase("0")) {
+            return ReplaceFirstCaracters(inputStr.substring(1, inputStr.length()));
+        } else {
+            return inputStr;
+        }
     }
 }

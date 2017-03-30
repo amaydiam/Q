@@ -119,7 +119,7 @@ public class RatingActivity extends AppCompatActivity {
 
         whaserName.setText(washerAccepted.name);
         PicassoLoader imageLoader = new PicassoLoader();
-        imageLoader.loadImage(imageWasher, Sample.BASE_URL_IMAGE + washerAccepted.photo, washerAccepted.name);
+        imageLoader.loadImage(imageWasher, Sample.BASE_URL_QWASH_PUBLIC + washerAccepted.photo, washerAccepted.name);
         totalPrice.setText(Utils.Rupiah(prepareOrder.estimated_price));
 
     }
@@ -129,12 +129,12 @@ public class RatingActivity extends AppCompatActivity {
         {
             dialogProgress.show("Rating ...", "Please wait...");
             Map<String, String> params = new HashMap<>();
-            params.put(Sample.RATE, String.valueOf(ratingWash.getRating()));
+           // params.put(Sample.RATE, String.valueOf(ratingWash.getRating()));
             String s_c = comment.getText().toString().trim();
             if (!TextUtils.isNullOrEmpty(s_c)) {
                 params.put(Sample.COMMENTS, s_c);
             }
-            params.put(Sample.ORDERS_REF, prepareOrder.orders_ref);
+            params.put(Sample.WASHERS_ID, prepareOrder.washersId);
             params.put(Sample.USER_ID, Prefs.getUserId(this));
 
 

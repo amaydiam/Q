@@ -22,7 +22,6 @@ import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.ProgressBar;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.joanzapata.iconify.IconDrawable;
 import com.joanzapata.iconify.fonts.MaterialCommunityIcons;
@@ -38,8 +37,6 @@ import com.qwash.user.api.model.history.HistoryListResponse;
 import com.qwash.user.model.History;
 import com.qwash.user.ui.activity.HistoryActivity;
 import com.qwash.user.ui.activity.HistoryDetailActivity;
-import com.qwash.user.ui.activity.NotificationActivity;
-import com.qwash.user.ui.activity.NotificationDetailActivity;
 import com.qwash.user.utils.Prefs;
 import com.qwash.user.utils.TextUtils;
 import com.qwash.user.utils.Utils;
@@ -564,7 +561,7 @@ public class HistoryFragment extends Fragment implements HistoryAdapter.OnHistor
             ((HistoryActivity) getActivity()).loadDetailHistoryFragmentWith(adapter.data.get(position).getOrdersRef());
         } else {
             Intent intent = new Intent(activity, HistoryDetailActivity.class);
-            intent.putExtra(Sample.ORDERS_REF, adapter.data.get(position).getOrdersRef());
+            intent.putExtra(Sample.WASHERS_ID, adapter.data.get(position).getOrdersRef());
             startActivity(intent);
         }
 

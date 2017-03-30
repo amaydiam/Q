@@ -8,63 +8,70 @@ import com.google.gson.annotations.SerializedName;
 
 public class Washer {
 
-    @SerializedName("id")
+    @SerializedName("customersId")
     @Expose
-    private String id;
-    @SerializedName("user_id_fk")
+    private String userId;
+    @SerializedName("username")
     @Expose
-    private String userIdFk;
-    @SerializedName("lat")
+    private String username;
+    @SerializedName("email")
     @Expose
-    private String lat;
-    @SerializedName("long")
+    private String email;
+    @SerializedName("fullName")
     @Expose
-    private String _long;
-    @SerializedName("name")
-    @Expose
-    private String name;
-    @SerializedName("firebase_id")
+    private String fullName;
+    @SerializedName("firebaseId")
     @Expose
     private String firebaseId;
+    @SerializedName("saldo")
+    @Expose
+    private Integer saldo;
+    @SerializedName("profilePhoto")
+    @Expose
+    private Object profilePhoto;
+    @SerializedName("geometryLat")
+    @Expose
+    private Double geometryLat;
+    @SerializedName("geometryLong")
+    @Expose
+    private Double geometryLong;
+    @SerializedName("online")
+    @Expose
+    private Integer online;
+    @SerializedName("distance")
+    @Expose
+    private Double distance;
 
-    public String getId() {
-        return id;
+    public String getUserId() {
+        return userId;
     }
 
-    public void setId(String id) {
-        this.id = id;
+    public void setUserId(String userId) {
+        this.userId = userId;
     }
 
-    public String getUserIdFk() {
-        return userIdFk;
+    public String getUsername() {
+        return username;
     }
 
-    public void setUserIdFk(String userIdFk) {
-        this.userIdFk = userIdFk;
+    public void setUsername(String username) {
+        this.username = username;
     }
 
-    public String getLat() {
-        return lat;
+    public String getEmail() {
+        return email;
     }
 
-    public void setLat(String lat) {
-        this.lat = lat;
+    public void setEmail(String email) {
+        this.email = email;
     }
 
-    public String getLong() {
-        return _long;
+    public String getFullName() {
+        return fullName;
     }
 
-    public void setLong(String _long) {
-        this._long = _long;
-    }
-
-    public String getName() {
-        return name;
-    }
-
-    public void setName(String name) {
-        this.name = name;
+    public void setFullName(String fullName) {
+        this.fullName = fullName;
     }
 
     public String getFirebaseId() {
@@ -73,6 +80,54 @@ public class Washer {
 
     public void setFirebaseId(String firebaseId) {
         this.firebaseId = firebaseId;
+    }
+
+    public Integer getSaldo() {
+        return saldo;
+    }
+
+    public void setSaldo(Integer saldo) {
+        this.saldo = saldo;
+    }
+
+    public Object getProfilePhoto() {
+        return profilePhoto;
+    }
+
+    public void setProfilePhoto(Object profilePhoto) {
+        this.profilePhoto = profilePhoto;
+    }
+
+    public Double getGeometryLat() {
+        return geometryLat;
+    }
+
+    public void setGeometryLat(Double geometryLat) {
+        this.geometryLat = geometryLat;
+    }
+
+    public Double getGeometryLong() {
+        return geometryLong;
+    }
+
+    public void setGeometryLong(Double geometryLong) {
+        this.geometryLong = geometryLong;
+    }
+
+    public Integer getOnline() {
+        return online;
+    }
+
+    public void setOnline(Integer online) {
+        this.online = online;
+    }
+
+    public Double getDistance() {
+        return distance;
+    }
+
+    public void setDistance(Double distance) {
+        this.distance = distance;
     }
 
 }

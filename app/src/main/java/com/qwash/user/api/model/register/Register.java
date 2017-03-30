@@ -5,22 +5,22 @@ package com.qwash.user.api.model.register; /**
 
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
+import com.qwash.user.api.model.customer.DataCustomer;
 
 public class Register {
-
 
     @SerializedName("status")
     @Expose
     private Boolean status;
+    @SerializedName("messages")
+    @Expose
+    private String messages;
+    @SerializedName("data")
+    @Expose
+    private DataCustomer data;
     @SerializedName("token")
     @Expose
     private String token;
-    @SerializedName("message")
-    @Expose
-    private String message;
-    @SerializedName("data")
-    @Expose
-    private DataRegister data;
 
     public Boolean getStatus() {
         return status;
@@ -28,6 +28,22 @@ public class Register {
 
     public void setStatus(Boolean status) {
         this.status = status;
+    }
+
+    public String getMessages() {
+        return messages;
+    }
+
+    public void setMessages(String messages) {
+        this.messages = messages;
+    }
+
+    public DataCustomer getDataCustomer() {
+        return data;
+    }
+
+    public void setData(DataCustomer data) {
+        this.data = data;
     }
 
     public String getToken() {
@@ -38,20 +54,5 @@ public class Register {
         this.token = token;
     }
 
-    public String getMessage() {
-        return message;
-    }
-
-    public void setMessage(String message) {
-        this.message = message;
-    }
-
-    public DataRegister getDataRegister() {
-        return data;
-    }
-
-    public void setDataRegister(DataRegister data) {
-        this.data = data;
-    }
-
 }
+

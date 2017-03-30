@@ -5,16 +5,13 @@ import java.io.Serializable;
 public class PrepareOrder implements Serializable {
 
     //
-    public String orders_ref;
+    public String washersId;
 
     // customer order
-    public String userId;
+    public String customersId;
     public String username;
     public String email;
     public String name;
-    public String phone;
-    public String photo;
-    public String authLevel;
     public String firebase_id;
 
     // address order
@@ -22,7 +19,8 @@ public class PrepareOrder implements Serializable {
     public String userIdFk;
     public String nameAddress;
     public String address;
-    public String latlong;
+    public String lat;
+    public String Long;
     public String type;
 
     //vehicle order

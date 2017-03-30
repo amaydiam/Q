@@ -20,7 +20,7 @@ public class AddressLogin {
     @SerializedName("address")
     @Expose
     private String address;
-    @SerializedName("latlong")
+    @SerializedName("lat")
     @Expose
     private String latlong;
     @SerializedName("type")

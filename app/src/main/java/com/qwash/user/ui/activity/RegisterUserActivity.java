@@ -1,15 +1,15 @@
 package com.qwash.user.ui.activity;
 
+import android.app.Dialog;
 import android.content.Context;
 import android.content.Intent;
-import android.graphics.Paint;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 import android.view.inputmethod.InputMethodManager;
+import android.widget.CheckBox;
 import android.widget.EditText;
-import android.widget.LinearLayout;
 import android.widget.Toast;
 
 import com.google.firebase.iid.FirebaseInstanceId;
@@ -24,6 +24,7 @@ import com.joanzapata.iconify.fonts.MaterialModule;
 import com.joanzapata.iconify.fonts.SimpleLineIconsModule;
 import com.mobsandgeeks.saripaar.ValidationError;
 import com.mobsandgeeks.saripaar.Validator;
+import com.mobsandgeeks.saripaar.annotation.ConfirmPassword;
 import com.mobsandgeeks.saripaar.annotation.Email;
 import com.mobsandgeeks.saripaar.annotation.Length;
 import com.mobsandgeeks.saripaar.annotation.NotEmpty;
@@ -32,12 +33,14 @@ import com.qwash.user.R;
 import com.qwash.user.Sample;
 import com.qwash.user.api.ApiUtils;
 import com.qwash.user.api.client.register.RegisterService;
-import com.qwash.user.api.model.register.DataRegister;
+import com.qwash.user.api.model.customer.DataCustomer;
 import com.qwash.user.api.model.register.Register;
+import com.qwash.user.ui.activity.register.VerificationCodeActivity;
 import com.qwash.user.ui.widget.RobotoRegularButton;
 import com.qwash.user.ui.widget.RobotoRegularEditText;
-import com.qwash.user.ui.widget.RobotoRegularTextView;
+import com.qwash.user.utils.Prefs;
 import com.qwash.user.utils.ProgressDialogBuilder;
+import com.qwash.user.utils.TextUtils;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -65,33 +68,44 @@ public class RegisterUserActivity extends AppCompatActivity {
     FloatingActionButton btnGooglePlus;
 
     @NotEmpty
-    @Length(min = 2, max = 50, trim = true, messageResId = R.string.val_name_length)
+    @Length(min = 2, max = 30, trim = true, messageResId = R.string.val_full_name)
     @BindView(R.id.full_name)
     RobotoRegularEditText fullName;
 
+
+    @BindView(R.id.no_telp)
+    RobotoRegularEditText noTelp;
+
     @NotEmpty
-    @Length(min = 6, max = 50, trim = true, messageResId = R.string.val_email_length)
+    @Length(min = 5, max = 100, trim = true, messageResId = R.string.val_email_length)
     @Email
     @BindView(R.id.email)
     RobotoRegularEditText email;
 
     @NotEmpty
-    @Length(min = 4, max = 100, trim = true, messageResId = R.string.val_password_length)
-    @Password
+    @Password(min = 5, messageResId = R.string.val_password_length)
     @BindView(R.id.password)
     RobotoRegularEditText password;
 
-    @BindView(R.id.no_telp)
-    RobotoRegularEditText noTelp;
+    @NotEmpty
+    @ConfirmPassword()
+    @BindView(R.id.confirm_password)
+    RobotoRegularEditText confirmPassword;
+
 
     private String firebase_id;
     private ProgressDialogBuilder dialogProgress;
     private Validator validator;
+    private Context context;
 
     @OnClick(R.id.btn_new_account)
     void SubmitRegister() {
         validator.validate();
     }
+
+
+    @BindView(R.id.cb_agree)
+    CheckBox cbAgree;
 
     @OnClick(R.id.btn_facebook)
     void LoginViaFacebook() {
@@ -115,12 +129,19 @@ public class RegisterUserActivity extends AppCompatActivity {
         setContentView(R.layout.register_user);
         ButterKnife.bind(this);
 
+        context = getApplicationContext();
         dialogProgress = new ProgressDialogBuilder(this);
         validator = new Validator(this);
         validator.setValidationListener(new Validator.ValidationListener() {
             @Override
             public void onValidationSucceeded() {
-                remoteRegister();
+
+                if (!cbAgree.isChecked()) {
+                    showTermNotif();
+                } else {
+
+                    RegisterAction();
+                }
             }
 
             @Override
@@ -133,7 +154,7 @@ public class RegisterUserActivity extends AppCompatActivity {
                     if (view instanceof EditText) {
                         ((EditText) view).setError(message);
                     } else {
-                        Toast.makeText(RegisterUserActivity.this, message, Toast.LENGTH_LONG).show();
+                        Toast.makeText(context, message, Toast.LENGTH_LONG).show();
                     }
                 }
             }
@@ -149,20 +170,41 @@ public class RegisterUserActivity extends AppCompatActivity {
                         .actionBarSize());
     }
 
+    public void showTermNotif() {
+        final Dialog dialog = new Dialog(RegisterUserActivity.this);
+        dialog.setCancelable(true);
+        dialog.setContentView(R.layout.dialog_agreement_register);
 
-    private void remoteRegister() {
+        dialog.findViewById(R.id.btn_ok).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                if (dialog != null) {
+                    dialog.dismiss();
+                }
+            }
+        });
+
+        dialog.show();
+    }
+
+
+    private void RegisterAction() {
         dialogProgress.show("Register...", "Please wait...");
 
         firebase_id = FirebaseInstanceId.getInstance().getToken();
-        Map<String, String> params = new HashMap<>();
-        params.put(Sample.EMAIL, email.getText().toString());
-        params.put(Sample.NAME, fullName.getText().toString());
-        params.put(Sample.PASSWORD, password.getText().toString());
-        params.put(Sample.AUTH_LEVEL, String.valueOf(5));
-        params.put(Sample.PHONE, noTelp.getText().toString());
-        params.put(Sample.CITY, "Tangerang Selatan");
 
+        String inputStr = noTelp.getText().toString().trim();
+        String num = "+62" + TextUtils.ReplaceFirstCaracters(inputStr);
+
+        Map<String, String> params = new HashMap<>();
+        params.put(Sample.FULL_NAME, fullName.getText().toString());
+        params.put(Sample.EMAIL, email.getText().toString());
+        params.put(Sample.PASSWORD, password.getText().toString());
+        params.put(Sample.USERNAME, num);
         params.put(Sample.FIREBASE_ID, firebase_id);
+        params.put(Sample.LAT, "0");
+        params.put(Sample.LONG, "0");
+
 
         RegisterService mService = ApiUtils.RegisterService(this);
         mService.getRegisterLink(params).enqueue(new Callback<Register>() {
@@ -173,18 +215,22 @@ public class RegisterUserActivity extends AppCompatActivity {
                 if (response.isSuccessful()) {
                     if (response.body().getStatus()) {
 
-                        DataRegister dataRegister = response.body().getDataRegister();
-/*
-                        Prefs.putToken(RegisterUserActivity.this, response.body().getToken());
-                        Prefs.putFirebaseId(RegisterUserActivity.this, firebase_id);
-
-                        Prefs.putUserId(RegisterUserActivity.this, dataRegister.getUserId());
-                        Prefs.putUsername(RegisterUserActivity.this, dataRegister.getUsername());
-                        Prefs.putEmail(RegisterUserActivity.this, dataRegister.getEmail());
-                        Prefs.putName(RegisterUserActivity.this, dataRegister.getName());
-                        Prefs.putPhone(RegisterUserActivity.this, dataRegister.getName());
-                        Prefs.putAuthLevel(RegisterUserActivity.this, String.valueOf(dataRegister.getAuthLevel()));*/
-
+                        DataCustomer data = response.body().getDataCustomer();
+                        Prefs.putToken(context, response.body().getToken());
+                        Prefs.putUserId(context, data.getUserId());
+                        Prefs.putEmail(context, data.getEmail());
+                        Prefs.putUsername(context, data.getUsername());
+                        Prefs.putType(context, data.getType());
+                        Prefs.putFullName(context, data.getFullName());
+                        Prefs.putSaldo(context, data.getSaldo());
+                        Prefs.putFirebaseId(context, data.getFirebaseId());
+                        Prefs.putGeometryLat(context, data.getGeometryLat());
+                        Prefs.putGeometryLong(context, data.getGeometryLong());
+                        Prefs.putOnline(context, data.getOnline());
+                        Prefs.putStatus(context, data.getStatus());
+                        Prefs.putCreatedAt(context, data.getCreatedAt());
+                        Prefs.putUpdatedAt(context, data.getUpdatedAt());
+                        Prefs.putActivityIndex(context, Sample.ACTIVATION_CODE_INDEX);
                         toVerificationCodeActivity();
 
                     }

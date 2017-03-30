@@ -47,7 +47,7 @@ public class Orders {
     @SerializedName("status")
     @Expose
     private String status;
-    @SerializedName("orders_ref")
+    @SerializedName("washersId")
     @Expose
     private String ordersRef;
 

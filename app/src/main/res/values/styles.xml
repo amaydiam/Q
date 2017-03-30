@@ -86,5 +86,11 @@
         <item name="colorControlActivated">@color/orange_light</item>
     </style>
 
+    <style name="btn_blue_outline">
+        <item name="android:background">@drawable/blue_outline</item>
+        <item name="android:textColor">@color/blue_2196F3</item>
+        <item name="android:textSize">@dimen/medium_text_size</item>
+
+    </style>
 
 </resources>

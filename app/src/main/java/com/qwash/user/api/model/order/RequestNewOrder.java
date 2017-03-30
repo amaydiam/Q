@@ -16,9 +16,6 @@ public class RequestNewOrder {
     @SerializedName("Message")
     @Expose
     private String message;
-    @SerializedName("orders")
-    @Expose
-    private Orders orders;
     @SerializedName("washers")
     @Expose
     private List<Washer> washers = null;
@@ -39,13 +36,6 @@ public class RequestNewOrder {
         this.message = message;
     }
 
-    public Orders getOrders() {
-        return orders;
-    }
-
-    public void setOrders(Orders orders) {
-        this.orders = orders;
-    }
 
     public List<Washer> getWashers() {
         return washers;

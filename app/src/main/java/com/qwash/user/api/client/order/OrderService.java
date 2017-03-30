@@ -19,7 +19,7 @@ import retrofit2.http.POST;
 public interface OrderService {
     @FormUrlEncoded
     @POST("findmatch/startOrder")
-    Call<RequestNewOrder> getRequestStartOrderLink(@FieldMap Map<String, String> params);
+    Call<RequestNewOrder> getWasherOnlineAndStartOrderLink(@FieldMap Map<String, String> params);
 
     @FormUrlEncoded
     @POST("transact/ratings")

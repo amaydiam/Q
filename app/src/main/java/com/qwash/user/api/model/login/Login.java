@@ -1,28 +1,27 @@
-package com.qwash.user.api.model.login; /**
+package com.qwash.user.api.model.login; 
+/**
  * Created by Amay on 12/29/2016.
  */
 
 
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
-
-import java.util.List;
+import com.qwash.user.api.model.customer.DataCustomer;
 
 public class Login {
-
 
     @SerializedName("status")
     @Expose
     private Boolean status;
+    @SerializedName("messages")
+    @Expose
+    private String messages;
+    @SerializedName("data")
+    @Expose
+    private DataCustomer data;
     @SerializedName("token")
     @Expose
     private String token;
-    @SerializedName("data")
-    @Expose
-    private DataLogin data;
-    @SerializedName("address")
-    @Expose
-    private List<AddressLogin> address = null;
 
     public Boolean getStatus() {
         return status;
@@ -30,6 +29,22 @@ public class Login {
 
     public void setStatus(Boolean status) {
         this.status = status;
+    }
+
+    public String getMessages() {
+        return messages;
+    }
+
+    public void setMessages(String messages) {
+        this.messages = messages;
+    }
+
+    public DataCustomer getDataCustomer() {
+        return data;
+    }
+
+    public void setDataCustomer(DataCustomer data) {
+        this.data = data;
     }
 
     public String getToken() {
@@ -40,23 +55,7 @@ public class Login {
         this.token = token;
     }
 
-    public DataLogin getDataLogin() {
-        return data;
-    }
-
-    public void setDataLogin(DataLogin data) {
-        this.data = data;
-    }
-
-    public List<AddressLogin> getAddressLogin() {
-        return address;
-    }
-
-    public void setAddressLogin(List<AddressLogin> address) {
-        this.address = address;
-    }
-
-
-
 }
+
+
 

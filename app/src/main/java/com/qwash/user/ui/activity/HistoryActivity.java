@@ -68,7 +68,7 @@ public class HistoryActivity extends AppCompatActivity {
     public void loadDetailHistoryFragmentWith(String histortyId) {
         HistoryDetailFragment fragment = new HistoryDetailFragment();
         Bundle args = new Bundle();
-        args.putString(Sample.ORDERS_REF, histortyId);
+        args.putString(Sample.WASHERS_ID, histortyId);
         fragment.setArguments(args);
         getSupportFragmentManager().beginTransaction().replace(R.id.detail_fragment, fragment).commit();
     }

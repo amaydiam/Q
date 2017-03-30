@@ -150,7 +150,7 @@ public class WasherOrderFragment extends Fragment implements BottomSheetListener
         View view = inflater.inflate(R.layout.fragment_washer_order, container, false);
         ButterKnife.bind(this, view);
         whaserName.setText(washerAccepted.name);
-        imageLoader.loadImage(imageWasher, Sample.BASE_URL_IMAGE + washerAccepted.photo, washerAccepted.name);
+        imageLoader.loadImage(imageWasher, Sample.BASE_URL_QWASH_PUBLIC + washerAccepted.photo, washerAccepted.name);
         ratingWhaser.setText("{entypo-star-outlined} " + washerAccepted.rating);
         estimatedPrice.setText(Utils.Rupiah(prepareOrder.estimated_price));
 
@@ -163,7 +163,7 @@ public class WasherOrderFragment extends Fragment implements BottomSheetListener
         {
             dialogProgress.show("Cancel Order Wash ...", "Please wait...");
             Map<String, String> params = new HashMap<>();
-            params.put(Sample.ORDERS_REF, prepareOrder.orders_ref);
+            params.put(Sample.WASHERS_ID, prepareOrder.washersId);
 
             OrderService mService = ApiUtils.OrderService(getActivity());
             mService.getCancelOrderLink(params).enqueue(new Callback<CancelOrder>() {
@@ -264,12 +264,12 @@ public class WasherOrderFragment extends Fragment implements BottomSheetListener
         switch (menuItem.getItemId()) {
             case R.id.sms_washer:
                 Intent sms = new Intent(Intent.ACTION_SENDTO);
-                sms.setData(Uri.parse("smsto:" + Uri.encode(prepareOrder.phone)));
+                sms.setData(Uri.parse("smsto:" + Uri.encode(prepareOrder.username)));
                 startActivity(sms);
                 break;
             case R.id.call_washer:
                 Intent phoneIntent = new Intent(Intent.ACTION_DIAL, Uri.fromParts(
-                        "tel", prepareOrder.phone, null));
+                        "tel", prepareOrder.username, null));
                 startActivity(phoneIntent);
                 break;
         }

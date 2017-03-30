@@ -2,6 +2,7 @@ package com.qwash.user.api.model.washer;
 
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
+import com.qwash.user.api.model.order.Washer;
 
 import java.util.List;
 
@@ -10,38 +11,16 @@ import java.util.List;
  */
 
 public class ShowWasherOn {
-    @SerializedName("status")
+    @SerializedName("washers")
     @Expose
-    private Boolean status;
-    @SerializedName("Message")
-    @Expose
-    private String message;
-    @SerializedName("data")
-    @Expose
-    private List<DataShowWasherOn> data = null;
+    private List<Washer> washers = null;
 
-    public Boolean getStatus() {
-        return status;
+    public List<Washer> getWashers() {
+        return washers;
     }
 
-    public void setStatus(Boolean status) {
-        this.status = status;
-    }
-
-    public String getMessage() {
-        return message;
-    }
-
-    public void setMessage(String message) {
-        this.message = message;
-    }
-
-    public List<DataShowWasherOn> getData() {
-        return data;
-    }
-
-    public void setData(List<DataShowWasherOn> data) {
-        this.data = data;
+    public void setWashers(List<Washer> washers) {
+        this.washers = washers;
     }
 
 }

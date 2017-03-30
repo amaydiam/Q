@@ -60,9 +60,7 @@ import com.qwash.user.api.client.washer.WasherService;
 import com.qwash.user.api.model.Address;
 import com.qwash.user.api.model.AddressFromMapsResponse;
 import com.qwash.user.api.model.order.CancelOrder;
-import com.qwash.user.api.model.order.RequestNewOrder;
 import com.qwash.user.api.model.order.Washer;
-import com.qwash.user.api.model.washer.DataShowWasherOn;
 import com.qwash.user.api.model.washer.ShowWasherOn;
 import com.qwash.user.model.AddressUser;
 import com.qwash.user.model.FindWasher;
@@ -77,6 +75,7 @@ import com.qwash.user.ui.fragment.WasherOrderFragment;
 import com.qwash.user.ui.widget.RobotoLightTextView;
 import com.qwash.user.utils.Prefs;
 import com.qwash.user.utils.ProgressDialogBuilder;
+import com.qwash.user.utils.TextUtils;
 import com.sdsmdg.tastytoast.TastyToast;
 
 import org.greenrobot.eventbus.EventBus;
@@ -265,7 +264,12 @@ public class HomeActivity extends AppCompatActivity implements
                 OpenData(Sample.CODE_ADRESS_HOME);
                 break;
             case R.id.btn_close:
-                CancelOrder();
+                if (TextUtils.isNullOrEmpty(prepareOrder.washersId)) {
+                    isFind = false;
+                    FindingWasher();
+                    PushCancelOrder();
+                } else
+                    CancelOrder();
                 break;
 
             default:
@@ -361,12 +365,14 @@ public class HomeActivity extends AppCompatActivity implements
 
     private void LoadPrepareOrderFragment() {
         PrepareOrder prepareOrder = new PrepareOrder();
+
         //TODO name adress
         prepareOrder.usersDetailsId = "";
         prepareOrder.userIdFk = Prefs.getUserId(this);
         prepareOrder.nameAddress = "-";
         prepareOrder.address = search.getText().toString();
-        prepareOrder.latlong = current_latitude + "," + current_longitude;
+        prepareOrder.lat = String.valueOf(current_latitude);
+        prepareOrder.Long = String.valueOf(current_longitude);
         prepareOrder.type = "0";
 
         mMap.getUiSettings().setScrollGesturesEnabled(false);
@@ -591,67 +597,12 @@ public class HomeActivity extends AppCompatActivity implements
     }
 
 
-    void RequestNewOrder() {
-        String LatLong = prepareOrder.latlong;
-        String[] ll = LatLong.split(",");
-        Map<String, String> params = new HashMap<>();
-
-        params.put(Sample.USER_ID_FK, Prefs.getUserId(this));
-        params.put(Sample.VEHICLES, String.valueOf(prepareOrder.vehicles));
-        params.put(Sample.LAT, ll[0]);
-        params.put(Sample.LONG, ll[1]);
-        params.put(Sample.PRICE, String.valueOf(prepareOrder.price));
-        params.put(Sample.NAME_ADDRESS, prepareOrder.nameAddress);
-        params.put(Sample.ADDRESS, prepareOrder.address);
-        params.put(Sample.PERFUM, String.valueOf(prepareOrder.perfum_status));
-        params.put(Sample.VACUUM, String.valueOf(prepareOrder.interior_vaccum_status));
-        params.put(Sample.WATERLESS, String.valueOf(prepareOrder.waterless_status));
-
-        OrderService mService = ApiUtils.OrderService(this);
-        mService.getRequestStartOrderLink(params).enqueue(new Callback<RequestNewOrder>() {
-            @Override
-            public void onResponse(Call<RequestNewOrder> call, Response<RequestNewOrder> response) {
-                if (response.isSuccessful()) {
-                    if (response.body().getStatus()) {
-                        prepareOrder.orders_ref = response.body().getOrders().getOrdersRef();
-                        List<Washer> washer = response.body().getWashers();
-
-                        if (washer.size() > 0) {
-                            listWasher.clear();
-                            for (int i = 0; i < washer.size(); i++) {
-
-                                String user_id_fk = washer.get(i).getUserIdFk();
-                                String name = washer.get(i).getName();
-                                String latlong = washer.get(i).getLat() + "," + washer.get(i).getLong();
-                                String firebaseId = washer.get(i).getFirebaseId();
-
-                                FindWasher findWasher = new FindWasher(user_id_fk, name, latlong, firebaseId, false);
-                                listWasher.add(findWasher);
-
-                            }
-                            SearchWasher();
-                        }
-                    }
-                } else {
-                    int statusCode = response.code();
-                }
-            }
-
-            @Override
-            public void onFailure(Call<RequestNewOrder> call, Throwable t) {
-                String message = t.getMessage();
-                Log.v("message",message);
-            }
-        });
-
-    }
-
     // ======== CancelOrder Order
     private void CancelOrder() {
         {
             dialogProgress.show("Cancel Order Wash ...", "Please wait...");
             Map<String, String> params = new HashMap<>();
-            params.put(Sample.ORDERS_REF, prepareOrder.orders_ref);
+            params.put(Sample.WASHERS_ID, prepareOrder.washersId);
 
             OrderService mService = ApiUtils.OrderService(HomeActivity.this);
             mService.getCancelOrderLink(params).enqueue(new Callback<CancelOrder>() {
@@ -711,7 +662,6 @@ public class HomeActivity extends AppCompatActivity implements
     }
 
     public void LoadAddress(final double Lat, final double Long) {
-        mMap.clear();
         hasIdetify = false;
         search.setText("");
         btnPickLocation.setText(Html.fromHtml("<i>{fa-spinner spin} Indentify Address...</i>"));
@@ -725,7 +675,7 @@ public class HomeActivity extends AppCompatActivity implements
                         List<Address> address = response.body().getResults();
                         search.setText(address.get(0).getFormattedAddress());
                         btnPickLocation.setText(getResources().getString(R.string.btn_pick_location));
-                        LoadWasherOnMap(Lat, Long);
+                        GetWasherOnline(Lat, Long);
                     } else {
                         search.setText("");
                         btnPickLocation.setText(Html.fromHtml("<i>Not Identified...</i>"));
@@ -753,20 +703,28 @@ public class HomeActivity extends AppCompatActivity implements
         });
     }
 
-    public void LoadWasherOnMap(double Lat, double Long) {
+    public void GetWasherOnline(double Lat, double Long) {
 
-        Map<String, String> params = new HashMap<>();
-        params.put(Sample.CENTER_LAT, String.valueOf(Lat));
-        params.put(Sample.CENTER_LONG, String.valueOf(Long));
         WasherService mService = ApiUtils.WasherService(this);
-        mService.getshowWasherOnLink(params).enqueue(new Callback<ShowWasherOn>() {
+        mService.getshowWasherOnLink("Bearer " + Prefs.getToken(HomeActivity.this), String.valueOf(Lat), String.valueOf(Long)).enqueue(new Callback<ShowWasherOn>() {
             @Override
             public void onResponse(Call<ShowWasherOn> call, Response<ShowWasherOn> response) {
 
                 if (response.isSuccessful()) {
-                    if (response.body().getStatus()) {
-                        setWasher(response.body().getData());
+                    List<Washer> washer = response.body().getWashers();
+                    listWasher.clear();
+
+                    for (int i = 0; i < washer.size(); i++) {
+                        String user_id_fk = washer.get(i).getUserId();
+                        String name = washer.get(i).getFullName();
+                        String latlong = washer.get(i).getGeometryLat() + "," + washer.get(i).getGeometryLong();
+                        String firebaseId = washer.get(i).getFirebaseId();
+                        FindWasher findWasher = new FindWasher(user_id_fk, name, latlong, firebaseId, false);
+                        listWasher.add(findWasher);
+
                     }
+
+                    setWasherOnMap(washer);
 
                 } else {
                     int statusCode = response.code();
@@ -790,14 +748,16 @@ public class HomeActivity extends AppCompatActivity implements
     }
 
 
-    void setWasher(List<DataShowWasherOn> data) {
-        if (data != null)
+    void setWasherOnMap(List<Washer> data) {
+        if (data != null) {
+            mMap.clear();
             for (int i = 0; i < data.size(); i++) {
-                double Lat = Double.parseDouble(data.get(i).getLat());
-                double Long = Double.parseDouble(data.get(i).getLng());
+                double Lat = data.get(i).getGeometryLat();
+                double Long = data.get(i).getGeometryLong();
                 MarkerOptions marker = new MarkerOptions().position(new LatLng(Lat, Long)).icon(BitmapDescriptorFactory.fromResource(R.drawable.ic_washer));
                 mMap.addMarker(marker);
             }
+        }
 
     }
 
@@ -833,10 +793,6 @@ public class HomeActivity extends AppCompatActivity implements
             JSONObject json = new JSONObject(MessageFireBase.getData());
             int action = json.getInt(Sample.ACTION);
             if (action == Sample.CODE_DEACLINE_ORDER) {
-                Log.v("deacline", "yes");
-                JSONObject jsonWasher = new JSONObject(json.getString(Sample.WASHER));
-                String firebase_id = jsonWasher.getString(Sample.WASHER_FIREBASE_ID);
-                String washer_id = jsonWasher.getString(Sample.WASHER_USER_ID);
                 TastyToast.makeText(getApplicationContext(), "Your washer is deacline order", TastyToast.LENGTH_SHORT, TastyToast.WARNING);
                 isFind = false;
                 FindingWasher();
@@ -844,16 +800,22 @@ public class HomeActivity extends AppCompatActivity implements
 
             } else if (action == Sample.CODE_ACCEPT_ORDER) {
                 TastyToast.makeText(getApplicationContext(), "Washer found", TastyToast.LENGTH_SHORT, TastyToast.SUCCESS);
-                JSONObject jsonWasher = new JSONObject(json.getString(Sample.WASHER));
+
+                JSONObject jsonOrder= new JSONObject(json.getString(Sample.ORDER));
+
+                JSONObject jsonDetails = new JSONObject(jsonOrder.getString(Sample.DETAILS));
+                String ordersId = jsonDetails.getString(Sample.ORDERS_ID);
+
+                JSONObject jsonWasher = new JSONObject(jsonOrder.getString(Sample.WASHER));
                 String firebase_id = jsonWasher.getString(Sample.WASHER_FIREBASE_ID);
-                String userId = jsonWasher.getString(Sample.WASHER_USER_ID);
+                String washersId = jsonWasher.getString(Sample.WASHERS_ID);
                 String email = jsonWasher.getString(Sample.WASHER_EMAIL);
                 String name = jsonWasher.getString(Sample.WASHER_NAME);
-                String phone = jsonWasher.getString(Sample.WASHER_PHONE);
+                String phone = jsonWasher.getString(Sample.WASHER_USERNAME);
                 String photo = jsonWasher.getString(Sample.WASHER_PHOTO);
                 String rating = jsonWasher.getString(Sample.WASHER_RATING);
 
-                washerAccepted = new WasherAccepted(firebase_id, userId, email, name, phone, photo, rating);
+                washerAccepted = new WasherAccepted(firebase_id, washersId, email, name, phone, photo, rating);
 
                 isFind = false;
                 FindingWasher();
@@ -865,9 +827,6 @@ public class HomeActivity extends AppCompatActivity implements
                     fragment.layoutBtnWasherOrder.setVisibility(View.GONE);
                 }
             } else if (action == Sample.CODE_FINISH_WORKING) {
-                JSONObject jsonWasher = new JSONObject(json.getString(Sample.WASHER));
-                String firebase_id = jsonWasher.getString(Sample.WASHER_FIREBASE_ID);
-                String washer_id = jsonWasher.getString(Sample.WASHER_USER_ID);
                 TastyToast.makeText(getApplicationContext(), "Your washer is finish working", TastyToast.LENGTH_SHORT, TastyToast.SUCCESS);
                 isFind = false;
                 FindingWasher();
@@ -899,7 +858,6 @@ public class HomeActivity extends AppCompatActivity implements
                     JSONObject root = new JSONObject();
                     JSONArray jsonArray = new JSONArray();
                     for (int i = 0; i < listWasher.size(); i++) {
-                        //  jsonArray.put(listWasher.get(urutan).firebaseId);
                         jsonArray.put(listWasher.get(i).firebaseId);
                     }
 
@@ -912,35 +870,33 @@ public class HomeActivity extends AppCompatActivity implements
 
                     JSONObject order = new JSONObject();
 
-                    JSONObject customer_order = new JSONObject();
-                    customer_order.put(Sample.ORDERS_REF, prepareOrder.orders_ref);
-                    order.put(Sample.CUSTOMER_ORDER, customer_order);
+                    JSONObject whasher = new JSONObject();
+                    whasher.put(Sample.WASHERS_ID, prepareOrder.washersId);
+                    order.put(Sample.WASHER, whasher);
 
                     JSONObject customer = new JSONObject();
-                    customer.put(Sample.ORDER_USERID, prepareOrder.userId);
+                    customer.put(Sample.ORDER_USERID, prepareOrder.customersId);
                     customer.put(Sample.ORDER_USERNAME, prepareOrder.username);
                     customer.put(Sample.ORDER_EMAIL, prepareOrder.email);
                     customer.put(Sample.ORDER_NAME, prepareOrder.name);
-                    customer.put(Sample.ORDER_PHONE, prepareOrder.phone);
-                    customer.put(Sample.ORDER_PHOTO, prepareOrder.photo);
-                    customer.put(Sample.ORDER_AUTHLEVEL, prepareOrder.authLevel);
                     customer.put(Sample.ORDER_FIREBASE_ID, prepareOrder.firebase_id);
+                    order.put(Sample.CUSTOMER, customer);
 
-                    order.put("customer", customer);
 
                     JSONObject address = new JSONObject();
                     address.put(Sample.ORDER_USERSDETAILSID, prepareOrder.usersDetailsId);
                     address.put(Sample.ORDER_USERIDFK, prepareOrder.userIdFk);
                     address.put(Sample.ORDER_NAMEADDRESS, prepareOrder.nameAddress);
                     address.put(Sample.ORDER_ADDRESS, prepareOrder.address);
-                    address.put(Sample.ORDER_LATLONG, prepareOrder.latlong);
+                    address.put(Sample.ORDER_LAT, prepareOrder.lat);
+                    address.put(Sample.ORDER_LONG, prepareOrder.Long);
                     address.put(Sample.ORDER_TYPE, prepareOrder.type);
-                    order.put("address", address);
+                    order.put(Sample.ADDRESS, address);
 
                     JSONObject vehicle = new JSONObject();
                     vehicle.put(Sample.ORDER_VEHICLES_TYPE, prepareOrder.vehicles_type);
                     vehicle.put(Sample.ORDER_VEHICLES, prepareOrder.vehicles);
-                    order.put("vehicle", vehicle);
+                    order.put(Sample.VEHICLE, vehicle);
 
                     JSONObject details = new JSONObject();
                     details.put(Sample.ORDER_PRICE, String.valueOf(prepareOrder.price));
@@ -956,9 +912,10 @@ public class HomeActivity extends AppCompatActivity implements
 
                     details.put(Sample.ORDER_ESTIMATED_PRICE, String.valueOf(prepareOrder.estimated_price));
 
-                    order.put("details", details);
+                    order.put(Sample.DETAILS, details);
 
-                    data.put("order", order);
+                    data.put(Sample.ORDER, order);
+
                     root.put("notification", notification);
                     root.put("data", data);
                     root.put("registration_ids", jsonArray);
@@ -1039,16 +996,15 @@ public class HomeActivity extends AppCompatActivity implements
     public void startNewOrder(NewOrder newOrder) {
         prepareOrder = newOrder.getNewOrder();
         if (prepareOrder != null) {
-            prepareOrder.userId = Prefs.getUserId(this);
+
+            prepareOrder.washersId = "";
+
+            prepareOrder.customersId = Prefs.getUserId(this);
             prepareOrder.username = Prefs.getUsername(this);
             prepareOrder.email = Prefs.getEmail(this);
-            prepareOrder.name = Prefs.getName(this);
-            prepareOrder.phone = Prefs.getPhone(this);
-            prepareOrder.photo = Prefs.getPhoto(this);
-            prepareOrder.authLevel = Prefs.getAuthLevel(this);
+            prepareOrder.name = Prefs.getFullName(this);
             prepareOrder.firebase_id = Prefs.getFirebaseId(this);
-
-            RequestNewOrder();
+            SearchWasher();
             RemoveBottomFragment();
             isFind = true;
             FindingWasher();

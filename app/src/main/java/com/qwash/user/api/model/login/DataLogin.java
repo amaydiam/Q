@@ -20,7 +20,7 @@ public class DataLogin {
     @SerializedName("name")
     @Expose
     private String name;
-    @SerializedName("phone")
+    @SerializedName("username")
     @Expose
     private String phone;
     @SerializedName("photo")

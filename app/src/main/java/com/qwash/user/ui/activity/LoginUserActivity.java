@@ -2,12 +2,12 @@ package com.qwash.user.ui.activity;
 
 import android.content.Context;
 import android.content.Intent;
-import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v7.app.AppCompatActivity;
+import android.util.Log;
 import android.view.KeyEvent;
 import android.view.View;
 import android.view.inputmethod.EditorInfo;
@@ -23,7 +23,6 @@ import com.facebook.FacebookException;
 import com.facebook.FacebookSdk;
 import com.facebook.GraphRequest;
 import com.facebook.GraphResponse;
-import com.facebook.login.LoginManager;
 import com.facebook.login.LoginResult;
 import com.facebook.login.widget.LoginButton;
 import com.google.android.gms.auth.api.Auth;
@@ -59,10 +58,8 @@ import com.qwash.user.Sample;
 import com.qwash.user.api.ApiUtils;
 import com.qwash.user.api.client.auth.LoginService;
 import com.qwash.user.api.model.GlobalError;
-import com.qwash.user.api.model.login.AddressLogin;
-import com.qwash.user.api.model.login.DataLogin;
+import com.qwash.user.api.model.customer.DataCustomer;
 import com.qwash.user.api.model.login.Login;
-import com.qwash.user.model.AddressUser;
 import com.qwash.user.ui.widget.RobotoRegularButton;
 import com.qwash.user.ui.widget.RobotoRegularEditText;
 import com.qwash.user.utils.Prefs;
@@ -72,7 +69,6 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.io.IOException;
-import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -120,6 +116,8 @@ public class LoginUserActivity extends AppCompatActivity implements GoogleApiCli
     private int LOGIN_SOSIAL = 2;
     private FirebaseUser user;
     private boolean AfterSuccessGetDataFacebook = false;
+    private Context context;
+
 
     @OnClick(R.id.btn_login)
     void LoginEmail() {
@@ -155,6 +153,8 @@ public class LoginUserActivity extends AppCompatActivity implements GoogleApiCli
         FacebookSdk.sdkInitialize(this.getApplicationContext());
         setContentView(R.layout.login_user);
         ButterKnife.bind(this);
+
+        context = getApplicationContext();
 
         inisialisasiSignIn();
 
@@ -413,7 +413,6 @@ public class LoginUserActivity extends AppCompatActivity implements GoogleApiCli
             params.put(Sample.PASSWORD, password.getText().toString());
         }
         params.put(Sample.FIREBASE_ID, firebase_id);
-        params.put(Sample.AUTH_LEVEL, "10");
 
         for (Map.Entry entry : params.entrySet()) {
             System.out.println(entry.getKey() + ", " + entry.getValue());
@@ -429,20 +428,33 @@ public class LoginUserActivity extends AppCompatActivity implements GoogleApiCli
                 if (response.isSuccessful()) {
                     if (response.body().getStatus()) {
 
-                        DataLogin dataLogin = response.body().getDataLogin();
+                        DataCustomer data = response.body().getDataCustomer();
+                        Prefs.putToken(context, response.body().getToken());
 
-                        Prefs.putToken(LoginUserActivity.this, response.body().getToken());
-                        Prefs.putFirebaseId(LoginUserActivity.this, firebase_id);
+                        Prefs.putUserId(context, data.getUserId());
+                        Prefs.putEmail(context, data.getEmail());
+                        Prefs.putUsername(context, data.getUsername());
+                        Prefs.putType(context, data.getType());
+                        Prefs.putFullName(context, data.getFullName());
+                        Prefs.putSaldo(context, data.getSaldo());
+                        Prefs.putFirebaseId(context, data.getFirebaseId());
+                        Prefs.putGeometryLat(context, data.getGeometryLat());
+                        Prefs.putGeometryLong(context, data.getGeometryLong());
+                        Prefs.putProfileGender(context, data.getProfileGender());
+                        Prefs.putProfilePhoto(context, data.getProfilePhoto());
+                        Prefs.putProfileProvince(context, data.getProfileProvince());
+                        Prefs.putProfileCity(context, data.getProfileCity());
+                        Prefs.putProfileNik(context, data.getProfileNik());
+                        Prefs.putOnline(context, data.getOnline());
+                        Prefs.putStatus(context, data.getStatus());
+                        Prefs.putCreatedAt(context, data.getCreatedAt());
+                        Prefs.putUpdatedAt(context, data.getUpdatedAt());
+                        Prefs.putActivityIndex(context, Sample.NO_INDEX);
 
-                        Prefs.putUserId(LoginUserActivity.this, dataLogin.getUserId());
-                        Prefs.putUsername(LoginUserActivity.this, dataLogin.getUsername());
-                        Prefs.putEmail(LoginUserActivity.this, dataLogin.getEmail());
-                        Prefs.putName(LoginUserActivity.this, dataLogin.getName());
-                        Prefs.putPhone(LoginUserActivity.this, dataLogin.getPhone());
-                        Prefs.putPhoto(LoginUserActivity.this, dataLogin.getPhoto());
-                        Prefs.putAuthLevel(LoginUserActivity.this, String.valueOf(dataLogin.getAuthLevel()));
 
+                        // TODO Addres si customer
 
+/*
                         List<AddressLogin> addressLoginList = response.body().getAddressLogin();
                         if (addressLoginList.size() > 0 && (AddressUser.findAll(AddressUser.class).hasNext())) {
                             AddressUser.deleteAll(AddressUser.class);
@@ -453,13 +465,13 @@ public class LoginUserActivity extends AppCompatActivity implements GoogleApiCli
                             String userIdFk = addressLoginList.get(i).getUserIdFk();
                             String nameAddress = addressLoginList.get(i).getNameAddress();
                             String address = addressLoginList.get(i).getAddress();
-                            String latlong = addressLoginList.get(i).getLatlong();
+                            String lat = addressLoginList.get(i).getLatlong();
                             String type = addressLoginList.get(i).getType();
                             String createAt = addressLoginList.get(i).getCreateAt();
 
-                            AddressUser addressUser = new AddressUser(usersDetailsId, userIdFk, nameAddress, address, latlong, type, createAt);
+                            AddressUser addressUser = new AddressUser(usersDetailsId, userIdFk, nameAddress, address, lat, type, createAt);
                             addressUser.save();
-                        }
+                        }*/
 
                         toActivity("home", null, null);
 
@@ -505,7 +517,7 @@ public class LoginUserActivity extends AppCompatActivity implements GoogleApiCli
         } else {
             intent = new Intent(this, RegisterUserActivity.class);
             intent.putExtra(Sample.EMAIL, email);
-            intent.putExtra(Sample.NAME, fullName);
+            intent.putExtra(Sample.FULL_NAME, fullName);
         }
         startActivity(intent);
         finish();

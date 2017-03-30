@@ -57,7 +57,7 @@ public class History implements Parcelable {
     @SerializedName("description")
     @Expose
     private String description;
-    @SerializedName("orders_ref")
+    @SerializedName("washersId")
     @Expose
     private String ordersRef;
     @SerializedName("name")

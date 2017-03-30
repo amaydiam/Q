@@ -89,4 +89,29 @@
     <string name="rd_waterless">Waterless</string>
     <string name="please_wait">Please wait ...</string>
     <string name="checking_loading">Checking ...</string>
+
+
+    <string name="verification_title">Masukkan kode verifikasi</string>
+    <string name="verification_desc">Cek kode verifikasi yang sudah dikirimkan ke nomormu  %1$s Tuliskan di sini:</string>
+    <string name="code_verification">Enter Kode verifikasi</string>
+
+    <string name="btn_verification_code">Verification</string>
+    <string name="resend_the_text">resend</string>
+    <string name="change_number">change number</string>
+    <string name="please_input_verification_code">Please Input verification code !</string>
+    <string name="resend_code_loading">Resend Code …</string>
+    <string name="verify_code_loading">Verify Code …</string>
+    <string name="phone">Phone</string>
+    <string name="save_and_verify"><![CDATA[Save & Verify]]></string>
+    <string name="change_number_to_verify_code">Change number to verify code</string>
+    <string name="must_input_diff_number">You must input different phone_number number</string>
+    <string name="change_number_loading">Change Number …</string>
+    <string name="lengt_phone_val">Phone number must be 6 digits minimum and 20 digits maximum</string>
+
+    <string name="agree_term_and_condition_qwash">Saya setuju dengan syarat dan ketentuan di Qwash</string>
+    <string name="ok">Ok</string>
+    <string name="info_registration">Kamu harus mencentang pernyataan setuju sebelum melakukan submit</string>
+    <string name="confirm_password">Confirm Password</string>
+    <string name="val_full_name">Fill your name</string>
+
 </resources>
