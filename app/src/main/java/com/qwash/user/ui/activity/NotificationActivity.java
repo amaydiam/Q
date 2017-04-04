@@ -30,8 +30,8 @@ public class NotificationActivity extends AppCompatActivity {
 
     @BindView(R.id.toolbar)
     Toolbar toolbar;
-    @BindView(R.id.toolbar_title)
-    TextView toolbarTitle;
+    @BindView(R.id.title_toolbar)
+    TextView titleToolbar;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -56,7 +56,7 @@ public class NotificationActivity extends AppCompatActivity {
             }
         });
         getSupportActionBar().setTitle("");
-        toolbarTitle.setText(getResources().getString(R.string.title_activity_notification));
+        titleToolbar.setText(getResources().getString(R.string.title_activity_notification));
 
         if (savedInstanceState == null) {
             loadListMustahiqNotification();

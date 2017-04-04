@@ -7,7 +7,7 @@ import android.widget.TextView;
 
 import com.qwash.user.utils.FontCache;
 
-public class RobotoBoldTextView extends TextView {
+public class RobotoBoldTextView extends android.support.v7.widget.AppCompatTextView {
 
     public RobotoBoldTextView(Context context) {
         super(context);

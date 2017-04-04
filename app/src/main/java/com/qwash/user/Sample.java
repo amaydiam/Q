@@ -2,8 +2,6 @@ package com.qwash.user;
 
 import android.content.Context;
 
-import com.qwash.user.utils.Prefs;
-
 /**
  * Created by Amay on 12/28/2016.
  */

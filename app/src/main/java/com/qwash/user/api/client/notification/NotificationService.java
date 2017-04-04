@@ -6,7 +6,6 @@ package com.qwash.user.api.client.notification;
 
 
 import com.qwash.user.Sample;
-import com.qwash.user.api.model.history.HistoryListResponse;
 import com.qwash.user.api.model.notification.NotificationDetailResponse;
 import com.qwash.user.api.model.notification.NotificationListResponse;
 

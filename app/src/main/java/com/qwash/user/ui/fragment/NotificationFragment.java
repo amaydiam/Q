@@ -36,7 +36,6 @@ import com.qwash.user.api.ApiUtils;
 import com.qwash.user.api.client.notification.NotificationService;
 import com.qwash.user.api.model.notification.NotificationListResponse;
 import com.qwash.user.model.Notification;
-import com.qwash.user.ui.activity.HomeActivity;
 import com.qwash.user.ui.activity.NotificationActivity;
 import com.qwash.user.ui.activity.NotificationDetailActivity;
 import com.qwash.user.utils.Prefs;

@@ -2,7 +2,6 @@ package com.qwash.user.ui.fragment;
 
 import android.app.ProgressDialog;
 import android.content.Context;
-import android.content.Intent;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v4.app.Fragment;
@@ -36,7 +35,6 @@ import com.qwash.user.api.client.history.HistoryService;
 import com.qwash.user.api.model.history.HistoryListResponse;
 import com.qwash.user.model.History;
 import com.qwash.user.ui.activity.HistoryActivity;
-import com.qwash.user.ui.activity.HistoryDetailActivity;
 import com.qwash.user.utils.Prefs;
 import com.qwash.user.utils.TextUtils;
 import com.qwash.user.utils.Utils;

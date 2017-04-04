@@ -7,7 +7,7 @@ import android.widget.Button;
 
 import com.qwash.user.utils.FontCache;
 
-public class RobotoRegularButton extends Button {
+public class RobotoRegularButton extends android.support.v7.widget.AppCompatButton {
 
     public RobotoRegularButton(Context context) {
         super(context);

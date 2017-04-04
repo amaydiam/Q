@@ -20,8 +20,8 @@ import butterknife.ButterKnife;
 
 public class HelpActivity extends AppCompatActivity {
 
-    @BindView(R.id.toolbar_title)
-    TextView toolbarTitle;
+    @BindView(R.id.title_toolbar)
+    TextView titleToolbar;
     @BindView(R.id.toolbar)
     Toolbar toolbar;
 
@@ -43,7 +43,7 @@ public class HelpActivity extends AppCompatActivity {
             }
         });
         getSupportActionBar().setTitle("");
-        toolbarTitle.setText(getResources().getString(R.string.title_help));
+        titleToolbar.setText(getResources().getString(R.string.title_help));
 
     }
 }

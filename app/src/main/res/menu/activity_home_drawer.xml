@@ -4,19 +4,19 @@
     <group android:checkableBehavior="none">
         <item
             android:id="@+id/nav_notification"
-            android:title="Notification" />
+            android:title="@string/notification" />
         <item
             android:id="@+id/nav_my_balance"
-            android:title="My Balance" />
+            android:title="@string/my_balance" />
         <item
             android:id="@+id/nav_history"
-            android:title="History" />
+            android:title="@string/history" />
         <item
             android:id="@+id/nav_help"
-            android:title="Help" />
+            android:title="@string/help" />
         <item
             android:id="@+id/nav_my_account"
-            android:title="My Account" />
+            android:title="@string/my_account" />
 
     </group>
 </menu>

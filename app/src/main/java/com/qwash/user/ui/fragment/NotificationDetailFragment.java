@@ -36,8 +36,8 @@ public class NotificationDetailFragment extends Fragment {
     ImageView imgDetailNotification;
     @BindView(R.id.deskripsi_detail_notification)
     TextView deskripsiDetailNotification;
-    @BindView(R.id.toolbar_title)
-    TextView toolbarTitle;
+    @BindView(R.id.title_toolbar)
+    TextView titleToolbar;
     @BindView(R.id.toolbar)
     Toolbar toolbar;
     Context context;
@@ -70,7 +70,7 @@ public class NotificationDetailFragment extends Fragment {
             }
         });
         ((AppCompatActivity) getActivity()).getSupportActionBar().setTitle("");
-        toolbarTitle.setText(getResources().getString(R.string.detail_notification));
+        titleToolbar.setText(getResources().getString(R.string.detail_notification));
 
         showData();
 

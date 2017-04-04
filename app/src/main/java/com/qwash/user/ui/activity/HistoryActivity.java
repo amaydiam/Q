@@ -14,9 +14,8 @@ import com.joanzapata.iconify.fonts.MaterialCommunityModule;
 import com.joanzapata.iconify.fonts.MaterialIcons;
 import com.joanzapata.iconify.fonts.MaterialModule;
 import com.joanzapata.iconify.fonts.SimpleLineIconsModule;
-import com.qwash.user.R;
-import com.qwash.user.Sample;
 //import com.qwash.user.ui.fragment.HistoryDetailFragment;
+import com.qwash.user.R;
 import com.qwash.user.ui.fragment.HistoryFragment;
 
 import butterknife.BindView;
@@ -26,8 +25,8 @@ public class HistoryActivity extends AppCompatActivity {
 
     @BindView(R.id.toolbar)
     Toolbar toolbar;
-    @BindView(R.id.toolbar_title)
-    TextView toolbarTitle;
+    @BindView(R.id.title_toolbar)
+    TextView titleToolbar;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -52,7 +51,7 @@ public class HistoryActivity extends AppCompatActivity {
             }
         });
         getSupportActionBar().setTitle("");
-        toolbarTitle.setText(getResources().getString(R.string.title_activity_history));
+        titleToolbar.setText(getResources().getString(R.string.title_activity_history));
 
         if (savedInstanceState == null) {
             loadListMustahiqHistory();

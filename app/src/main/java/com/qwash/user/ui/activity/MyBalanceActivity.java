@@ -29,8 +29,8 @@ import butterknife.OnClick;
 
 public class MyBalanceActivity extends AppCompatActivity {
 
-    @BindView(R.id.toolbar_title)
-    TextView toolbarTitle;
+    @BindView(R.id.title_toolbar)
+    TextView titleToolbar;
     @BindView(R.id.toolbar)
     Toolbar toolbar;
     @BindView(R.id.amount_of_balance)
@@ -66,7 +66,7 @@ public class MyBalanceActivity extends AppCompatActivity {
             }
         });
         getSupportActionBar().setTitle("");
-        toolbarTitle.setText(getResources().getString(R.string.my_balance));
+        titleToolbar.setText(getResources().getString(R.string.my_balance));
         amountOfBalance.setText(Utils.Rupiah("250000"));
 
     }

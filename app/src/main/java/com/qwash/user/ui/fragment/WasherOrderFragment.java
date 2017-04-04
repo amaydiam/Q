@@ -34,7 +34,6 @@ import com.qwash.user.api.model.order.CancelOrder;
 import com.qwash.user.model.PrepareOrder;
 import com.qwash.user.model.WasherAccepted;
 import com.qwash.user.service.PushNotification;
-import com.qwash.user.ui.activity.HomeActivity;
 import com.qwash.user.ui.widget.RobotoBoldTextView;
 import com.qwash.user.ui.widget.RobotoRegularButton;
 import com.qwash.user.utils.Prefs;

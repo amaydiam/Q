@@ -1,25 +1,18 @@
 package com.qwash.user.ui.activity;
 
-import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
-import android.content.SharedPreferences;
 import android.os.Bundle;
-import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v4.app.FragmentManager;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.View;
-import android.widget.ImageView;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.facebook.FacebookSdk;
 import com.facebook.login.LoginManager;
-import com.google.android.gms.common.ConnectionResult;
-import com.google.android.gms.common.api.GoogleApiClient;
 import com.google.firebase.auth.FirebaseAuth;
 import com.joanzapata.iconify.IconDrawable;
 import com.joanzapata.iconify.Iconify;
@@ -53,8 +46,8 @@ import butterknife.OnClick;
 
 public class MyAccountActivity extends AppCompatActivity {
 
-    @BindView(R.id.toolbar_title)
-    TextView toolbarTitle;
+    @BindView(R.id.title_toolbar)
+    TextView titleToolbar;
     @BindView(R.id.toolbar)
     Toolbar toolbar;
 
@@ -146,7 +139,7 @@ public class MyAccountActivity extends AppCompatActivity {
             }
         });
         getSupportActionBar().setTitle("");
-        toolbarTitle.setText(getResources().getString(R.string.title_my_account));
+        titleToolbar.setText(getResources().getString(R.string.title_my_account));
     }
 
     private void setData() {

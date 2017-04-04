@@ -7,6 +7,7 @@ import com.qwash.user.api.client.RetrofitClient;
 import com.qwash.user.api.client.account.AccountService;
 import com.qwash.user.api.client.addressfromgoogleapi.AddressMapsFromGoogleApi;
 import com.qwash.user.api.client.auth.LoginService;
+import com.qwash.user.api.client.forgotpassword.ForgotPasswordService;
 import com.qwash.user.api.client.history.HistoryService;
 import com.qwash.user.api.client.notification.NotificationService;
 import com.qwash.user.api.client.order.OrderService;
@@ -67,4 +68,8 @@ public class ApiUtils {
 
     }
 
+    public static ForgotPasswordService ForgotPasswordService(Context context) {
+        return RetrofitClient.getClient(context, Sample.BASE_URL_QWASH_API).create(ForgotPasswordService.class);
+
+    }
 }

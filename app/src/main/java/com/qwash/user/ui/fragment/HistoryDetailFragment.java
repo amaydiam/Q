@@ -56,8 +56,8 @@ public class HistoryDetailFragment extends Fragment implements AdditionalOrderAd
     // Toolbar
     @BindView(R.id.toolbar)
     Toolbar toolbar;
-    @BindView(R.id.toolbar_title)
-    TextView toolbarTitle;
+    @BindView(R.id.title_toolbar)
+    TextView titleToolbar;
     // Main views
     @BindView(R.id.progress_circle)
     View progressCircle;
@@ -212,7 +212,7 @@ public class HistoryDetailFragment extends Fragment implements AdditionalOrderAd
 
     private void onDownloadSuccessful() {
 
-        toolbarTitle.setText(R.string.title_activity_detail_history);
+        titleToolbar.setText(R.string.title_activity_detail_history);
         // Toggle visibility
         progressCircle.setVisibility(View.GONE);
         errorMessage.setVisibility(View.GONE);
@@ -256,7 +256,7 @@ public class HistoryDetailFragment extends Fragment implements AdditionalOrderAd
 
 
     public void onRetrofitStart(String TAG) {
-        toolbarTitle.setText(R.string.loading);
+        titleToolbar.setText(R.string.loading);
         errorMessage.setVisibility(View.GONE);
         progressCircle.setVisibility(View.VISIBLE);
     }

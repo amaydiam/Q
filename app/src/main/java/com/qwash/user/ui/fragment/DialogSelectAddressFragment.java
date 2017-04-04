@@ -28,8 +28,8 @@ import butterknife.Unbinder;
 
 public class DialogSelectAddressFragment extends DialogFragment implements AddressUserAdapter.OnAddressUserItemClickListener {
 
-    @BindView(R.id.toolbar_title)
-    TextView toolbarTitle;
+    @BindView(R.id.title_toolbar)
+    TextView titleToolbar;
     @BindView(R.id.toolbar)
     Toolbar toolbar;
     @BindView(R.id.recycler_view_select_brand)
@@ -81,7 +81,7 @@ public class DialogSelectAddressFragment extends DialogFragment implements Addre
         });
 
 
-        toolbarTitle.setText(getResources().getString(type_address == Sample.CODE_ADRESS_HOME ? R.string.select_address_home : R.string.select_address_work));
+        titleToolbar.setText(getResources().getString(type_address == Sample.CODE_ADRESS_HOME ? R.string.select_address_home : R.string.select_address_work));
         //Layout manager for Recycler view
         List<AddressUser> dataAddressUser = AddressUser.find(AddressUser.class, "type = ?", String.valueOf(type_address));
         adapter = new AddressUserAdapter(getActivity(), dataAddressUser);

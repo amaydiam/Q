@@ -4,7 +4,6 @@ import android.os.Parcel;
 import android.os.Parcelable;
 import android.text.Html;
 
-import com.google.android.gms.vision.text.Text;
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
 import com.qwash.user.Sample;

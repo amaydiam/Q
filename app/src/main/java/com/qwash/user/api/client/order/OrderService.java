@@ -8,7 +8,6 @@ package com.qwash.user.api.client.order;
 import com.qwash.user.Sample;
 import com.qwash.user.api.model.order.CancelOrder;
 import com.qwash.user.api.model.order.RatingWasher;
-import com.qwash.user.api.model.order.RequestNewOrder;
 
 import java.util.Map;
 

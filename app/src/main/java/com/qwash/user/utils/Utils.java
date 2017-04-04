@@ -3,7 +3,6 @@ package com.qwash.user.utils;
 import android.app.Activity;
 import android.content.Context;
 import android.content.res.Resources;
-import android.support.v4.app.FragmentActivity;
 import android.util.DisplayMetrics;
 import android.view.inputmethod.InputMethodManager;
 
