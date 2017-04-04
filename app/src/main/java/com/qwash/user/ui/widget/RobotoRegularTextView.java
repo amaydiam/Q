@@ -7,7 +7,7 @@ import android.widget.TextView;
 
 import com.qwash.user.utils.FontCache;
 
-public class RobotoRegularTextView extends android.support.v7.widget.AppCompatTextView {
+public class RobotoRegularTextView extends TextView {
 
     public RobotoRegularTextView(Context context) {
         super(context);

@@ -382,7 +382,7 @@ public class NotificationFragment extends Fragment implements NotificationAdapte
 
     private void ResponeDelete(Response<NotificationListResponse> response) {
 
-        Boolean isSuccess = Boolean.valueOf(response.body().getStatus());
+        Boolean isSuccess = response.body().getStatus();
         String message = response.body().getMessages();
         if (isSuccess) {
             adapter.remove(position_delete);

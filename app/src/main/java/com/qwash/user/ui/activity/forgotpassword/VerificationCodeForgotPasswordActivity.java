@@ -58,7 +58,7 @@ public class VerificationCodeForgotPasswordActivity extends AppCompatActivity {
             case R.id.btn_verification_code:
 
                 String inputStr = etVerification.getText().toString();
-                if (!TextUtils.isNullOrEmpty(inputStr.toString().trim())) {
+                if (!TextUtils.isNullOrEmpty(inputStr.trim())) {
                     checkCode(inputStr);
                 } else {
                     Toast.makeText(context, getString(R.string.please_input_verification_code), Toast.LENGTH_SHORT).show();

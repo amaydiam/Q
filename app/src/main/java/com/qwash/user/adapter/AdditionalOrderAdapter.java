@@ -106,7 +106,7 @@ public class AdditionalOrderAdapter extends RecyclerView.Adapter<AdditionalOrder
 
     public void selectView(int position, boolean value) {
         if (value)
-            mSelectedItemsIds.put(position, value);
+            mSelectedItemsIds.put(position, true);
         else
             mSelectedItemsIds.delete(position);
         notifyDataSetChanged();

@@ -1,6 +1,8 @@
 package com.qwash.user.utils;
 
 
+import com.qwash.user.R;
+
 public class Menus {
     public static final int home = android.R.id.home;
     public static final int nav_notification = R.id.nav_notification;

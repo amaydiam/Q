@@ -6,7 +6,7 @@
     android:layout_height="match_parent"
     android:fillViewport="true"
     android:background="@drawable/wallpaper_car_wash"
-    tools:context=".ui.activity.X">
+    tools:context=".ui.activity.LoginUserActivity">
 
     <LinearLayout
         android:layout_width="match_parent"

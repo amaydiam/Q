@@ -56,7 +56,7 @@ public class DialogChangePasswordFragment extends DialogFragment {
     @OnClick(R.id.btn_change_password)
     void ChangePassword() {
         String inputStr = codeV.getText().toString();
-        if (!TextUtils.isNullOrEmpty(inputStr.toString().trim())) {
+        if (!TextUtils.isNullOrEmpty(inputStr.trim())) {
             ActionRequestChangePassword(inputStr);
         } else {
             Toast.makeText(getActivity(), getString(R.string.please_input_verification_code), Toast.LENGTH_SHORT).show();
