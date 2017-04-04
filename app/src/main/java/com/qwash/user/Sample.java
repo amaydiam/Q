@@ -1,5 +1,7 @@
 package com.qwash.user;
 
+import android.content.Context;
+
 import com.qwash.user.utils.Prefs;
 
 /**
@@ -121,15 +123,11 @@ public class Sample {
     // kondisi dimana orderan yg  tampil di layar dan telah diterima
     public static final int CODE_ACCEPT_ORDER = 4;
 
-    // kondisi dimana washer sedang dalam perjalanan ke rumah customer yg mengorder
-    public static final int CODE_ON_THE_WAY= 5;
-
     // kondisi dimana washer memulai pencucian pada orderan yg  telah diterima
-    public static final int CODE_START_WORKING = 6;
-
+    public static final int CODE_START_WORKING = 5;
 
     // kondisi dimana washer selesai pencucian pada orderan yg  telah diterima
-    public static final int CODE_FINISH_WORKING = 7;
+    public static final int CODE_FINISH_WORKING = 6;
 
     public static final String USER_ID_FK = "user_id_fk";
     public static final String VEHICLES = "vehicles";
@@ -147,6 +145,9 @@ public class Sample {
     public static final int ACTION_ORDER = 1;
     public static final int ACTION_CANCEL_ORDER = 2;
     public static final int ACTION_OPEN_FEED_ORDER = 3;
+
+
+    public static final int ACTION_CANCEL_ORDER_WITHOUT_ACCEPTED = 4;
 
 
     public static final int VEHICLE_CAR = 1;
@@ -177,8 +178,10 @@ public class Sample {
 
     public static final String ACTIVITY_INDEX = "lock_after_register";
     public static final String ORDERS_ID = "ordersId";
+    public static final String RATE = "rate";
+    public static final String CUSTOMERS_ID = "customersId";
 
-    public static String USER_ID = "customersId";
+    public static String USER_ID = "userId";
     public static String EMAIL = "email";
     public static String USERNAME = "username";
     public static String TYPE = "type";
@@ -197,4 +200,24 @@ public class Sample {
     public static String STATUS = "status";
     public static String CREATED_AT = "createdAt";
     public static String UPDATED_AT = "updatedAt";
+
+    public static String BASE_URL_QWASH_IMAGE_NOTIFICATION ="http://web.qwash-indonesia.com/images/notification_images/";
+
+
+    public static final String[] listMontOfYear(Context context) {
+        return new String[]{
+                context.getString(R.string.january),
+                context.getString(R.string.february),
+                context.getString(R.string.march),
+                context.getString(R.string.april),
+                context.getString(R.string.may),
+                context.getString(R.string.june),
+                context.getString(R.string.july),
+                context.getString(R.string.august),
+                context.getString(R.string.september),
+                context.getString(R.string.october),
+                context.getString(R.string.november),
+                context.getString(R.string.december)
+        };
+    }
 }

@@ -6,7 +6,6 @@ import android.support.v7.app.AppCompatActivity;
 
 import com.qwash.user.R;
 import com.qwash.user.Sample;
-import com.qwash.user.ui.fragment.HistoryDetailFragment;
 import com.qwash.user.ui.fragment.NotificationDetailFragment;
 
 public class NotificationDetailActivity extends AppCompatActivity {

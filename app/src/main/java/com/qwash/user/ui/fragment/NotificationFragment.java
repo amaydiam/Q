@@ -310,7 +310,7 @@ public class NotificationFragment extends Fragment implements NotificationAdapte
         onRetrofitStart(TAG);
 
         NotificationService mService = ApiUtils.getNotification(getActivity());
-        mService.getListNotification(page, Sample.LIMIT_DATA).enqueue(new Callback<NotificationListResponse>() {
+      mService.getListNotification("Bearer " + Prefs.getToken(getActivity()),page, Sample.LIMIT_DATA).enqueue(new Callback<NotificationListResponse>() {
             @Override
             public void onResponse(Call<NotificationListResponse> call, Response<NotificationListResponse> response) {
 
@@ -338,9 +338,9 @@ public class NotificationFragment extends Fragment implements NotificationAdapte
             adapter.delete_all();
         }
 
-        Boolean isSuccess = Boolean.valueOf(response.body().getStatus());
+        Boolean isSuccess = response.body().getStatus();
         if (isSuccess) {
-            List<Notification> h = response.body().getNotification();
+            List<Notification> h = response.body().getData();
             int jumlah_list_data = h.size();
             if (jumlah_list_data > 0) {
                 for (int i = 0; i < jumlah_list_data; i++) {
@@ -384,7 +384,7 @@ public class NotificationFragment extends Fragment implements NotificationAdapte
     private void ResponeDelete(Response<NotificationListResponse> response) {
 
         Boolean isSuccess = Boolean.valueOf(response.body().getStatus());
-        String message = response.body().getMessage();
+        String message = response.body().getMessages();
         if (isSuccess) {
             adapter.remove(position_delete);
             checkData();
@@ -393,37 +393,6 @@ public class NotificationFragment extends Fragment implements NotificationAdapte
     }
 
     private void setDataObject(String position, Notification notification) {
-        String id = notification.getId();
-        String createAt = notification.getId();
-        String type = notification.getId();
-        String cover = notification.getId();
-        String description = notification.getId();
-
-        //parse object
-
-        //set map object
-        AddAndSetMapData(
-                position,
-                id,
-                createAt,
-                type,
-                cover,
-                description
-        );
-
-    }
-
-    private void AddAndSetMapData(
-            String position, String id, String createAt, String type, String cover, String description) {
-
-        Notification notification = new Notification(position,
-                id,
-                createAt,
-                type,
-                cover,
-                description);
-
-
         if (position.equals(TAG_BOTTOM)) {
             data.add(notification);
         } else {

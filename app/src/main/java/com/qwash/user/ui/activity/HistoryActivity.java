@@ -16,7 +16,7 @@ import com.joanzapata.iconify.fonts.MaterialModule;
 import com.joanzapata.iconify.fonts.SimpleLineIconsModule;
 import com.qwash.user.R;
 import com.qwash.user.Sample;
-import com.qwash.user.ui.fragment.HistoryDetailFragment;
+//import com.qwash.user.ui.fragment.HistoryDetailFragment;
 import com.qwash.user.ui.fragment.HistoryFragment;
 
 import butterknife.BindView;
@@ -65,14 +65,14 @@ public class HistoryActivity extends AppCompatActivity {
         getSupportFragmentManager().beginTransaction().replace(R.id.main_fragment, fragment).commit();
     }
 
-    public void loadDetailHistoryFragmentWith(String histortyId) {
+    public void loadDetailHistoryFragmentWith(String histortyId) {/*
         HistoryDetailFragment fragment = new HistoryDetailFragment();
         Bundle args = new Bundle();
-        args.putString(Sample.WASHERS_ID, histortyId);
+        args.putString(Sample.ORDERS_ID, histortyId);
         fragment.setArguments(args);
         getSupportFragmentManager().beginTransaction().replace(R.id.detail_fragment, fragment).commit();
+   */
     }
-
     @Override
     public void onBackPressed() {
         super.onBackPressed();

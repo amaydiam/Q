@@ -34,8 +34,10 @@ import com.qwash.user.api.model.order.CancelOrder;
 import com.qwash.user.model.PrepareOrder;
 import com.qwash.user.model.WasherAccepted;
 import com.qwash.user.service.PushNotification;
+import com.qwash.user.ui.activity.HomeActivity;
 import com.qwash.user.ui.widget.RobotoBoldTextView;
 import com.qwash.user.ui.widget.RobotoRegularButton;
+import com.qwash.user.utils.Prefs;
 import com.qwash.user.utils.ProgressDialogBuilder;
 import com.qwash.user.utils.Utils;
 
@@ -149,9 +151,9 @@ public class WasherOrderFragment extends Fragment implements BottomSheetListener
         // Inflate the layout for this fragmentca
         View view = inflater.inflate(R.layout.fragment_washer_order, container, false);
         ButterKnife.bind(this, view);
-        whaserName.setText(washerAccepted.name);
-        imageLoader.loadImage(imageWasher, Sample.BASE_URL_QWASH_PUBLIC + washerAccepted.photo, washerAccepted.name);
-        ratingWhaser.setText("{entypo-star-outlined} " + washerAccepted.rating);
+        whaserName.setText(washerAccepted.getName());
+        imageLoader.loadImage(imageWasher, Sample.BASE_URL_QWASH_PUBLIC + washerAccepted.getPhoto(), washerAccepted.getName());
+        ratingWhaser.setText("{entypo-star-outlined} " + washerAccepted.getRating());
         estimatedPrice.setText(Utils.Rupiah(prepareOrder.estimated_price));
 
         return view;
@@ -163,10 +165,20 @@ public class WasherOrderFragment extends Fragment implements BottomSheetListener
         {
             dialogProgress.show("Cancel Order Wash ...", "Please wait...");
             Map<String, String> params = new HashMap<>();
-            params.put(Sample.WASHERS_ID, prepareOrder.washersId);
+            params.put(Sample.ORDERS_ID, washerAccepted.getOrdersId());
+            params.put(Sample.CUSTOMERS_ID, Prefs.getUserId(getActivity()));
+
+            for (Map.Entry<String, String> entry : params.entrySet()) {
+                String key = entry.getKey();
+                String value = entry.getValue();
+
+                Log.v(key, value);
+            }
+            Log.v("Auth", "Bearer " + Prefs.getToken(getActivity()));
+
 
             OrderService mService = ApiUtils.OrderService(getActivity());
-            mService.getCancelOrderLink(params).enqueue(new Callback<CancelOrder>() {
+            mService.getCancelOrderLink("Bearer " + Prefs.getToken(getActivity()), params).enqueue(new Callback<CancelOrder>() {
                 @Override
                 public void onResponse(Call<CancelOrder> call, Response<CancelOrder> response) {
 
@@ -202,14 +214,17 @@ public class WasherOrderFragment extends Fragment implements BottomSheetListener
         }
     }
 
+
     private void PushCancelOrder() {
+
+        Log.v("fb",washerAccepted.getFirebase_id());
         new AsyncTask<String, String, String>() {
             @Override
             protected String doInBackground(String... params) {
                 try {
                     JSONObject root = new JSONObject();
                     JSONArray jsonArray = new JSONArray();
-                    jsonArray.put(washerAccepted.firebase_id);
+                    jsonArray.put(washerAccepted.getFirebase_id());
 
                     JSONObject data = new JSONObject();
                     data.put(Sample.ACTION, Sample.ACTION_CANCEL_ORDER);
@@ -217,14 +232,15 @@ public class WasherOrderFragment extends Fragment implements BottomSheetListener
 
                     root.put(Sample.DATA, data);
                     root.put(Sample.REGISTRATION_IDS, jsonArray);
+
                     String result = PushNotification.postToFCM(root.toString());
 
-                    Log.v("result",result);
+                    Log.v("result", result);
 
                     return result;
                 } catch (Exception ex) {
                     ex.printStackTrace();
-                    Log.v("Error",ex.getMessage());
+                    Log.v("Error", ex.getMessage());
                 }
                 return null;
             }

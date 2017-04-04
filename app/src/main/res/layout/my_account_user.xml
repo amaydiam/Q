@@ -5,291 +5,257 @@
     android:layout_height="match_parent">
 
     <include layout="@layout/toolbar" />
-
     <android.support.v4.widget.NestedScrollView
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         app:layout_behavior="@string/appbar_scrolling_view_behavior">
 
-        <RelativeLayout
+        <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:background="@color/background">
-
-            <android.support.v7.widget.CardView
-                android:id="@+id/space_1"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginLeft="@dimen/activity_vertical_margin"
-                android:layout_marginRight="@dimen/activity_vertical_margin"
-                android:layout_marginTop="@dimen/activity_vertical_margin"
-                app:cardElevation="2dp">
-
-                <RelativeLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent">
-
-                    <RelativeLayout
-                        android:id="@+id/space_detail"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content">
-
-                        <TextView
-                            android:id="@+id/label_space_detail"
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:layout_marginBottom="10dp"
-                            android:layout_marginLeft="20dp"
-                            android:layout_marginRight="20dp"
-                            android:layout_marginTop="10dp"
-                            android:gravity="center"
-                            android:text="@string/profile" />
-
-                        <View
-                            android:layout_width="match_parent"
-                            android:layout_height="0.5dp"
-                            android:layout_below="@id/label_space_detail"
-                            android:background="#ccc" />
-
-                    </RelativeLayout>
-
-                    <RelativeLayout
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_below="@id/space_detail"
-                        android:layout_marginBottom="10dp"
-                        android:layout_marginLeft="10dp"
-                        android:layout_marginRight="10dp"
-                        android:layout_marginTop="10dp">
-
-                        <LinearLayout
-                            android:id="@+id/baris_1"
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content">
-
-                            <ImageView
-                                android:id="@+id/img_name"
-                                android:layout_width="30dp"
-                                android:layout_height="30dp"
-                                android:layout_marginRight="10dp"
-                                android:src="@mipmap/ic_launcher" />
-
-                            <RelativeLayout
-                                android:layout_width="match_parent"
-                                android:layout_height="match_parent"
-                                android:gravity="center">
-
-                                <TextView
-                                    android:id="@+id/title_name"
-                                    android:layout_width="wrap_content"
-                                    android:layout_height="wrap_content"
-                                    android:text="Aan Aliudin"
-                                    android:textSize="15sp"
-                                    android:textStyle="bold" />
-
-                                <TextView
-                                    android:layout_width="wrap_content"
-                                    android:layout_height="wrap_content"
-                                    android:layout_alignParentRight="true"
-                                    android:text="EDIT"
-                                    android:textColor="@color/blue_1E87DA"
-                                    android:textSize="15sp"
-                                    android:textStyle="bold" />
-                            </RelativeLayout>
-                        </LinearLayout>
-
-                        <LinearLayout
-                            android:id="@+id/baris_2"
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:layout_below="@id/baris_1"
-                            android:layout_marginTop="10dp">
-
-                            <ImageView
-                                android:layout_width="30dp"
-                                android:layout_height="30dp"
-                                android:layout_marginRight="10dp"
-                                android:src="@mipmap/ic_launcher" />
-
-                            <TextView
-                                android:id="@+id/title_email"
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:layout_gravity="center"
-                                android:text="owner.aanaliudin@gmail.com" />
-                        </LinearLayout>
-
-                        <LinearLayout
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:layout_below="@id/baris_2"
-                            android:layout_marginTop="10dp">
-
-                            <ImageView
-                                android:layout_width="30dp"
-                                android:layout_height="30dp"
-                                android:layout_marginRight="10dp"
-                                android:src="@mipmap/ic_launcher" />
-
-                            <TextView
-                                android:id="@+id/title_telp"
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:layout_gravity="center"
-                                android:text="+6287778899430" />
-                        </LinearLayout>
-
-                    </RelativeLayout>
-                </RelativeLayout>
-            </android.support.v7.widget.CardView>
-
-            <android.support.v7.widget.CardView
-                android:id="@+id/space_2"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_below="@id/space_1"
-                android:layout_marginBottom="10dp"
-                android:layout_marginLeft="@dimen/activity_vertical_margin"
-                android:layout_marginRight="@dimen/activity_vertical_margin"
-                android:layout_marginTop="10dp"
-                android:clickable="true"
-                android:focusable="true"
-                android:foreground="?android:attr/selectableItemBackground"
-                app:cardElevation="2dp">
-
-                <RelativeLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:padding="10dp">
-
-                    <ImageView
-                        android:id="@+id/img_password"
-                        android:layout_width="30dp"
-                        android:layout_height="30dp"
-                        android:layout_marginRight="10dp"
-                        android:src="@mipmap/ic_launcher" />
-
-                    <TextView
-                        android:id="@+id/title_password"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_centerInParent="true"
-                        android:layout_toRightOf="@id/img_password"
-                        android:text="@string/change_password" />
-                </RelativeLayout>
-            </android.support.v7.widget.CardView>
+            android:orientation="vertical">
 
             <LinearLayout
-                android:id="@+id/space_3"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:layout_below="@id/space_2"
+                android:background="@color/white"
                 android:orientation="vertical">
 
-                <android.support.v7.widget.CardView
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_margin="@dimen/activity_vertical_margin"
+                    android:orientation="vertical">
+
+                    <agency.tango.android.avatarview.views.AvatarView
+                        android:id="@+id/washer_photo"
+                        android:layout_width="100dp"
+                        android:layout_height="100dp"
+                        android:layout_gravity="center"
+                        android:src="@drawable/placeholder"
+                        app:av_border_color="@android:color/white"
+                        app:av_border_width="2dp"
+                        app:av_text_size_percentage="35" />
+
+                    <com.qwash.user.ui.widget.RobotoRegularTextView
+                        android:id="@+id/full_name"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center"
+                        android:text="@string/full_name"
+                        android:textColor="@color/textColorPrimary"
+                        android:textSize="16sp" />
+                </LinearLayout>
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_marginTop="@dimen/activity_half_vertical_margin"
+                android:padding="@dimen/activity_half_vertical_margin"
+                android:background="@color/white"
+                android:orientation="vertical">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_margin="@dimen/activity_half_vertical_margin"
+                    android:gravity="center"
+                    android:orientation="horizontal">
+
+                    <com.joanzapata.iconify.widget.IconTextView
+                        android:layout_width="@dimen/activity_vertical_margin"
+                        android:layout_height="wrap_content"
+                        android:layout_marginRight="@dimen/activity_half_vertical_margin"
+                        android:text="{mdi-email-outline}"
+                        android:textSize="14sp" />
+
+                    <com.qwash.user.ui.widget.RobotoRegularTextView
+                        android:id="@+id/email"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:text="@string/email"
+                        android:textSize="14sp" />
+
+                </LinearLayout>
+
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="0.5dp"
+                    android:layout_marginLeft="@dimen/activity_half_vertical_margin"
+                    android:layout_marginRight="@dimen/activity_half_vertical_margin"
+                    android:background="@color/divider" />
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_margin="@dimen/activity_half_vertical_margin"
+                    android:gravity="center"
+                    android:orientation="horizontal">
+
+                    <com.joanzapata.iconify.widget.IconTextView
+                        android:layout_width="@dimen/activity_vertical_margin"
+                        android:layout_height="wrap_content"
+                        android:layout_marginRight="@dimen/activity_half_vertical_margin"
+                        android:text="{mdi-phone-in-talk}"
+                        android:textSize="14sp" />
+
+                    <com.qwash.user.ui.widget.RobotoRegularTextView
+                        android:id="@+id/phone"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:text="@string/phone"
+                        android:textSize="14sp" />
+
+                </LinearLayout>
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_marginTop="@dimen/activity_half_vertical_margin"
+                android:padding="@dimen/activity_half_vertical_margin"
+                android:background="@color/white"
+                android:orientation="vertical">
+
+                <LinearLayout
+                    android:layout_margin="@dimen/activity_half_vertical_margin"
+                    android:id="@+id/layout_change_password"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:gravity="center"
+                    android:orientation="horizontal">
+
+                    <com.joanzapata.iconify.widget.IconTextView
+                        android:layout_width="@dimen/activity_vertical_margin"
+                        android:layout_height="wrap_content"
+                        android:layout_marginRight="@dimen/activity_half_vertical_margin"
+                        android:text="{mdi-key}"
+                        android:textSize="14sp" />
+
+                    <com.qwash.user.ui.widget.RobotoRegularTextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:text="@string/change_password"
+                        android:textColor="@color/blue_2196F3"
+                        android:textSize="14sp" />
+
+                </LinearLayout>
+
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="0.5dp"
+                    android:layout_marginLeft="@dimen/activity_half_vertical_margin"
+                    android:layout_marginRight="@dimen/activity_half_vertical_margin"
+                    android:background="@color/divider" />
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_margin="@dimen/activity_half_vertical_margin"
+                    android:gravity="center"
+                    android:orientation="horizontal">
+
+                    <com.joanzapata.iconify.widget.IconTextView
+                        android:layout_width="@dimen/activity_vertical_margin"
+                        android:layout_height="wrap_content"
+                        android:layout_marginRight="@dimen/activity_half_vertical_margin"
+                        android:text="{mdi-information-outline}"
+                        android:textSize="14sp" />
+
+                    <com.qwash.user.ui.widget.RobotoRegularTextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:text="@string/term_of_service"
+                        android:textColor="@color/blue_2196F3"
+                        android:textSize="14sp" />
+
+                </LinearLayout>
+
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="0.5dp"
+                    android:layout_marginLeft="@dimen/activity_half_vertical_margin"
+                    android:layout_marginRight="@dimen/activity_half_vertical_margin"
+                    android:background="@color/divider" />
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_margin="@dimen/activity_half_vertical_margin"
+                    android:gravity="center"
+                    android:orientation="horizontal">
+
+                    <com.joanzapata.iconify.widget.IconTextView
+                        android:layout_width="@dimen/activity_vertical_margin"
+                        android:layout_height="wrap_content"
+                        android:layout_marginRight="@dimen/activity_half_vertical_margin"
+                        android:text="{entypo-text-document}"
+                        android:textSize="14sp" />
+
+                    <com.qwash.user.ui.widget.RobotoRegularTextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:text="@string/privacy_policy"
+                        android:textColor="@color/blue_2196F3"
+                        android:textSize="14sp" />
+
+                </LinearLayout>
+
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="0.5dp"
+                    android:layout_marginLeft="@dimen/activity_half_vertical_margin"
+                    android:layout_marginRight="@dimen/activity_half_vertical_margin"
+                    android:background="@color/divider" />
+                <RelativeLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginLeft="@dimen/activity_vertical_margin"
-                    android:layout_marginRight="@dimen/activity_vertical_margin"
-                    android:clickable="true"
-                    android:focusable="true"
-                    android:foreground="?android:attr/selectableItemBackground"
-                    app:cardElevation="2dp">
+                    android:layout_margin="@dimen/activity_half_vertical_margin">
 
                     <LinearLayout
                         android:layout_width="match_parent"
-                        android:layout_height="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_centerVertical="true"
+                        android:layout_toLeftOf="@+id/beta"
                         android:gravity="center"
-                        android:orientation="horizontal"
-                        android:padding="10dp">
+                        android:orientation="horizontal">
 
-                        <ImageView
-                            android:layout_width="30dp"
-                            android:layout_height="30dp"
-                            android:layout_marginRight="10dp"
-                            android:src="@mipmap/ic_launcher" />
+                        <com.joanzapata.iconify.widget.IconTextView
+                            android:layout_width="@dimen/activity_vertical_margin"
+                            android:layout_height="wrap_content"
+                            android:layout_marginRight="@dimen/activity_half_vertical_margin"
+                            android:text="{entypo-star}"
+                            android:textSize="14sp" />
 
-                        <TextView
+                        <com.qwash.user.ui.widget.RobotoRegularTextView
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
-                            android:text="@string/term_of_service" />
+                            android:text="@string/rate_qwash_app"
+                            android:textColor="@color/blue_2196F3"
+                            android:textSize="14sp" />
 
                     </LinearLayout>
-                </android.support.v7.widget.CardView>
 
-                <android.support.v7.widget.CardView
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginLeft="@dimen/activity_vertical_margin"
-                    android:layout_marginRight="@dimen/activity_vertical_margin"
-                    android:clickable="true"
-                    android:focusable="true"
-                    android:foreground="?android:attr/selectableItemBackground"
-                    app:cardElevation="2dp">
-
-                    <LinearLayout
-                        android:layout_width="match_parent"
-                        android:layout_height="match_parent"
-                        android:gravity="center"
-                        android:orientation="horizontal"
-                        android:padding="10dp">
-
-                        <ImageView
-                            android:layout_width="30dp"
-                            android:layout_height="30dp"
-                            android:layout_marginRight="10dp"
-                            android:src="@mipmap/ic_launcher" />
-
-                        <TextView
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:text="@string/privacy_policy" />
-
-                    </LinearLayout>
-                </android.support.v7.widget.CardView>
-
-                <android.support.v7.widget.CardView
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginLeft="@dimen/activity_vertical_margin"
-                    android:layout_marginRight="@dimen/activity_vertical_margin"
-                    android:clickable="true"
-                    android:focusable="true"
-                    android:foreground="?android:attr/selectableItemBackground"
-                    app:cardElevation="2dp">
-
-                    <LinearLayout
-                        android:layout_width="match_parent"
-                        android:layout_height="match_parent"
-                        android:gravity="center"
-                        android:orientation="horizontal"
-                        android:padding="10dp">
-
-                        <ImageView
-                            android:layout_width="30dp"
-                            android:layout_height="30dp"
-                            android:layout_marginRight="10dp"
-                            android:src="@mipmap/ic_launcher" />
-
-                        <TextView
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:text="@string/rate_qlap" />
-
-                    </LinearLayout>
-                </android.support.v7.widget.CardView>
+                    <com.qwash.user.ui.widget.RobotoRegularTextView
+                        android:id="@+id/beta"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_alignParentRight="true"
+                        android:layout_centerVertical="true"
+                        android:text="@string/beta"
+                        android:textSize="14sp" />
+                </RelativeLayout>
             </LinearLayout>
 
             <Button
                 android:id="@+id/btn_logout"
                 android:layout_width="match_parent"
                 android:layout_height="50dp"
-                android:layout_below="@id/space_3"
                 android:layout_margin="@dimen/activity_horizontal_margin"
                 android:background="@drawable/border_blue"
                 android:text="@string/logout"
                 android:textColor="@color/white" />
 
-        </RelativeLayout>
+        </LinearLayout>
     </android.support.v4.widget.NestedScrollView>
 </android.support.design.widget.CoordinatorLayout>

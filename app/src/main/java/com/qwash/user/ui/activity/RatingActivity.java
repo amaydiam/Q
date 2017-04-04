@@ -76,7 +76,7 @@ public class RatingActivity extends AppCompatActivity {
     @OnClick(R.id.btn_submit)
     void Send() {
         int rating = ratingWash.getRating();
-        if (rating==0) {
+        if (rating == 0) {
             Toast.makeText(this, "Please rate washer", Toast.LENGTH_SHORT).show();
             return;
         }
@@ -117,9 +117,9 @@ public class RatingActivity extends AppCompatActivity {
                 .crossFade()
                 .into(vehicleImage);
 
-        whaserName.setText(washerAccepted.name);
+        whaserName.setText(washerAccepted.getName());
         PicassoLoader imageLoader = new PicassoLoader();
-        imageLoader.loadImage(imageWasher, Sample.BASE_URL_QWASH_PUBLIC + washerAccepted.photo, washerAccepted.name);
+        imageLoader.loadImage(imageWasher, Sample.BASE_URL_QWASH_PUBLIC + washerAccepted.getPhoto(), washerAccepted.getName());
         totalPrice.setText(Utils.Rupiah(prepareOrder.estimated_price));
 
     }
@@ -129,17 +129,21 @@ public class RatingActivity extends AppCompatActivity {
         {
             dialogProgress.show("Rating ...", "Please wait...");
             Map<String, String> params = new HashMap<>();
-           // params.put(Sample.RATE, String.valueOf(ratingWash.getRating()));
+            params.put(Sample.RATE, String.valueOf(ratingWash.getRating()));
             String s_c = comment.getText().toString().trim();
-            if (!TextUtils.isNullOrEmpty(s_c)) {
-                params.put(Sample.COMMENTS, s_c);
-            }
-            params.put(Sample.WASHERS_ID, prepareOrder.washersId);
-            params.put(Sample.USER_ID, Prefs.getUserId(this));
+            params.put(Sample.COMMENTS, TextUtils.isNullOrEmpty(s_c) ? "-" : s_c);
+            params.put(Sample.ORDERS_ID, washerAccepted.getOrdersId());
+            params.put(Sample.WASHERS_ID, washerAccepted.getUserId());
 
+            for (Map.Entry<String, String> entry : params.entrySet()) {
+                String key = entry.getKey();
+                String value = entry.getValue();
+
+                Log.v(key, value);
+            }
 
             OrderService mService = ApiUtils.OrderService(this);
-            mService.getRatingWasherLink(params).enqueue(new Callback<RatingWasher>() {
+            mService.getRatingWasherLink("Bearer " + Prefs.getToken(this), params).enqueue(new Callback<RatingWasher>() {
                 @Override
                 public void onResponse(Call<RatingWasher> call, Response<RatingWasher> response) {
 
@@ -193,7 +197,7 @@ public class RatingActivity extends AppCompatActivity {
                 try {
                     JSONObject root = new JSONObject();
                     JSONArray jsonArray = new JSONArray();
-                    jsonArray.put(washerAccepted.firebase_id);
+                    jsonArray.put(washerAccepted.getFirebase_id());
 
                     JSONObject data = new JSONObject();
                     data.put(Sample.ACTION, Sample.ACTION_OPEN_FEED_ORDER);

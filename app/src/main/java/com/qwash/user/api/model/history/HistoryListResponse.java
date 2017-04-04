@@ -16,9 +16,12 @@ public class HistoryListResponse {
     @SerializedName("status")
     @Expose
     private Boolean status;
-    @SerializedName("history")
+    @SerializedName("messages")
     @Expose
-    private List<History> history = null;
+    private String messages;
+    @SerializedName("data")
+    @Expose
+    private List<History> data = null;
 
     public Boolean getStatus() {
         return status;
@@ -28,13 +31,20 @@ public class HistoryListResponse {
         this.status = status;
     }
 
-    public List<History> getHistory() {
-        return history;
+    public String getMessages() {
+        return messages;
     }
 
-    public void setHistory(List<History> history) {
-        this.history = history;
+    public void setMessages(String messages) {
+        this.messages = messages;
+    }
+
+    public List<History> getHistory() {
+        return data;
+    }
+
+    public void setHistory(List<History> data) {
+        this.data = data;
     }
 
 }
-

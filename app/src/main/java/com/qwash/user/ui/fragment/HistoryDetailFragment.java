@@ -1,3 +1,4 @@
+/*
 package com.qwash.user.ui.fragment;
 
 import android.os.Bundle;
@@ -331,4 +332,4 @@ public class HistoryDetailFragment extends Fragment implements AdditionalOrderAd
     public void onRootClick(View v, int position) {
 
     }
-}
+}*/

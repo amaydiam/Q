@@ -4,6 +4,7 @@ import android.content.Context;
 
 import com.qwash.user.Sample;
 import com.qwash.user.api.client.RetrofitClient;
+import com.qwash.user.api.client.account.AccountService;
 import com.qwash.user.api.client.addressfromgoogleapi.AddressMapsFromGoogleApi;
 import com.qwash.user.api.client.auth.LoginService;
 import com.qwash.user.api.client.history.HistoryService;
@@ -25,11 +26,11 @@ public class ApiUtils {
     }
 
     public static HistoryService getHistory(Context context) {
-        return RetrofitClient.getClient(context, Sample.BASE_URL_QWASH_PUBLIC).create(HistoryService.class);
+        return RetrofitClient.getClient(context, Sample.BASE_URL_QWASH_API).create(HistoryService.class);
     }
 
     public static NotificationService getNotification(Context context) {
-        return RetrofitClient.getClient(context, Sample.BASE_URL_QWASH_PUBLIC).create(NotificationService.class);
+        return RetrofitClient.getClient(context, Sample.BASE_URL_QWASH_API).create(NotificationService.class);
     }
 
     public static LoginService LoginService(Context context) {
@@ -43,7 +44,7 @@ public class ApiUtils {
     }
 
     public static OrderService OrderService(Context context) {
-        return RetrofitClient.getClient(context, Sample.BASE_URL_QWASH_PUBLIC).create(OrderService.class);
+        return RetrofitClient.getClient(context, Sample.BASE_URL_QWASH_API).create(OrderService.class);
 
     }
 
@@ -59,6 +60,11 @@ public class ApiUtils {
 
     public static VerificationCodeService VerificationCodeService(Context context) {
         return RetrofitClient.getClient(context, Sample.BASE_URL_QWASH_API).create(VerificationCodeService.class);
+    }
+
+    public static AccountService AccountService(Context context) {
+        return RetrofitClient.getClient(context, Sample.BASE_URL_QWASH_API).create(AccountService.class);
+
     }
 
 }

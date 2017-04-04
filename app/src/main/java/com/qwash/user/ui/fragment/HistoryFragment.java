@@ -307,7 +307,7 @@ public class HistoryFragment extends Fragment implements HistoryAdapter.OnHistor
         onRetrofitStart(TAG);
 
         HistoryService mService = ApiUtils.getHistory(getActivity());
-        mService.getListHistory(Prefs.getUserId(getActivity()), page, Sample.LIMIT_DATA).enqueue(new Callback<HistoryListResponse>() {
+        mService.getListHistory("Bearer " + Prefs.getToken(getActivity()),Prefs.getUserId(getActivity()), page, Sample.LIMIT_DATA).enqueue(new Callback<HistoryListResponse>() {
             @Override
             public void onResponse(Call<HistoryListResponse> call, Response<HistoryListResponse> response) {
 
@@ -380,81 +380,6 @@ public class HistoryFragment extends Fragment implements HistoryAdapter.OnHistor
 
 
     private void setDataObject(String position, History history) {
-
-        String ordersId = history.getOrdersId();
-        String userIdFk = history.getUserIdFk();
-        String washerIdFk = history.getWasherIdFk();
-        String vCustomersIdFk = history.getVCustomersIdFk();
-        String createAt = history.getCreateAt();
-        String pickDate = history.getPickDate();
-        String pickTime = history.getPickTime();
-        String lat = history.getLat();
-        String lng = history.getLng();
-        String nameAddress = history.getNameAddress();
-        String address = history.getAddress();
-        String price = history.getPrice();
-        String perfumed = history.getPerfumed();
-        String vacuum = history.getVacuum();
-        String status = history.getStatus();
-        String description = history.getDescription();
-        String ordersRef = history.getOrdersRef();
-        String name = history.getName();
-        String photo = history.getPhoto();
-        String vBrand = history.getVBrand();
-
-        //parse object
-
-        //set map object
-        AddAndSetMapData(
-                position,
-                ordersId,
-                userIdFk,
-                washerIdFk,
-                vCustomersIdFk,
-                createAt,
-                pickDate,
-                pickTime,
-                lat,
-                lng,
-                nameAddress,
-                address,
-                price,
-                perfumed,
-                vacuum,
-                status,
-                description,
-                ordersRef,
-                name,
-                photo,
-                vBrand
-        );
-
-    }
-
-    private void AddAndSetMapData(String position, String ordersId, String userIdFk, String washerIdFk, String vCustomersIdFk, String createAt, String pickDate, String pickTime, String lat, String lng, String nameAddress, String address, String price, String perfumed, String vacuum, String status, String description, String ordersRef, String name, String photo, String vBrand) {
-
-        History history = new History(
-                ordersId,
-                userIdFk,
-                washerIdFk,
-                vCustomersIdFk,
-                createAt,
-                pickDate,
-                pickTime,
-                lat,
-                lng,
-                nameAddress,
-                address,
-                price,
-                perfumed,
-                vacuum,
-                status,
-                description,
-                ordersRef,
-                name,
-                photo,
-                vBrand);
-
 
         if (position.equals(TAG_BOTTOM)) {
             data.add(history);
@@ -558,11 +483,11 @@ public class HistoryFragment extends Fragment implements HistoryAdapter.OnHistor
     public void onRootClick(View v, int position) {
         if (isTablet) {
             adapter.setSelected(position);
-            ((HistoryActivity) getActivity()).loadDetailHistoryFragmentWith(adapter.data.get(position).getOrdersRef());
+            ((HistoryActivity) getActivity()).loadDetailHistoryFragmentWith(adapter.data.get(position).getOrdersId());
         } else {
-            Intent intent = new Intent(activity, HistoryDetailActivity.class);
-            intent.putExtra(Sample.WASHERS_ID, adapter.data.get(position).getOrdersRef());
-            startActivity(intent);
+          /*  Intent intent = new Intent(activity, HistoryDetailActivity.class);
+            intent.putExtra(Sample.ORDERS_ID, adapter.data.get(position).getOrdersId());
+            startActivity(intent);*/
         }
 
     }

@@ -93,4 +93,10 @@
 
     </style>
 
+
+    <style name="Dialog_Fullscreen">
+        <item name="android:windowFullscreen">false</item>
+        <item name="android:windowNoTitle">false</item>
+    </style>
+
 </resources>

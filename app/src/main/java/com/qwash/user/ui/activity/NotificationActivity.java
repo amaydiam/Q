@@ -69,10 +69,10 @@ public class NotificationActivity extends AppCompatActivity {
         getSupportFragmentManager().beginTransaction().replace(R.id.main_fragment, fragment).commit();
     }
 
-    public void loadDetailNotificationFragmentWith(String histortyId) {
+    public void loadDetailNotificationFragmentWith(Integer histortyId) {
         NotificationDetailFragment fragment = new NotificationDetailFragment();
         Bundle args = new Bundle();
-        args.putString(Sample.NOTIFICATION_ID, histortyId);
+        args.putString(Sample.NOTIFICATION_ID, String.valueOf(histortyId));
         fragment.setArguments(args);
         getSupportFragmentManager().beginTransaction().replace(R.id.detail_fragment, fragment).commit();
     }

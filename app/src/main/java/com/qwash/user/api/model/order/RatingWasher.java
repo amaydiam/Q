@@ -7,13 +7,12 @@ import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
 
 public class RatingWasher {
-
     @SerializedName("status")
     @Expose
     private Boolean status;
-    @SerializedName("message")
+    @SerializedName("messages")
     @Expose
-    private String message;
+    private String messages;
 
     public Boolean getStatus() {
         return status;
@@ -23,15 +22,13 @@ public class RatingWasher {
         this.status = status;
     }
 
-
-    public String getMessage() {
-        return message;
+    public String getMessages() {
+        return messages;
     }
 
-    public void setMessage(String message) {
-        this.message = message;
+    public void setMessages(String messages) {
+        this.messages = messages;
     }
-
 
 }
 

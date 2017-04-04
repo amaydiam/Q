@@ -1,25 +1,37 @@
 package com.qwash.user.ui.activity;
 
 import android.Manifest;
+import android.app.Dialog;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.pm.PackageManager;
+import android.content.res.Resources;
+import android.graphics.Color;
+import android.graphics.drawable.ColorDrawable;
 import android.location.Location;
 import android.os.AsyncTask;
 import android.os.Build;
 import android.os.Bundle;
 import android.provider.Settings;
 import android.support.design.widget.FloatingActionButton;
+import android.support.design.widget.NavigationView;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v4.content.ContextCompat;
+import android.support.v4.view.GravityCompat;
+import android.support.v4.widget.DrawerLayout;
+import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.Toolbar;
 import android.text.Html;
 import android.util.Log;
 import android.util.TypedValue;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.view.View;
+import android.view.Window;
 import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.Toast;
@@ -29,12 +41,14 @@ import com.google.android.gms.common.api.GoogleApiClient;
 import com.google.android.gms.location.LocationListener;
 import com.google.android.gms.location.LocationRequest;
 import com.google.android.gms.location.LocationServices;
+import com.google.android.gms.maps.CameraUpdate;
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.OnMapReadyCallback;
 import com.google.android.gms.maps.SupportMapFragment;
 import com.google.android.gms.maps.model.BitmapDescriptorFactory;
 import com.google.android.gms.maps.model.LatLng;
+import com.google.android.gms.maps.model.MapStyleOptions;
 import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
 import com.gun0912.tedpermission.PermissionListener;
@@ -50,16 +64,15 @@ import com.joanzapata.iconify.fonts.MaterialIcons;
 import com.joanzapata.iconify.fonts.MaterialModule;
 import com.joanzapata.iconify.fonts.SimpleLineIconsIcons;
 import com.joanzapata.iconify.fonts.SimpleLineIconsModule;
+import com.joanzapata.iconify.widget.IconButton;
 import com.joanzapata.iconify.widget.IconTextView;
 import com.qwash.user.R;
 import com.qwash.user.Sample;
 import com.qwash.user.api.ApiUtils;
 import com.qwash.user.api.client.addressfromgoogleapi.AddressMapsFromGoogleApi;
-import com.qwash.user.api.client.order.OrderService;
 import com.qwash.user.api.client.washer.WasherService;
 import com.qwash.user.api.model.Address;
 import com.qwash.user.api.model.AddressFromMapsResponse;
-import com.qwash.user.api.model.order.CancelOrder;
 import com.qwash.user.api.model.order.Washer;
 import com.qwash.user.api.model.washer.ShowWasherOn;
 import com.qwash.user.model.AddressUser;
@@ -72,10 +85,11 @@ import com.qwash.user.ui.fragment.DialogSelectAddressFragment;
 import com.qwash.user.ui.fragment.PrepareOrder.NewOrder;
 import com.qwash.user.ui.fragment.PrepareOrder.PrepareOrderFragment;
 import com.qwash.user.ui.fragment.WasherOrderFragment;
+import com.qwash.user.ui.widget.RobotoBoldTextView;
 import com.qwash.user.ui.widget.RobotoLightTextView;
+import com.qwash.user.utils.Menus;
 import com.qwash.user.utils.Prefs;
 import com.qwash.user.utils.ProgressDialogBuilder;
-import com.qwash.user.utils.TextUtils;
 import com.sdsmdg.tastytoast.TastyToast;
 
 import org.greenrobot.eventbus.EventBus;
@@ -85,20 +99,18 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-import java.io.IOException;
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
 import java.util.Locale;
-import java.util.Map;
 
+import agency.tango.android.avatarview.loader.PicassoLoader;
+import agency.tango.android.avatarview.views.AvatarView;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
-import top.wefor.circularanim.CircularAnim;
 
 public class HomeActivity extends AppCompatActivity implements
         OnMapReadyCallback,
@@ -106,14 +118,17 @@ public class HomeActivity extends AppCompatActivity implements
         WasherOrderFragment.OnWasherOrderListener,
         GoogleApiClient.ConnectionCallbacks,
         GoogleApiClient.OnConnectionFailedListener,
-        LocationListener, GoogleMap.OnCameraIdleListener, DialogSelectAddressFragment.DialogSelectAddressUserListener {
+        LocationListener, GoogleMap.OnCameraIdleListener, DialogSelectAddressFragment.DialogSelectAddressUserListener, NavigationView.OnNavigationItemSelectedListener {
 
     public static final int MY_PERMISSIONS_REQUEST_LOCATION = 99;
     private static final String TAG = "HomeActivity";
+
+    @BindView(R.id.nav_view)
+    NavigationView navView;
+    @BindView(R.id.drawer_layout)
+    DrawerLayout drawerLayout;
     @BindView(R.id.search)
     RobotoLightTextView search;
-    @BindView(R.id.img_menu)
-    ImageView imgMenu;
     @BindView(R.id.img_search)
     ImageView imgSearch;
     @BindView(R.id.layout_pick_location)
@@ -128,29 +143,14 @@ public class HomeActivity extends AppCompatActivity implements
     FloatingActionButton btnHome;
     @BindView(R.id.btn_my_location)
     FloatingActionButton btnMyLocation;
-    @BindView(R.id.layout_menu_home)
-    View layoutMenuHome;
-    @BindView(R.id.img_close_menu)
-    ImageView imgCloseMenu;
-    @BindView(R.id.img_menu_home)
-    ImageView imgMenuHome;
-    @BindView(R.id.img_menu_notification)
-    ImageView imgMenuNotification;
-    @BindView(R.id.img_menu_my_balance)
-    ImageView imgMenuMyBalance;
-    @BindView(R.id.img_menu_history)
-    ImageView imgMenuHistory;
-    @BindView(R.id.img_menu_help)
-    ImageView imgMenuHelp;
-    @BindView(R.id.img_menu_my_account)
-    ImageView imgMenuMyAccount;
-    @BindView(R.id.layout_find_washer)
-    View layoutFindWasher;
+
     Fragment current_fragment = null;
     GoogleApiClient mGoogleApiClient;
     Location mLastLocation;
     Marker mCurrLocationMarker;
     LocationRequest mLocationRequest;
+    @BindView(R.id.toolbar)
+    Toolbar toolbar;
     private ArrayList<FindWasher> listWasher = new ArrayList<>();
     private PrepareOrder prepareOrder;
     private int urutan = 0;
@@ -180,36 +180,24 @@ public class HomeActivity extends AppCompatActivity implements
 
 
     };
-    private boolean isHidden = true;
     private GoogleMap mMap;
     private boolean isLocationChanged = false;
+    private AvatarView washer_photo;
+    private RobotoBoldTextView washer_name;
+    private Dialog dialogSearch;
 
     @OnClick({
-            R.id.img_menu,
             R.id.img_search,
             R.id.search,
             R.id.btn_pick_location,
-            // Sub Menu
-            R.id.btn_close_menu,
-            R.id.menu_home,
-            R.id.menu_notification,
-            R.id.menu_my_balance,
-            R.id.menu_history,
-            R.id.menu_help,
-            R.id.menu_my_account,
             // quick Menu
             R.id.btn_work,
-            R.id.btn_home,
-            R.id.btn_close
 
 
     })
     void ClickMenu(View v) {
         int id = v.getId();
         switch (id) {
-            case R.id.img_menu:
-                ShowMenuHome(imgMenu);
-                break;
             case R.id.img_search:
                 ToSearchActivity();
                 break;
@@ -224,52 +212,12 @@ public class HomeActivity extends AppCompatActivity implements
                     LoadAddress(current_latitude, current_longitude);
                 break;
 
-            // sub Menu
-            case R.id.btn_close_menu:
-                ShowMenuHome(imgCloseMenu);
-                break;
-            case R.id.menu_home:
-                ShowMenuHome(imgMenuHome);
-                break;
-            case R.id.menu_notification:
-                ShowMenuHome(imgMenuNotification);
-                startActivity(new Intent(this, NotificationActivity.class));
-                break;
-            case R.id.menu_my_balance:
-                ShowMenuHome(imgMenuMyBalance);
-                startActivity(new Intent(this, MyBalanceActivity.class));
-                break;
-            case R.id.menu_history:
-                ShowMenuHome(imgMenuHistory);
-                startActivity(new Intent(this, HistoryActivity.class));
-                break;
-            case R.id.menu_help:
-                ShowMenuHome(imgMenuHelp);
-                startActivity(new Intent(this, HelpActivity.class));
-                break;
-            case R.id.menu_my_account:
-                ShowMenuHome(imgMenuMyAccount);
-                startActivity(new Intent(this, MyAccountActivity.class));
-                break;
-
             //quick menu
             case R.id.btn_work:
-                if (!isHidden)
-                    ShowMenuHome(imgMenu);
                 OpenData(Sample.CODE_ADRESS_WORK);
                 break;
             case R.id.btn_home:
-                if (!isHidden)
-                    ShowMenuHome(imgMenu);
                 OpenData(Sample.CODE_ADRESS_HOME);
-                break;
-            case R.id.btn_close:
-                if (TextUtils.isNullOrEmpty(prepareOrder.washersId)) {
-                    isFind = false;
-                    FindingWasher();
-                    PushCancelOrder();
-                } else
-                    CancelOrder();
                 break;
 
             default:
@@ -295,6 +243,18 @@ public class HomeActivity extends AppCompatActivity implements
         setContentView(R.layout.activity_home);
         ButterKnife.bind(this);
 
+        setSupportActionBar(toolbar);
+        getSupportActionBar().setTitle("");
+
+        ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(
+                this, drawerLayout, toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close);
+        drawerLayout.addDrawerListener(toggle);
+        toggle.syncState();
+
+        navView.setNavigationItemSelectedListener(this);
+        SetMenuDrawer();
+        SetDataUser();
+
         dialogProgress = new ProgressDialogBuilder(HomeActivity.this);
         Intent intent = getIntent();
         String location = intent.getStringExtra("location");
@@ -303,28 +263,10 @@ public class HomeActivity extends AppCompatActivity implements
             search.setText("" + location);
         }
 
-        imgMenu.setImageDrawable(
-                new IconDrawable(this, MaterialIcons.md_menu)
-                        .colorRes(R.color.font_color)
-                        .actionBarSize());
-
         imgSearch.setImageDrawable(
                 new IconDrawable(this, MaterialIcons.md_search)
-                        .colorRes(R.color.font_color)
+                        .colorRes(R.color.blue_2196F3)
                         .actionBarSize());
-
-        layoutMenuHome.bringToFront();
-        imgCloseMenu.setImageDrawable(new IconDrawable(this, MaterialIcons.md_close).colorRes(R.color.white).actionBarSize());
-        imgMenuHome.setImageDrawable(new IconDrawable(this, SimpleLineIconsIcons.icon_home).colorRes(R.color.white).actionBarSize());
-        imgMenuNotification.setImageDrawable(new IconDrawable(this, MaterialIcons.md_notifications_none).colorRes(R.color.white).actionBarSize());
-        imgMenuMyBalance.setImageDrawable(new IconDrawable(this, EntypoIcons.entypo_wallet).colorRes(R.color.white).actionBarSize());
-        imgMenuHistory.setImageDrawable(new IconDrawable(this, MaterialCommunityIcons.mdi_history).colorRes(R.color.white).actionBarSize());
-        imgMenuHelp.setImageDrawable(new IconDrawable(this, MaterialIcons.md_help_outline).colorRes(R.color.white).actionBarSize());
-        imgMenuMyAccount.setImageDrawable(new IconDrawable(this, EntypoIcons.entypo_user).colorRes(R.color.white).actionBarSize());
-
-        if (isHidden) {
-            layoutMenuHome.setVisibility(View.INVISIBLE);
-        }
 
         markerPickLocation.setImageDrawable(
                 new IconDrawable(this, EntypoIcons.entypo_location_pin)
@@ -402,11 +344,28 @@ public class HomeActivity extends AppCompatActivity implements
     @Override
     public void onMapReady(GoogleMap googleMap) {
         mMap = googleMap;
+        try {
+            // Customise the styling of the base map using a JSON object defined
+            // in a raw resource file.
+            boolean success = mMap.setMapStyle(
+                    MapStyleOptions.loadRawResourceStyle(
+                            this, R.raw.style_map));
+
+            if (!success) {
+                Log.e("MapsActivityRaw", "Style parsing failed.");
+            }
+        } catch (Resources.NotFoundException e) {
+            Log.e("MapsActivityRaw", "Can't find style.", e);
+        }
         mMap.getUiSettings().setMapToolbarEnabled(false);
         mMap.setMyLocationEnabled(true);
         mMap.setOnCameraIdleListener(this);
         View locationButton = ((View) mapView.findViewById(Integer.parseInt("1")).getParent()).findViewById(Integer.parseInt("2"));
         locationButton.setVisibility(View.GONE);
+
+        LatLng latlong = new LatLng(Prefs.getGeometryLat(this), Prefs.getGeometryLong(this));
+        CameraUpdate cameraPosition = CameraUpdateFactory.newLatLngZoom(latlong, 15);
+        mMap.moveCamera(cameraPosition);
 
         //Initialize Google Play Services
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
@@ -446,8 +405,6 @@ public class HomeActivity extends AppCompatActivity implements
         btnMyLocation.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if (!isHidden)
-                    ShowMenuHome(imgMenu);
                 if (ContextCompat.checkSelfPermission(HomeActivity.this,
                         Manifest.permission.ACCESS_FINE_LOCATION)
                         == PackageManager.PERMISSION_GRANTED) {
@@ -505,6 +462,8 @@ public class HomeActivity extends AppCompatActivity implements
             // current location
             current_latitude = location.getLatitude();
             current_longitude = location.getLongitude();
+            Prefs.putGeometryLat(this, current_latitude);
+            Prefs.putGeometryLong(this, current_longitude);
             LoadAddress(current_latitude, current_longitude);
 
             pickLayoutLocationShow(true);
@@ -583,77 +542,23 @@ public class HomeActivity extends AppCompatActivity implements
         RemoveBottomFragment();
     }
 
-    private void ShowMenuHome(View v) {
-
-        if (isHidden) {
-            CircularAnim.show(layoutMenuHome).duration(300).triggerView(v != null ? v : imgMenu).go();
-            isHidden = false;
-
-        } else {
-            CircularAnim.hide(layoutMenuHome).duration(300).triggerView(v != null ? v : imgMenu).go();
-            isHidden = true;
-
-        }
-    }
-
 
     // ======== CancelOrder Order
-    private void CancelOrder() {
-        {
-            dialogProgress.show("Cancel Order Wash ...", "Please wait...");
-            Map<String, String> params = new HashMap<>();
-            params.put(Sample.WASHERS_ID, prepareOrder.washersId);
-
-            OrderService mService = ApiUtils.OrderService(HomeActivity.this);
-            mService.getCancelOrderLink(params).enqueue(new Callback<CancelOrder>() {
-                @Override
-                public void onResponse(Call<CancelOrder> call, Response<CancelOrder> response) {
-
-                    dialogProgress.hide();
-                    if (response.isSuccessful()) {
-                        if (response.body().getStatus()) {
-                            isFind = false;
-                            FindingWasher();
-                            PushCancelOrder();
-                        }
-                    } else {
-                        int statusCode = response.code();
-                        try {
-                            JSONObject jsonObject = new JSONObject(response.errorBody().string());
-                            String message = jsonObject.getString(Sample.MESSAGE);
-                            // TODO
-                            // kalo udah diterima orang finish();
-                            Toast.makeText(HomeActivity.this, message, Toast.LENGTH_SHORT).show();
-                        } catch (JSONException | IOException e) {
-                            Toast.makeText(HomeActivity.this, "Error", Toast.LENGTH_SHORT).show();
-                            e.printStackTrace();
-                        }
-                    }
-                }
-
-                @Override
-                public void onFailure(Call<CancelOrder> call, Throwable t) {
-                    String message = t.getMessage();
-                    dialogProgress.hide();
-                    Toast.makeText(HomeActivity.this, message, Toast.LENGTH_SHORT).show();
-                }
-            });
-        }
-    }
 
     private void FindingWasher() {
         if (isFind) {
             mMap.getUiSettings().setScrollGesturesEnabled(false);
             btnPickLocation.setVisibility(View.INVISIBLE);
-            layoutFindWasher.setVisibility(View.VISIBLE);
+            ShowDialogSearching();
         } else {
-            layoutFindWasher.setVisibility(View.GONE);
+            StopDialogSearching();
             if (mMap != null)
                 mMap.getUiSettings().setScrollGesturesEnabled(true);
             btnPickLocation.setVisibility(View.VISIBLE);
         }
 
     }
+
 
     private void ToSearchActivity() {
         Intent intent = new Intent(this, SelectLocationActivity.class);
@@ -719,6 +624,7 @@ public class HomeActivity extends AppCompatActivity implements
                         String name = washer.get(i).getFullName();
                         String latlong = washer.get(i).getGeometryLat() + "," + washer.get(i).getGeometryLong();
                         String firebaseId = washer.get(i).getFirebaseId();
+                        Log.v("firebaseId", firebaseId);
                         FindWasher findWasher = new FindWasher(user_id_fk, name, latlong, firebaseId, false);
                         listWasher.add(findWasher);
 
@@ -763,15 +669,6 @@ public class HomeActivity extends AppCompatActivity implements
 
 
     @Override
-    public void onBackPressed() {
-        super.onBackPressed();
-        if (!isHidden)
-            ShowMenuHome(imgCloseMenu);
-        else
-            finish();
-    }
-
-    @Override
     protected void onStart() {
         super.onStart();
         EventBus.getDefault().register(this);
@@ -798,10 +695,13 @@ public class HomeActivity extends AppCompatActivity implements
                 FindingWasher();
                 RemoveBottomFragment();
 
+                washerAccepted = null;
+                prepareOrder = null;
+
             } else if (action == Sample.CODE_ACCEPT_ORDER) {
                 TastyToast.makeText(getApplicationContext(), "Washer found", TastyToast.LENGTH_SHORT, TastyToast.SUCCESS);
 
-                JSONObject jsonOrder= new JSONObject(json.getString(Sample.ORDER));
+                JSONObject jsonOrder = new JSONObject(json.getString(Sample.ORDER));
 
                 JSONObject jsonDetails = new JSONObject(jsonOrder.getString(Sample.DETAILS));
                 String ordersId = jsonDetails.getString(Sample.ORDERS_ID);
@@ -815,11 +715,15 @@ public class HomeActivity extends AppCompatActivity implements
                 String photo = jsonWasher.getString(Sample.WASHER_PHOTO);
                 String rating = jsonWasher.getString(Sample.WASHER_RATING);
 
-                washerAccepted = new WasherAccepted(firebase_id, washersId, email, name, phone, photo, rating);
+                Log.v("firebase_id", firebase_id);
+
+                washerAccepted = new WasherAccepted(ordersId, firebase_id, washersId, email, name, phone, photo, rating);
 
                 isFind = false;
                 FindingWasher();
                 LoadWasherOrderFragment();
+
+                PushCancelOrder(Sample.ACTION_CANCEL_ORDER_WITHOUT_ACCEPTED);
             } else if (action == Sample.CODE_START_WORKING) {
                 TastyToast.makeText(getApplicationContext(), "Your washer is start working", TastyToast.LENGTH_SHORT, TastyToast.SUCCESS);
                 WasherOrderFragment fragment = (WasherOrderFragment) getSupportFragmentManager().findFragmentById(R.id.fragment_bottom);
@@ -833,6 +737,9 @@ public class HomeActivity extends AppCompatActivity implements
                 RemoveBottomFragment();
                 OpenActionRating();
 
+                washerAccepted = null;
+                prepareOrder = null;
+
             }
         } catch (JSONException e) {
             e.printStackTrace();
@@ -843,8 +750,6 @@ public class HomeActivity extends AppCompatActivity implements
         Intent intent = new Intent(this, RatingActivity.class);
         intent.putExtra(Sample.PREPARE_ORDER_OBJECT, prepareOrder);
         intent.putExtra(Sample.WASHER_ACCEPTED_OBJECT, washerAccepted);
-        washerAccepted = null;
-        prepareOrder = null;
         startActivity(intent);
     }
 
@@ -938,7 +843,7 @@ public class HomeActivity extends AppCompatActivity implements
         }.execute();
     }
 
-    private void PushCancelOrder() {
+    private void PushCancelOrder(final int actionCancelOrder) {
         new AsyncTask<String, String, String>() {
             @Override
             protected String doInBackground(String... params) {
@@ -946,7 +851,12 @@ public class HomeActivity extends AppCompatActivity implements
                     JSONObject root = new JSONObject();
                     JSONArray jsonArray = new JSONArray();
                     for (int i = 0; i < listWasher.size(); i++) {
-                        jsonArray.put(listWasher.get(i).firebaseId);
+                        if (actionCancelOrder == Sample.ACTION_CANCEL_ORDER_WITHOUT_ACCEPTED) {
+                            if (!listWasher.get(i).firebaseId.equalsIgnoreCase(washerAccepted.getFirebase_id()))
+                            jsonArray.put(listWasher.get(i).firebaseId);
+                        } else {
+                            jsonArray.put(listWasher.get(i).firebaseId);
+                        }
                     }
 
                     JSONObject data = new JSONObject();
@@ -1013,4 +923,110 @@ public class HomeActivity extends AppCompatActivity implements
     }
 
 
+    private void SetMenuDrawer() {
+
+        // ============ header menu drawer ==============
+        View header = navView.getHeaderView(0);
+        washer_photo = (AvatarView) header.findViewById(R.id.washer_photo);
+        washer_name = (RobotoBoldTextView) header.findViewById(R.id.washer_name);
+
+
+        // ============ list menu drawer ==============
+        Menu menu = navView.getMenu();
+        MenuItem nav_notification = menu.findItem(R.id.nav_notification);
+        nav_notification.setIcon(new IconDrawable(this, MaterialIcons.md_notifications_none).actionBarSize());
+        MenuItem nav_my_balance = menu.findItem(R.id.nav_my_balance);
+        nav_my_balance.setIcon(new IconDrawable(this, EntypoIcons.entypo_wallet).actionBarSize());
+        MenuItem nav_history = menu.findItem(R.id.nav_history);
+        nav_history.setIcon(new IconDrawable(this, MaterialCommunityIcons.mdi_history).actionBarSize());
+        MenuItem nav_help = menu.findItem(R.id.nav_help);
+        nav_help.setIcon(new IconDrawable(this, MaterialIcons.md_help_outline).actionBarSize());
+        MenuItem nav_my_account = menu.findItem(R.id.nav_my_account);
+        nav_my_account.setIcon(new IconDrawable(this, EntypoIcons.entypo_user).actionBarSize());
+
+
+    }
+
+    public void SetDataUser() {
+
+        PicassoLoader imageLoader = new PicassoLoader();
+        imageLoader.loadImage(washer_photo, Prefs.getProfilePhoto(this), Prefs.getFullName(this));
+        washer_name.setText(Prefs.getFullName(this));
+
+    }
+
+
+    @SuppressWarnings("StatementWithEmptyBody")
+    @Override
+    public boolean onNavigationItemSelected(MenuItem item) {
+        // Handle navigation view item clicks here.
+        int id = item.getItemId();
+        if (id == Menus.nav_notification) {
+            startActivity(new Intent(this, NotificationActivity.class));
+        } else if (id == Menus.nav_my_balance) {
+            startActivity(new Intent(this, MyBalanceActivity.class));
+        } else if (id == Menus.nav_history) {
+            startActivity(new Intent(this, HistoryActivity.class));
+        } else if (id == Menus.nav_help) {
+            startActivity(new Intent(this, HelpActivity.class));
+        } else if (id == Menus.nav_my_account) {
+            startActivity(new Intent(this, MyAccountActivity.class));
+        }
+
+        drawerLayout.closeDrawer(GravityCompat.START);
+        return true;
+    }
+
+
+    @Override
+    public void onBackPressed() {
+        if (drawerLayout.isDrawerOpen(GravityCompat.START)) {
+            drawerLayout.closeDrawer(GravityCompat.START);
+        } else {
+            super.onBackPressed();
+        }
+    }
+
+
+    void ShowDialogSearching() {
+        dialogSearch = new Dialog(this, R.style.Dialog_Fullscreen);
+        dialogSearch.requestWindowFeature(Window.FEATURE_NO_TITLE);
+        dialogSearch.setContentView(R.layout.dialog_find_washer);
+        dialogSearch.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
+        dialogSearch.setCancelable(false);
+
+        IconButton imageView = (IconButton) dialogSearch.findViewById(R.id.btn_close);
+
+        imageView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+                isFind = false;
+                FindingWasher();
+                PushCancelOrder(Sample.ACTION_CANCEL_ORDER);
+                washerAccepted = null;
+                prepareOrder = null;
+                StopDialogSearching();
+            }
+        });
+
+        dialogSearch.show();
+    }
+
+    private void StopDialogSearching() {
+
+        if (dialogSearch != null) {
+            dialogSearch.dismiss();
+        }
+
+    }
+
+  /*  @Override
+    public void onBackPressed() {
+        super.onBackPressed();
+        if (!isHidden)
+            ShowMenuHome(imgCloseMenu);
+        else
+            finish();
+    }*/
 }

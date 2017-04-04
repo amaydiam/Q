@@ -41,24 +41,24 @@
     <string name="menu_my_balance">My Balance</string>
     <string name="my_balance">My Balance</string>
     <string name="button_top_up_balance">Top Up Balance</string>
-    <string name="type_search">search ...</string>
+    <string name="type_search">Search …</string>
     <string name="server_unreachable">Oops! Something went wrong.\nPlease check your internet connection.</string>
     <string name="try_again">Try Again</string>
     <string name="title_activity_history">history</string>
     <string name="title_activity_detail_history">Detail History</string>
-    <string name="loading">Loading ...</string>
+    <string name="loading">Loading …</string>
     <string name="additional_select">ADDITIONAL SELECT</string>
     <string name="button_report_an_issue">Report An Issue</string>
     <string name="val_email_length">Email must be at least 5 chars and 100 chars length</string>
     <string name="val_email_or_number_length">Email Or Number Phone must be at least 5 chars and 100 chars length</string>
     <string name="val_password_length">Password must be at least 4 chars and 10 chars length</string>
-    <string name="btn_pick_location">Order here ...</string>
-    <string name="retry">Retry ...</string>
+    <string name="btn_pick_location">Order here …</string>
+    <string name="retry">Retry …</string>
     <string name="val_name_length">Masukkan nama anda</string>
     <string name="hint_email_or_number">Email or Number Phone</string>
     <string name="facebook_app_id">202935096795565</string>
     <string name="detail_notification">Detail Notification</string>
-    <string name="hint_number">877-7889-9430</string>
+    <string name="hint_number">877–7889–9430</string>
     <string name="requesting">REQUESTING</string>
     <string name="alert_find_washer"><![CDATA[Don\'t give your key car to the washer\nCheck all the equipment in the car\nCheck equipment workers]]></string>
     <string name="title_activity_rating">Rating Your Wash</string>
@@ -79,16 +79,16 @@
     <string name="rd_motocycle_above_150">BIG</string>
     <string name="btn_next">NEXT</string>
     <string name="btn_order_washer">ORDER WASHER</string>
-    <string name="desc_fitur_service"><![CDATA[Our washer is equiped with tool & technique to wash your car use the taps provided by customer.]]></string>
+    <string name="desc_fitur_service"><![CDATA[Our washer is equipped with tool & technique to wash your car use the taps provided by customer.]]></string>
     <string name="rd_exterior_wash">Exterior Wash</string>
     <string name="rd_tires_shine">Tires Shine</string>
     <string name="rd_fullbody_wash">Full Body</string>
     <string name="rd_perfumed">Perfurmed</string>
-    <string name="rd_interior_vaccum">Interior Vaccum</string>
+    <string name="rd_interior_vaccum">Interior Vacuum</string>
     <string name="note_waterless">*Waterless only for cars dusty, but not muddy.</string>
     <string name="rd_waterless">Waterless</string>
-    <string name="please_wait">Please wait ...</string>
-    <string name="checking_loading">Checking ...</string>
+    <string name="please_wait">Please wait …</string>
+    <string name="checking_loading">Checking …</string>
 
 
     <string name="verification_title">Masukkan kode verifikasi</string>
@@ -104,14 +104,51 @@
     <string name="phone">Phone</string>
     <string name="save_and_verify"><![CDATA[Save & Verify]]></string>
     <string name="change_number_to_verify_code">Change number to verify code</string>
-    <string name="must_input_diff_number">You must input different phone_number number</string>
+    <string name="must_input_diff_number">You must input different phone number</string>
     <string name="change_number_loading">Change Number …</string>
     <string name="lengt_phone_val">Phone number must be 6 digits minimum and 20 digits maximum</string>
 
     <string name="agree_term_and_condition_qwash">Saya setuju dengan syarat dan ketentuan di Qwash</string>
-    <string name="ok">Ok</string>
+    <string name="ok">OK</string>
     <string name="info_registration">Kamu harus mencentang pernyataan setuju sebelum melakukan submit</string>
     <string name="confirm_password">Confirm Password</string>
     <string name="val_full_name">Fill your name</string>
+    <string name="hint_indentify_address">Indentify Address …</string>
+
+
+    <string name="navigation_drawer_open">Open navigation drawer</string>
+    <string name="navigation_drawer_close">Close navigation drawer</string>
+    <string name="today">Today</string>
+    <string name="yesterday">Yesterday</string>
+    <string name="january">Januari</string>
+    <string name="february">Februari</string>
+    <string name="march">Maret</string>
+    <string name="april">April</string>
+    <string name="may">Mei</string>
+    <string name="june">Juni</string>
+    <string name="july">Juli</string>
+    <string name="august">Agustus</string>
+    <string name="september">September</string>
+    <string name="october">Oktober</string>
+    <string name="november">November</string>
+    <string name="december">Desember</string>
+
+
+    <string name="desc_change_password">Verification code to change your password</string>
+    <string name="desc_request_new_password">Request new password</string>
+    <string name="confirm_new_password">Confirm New Password</string>
+    <string name="new_password">New password</string>
+
+    <string name="val_new_password_length">New password must be at least 5 chars</string>
+
+    <string name="request_new_password_action">Request …</string>
+    <string name="change_password_action">Change Password …</string>
+    <string name="full_name">Full Name</string>
+    <string name="request">Request</string>
+
+
+    <string name="email">Email</string>
+    <string name="rate_qwash_app">Rate Qwash App</string>
+    <string name="beta">BETA</string>
 
 </resources>

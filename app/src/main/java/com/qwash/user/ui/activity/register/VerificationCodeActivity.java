@@ -6,6 +6,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
 import android.view.View;
 import android.widget.Toast;
 
@@ -134,6 +135,14 @@ public class VerificationCodeActivity extends AppCompatActivity {
 
         params.put(Sample.USER_ID, Prefs.getUserId(this));
         params.put(Sample.CODE, inputStr);
+
+        for (Map.Entry<String, String> entry : params.entrySet()) {
+            String key = entry.getKey();
+            String value = entry.getValue();
+
+            Log.v(key, value);
+        }
+
 
         VerificationCodeService mService = ApiUtils.VerificationCodeService(this);
         mService.getSmsVerificationLink("Bearer " + Prefs.getToken(this), params).enqueue(new Callback<VerificationCode>() {

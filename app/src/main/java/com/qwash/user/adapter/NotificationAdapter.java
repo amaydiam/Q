@@ -1,10 +1,14 @@
 package com.qwash.user.adapter;
 
 import android.app.Activity;
+import android.graphics.Bitmap;
+import android.graphics.drawable.Drawable;
 import android.os.Build;
 import android.support.annotation.RequiresApi;
 import android.support.v4.content.ContextCompat;
+import android.support.v7.widget.CardView;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.util.SparseBooleanArray;
 import android.view.GestureDetector;
 import android.view.LayoutInflater;
@@ -15,8 +19,17 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
+import com.bumptech.glide.Glide;
+import com.bumptech.glide.load.engine.DiskCacheStrategy;
+import com.bumptech.glide.request.animation.GlideAnimation;
+import com.bumptech.glide.request.target.SimpleTarget;
 import com.qwash.user.R;
+import com.qwash.user.model.History;
 import com.qwash.user.model.Notification;
+import com.qwash.user.ui.widget.RobotoBoldTextView;
+import com.qwash.user.ui.widget.RobotoRegularTextView;
+import com.qwash.user.utils.TextUtils;
+import com.squareup.picasso.Picasso;
 
 import java.util.ArrayList;
 
@@ -27,6 +40,7 @@ public class NotificationAdapter extends RecyclerView.Adapter<NotificationAdapte
 
     public final ArrayList<Notification> data;
     private final GestureDetector gestureDetector;
+
 
     private boolean isTablet = false;
     private Activity activity;
@@ -94,37 +108,42 @@ public class NotificationAdapter extends RecyclerView.Adapter<NotificationAdapte
     public void onBindViewHolder(final ViewHolder holder, int position) {
         Notification notification = data.get(position);
 
-        holder.titleNotification.setText(notification.getTitle());
-        holder.deskripsiNotification.setText(notification.getDescription());
+        try {
+            String[] n = notification.getCreatedAt().split(" ");
+            String[] d = n[1].split(":");
+            String h = TextUtils.getTodayYestFromMilli(activity, n[0], TextUtils.getDate(notification.getCreatedAt()).getTime());
+            holder.date.setText(h +" "+d[0] + ":" + d[1]);
 
-        final int sdk = android.os.Build.VERSION.SDK_INT;
+        } catch (Exception x) {
+            holder.date.setText(notification.getCreatedAt());
+        }
+
+        holder.title.setText(notification.getTitle());
+        holder.desc.setText(notification.getMessages());
+
+
+        if (TextUtils.isNullOrEmpty(notification.getImage())) {
+            holder.imageNotification.setVisibility(View.GONE);
+        } else {
+            holder.imageNotification.setVisibility(View.VISIBLE);
+            Picasso.with(activity).load(notification.getImage())
+                    .error(R.drawable.placeholder)
+                    .into(holder.imageNotification);
+        }
         if (isTablet) {
             if (selected == position) {
-                if (sdk < android.os.Build.VERSION_CODES.JELLY_BEAN) {
-                    holder.rootParent.setBackgroundDrawable(ContextCompat.getDrawable(activity, R.drawable.border_set_blue));
-                } else {
-                    holder.rootParent.setBackground(ContextCompat.getDrawable(activity, R.drawable.border_set_blue));
-                }
-
-                holder.titleNotification.setTextColor(ContextCompat.getColor(activity, R.color.white));
-                holder.deskripsiNotification.setTextColor(ContextCompat.getColor(activity, R.color.white));
+                holder.rootParent.setCardBackgroundColor(ContextCompat.getColor(activity, R.color.blue_2196F3));
+                holder.title.setTextColor(ContextCompat.getColor(activity, R.color.white));
+                holder.desc.setTextColor(ContextCompat.getColor(activity, R.color.white));
             } else {
-                if (sdk < android.os.Build.VERSION_CODES.JELLY_BEAN) {
-                    holder.rootParent.setBackgroundDrawable(ContextCompat.getDrawable(activity, R.drawable.border_set_green));
-                } else {
-                    holder.rootParent.setBackground(ContextCompat.getDrawable(activity, R.drawable.border_set_green));
-                }
-                holder.titleNotification.setTextColor(ContextCompat.getColor(activity, R.color.black_424242));
-                holder.deskripsiNotification.setTextColor(ContextCompat.getColor(activity, R.color.black_424242));
+                holder.rootParent.setCardBackgroundColor(ContextCompat.getColor(activity, R.color.white));
+                holder.title.setTextColor(ContextCompat.getColor(activity, R.color.black_424242));
+                holder.desc.setTextColor(ContextCompat.getColor(activity, R.color.black_424242));
             }
         } else {
-            if (sdk < android.os.Build.VERSION_CODES.JELLY_BEAN) {
-                holder.rootParent.setBackgroundDrawable(ContextCompat.getDrawable(activity, R.drawable.border_set_green));
-            } else {
-                holder.rootParent.setBackground(ContextCompat.getDrawable(activity, R.drawable.border_set_green));
-            }
-            holder.titleNotification.setTextColor(ContextCompat.getColor(activity, R.color.black_424242));
-            holder.deskripsiNotification.setTextColor(ContextCompat.getColor(activity, R.color.black_424242));
+            holder.rootParent.setCardBackgroundColor(ContextCompat.getColor(activity, R.color.white));
+            holder.title.setTextColor(ContextCompat.getColor(activity, R.color.black_424242));
+            holder.desc.setTextColor(ContextCompat.getColor(activity, R.color.black_424242));
         }
 
         holder.rootParent.setTag(position);
@@ -179,12 +198,14 @@ public class NotificationAdapter extends RecyclerView.Adapter<NotificationAdapte
 
         @BindView(R.id.image_notification)
         ImageView imageNotification;
-        @BindView(R.id.title_notification)
-        TextView titleNotification;
-        @BindView(R.id.deskripsi_notification)
-        TextView deskripsiNotification;
+        @BindView(R.id.date)
+        RobotoRegularTextView date;
+        @BindView(R.id.title)
+        RobotoBoldTextView title;
+        @BindView(R.id.desc)
+        RobotoRegularTextView desc;
         @BindView(R.id.root_parent)
-        LinearLayout rootParent;
+        CardView rootParent;
 
         public ViewHolder(View vi) {
             super(vi);

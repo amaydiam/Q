@@ -413,6 +413,7 @@ public class LoginUserActivity extends AppCompatActivity implements GoogleApiCli
             params.put(Sample.PASSWORD, password.getText().toString());
         }
         params.put(Sample.FIREBASE_ID, firebase_id);
+        Log.v("sebelum_login",firebase_id);
 
         for (Map.Entry entry : params.entrySet()) {
             System.out.println(entry.getKey() + ", " + entry.getValue());
@@ -450,6 +451,8 @@ public class LoginUserActivity extends AppCompatActivity implements GoogleApiCli
                         Prefs.putCreatedAt(context, data.getCreatedAt());
                         Prefs.putUpdatedAt(context, data.getUpdatedAt());
                         Prefs.putActivityIndex(context, Sample.NO_INDEX);
+
+                        Log.v("after_login",data.getFirebaseId());
 
 
                         // TODO Addres si customer

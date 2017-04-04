@@ -12,19 +12,15 @@ import com.qwash.user.model.Notification;
 import java.util.List;
 
 public class NotificationListResponse {
-
     @SerializedName("status")
     @Expose
     private Boolean status;
-    @SerializedName("message")
+    @SerializedName("messages")
     @Expose
-    private String message;
-    @SerializedName("notification")
+    private String messages;
+    @SerializedName("data")
     @Expose
-    private List<Notification> notification = null;
-    @SerializedName("total")
-    @Expose
-    private Integer total;
+    private List<Notification> data = null;
 
     public Boolean getStatus() {
         return status;
@@ -34,28 +30,20 @@ public class NotificationListResponse {
         this.status = status;
     }
 
-    public String getMessage() {
-        return message;
+    public String getMessages() {
+        return messages;
     }
 
-    public void setMessage(String message) {
-        this.message = message;
+    public void setMessages(String messages) {
+        this.messages = messages;
     }
 
-    public List<Notification> getNotification() {
-        return notification;
+    public List<Notification> getData() {
+        return data;
     }
 
-    public void setNotification(List<Notification> notification) {
-        this.notification = notification;
-    }
-
-    public Integer getTotal() {
-        return total;
-    }
-
-    public void setTotal(Integer total) {
-        this.total = total;
+    public void setData(List<Notification> data) {
+        this.data = data;
     }
 
 }

@@ -31,4 +31,6 @@
     <color name="text_shadow">#7F000000</color>
     <color name="sembilah_puluh_persen_white">#E6ffffff</color>
     <color name="color_red">#f44336</color>
+    <color name="green_cc09891b">#cc09891b</color>
+    <color name="transparent">#00000000</color>
 </resources>

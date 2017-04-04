@@ -2,58 +2,54 @@ package com.qwash.user.model;
 
 import android.os.Parcel;
 import android.os.Parcelable;
+import android.text.Html;
 
+import com.google.android.gms.vision.text.Text;
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
+import com.qwash.user.Sample;
+import com.qwash.user.utils.TextUtils;
 
 public class Notification implements Parcelable {
 
 
     @SerializedName("id")
     @Expose
-    private String id;
-    @SerializedName("create_at")
-    @Expose
-    private String createAt;
-    @SerializedName("type")
-    @Expose
-    private String type;
+    private Integer id;
     @SerializedName("title")
     @Expose
     private String title;
-    @SerializedName("cover")
+    @SerializedName("image")
     @Expose
-    private String cover;
-    @SerializedName("description")
+    private String image;
+    @SerializedName("priority")
     @Expose
-    private String description;
-
-    public Notification(String id, String createAt, String type, String title, String cover, String description) {
-        this.id = id;
-        this.createAt = createAt;
-        this.type = type;
-        this.title = title;
-        this.cover = cover;
-        this.description = description;
-    }
+    private Integer priority;
+    @SerializedName("messages")
+    @Expose
+    private String messages;
+    @SerializedName("createdAt")
+    @Expose
+    private String createdAt;
+    @SerializedName("updatedAt")
+    @Expose
+    private String updatedAt;
 
     protected Notification(Parcel in) {
-        id = in.readString();
-        createAt = in.readString();
-        type = in.readString();
         title = in.readString();
-        cover = in.readString();
-        description = in.readString();
+        image = in.readString();
+        messages = in.readString();
+        createdAt = in.readString();
+        updatedAt = in.readString();
     }
 
     @Override
     public void writeToParcel(Parcel dest, int flags) {
-        dest.writeString(id);
-        dest.writeString(createAt);
-        dest.writeString(type);
         dest.writeString(title);
-        dest.writeString(cover);
-        dest.writeString(description);
+        dest.writeString(image);
+        dest.writeString(messages);
+        dest.writeString(createdAt);
+        dest.writeString(updatedAt);
     }
 
     @Override
@@ -73,52 +69,61 @@ public class Notification implements Parcelable {
         }
     };
 
-    public String getId() {
+    public Integer getId() {
         return id;
     }
 
-    public void setId(String id) {
+    public void setId(Integer id) {
         this.id = id;
     }
 
-    public String getCreateAt() {
-        return createAt;
-    }
-
-    public void setCreateAt(String createAt) {
-        this.createAt = createAt;
-    }
-
-    public String getType() {
-        return type;
-    }
-
-    public void setType(String type) {
-        this.type = type;
-    }
-
     public String getTitle() {
-        return title;
+        return Html.fromHtml(title).toString();
     }
 
     public void setTitle(String title) {
         this.title = title;
     }
 
-    public String getCover() {
-        return cover;
+    public String getImage() {
+        return Sample.BASE_URL_QWASH_IMAGE_NOTIFICATION +image;
     }
 
-    public void setCover(String cover) {
-        this.cover = cover;
+    public void setImage(String image) {
+        this.image = image;
     }
 
-    public String getDescription() {
-        return description;
+    public Integer getPriority() {
+        return priority;
     }
 
-    public void setDescription(String description) {
-        this.description = description;
+    public void setPriority(Integer priority) {
+        this.priority = priority;
     }
+
+    public String getMessages() {
+        return Html.fromHtml(messages).toString();
+    }
+
+    public void setMessages(String messages) {
+        this.messages = messages;
+    }
+
+    public String getCreatedAt() {
+        return TextUtils.DefaultDateFormat(createdAt);
+    }
+
+    public void setCreatedAt(String createdAt) {
+        this.createdAt = createdAt;
+    }
+
+    public String getUpdatedAt() {
+        return updatedAt;
+    }
+
+    public void setUpdatedAt(String updatedAt) {
+        this.updatedAt = updatedAt;
+    }
+
 
 }

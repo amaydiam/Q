@@ -1,50 +1,72 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<android.support.v7.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    app:cardCornerRadius="0dp"
+    app:cardMaxElevation="1dp"
     android:id="@+id/root_parent"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:layout_marginBottom="2dp"
-    android:layout_marginLeft="16dp"
-    android:layout_marginRight="16dp"
-    android:layout_marginTop="16dp"
-    android:background="@drawable/border_set_green"
-    android:orientation="horizontal"
-    android:padding="10dp">
+    android:layout_margin="@dimen/activity_half_vertical_margin"
+    android:orientation="horizontal">
 
     <LinearLayout
-        android:layout_width="wrap_content"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_weight="1"
-        android:orientation="vertical"
-        android:layout_marginLeft="@dimen/activity_half_vertical_margin">
+        android:orientation="vertical">
 
         <ImageView
             android:id="@+id/image_notification"
             android:layout_width="match_parent"
-            android:layout_height="100dp"
-            android:layout_marginBottom="10dp"
-            android:background="@mipmap/ic_launcher" />
+            android:layout_height="150dp"
+            android:adjustViewBounds="true"
+            android:src="@drawable/placeholder" />
 
-        <TextView
-            android:id="@+id/title_notification"
+        <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:lines="1"
-            android:paddingLeft="15dp"
-            android:paddingRight="15dp"
-            android:text="Promo Awal Tahun 2017"
-            android:textSize="20sp" />
+            android:layout_margin="@dimen/activity_half_vertical_margin"
+            android:orientation="vertical">
 
-        <TextView
-            android:id="@+id/deskripsi_notification"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginBottom="10dp"
-            android:lines="3"
-            android:paddingLeft="15dp"
-            android:paddingRight="15dp"
-            android:text="1 januari 2016, 1 januari 20161 januari 2016
-            1 januari 20161 januari 20161 januari 20161 januari 20161 januari 2016"
-            android:textSize="15sp" />
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:gravity="left|center"
+                android:orientation="horizontal">
+
+                <com.joanzapata.iconify.widget.IconTextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginRight="5dp"
+                    android:text="{mdi-clock}"
+                    android:textSize="14sp" />
+
+                <com.qwash.user.ui.widget.RobotoRegularTextView
+                    android:id="@+id/date"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="date"
+                    android:textSize="14sp" />
+            </LinearLayout>
+
+            <com.qwash.user.ui.widget.RobotoBoldTextView
+                android:id="@+id/title"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="title"
+                android:textSize="16sp" />
+
+
+            <com.qwash.user.ui.widget.RobotoRegularTextView
+                android:id="@+id/desc"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/activity_half_vertical_margin"
+                android:text="desc"
+                android:textSize="14sp" />
+
+        </LinearLayout>
+
+
     </LinearLayout>
-</LinearLayout>
+
+</android.support.v7.widget.CardView>

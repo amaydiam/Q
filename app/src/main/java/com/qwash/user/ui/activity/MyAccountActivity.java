@@ -7,6 +7,7 @@ import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
+import android.support.v4.app.FragmentManager;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
@@ -21,11 +22,27 @@ import com.google.android.gms.common.ConnectionResult;
 import com.google.android.gms.common.api.GoogleApiClient;
 import com.google.firebase.auth.FirebaseAuth;
 import com.joanzapata.iconify.IconDrawable;
+import com.joanzapata.iconify.Iconify;
+import com.joanzapata.iconify.fonts.EntypoModule;
+import com.joanzapata.iconify.fonts.FontAwesomeModule;
+import com.joanzapata.iconify.fonts.MaterialCommunityModule;
 import com.joanzapata.iconify.fonts.MaterialIcons;
+import com.joanzapata.iconify.fonts.MaterialModule;
+import com.joanzapata.iconify.fonts.SimpleLineIconsModule;
 import com.qwash.user.R;
 import com.qwash.user.model.AddressUser;
+import com.qwash.user.model.temporary.ChangePassword;
+import com.qwash.user.ui.fragment.DialogChangePasswordFragment;
+import com.qwash.user.ui.fragment.DialogRequestNewPasswordFragment;
+import com.qwash.user.ui.widget.RobotoRegularTextView;
 import com.qwash.user.utils.Prefs;
 
+import org.greenrobot.eventbus.EventBus;
+import org.greenrobot.eventbus.Subscribe;
+import org.greenrobot.eventbus.ThreadMode;
+
+import agency.tango.android.avatarview.loader.PicassoLoader;
+import agency.tango.android.avatarview.views.AvatarView;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
@@ -34,22 +51,31 @@ import butterknife.OnClick;
  * Created by binderbyte on 27/12/16.
  */
 
-public class MyAccountActivity extends AppCompatActivity implements GoogleApiClient.OnConnectionFailedListener {
+public class MyAccountActivity extends AppCompatActivity {
 
     @BindView(R.id.toolbar_title)
     TextView toolbarTitle;
     @BindView(R.id.toolbar)
     Toolbar toolbar;
-    @BindView(R.id.img_name)
-    ImageView imgName;
-    @BindView(R.id.title_name)
-    TextView titleName;
-    @BindView(R.id.title_email)
-    TextView titleEmail;
-    @BindView(R.id.title_telp)
-    TextView titleTelp;
-    @BindView(R.id.title_password)
-    TextView titlePassword;
+
+    @BindView(R.id.washer_photo)
+    AvatarView washerPhoto;
+    @BindView(R.id.full_name)
+    RobotoRegularTextView fullName;
+    @BindView(R.id.email)
+    RobotoRegularTextView email;
+    @BindView(R.id.phone)
+    RobotoRegularTextView phone;
+
+    @OnClick(R.id.layout_change_password)
+    public void ChangePassword() {
+
+        FragmentManager ft = getSupportFragmentManager();
+        DialogRequestNewPasswordFragment dialogRequestNewPasswordFragment = new DialogRequestNewPasswordFragment();
+        dialogRequestNewPasswordFragment.show(ft, "request_password");
+    }
+
+
 
     @OnClick(R.id.btn_logout)
     void Logout() {
@@ -66,12 +92,6 @@ public class MyAccountActivity extends AppCompatActivity implements GoogleApiCli
                         if (AddressUser.findAll(AddressUser.class).hasNext()) {
                             AddressUser.deleteAll(AddressUser.class);
                         }
-
-                        //delete dataBrands google
-                        SharedPreferences settings = getSharedPreferences("my_prefs", Context.MODE_PRIVATE);
-                        settings.edit().remove("email").commit();
-                        settings.edit().remove("fullName").commit();
-                        settings.edit().remove("photo").commit();
 
                         // Google sign out
                         FirebaseAuth.getInstance().signOut();
@@ -98,15 +118,21 @@ public class MyAccountActivity extends AppCompatActivity implements GoogleApiCli
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
+        Iconify
+                .with(new FontAwesomeModule())
+                .with(new EntypoModule())
+                .with(new MaterialModule())
+                .with(new MaterialCommunityModule())
+                .with(new SimpleLineIconsModule());
         super.onCreate(savedInstanceState);
         FacebookSdk.sdkInitialize(getApplicationContext());
         setContentView(R.layout.my_account_user);
         ButterKnife.bind(this);
-
         setToolbar();
-        showAccount();
+        setData();
     }
 
+    
     private void setToolbar() {
         setSupportActionBar(toolbar);
         toolbar.setNavigationIcon(
@@ -123,23 +149,42 @@ public class MyAccountActivity extends AppCompatActivity implements GoogleApiCli
         toolbarTitle.setText(getResources().getString(R.string.title_my_account));
     }
 
-    private void showAccount() {
+    private void setData() {
+        PicassoLoader imageLoader = new PicassoLoader();
+        imageLoader.loadImage(washerPhoto, Prefs.getProfilePhoto(this), Prefs.getFullName(this));
+        fullName.setText(Prefs.getFullName(this));
+        email.setText(Prefs.getEmail(this));
+        phone.setText(Prefs.getUsername(this));
+    }
 
-        SharedPreferences bb = getSharedPreferences("my_prefs", Context.MODE_PRIVATE);
-        SharedPreferences.Editor editor = bb.edit();
-        String email = bb.getString("email", "");
-        String nama = bb.getString("fullName", "");
-        String foto = bb.getString("photo", "");
-        editor.apply();
-        titleName.setText("" + nama);
-        titleEmail.setText("" + email);
+
+
+    @Subscribe(sticky = true, threadMode = ThreadMode.MAIN)
+    public void onChangePassword(ChangePassword cp) {
+        if (cp.getStatus()) {
+            FragmentManager ft = getSupportFragmentManager();
+            DialogChangePasswordFragment changePasswordFragment = new DialogChangePasswordFragment();
+            changePasswordFragment.setPassword(cp.getPassword());
+            changePasswordFragment.show(ft, "change_password");
+        }
+
+        ChangePassword stickyEvent = EventBus.getDefault().getStickyEvent(ChangePassword.class);
+        if (stickyEvent != null) {
+            EventBus.getDefault().removeStickyEvent(stickyEvent);
+        }
     }
 
     @Override
-    public void onConnectionFailed(@NonNull ConnectionResult connectionResult) {
-        // An unresolvable error has occurred and Google APIs (including Sign-In) will not
-        // be available.
-        Toast.makeText(this, "Google Play Services error.", Toast.LENGTH_SHORT).show();
+    public void onStart() {
+        super.onStart();
+        EventBus.getDefault().register(this);
+
+    }
+
+    @Override
+    public void onStop() {
+        EventBus.getDefault().unregister(this);
+        super.onStop();
     }
 }
 
