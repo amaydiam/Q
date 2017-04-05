@@ -90,6 +90,7 @@ import com.qwash.user.ui.widget.RobotoLightTextView;
 import com.qwash.user.utils.Menus;
 import com.qwash.user.utils.Prefs;
 import com.qwash.user.utils.ProgressDialogBuilder;
+import com.qwash.user.utils.Utils;
 import com.sdsmdg.tastytoast.TastyToast;
 
 import org.greenrobot.eventbus.EventBus;
@@ -775,10 +776,6 @@ public class HomeActivity extends AppCompatActivity implements
 
                     JSONObject order = new JSONObject();
 
-                    JSONObject whasher = new JSONObject();
-                    whasher.put(Sample.WASHERS_ID, prepareOrder.washersId);
-                    order.put(Sample.WASHER, whasher);
-
                     JSONObject customer = new JSONObject();
                     customer.put(Sample.ORDER_USERID, prepareOrder.customersId);
                     customer.put(Sample.ORDER_USERNAME, prepareOrder.username);
@@ -804,6 +801,9 @@ public class HomeActivity extends AppCompatActivity implements
                     order.put(Sample.VEHICLE, vehicle);
 
                     JSONObject details = new JSONObject();
+
+                    details.put(Sample.ORDER_TOKEN, prepareOrder.token);
+
                     details.put(Sample.ORDER_PRICE, String.valueOf(prepareOrder.price));
 
                     details.put(Sample.ORDER_PERFUM_PRICE, String.valueOf(prepareOrder.perfum_price));
@@ -907,7 +907,7 @@ public class HomeActivity extends AppCompatActivity implements
         prepareOrder = newOrder.getNewOrder();
         if (prepareOrder != null) {
 
-            prepareOrder.washersId = "";
+            prepareOrder.token = Utils.getGenerateToken();
 
             prepareOrder.customersId = Prefs.getUserId(this);
             prepareOrder.username = Prefs.getUsername(this);

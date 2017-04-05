@@ -7,7 +7,8 @@
             android:title="@string/notification" />
         <item
             android:id="@+id/nav_my_balance"
-            android:title="@string/my_balance" />
+            android:title="@string/my_balance"
+            android:visible="false"/>
         <item
             android:id="@+id/nav_history"
             android:title="@string/history" />

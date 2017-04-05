@@ -9,6 +9,7 @@ import android.view.inputmethod.InputMethodManager;
 import com.qwash.user.R;
 
 import java.math.BigInteger;
+import java.util.UUID;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -92,4 +93,10 @@ public class Utils {
             inputMethodManager.hideSoftInputFromWindow(act.getCurrentFocus().getWindowToken(), 0);
         }
     }
+
+    public static String getGenerateToken() {
+        return UUID.randomUUID().toString();
+    }
+
+
 }

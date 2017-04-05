@@ -53,6 +53,7 @@ import com.mobsandgeeks.saripaar.ValidationError;
 import com.mobsandgeeks.saripaar.Validator;
 import com.mobsandgeeks.saripaar.annotation.Length;
 import com.mobsandgeeks.saripaar.annotation.NotEmpty;
+import com.mobsandgeeks.saripaar.annotation.Password;
 import com.qwash.user.R;
 import com.qwash.user.Sample;
 import com.qwash.user.api.ApiUtils;
@@ -101,7 +102,7 @@ public class LoginUserActivity extends AppCompatActivity implements GoogleApiCli
     RobotoRegularEditText emailOrNumberPhone;
 
     @NotEmpty
-    @Length(min = 4, max = 10, trim = true, messageResId = R.string.val_password_length)
+    @Password(min = 5, messageResId = R.string.val_password_length)
     @BindView(R.id.password)
     com.txusballesteros.PasswordEditText password;
     private String TAG = "X";

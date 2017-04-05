@@ -5,7 +5,7 @@ import java.io.Serializable;
 public class PrepareOrder implements Serializable {
 
     //
-    public String washersId;
+    public String token;
 
     // customer order
     public String customersId;

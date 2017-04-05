@@ -21,6 +21,6 @@ public interface HistoryService {
 
 
     // @GET("history")
-    @GET("/users/getDetailHistory/{customer_id}/{washersId}")
-    Call<HistoryDetailResponse> getDetailHistory(@Query("customer_id") String customer_id, @Query("washersId") String orders_ref);
+    @GET("/users/getDetailHistory/{customer_id}/{token}")
+    Call<HistoryDetailResponse> getDetailHistory(@Query("customer_id") String customer_id, @Query("token") String orders_ref);
 }

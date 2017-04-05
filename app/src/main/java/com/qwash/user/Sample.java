@@ -78,6 +78,7 @@ public class Sample {
     public static final String ORDER_VEHICLES = "vehicles";
 
     //order detail
+    public static final String ORDER_TOKEN = "token";
     public static final String ORDER_PRICE = "price";
 
     public static final String ORDER_PERFUM_PRICE = "perfum_price";
@@ -103,7 +104,7 @@ public class Sample {
     public static final String WASHER_PHOTO = "photo";
     public static final String WASHER_NAME = "name";
     public static final String WASHER_EMAIL = "email";
-    public static final String WASHERS_ID = "washersId";
+    public static final String WASHERS_ID = "token";
     public static final String WASHER_FIREBASE_ID = "firebase_id";
     public static final String WASHER_RATING = "rating";
 
