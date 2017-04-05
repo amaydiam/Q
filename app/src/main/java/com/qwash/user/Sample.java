@@ -201,6 +201,7 @@ public class Sample {
     public static String UPDATED_AT = "updatedAt";
 
     public static String BASE_URL_QWASH_IMAGE_NOTIFICATION ="http://web.qwash-indonesia.com/images/notification_images/";
+    public static String LANGUAGE="language";
 
 
     public static final String[] listMontOfYear(Context context) {

@@ -2,13 +2,13 @@ package com.qwash.user.ui.activity;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.support.v7.app.AppCompatActivity;
+import com.qwash.user.ui.activity.BaseActivity;
 
 import com.qwash.user.R;
 import com.qwash.user.Sample;
 import com.qwash.user.ui.fragment.NotificationDetailFragment;
 
-public class NotificationDetailActivity extends AppCompatActivity {
+public class NotificationDetailActivity extends BaseActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {

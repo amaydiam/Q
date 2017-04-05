@@ -6,7 +6,7 @@ import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
-import android.support.v7.app.AppCompatActivity;
+import com.qwash.user.ui.activity.BaseActivity;
 import android.util.Log;
 import android.widget.ImageView;
 import android.widget.Toast;
@@ -52,7 +52,7 @@ import retrofit2.Response;
  * Created by binderbyte on 14/01/17.
  */
 
-public class RatingActivity extends AppCompatActivity {
+public class RatingActivity extends BaseActivity {
 
     @BindView(R.id.vehicle_image)
     ImageView vehicleImage;

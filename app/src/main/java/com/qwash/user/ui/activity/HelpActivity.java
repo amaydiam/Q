@@ -2,7 +2,7 @@ package com.qwash.user.ui.activity;
 
 import android.os.Bundle;
 import android.support.annotation.Nullable;
-import android.support.v7.app.AppCompatActivity;
+import com.qwash.user.ui.activity.BaseActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.View;
 import android.widget.TextView;
@@ -18,7 +18,7 @@ import butterknife.ButterKnife;
  * Created by binderbyte on 27/12/16.
  */
 
-public class HelpActivity extends AppCompatActivity {
+public class HelpActivity extends BaseActivity {
 
     @BindView(R.id.title_toolbar)
     TextView titleToolbar;

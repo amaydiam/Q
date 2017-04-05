@@ -103,25 +103,25 @@ public class HistoryAdapter extends RecyclerView.Adapter<HistoryAdapter.ViewHold
 
         if (history.getVehicles().equalsIgnoreCase("1")) {
             holder.vehiclePhoto.setImageDrawable(ContextCompat.getDrawable(activity, R.drawable.big_citycar));
-            holder.vehicle.setText("SMALL");
+            holder.vehicle.setText(activity.getString(R.string.small));
         } else if (history.getVehicles().equalsIgnoreCase("2")) {
             holder.vehiclePhoto.setImageDrawable(ContextCompat.getDrawable(activity, R.drawable.big_minivan));
-            holder.vehicle.setText("MEDIUM");
+            holder.vehicle.setText(activity.getString(R.string.medium));
         } else if (history.getVehicles().equalsIgnoreCase("3")) {
             holder.vehiclePhoto.setImageDrawable(ContextCompat.getDrawable(activity, R.drawable.big_suv));
-            holder.vehicle.setText("BIG");
+            holder.vehicle.setText(activity.getString(R.string.big));
 
         } else if (history.getVehicles().equalsIgnoreCase("4")) {
             holder.vehiclePhoto.setImageDrawable(ContextCompat.getDrawable(activity, R.drawable.big_under_srp_cc));
-            holder.vehicle.setText("SMALL");
+            holder.vehicle.setText(activity.getString(R.string.small));
 
         } else if (history.getVehicles().equalsIgnoreCase("5")) {
             holder.vehiclePhoto.setImageDrawable(ContextCompat.getDrawable(activity, R.drawable.big_srp_cc));
-            holder.vehicle.setText("MEDIUM");
+            holder.vehicle.setText(activity.getString(R.string.medium));
 
         } else if (history.getVehicles().equalsIgnoreCase("6")) {
             holder.vehiclePhoto.setImageDrawable(ContextCompat.getDrawable(activity, R.drawable.big_above_srp_cc));
-            holder.vehicle.setText("BIG");
+            holder.vehicle.setText(activity.getString(R.string.big));
 
         } else {
             holder.vehiclePhoto.setImageDrawable(ContextCompat.getDrawable(activity, R.mipmap.ic_launcher));

@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/root_parent"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
@@ -12,7 +13,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:paddingBottom="@dimen/activity_half_vertical_margin"
-        android:text="TODAY"
+        tools:text="TODAY"
         android:textColor="@color/blue_2196F3"
         android:textSize="12sp" />
 
@@ -61,7 +62,7 @@
                         android:id="@+id/vehicle"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="vehicle"
+                        tools:text="vehicle"
                         android:textColor="@color/textColorPrimary"
                         android:textSize="14sp"
                         android:layout_gravity="center"
@@ -91,7 +92,7 @@
                         android:id="@+id/date_in_progress"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="date_in_progress"
+                        tools:text="date_in_progress"
                         android:textSize="14sp" />
 </LinearLayout>
 
@@ -111,7 +112,7 @@
                             android:id="@+id/address"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:text="address"
+                            tools:text="address"
                             android:textSize="14sp" />
                     </LinearLayout>
                 </LinearLayout>
@@ -163,13 +164,13 @@
                     <com.qwash.user.ui.widget.RobotoRegularTextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="Whaser"
+                        android:text="@string/whaser"
                         android:textSize="12sp" />
                     <com.qwash.user.ui.widget.RobotoRegularTextView
                         android:id="@+id/washer_name"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="washer_name"
+                        tools:text="washer_name"
                         android:textColor="@color/textColorPrimary"
                         android:textSize="14sp" />
 
@@ -207,7 +208,7 @@
                 <com.qwash.user.ui.widget.RobotoRegularTextView
                     android:layout_width="wrap_content"
                     android:layout_height="match_parent"
-                    android:text="Rate by You"
+                    android:text="@string/rate_by_you"
                     android:textSize="12sp" />
 
                 <io.techery.properratingbar.ProperRatingBar
@@ -232,7 +233,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:gravity="right"
-                    android:text="Rp. 50.000"
+                    tools:text="Rp. 50.000"
                     android:textColor="@color/colorPrimary"
                     android:textSize="16sp" />
 
@@ -242,7 +243,7 @@
                     android:layout_height="wrap_content"
                     android:layout_gravity="right"
                     android:gravity="center"
-                    android:text="status"
+                    tools:text="status"
                     android:textSize="12sp" />
             </LinearLayout>
         </LinearLayout>

@@ -5,6 +5,8 @@ import android.content.SharedPreferences;
 
 import com.qwash.user.Sample;
 
+import java.util.Locale;
+
 
 public final class Prefs {
 
@@ -226,6 +228,14 @@ public final class Prefs {
                 && getStatus(context) == 1;
     }
 
+
+    public static String getLanguage(final Context context) {
+        return Prefs.getPref(context, Sample.LANGUAGE, Locale.getDefault().getLanguage());
+    }
+
+    public static void putLanguage(Context context, String language) {
+        Prefs.putPref(context, Sample.LANGUAGE, language);
+    }
 
     public static void Reset(Context context) {
         putToken(context, "");

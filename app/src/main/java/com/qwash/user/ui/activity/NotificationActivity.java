@@ -1,7 +1,7 @@
 package com.qwash.user.ui.activity;
 
 import android.os.Bundle;
-import android.support.v7.app.AppCompatActivity;
+import com.qwash.user.ui.activity.BaseActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.View;
 import android.widget.TextView;
@@ -26,7 +26,7 @@ import butterknife.ButterKnife;
  * Created by binderbyte on 27/12/16.
  */
 
-public class NotificationActivity extends AppCompatActivity {
+public class NotificationActivity extends BaseActivity {
 
     @BindView(R.id.toolbar)
     Toolbar toolbar;

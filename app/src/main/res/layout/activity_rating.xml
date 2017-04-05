@@ -2,7 +2,8 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="match_parent"
+    xmlns:tools="http://schemas.android.com/tools">
 
     <android.support.v4.widget.NestedScrollView
         android:layout_width="match_parent"
@@ -72,7 +73,7 @@
                             android:layout_centerInParent="true"
                             android:layout_marginLeft="@dimen/activity_half_vertical_margin"
                             android:layout_toRightOf="@id/image_washer"
-                            android:text="Fachri"
+                            tools:text="Fachri"
                             android:textColor="@color/black_424242"
                             android:textSize="14sp" />
                     </LinearLayout>
@@ -121,7 +122,7 @@
                         android:layout_height="wrap_content"
                         android:layout_marginLeft="@dimen/activity_half_vertical_margin"
                         android:layout_marginRight="@dimen/activity_half_vertical_margin"
-                        android:text="RATE YOUR WASH"
+                        android:text="@string/rate_your_wash"
                         android:textColor="@color/green_light"
                         android:textSize="14sp" />
 
@@ -152,7 +153,7 @@
                     android:layout_height="wrap_content"
                     android:layout_marginBottom="@dimen/activity_half_vertical_margin"
                     android:gravity="top|left"
-                    android:hint="Leave a comment"
+                    android:hint="@string/leave_a_comment"
                     android:inputType="textMultiLine"
                     android:lines="5"
                     android:maxLines="5"
@@ -167,7 +168,7 @@
                     style="@style/btn_blue"
                     android:layout_width="match_parent"
                     android:layout_height="@dimen/btn_height"
-                    android:text="SUBMIT" />
+                    android:text="@string/submit" />
             </LinearLayout>
 
         </LinearLayout>

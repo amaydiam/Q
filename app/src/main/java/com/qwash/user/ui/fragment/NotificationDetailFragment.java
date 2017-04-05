@@ -5,7 +5,7 @@ import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
-import android.support.v7.app.AppCompatActivity;
+import com.qwash.user.ui.activity.BaseActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -57,7 +57,7 @@ public class NotificationDetailFragment extends Fragment {
                 .with(new MaterialCommunityModule())
                 .with(new SimpleLineIconsModule());
 
-        ((AppCompatActivity) getContext()).setSupportActionBar(toolbar);
+        ((BaseActivity) getContext()).setSupportActionBar(toolbar);
         toolbar.setNavigationIcon(
                 new IconDrawable(getActivity(), MaterialIcons.md_arrow_back)
                         .colorRes(R.color.black_424242)
@@ -69,7 +69,7 @@ public class NotificationDetailFragment extends Fragment {
                 fm.popBackStack();
             }
         });
-        ((AppCompatActivity) getActivity()).getSupportActionBar().setTitle("");
+        ((BaseActivity) getActivity()).getSupportActionBar().setTitle("");
         titleToolbar.setText(getResources().getString(R.string.detail_notification));
 
         showData();

@@ -6,7 +6,7 @@ import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.FragmentManager;
 import android.support.v7.app.AlertDialog;
-import android.support.v7.app.AppCompatActivity;
+import com.qwash.user.ui.activity.BaseActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.View;
 import android.widget.TextView;
@@ -25,6 +25,7 @@ import com.joanzapata.iconify.fonts.SimpleLineIconsModule;
 import com.qwash.user.R;
 import com.qwash.user.model.AddressUser;
 import com.qwash.user.model.temporary.ChangePassword;
+import com.qwash.user.ui.fragment.DialogChangeLanguageFragment;
 import com.qwash.user.ui.fragment.DialogChangePasswordFragment;
 import com.qwash.user.ui.fragment.DialogRequestNewPasswordFragment;
 import com.qwash.user.ui.widget.RobotoRegularTextView;
@@ -44,7 +45,7 @@ import butterknife.OnClick;
  * Created by binderbyte on 27/12/16.
  */
 
-public class MyAccountActivity extends AppCompatActivity {
+public class MyAccountActivity extends BaseActivity {
 
     @BindView(R.id.title_toolbar)
     TextView titleToolbar;
@@ -66,6 +67,15 @@ public class MyAccountActivity extends AppCompatActivity {
         FragmentManager ft = getSupportFragmentManager();
         DialogRequestNewPasswordFragment dialogRequestNewPasswordFragment = new DialogRequestNewPasswordFragment();
         dialogRequestNewPasswordFragment.show(ft, "request_password");
+    }
+
+
+    @OnClick(R.id.layout_change_language)
+    public void ChangeLanguage() {
+
+        FragmentManager ft = getSupportFragmentManager();
+        DialogChangeLanguageFragment dialogChangeLanguageFragment = new DialogChangeLanguageFragment();
+        dialogChangeLanguageFragment.show(ft, "request_language");
     }
 
 

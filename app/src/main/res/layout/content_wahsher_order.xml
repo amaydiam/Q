@@ -3,6 +3,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    xmlns:tools="http://schemas.android.com/tools"
     android:orientation="vertical">
 
     <android.support.percent.PercentRelativeLayout
@@ -33,7 +34,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginBottom="@dimen/activity_half_vertical_margin"
                 android:layout_marginTop="@dimen/activity_half_vertical_margin"
-                android:text="Fachri"
+                tools:text="Fachri"
                 android:textSize="14sp"/>
 
             <com.joanzapata.iconify.widget.IconTextView
@@ -81,7 +82,7 @@
                     android:layout_height="wrap_content"
                     android:textColor="@color/blue_2196F3"
                     android:textSize="16sp"
-                    android:text="total_price"/>
+                    tools:text="total_price"/>
             </LinearLayout>
         </RelativeLayout>
 

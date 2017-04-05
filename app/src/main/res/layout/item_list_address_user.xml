@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/root_parent"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
@@ -34,14 +35,14 @@
                 android:id="@+id/name_address"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="name_address"
+                tools:text="name_address"
                 android:textSize="14sp" />
 
             <com.qwash.user.ui.widget.RobotoRegularTextView
                 android:id="@+id/address"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="address"
+                tools:text="address"
                 android:textSize="14sp" />
 
         </LinearLayout>

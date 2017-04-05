@@ -4,7 +4,7 @@ import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
-import android.support.v7.app.AppCompatActivity;
+import com.qwash.user.ui.activity.BaseActivity;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.Toast;
@@ -33,7 +33,7 @@ import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 
-public class ChangeNumberActivity extends AppCompatActivity {
+public class ChangeNumberActivity extends BaseActivity {
 
     private static final String TAG = "ChangeNumberActivity";
 

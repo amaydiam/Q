@@ -11,9 +11,9 @@ public class GlobalError {
     @SerializedName("status")
     @Expose
     private boolean status;
-    @SerializedName("message")
+    @SerializedName("messages")
     @Expose
-    private String message;
+    private String messages;
 
     public boolean getStatus() {
         return status;
@@ -23,11 +23,11 @@ public class GlobalError {
         this.status = status;
     }
 
-    public String getMessage() {
-        return message;
+    public String getMessages() {
+        return messages;
     }
 
-    public void setMessage(String message) {
-        this.message = message;
+    public void setMessages(String message) {
+        this.messages = message;
     }
 }

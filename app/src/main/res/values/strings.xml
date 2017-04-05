@@ -12,13 +12,9 @@
     <string name="btn_home">Home</string>
     <string name="btn_my_location">My Location</string>
     <string name="hint_your_location">Your Location</string>
-
-    <!-- TODO: Remove or change this placeholder text -->
     <string name="button_cancel">Cancel</string>
     <string name="button_contact">Contact</string>
-
     <string name="button_login">Login</string>
-
     <string name="help_guide">A guide to Q\'Lap</string>
     <string name="help_call">Call Support</string>
     <string name="title_help">How can we help you?</string>
@@ -74,11 +70,8 @@
     <string name="note_waterless">*Waterless only for cars dusty, but not muddy.</string>
     <string name="rd_waterless">Waterless</string>
     <string name="please_wait">Please wait …</string>
-
-
     <string name="verification_title">Masukkan kode verifikasi</string>
     <string name="verification_desc">Cek kode verifikasi yang sudah dikirimkan ke nomormu  %1$s Tuliskan di sini:</string>
-
     <string name="btn_verification_code">Verification</string>
     <string name="resend_the_text">resend</string>
     <string name="change_number">change number</string>
@@ -94,11 +87,10 @@
 
     <string name="agree_term_and_condition_qwash">Saya setuju dengan syarat dan ketentuan di Qwash</string>
     <string name="ok">OK</string>
-    <string name="info_registration">Kamu harus mencentang pernyataan setuju sebelum melakukan submit</string>
+    <string name="info_registration">Anda harus mencentang pernyataan setuju sebelum melakukan submit</string>
     <string name="confirm_password">Confirm Password</string>
     <string name="val_full_name">Fill your name</string>
     <string name="hint_indentify_address">Indentify Address …</string>
-
 
     <string name="navigation_drawer_open">Open navigation drawer</string>
     <string name="navigation_drawer_close">Close navigation drawer</string>
@@ -116,25 +108,18 @@
     <string name="october">Oktober</string>
     <string name="november">November</string>
     <string name="december">Desember</string>
-
-
     <string name="desc_change_password">Verification code to change your password</string>
     <string name="desc_request_new_password">Request new password</string>
     <string name="confirm_new_password">Confirm New Password</string>
     <string name="new_password">New password</string>
-
     <string name="val_new_password_length">New password must be at least 5 chars</string>
-
     <string name="request_new_password_action">Request …</string>
     <string name="change_password_action">Change Password …</string>
     <string name="full_name">Full Name</string>
     <string name="request">Request</string>
-
-
     <string name="email">Email</string>
     <string name="rate_qwash_app">Rate Qwash App</string>
     <string name="beta">BETA</string>
-
     <string name="title_activity_request_forgot_password">Request Forgot Password</string>
     <string name="title_activity_forgot_password">Forgot Password</string>
     <string name="request_forgot_password_action">Request ...</string>
@@ -148,5 +133,23 @@
     <string name="history">History</string>
     <string name="help">Help</string>
     <string name="my_account">My Account</string>
+    <string name="rate_your_wash">RATE YOUR WASH</string>
+    <string name="leave_a_comment">Leave a comment</string>
+    <string name="submit">SUBMIT</string>
+    <string name="sms">SMS</string>
+    <string name="call">CALL</string>
+    <string name="price">PRICE</string>
+    <string name="what_you_ll_get">WHAT YOU\'LL GET</string>
+    <string name="select_vehicle">SELECT VEHICLE</string>
+    <string name="whaser">Whaser</string>
+    <string name="rate_by_you">Rate by You</string>
+    <string name="add_home">Add Home</string>
+    <string name="add_work">Add Work</string>
+    <string name="small">SMALL</string>
+    <string name="medium">MEDIUM</string>
+    <string name="big">BIG</string>
+    <string name="change_language">Change Language</string>
+    <string name="indonesia">Indonesia</string>
+    <string name="english">English</string>
 
 </resources>
